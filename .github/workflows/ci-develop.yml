@@ -3,7 +3,6 @@ name: CI - Test the dev branches
 on:
   push:
     branches-ignore:
-      - develop
       - master
 
 jobs:
