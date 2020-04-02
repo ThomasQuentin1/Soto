@@ -6,3 +6,6 @@ node_modules/
 
 # production server output
 dist
+
+graphql.schema.json
+yarn-error.log
