@@ -1,4 +1,6 @@
+// @ts-ignore
 const fs = require("fs");
+// @ts-ignore
 const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
 
@@ -25,6 +27,7 @@ interface LeclercShop {
     CODE_POSTAL: string;
     LONGITUDE_GPS: number;
     NO_POINT_RETRAIT: string;
+    URL_MOBILE: string;
 }
 
 interface LeclercArticle {
@@ -58,7 +61,6 @@ interface Article {
 }
 
 const start = async () => {
-    return createProduct(null);
     if (!fs.existsSync("shops.db")) {
         const rawShops = await fetch("https://m.leclercdrive.fr/MagasinsHandler.ashz?Build=100103012&Config=FRANCE&Desc=samsung%2BGT-I9195&LAD=1&Lang=fr&Locale=fr_FR&Marquage=1&Mod=100&OS=4.4.2&Signature=Qhf9qT%2BSIu6la9vnmU2bvxCxX%2F7CMs2Nwhwrl4%2BTJ6w%3D&Ver=10.1.3",
             { headers: { "User-Agent": "LeclercDrive/100103012 Dalvik/1.6.0 (Linux; U; Android 4.4.2; GT-I9195 Build/KOT49H)" } });
@@ -66,23 +68,28 @@ const start = async () => {
         writeFile("shops.db", new Buffer(shops));
     }
 
-    const db = new sqlite.Database("shops.db", (err: any) => {
-        console.log(err);
-    });
+    const db = new sqlite.Database("shops.db", (_err: any) => { });
 
     const tableNameQuery = await query<{ name: string }>(db, "SELECT name FROM sqlite_master where type='table' AND name LIKE '%MAGASINS'");
     const tableName = tableNameQuery[0].name;
 
-    const shopsQuery = await query<LeclercShop>(db, `SELECT * FROM ${tableName}`);
+    const shopsQuery = await query<LeclercShop>(db, `SELECT * FROM ${tableName} LIMIT 1`);
 
-    shopsQuery.forEach(s => console.log(s.LIBELLE_MAGASIN));
-
+    shopsQuery.forEach(async s => {
+        if (!fs.existsSync(`catalogue-${s.CODE_MAGASIN}.db`)) {
+            const rawCatalogue = await fetch(`${s.URL_MOBILE}056701/CatalogueHandler.ashz?Build=100103012&Club=1&Config=FRANCE&Desc=samsung%2BGT-I9195&Lang=fr&Locale=fr_FR&Marquage=1&Mod=100&OS=4.4.2&SansDetail=1&Signature=eA8IYdxeUqxZa8QfLnhxDntREjgU2CUAXicVulbP5Fs%3D&Stickers=1&Ver=10.1.3`,
+                { headers: { "User-Agent": "LeclercDrive/100103012 Dalvik/1.6.0 (Linux; U; Android 4.4.2; GT-I9195 Build/KOT49H)" } });
+            const catalogue = await rawCatalogue.arrayBuffer();
+            await writeFile(`catalogue-${s.CODE_MAGASIN}.db`, new Buffer(catalogue));
+        }
+    });
+    createProduct;
 }
 
 
 
 
-const createProduct = async (input: LeclercArticle): Promise<Article> => {
+const createProduct = async (_input: LeclercArticle): Promise<Article> => {
     return new Object as Article;
 }
 
@@ -90,4 +97,4 @@ const createProduct = async (input: LeclercArticle): Promise<Article> => {
 
 start().then(() => console.log("Ok")).catch(ex => console.warn(ex));
 
-export default start;
+// export default start;
