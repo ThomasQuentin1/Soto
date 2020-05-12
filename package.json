@@ -9,11 +9,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.14",
+    "@types/styled-components": "^5.1.0",
     "apollo-server-micro": "^2.11.0",
     "cross-env": "^5.2.0",
     "next": "latest",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "styled-components": "^5.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.13.1",
