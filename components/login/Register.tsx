@@ -70,6 +70,7 @@ function getSteps() {
     return ['Informations personnelles', 'Préférences et obligations', 'Sélectionner votre drive'];
 }
 
+// @ts-ignore
 function getNutritionalPreferences() {
     return [
         "Impact sur la santé",
@@ -89,18 +90,16 @@ const Register = (props: Props) => {
     const classes = useStyles();
     // const timer = React.useRef<any>();
     // const formValid = (username != "" && password != "" && cPassword != "" && email != "")
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = React.useState(1);
     const [skipped, setSkipped] = React.useState(new Set<number>());
-    // const tab = getNutritionalPreferences();
     const steps = getSteps();
-    const tab = getNutritionalPreferences()
-    console.log(tab)
 
     const isStepSkipped = (step: number) => {
         return skipped.has(step);
     };
 
     const handleNext = () => {
+        console.log("next")
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
@@ -206,14 +205,14 @@ const Register = (props: Props) => {
                         Sélection de drive
                     </div>}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
-                <Button disabled={activeStep === 0} onClick={handleBack}>
+                <Button disabled={activeStep === 0} onClick={() => handleBack}>
                     Back
                 </Button>
                 {activeStep === steps.length - 1 ?
-                    <Button variant="contained" color="primary" onClick={handleFinish}>
+                    <Button variant="contained" color="primary" onClick={() => handleFinish}>
                         Finish
                     </Button> :
-                    <Button variant="contained" color="primary" onClick={handleNext}>
+                    <Button variant="contained" color="primary" onClick={() => handleNext}>
                         Next
                     </Button>}
             </div>
