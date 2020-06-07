@@ -25,6 +25,7 @@ const dragList = () => {
     return (
         <div>
             <List
+                lockVertically={true}
                 values={items}
                 onChange={({ oldIndex, newIndex }) =>
                     setItems(arrayMove(items, oldIndex, newIndex))
