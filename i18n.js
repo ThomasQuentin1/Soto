@@ -9,7 +9,6 @@ i18n
   .use(Backend)
   .init({    
     resources,
-    debug: true,
     lng:'fr',
     fallbackLng: 'en',
     keySeparator: false,
