@@ -37,7 +37,6 @@ const DarkModeParent = (props: DarkModeParentInterface) => {
 
   muiThemeMode = realTheme === "light" ? muiLightTheme : muiDarkTheme;
   siteThemeMode = realTheme === "light" ? lightTheme : darkTheme;
-  console.log(siteThemeMode);
 
   return (
     <NoSsr>
