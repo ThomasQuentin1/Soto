@@ -8,7 +8,6 @@ interface ToggleLanguageInterface {
 const ToggleLanguage = ({t} : ToggleLanguageInterface) => {
     return (
     <div>
-        {console.log(i18n.language)}
         <Button variant="contained" color="secondary" onClick={() => i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')}>{t("changeLanguageButton.label")}</Button>
     </div>);
 }

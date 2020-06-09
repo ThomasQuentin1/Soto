@@ -1,7 +1,7 @@
 import i18n from 'i18next'
 import Backend from 'i18next-xhr-backend'
 import { initReactI18next } from 'react-i18next'
-import resources from 'public/assets/i18n/translations';
+import resources from './public/assets/i18n/translations';
 
 
 i18n
@@ -9,7 +9,6 @@ i18n
   .use(Backend)
   .init({    
     resources,
-    debug: true,
     lng:'fr',
     fallbackLng: 'en',
     keySeparator: false,
