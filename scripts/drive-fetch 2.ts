@@ -26,37 +26,37 @@ interface LeclercShop {
     LONGITUDE_GPS: number;
 
     NO_POINT_RETRAIT: string;
-}
+ }
 
-interface LeclercArticle {
-    ID_PRODUIT_WEB: number;
-    CODE_EAN: string;
-    LIBELLE_LIGNE_1: string;
-    LIBELLE_LIGNE_2: string;
-    FRAIS: boolean;
-    SURGELE: boolean;
-    PV_UNITAIRE_TTC: string;
-    PRIX_UNITAIRE: string; // au kg
-    ID_PHOTO_DETAIL: number;
-    ID_PHOTO_EN_GRILLE: number;
-    ID_PHOTO_EN_LISTE: number;
-    ORIGINE: string;
-    QTE_DISPONIBLE: string;
-}
+// interface LeclercArticle {
+//     ID_PRODUIT_WEB: number;
+//     CODE_EAN: string;
+//     LIBELLE_LIGNE_1: string;
+//     LIBELLE_LIGNE_2: string;
+//     FRAIS: boolean;
+//     SURGELE: boolean;
+//     PV_UNITAIRE_TTC: string;
+//     PRIX_UNITAIRE: string; // au kg
+//     ID_PHOTO_DETAIL: number;
+//     ID_PHOTO_EN_GRILLE: number;
+//     ID_PHOTO_EN_LISTE: number;
+//     ORIGINE: string;
+//     QTE_DISPONIBLE: string;
+// }
 
-interface Article {
-    name: string;
-    brand: string;
-    priceUnit: string;
-    priceMass: string;
-    ingredients: string[];
-    packaging: string[];
-    allergens: string[];
-    nutriments: string[];
-    nutriscore: string;
-    scoreHealth: number;
-    scoreEnvironment: number;
-}
+// interface Article {
+//     name: string;
+//     brand: string;
+//     priceUnit: string;
+//     priceMass: string;
+//     ingredients: string[];
+//     packaging: string[];
+//     allergens: string[];
+//     nutriments: string[];
+//     nutriscore: string;
+//     scoreHealth: number;
+//     scoreEnvironment: number;
+// }
 
 const start = async () => {
   //push  return createProduct(null);
