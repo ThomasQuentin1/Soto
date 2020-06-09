@@ -66,10 +66,10 @@ interface LoginRequest {
   Mag: string;
 }
 
-
 const start = async () => {
-
-  const db = new sqlite.Database("catalogue.db", (_err: any) => { });
+  createProduct();
+  return;
+  const db = new sqlite.Database("catalogue.db", (_err: any) => {});
 
   const tableNameQuery = await query<{ name: string }>(
     db,
@@ -82,53 +82,62 @@ const start = async () => {
     `SELECT * FROM ${tableName} LIMIT 1 OFFSET 740`
   );
 
-  await Promise.all(articles.map(async article => {
-    const searchTerms = `${article.LIBELLE_LIGNE_1} ${article.LIBELLE_LIGNE_2.substr(0, article.LIBELLE_LIGNE_2.indexOf('-'))}`.toLocaleLowerCase();
+  await Promise.all(
+    articles.map(async (article) => {
+      const searchTerms = `${
+        article.LIBELLE_LIGNE_1
+      } ${article.LIBELLE_LIGNE_2.substr(
+        0,
+        article.LIBELLE_LIGNE_2.indexOf("-")
+      )}`.toLocaleLowerCase();
 
-    const searchQuery = await fetch(
-      `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(searchTerms)}&search_simple=1&action=process&json=true`
-    );
-    const offProducts = (await searchQuery.json()).products as any[];
+      const searchQuery = await fetch(
+        `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
+          searchTerms
+        )}&search_simple=1&action=process&json=true`
+      );
+      const offProducts = (await searchQuery.json()).products as any[];
 
-    console.log(`Found ${offProducts.length} products`);
+      console.log(`Found ${offProducts.length} products`);
 
-    const leclercElems = [
-      ...article.LIBELLE_LIGNE_1.split(" ").map(a => a.trim()),
-      ...article.LIBELLE_LIGNE_2.split(" ").map(a => a.trim()),
-    ].map(e => e ? e.toLocaleLowerCase() : e);
+      const leclercElems = [
+        ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
+        ...article.LIBELLE_LIGNE_2.split(" ").map((a) => a.trim()),
+      ].map((e) => (e ? e.toLocaleLowerCase() : e));
 
-    let bestProduct = null;
-    let bestMatchScore = 0;
+      let bestProduct = null;
+      let bestMatchScore = 0;
 
-    offProducts.forEach((product: any) => {
-      if (!product)
-        return
-      const offElems: string[] = [
-        ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
-        product.quantity || product.nutrition_data_prepared_per,
-        ...(product.brands_tags || [])
-      ].map(e => e ? e.toLocaleLowerCase() : e);
+      offProducts.forEach((product: any) => {
+        if (!product) return;
+        const offElems: string[] = [
+          ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
+          product.quantity || product.nutrition_data_prepared_per,
+          ...(product.brands_tags || []),
+        ].map((e) => (e ? e.toLocaleLowerCase() : e));
 
-      const matches = offElems.filter(le => leclercElems.find(oe => (le && oe) && (le.includes(oe) || oe.includes(le))));
-      var uniquematches = matches.filter((elem, index, self) => {
-        return index === self.indexOf(elem);
-      })
-      const score = uniquematches.length;
+        const matches = offElems.filter((le) =>
+          leclercElems.find(
+            (oe) => le && oe && (le.includes(oe) || oe.includes(le))
+          )
+        );
+        var uniquematches = matches.filter((elem, index, self) => {
+          return index === self.indexOf(elem);
+        });
+        const score = uniquematches.length;
 
-      console.log("score : " + score + " /// " + uniquematches.join(" | "));
-      if (score > bestMatchScore) {
-        bestMatchScore = score;
-        bestProduct = product
-      }
+        console.log("score : " + score + " /// " + uniquematches.join(" | "));
+        if (score > bestMatchScore) {
+          bestMatchScore = score;
+          bestProduct = product;
+        }
+      });
+
+      console.log(searchTerms);
+      if (bestProduct == null) console.log("Product not found");
+      else console.log(`Found : ${(bestProduct as any).url}`);
     })
-
-    console.log(searchTerms);
-    if (bestProduct == null)
-      console.log("Product not found");
-    else
-      console.log(`Found : ${(bestProduct as any).url}`);
-
-  }));
+  );
 
   // if (!fs.existsSync("shops.db")) {
   //   const rawShops = await fetch(
@@ -156,7 +165,6 @@ const start = async () => {
   //   db,
   //   `SELECT * FROM ${ tableName } LIMIT 1`
   // );
-
 
   // shopsQuery.forEach(async s => {
   //   if (!fs.existsSync(`catalogue - ${ s.CODE_MAGASIN }.db`)) {
@@ -195,50 +203,53 @@ const start = async () => {
   // });
 };
 
-const createProduct = async (_input: LeclercArticle): Promise<Article> => {
-  const searchTerms = "Haricots verts notre jardin"; //_input.LIBELLE_LIGNE_1
-  const res = await fetch(
-    `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${searchTerms}&search_simple=1&action=process&json=true`
-  );
-  const data = await res.json();
-  if (data.products.length === 1) {
-    const product = data.products[0];
-    const nutriments = product.nutriments;
-    const nutriscore = product.nutriscore_grade;
-    const allergens_tags = product.allergens_tags;
-    const ingredients_ids_debug = product.ingredients_ids_debug;
-    //const ingredients_hierarchy = product.ingredients_hierarchy;
-    const packaging = product.packaging;
-    const brands = product.brands;
-    const name = product.product_name;
+const tab = ["a", "b", "c", "d", "e"];
+const nutriscoreToInt = (str: string) => {
+  let value = -1;
+  tab.forEach((e, i) => {
+    if (e === str) value = i + 1;
+  });
+  return value;
+};
+const createProduct = async (
+  leclerc: LeclercArticle,
+  off: any
+): Promise<Article> => {
+  const product = off.products;
+  const nutriments = product.nutriments;
 
-    // search in leclerc db
-    const quantity = "TODO";
-    const princeMass = "TODO";
-    const priceUnit = "TODO";
+  const nutriscore = product.nutriscore_grade;
+  const allergens_tags = product.allergens_tags;
+  const ingredients_ids_debug = product.ingredients_ids_debug;
+  //const ingredients_hierarchy = product.ingredients_hierarchy;
+  const packaging = product.packaging;
+  const brands = product.brands;
+  const name = product.product_name;
 
-    // need algo
-    const scoreEnvironment = -1;
-    const scoreHealth = -1;
-    const ret = {
-      allergens: allergens_tags,
-      brand: brands,
-      ingredients: ingredients_ids_debug,
-      name: name,
-      nutriments: nutriments,
-      nutriscore: nutriscore,
-      packaging: packaging,
-      quantity: quantity,
-      priceMass: princeMass,
-      priceUnit: priceUnit,
-      scoreEnvironment,
-      scoreHealth,
-    };
-    console.log(ret);
-    return ret;
-  }
-  //  console.log(data.products);
-  return new Object() as Article;
+  // search in leclerc db
+  const quantity = "TODO extract quantity";
+  const princeMass = "TODO";
+  const priceUnit = leclerc.PRIX_UNITAIRE;
+
+  // need algo
+  const scoreEnvironment = Math.floor(Math.random() * 5);
+  const scoreHealth = nutriscoreToInt(nutriscore);
+  const ret = {
+    allergens: allergens_tags,
+    brand: brands,
+    ingredients: ingredients_ids_debug,
+    name: name,
+    nutriments: nutriments,
+    nutriscore: nutriscore,
+    packaging: packaging,
+    quantity: quantity,
+    priceMass: princeMass,
+    priceUnit: priceUnit,
+    scoreEnvironment,
+    scoreHealth,
+  };
+  //console.log(ret);
+  return ret;
 };
 
 start()
