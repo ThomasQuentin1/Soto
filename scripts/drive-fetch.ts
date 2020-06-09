@@ -3,6 +3,9 @@ const fs = require("fs");
 // @ts-ignore
 const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
+const mysql = require("mysql");
+
+
 
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
@@ -66,10 +69,37 @@ interface LoginRequest {
   Mag: string;
 }
 
+const sqlquery = async <T>(con: any, query: string, values?: string[]) => {
+  return new Promise<T[]>((resolve, reject) => {
+    con.query({ sql: query, values }, (err: any, results: any) => {
+      if (err)
+        reject(err);
+      resolve(results);
+    });
+  })
+}
+
+const sqlconnect = async () => {
+  return new Promise<any>((resolve, reject) => {
+    const con = mysql.createConnection({
+      host: "51.11.241.109",
+      user: "soto",
+      password: "s0t0lefeu!",
+      database: 'algo'
+    });
+    con.connect((err: any) => {
+      if (err) reject(err);
+      console.log("Connected to SQL");
+      resolve(con);
+    });
+  })
+
+}
+
 const start = async () => {
-  createProduct();
-  return;
-  const db = new sqlite.Database("catalogue.db", (_err: any) => {});
+
+  const sql = await sqlconnect();
+  const db = new sqlite.Database("catalogue.db", (_err: any) => { });
 
   const tableNameQuery = await query<{ name: string }>(
     db,
@@ -79,17 +109,17 @@ const start = async () => {
 
   const articles = await query<LeclercArticle>(
     db,
-    `SELECT * FROM ${tableName} LIMIT 1 OFFSET 740`
+    `SELECT * FROM ${tableName} LIMIT 1 OFFSET 20`
   );
 
   await Promise.all(
     articles.map(async (article) => {
       const searchTerms = `${
         article.LIBELLE_LIGNE_1
-      } ${article.LIBELLE_LIGNE_2.substr(
-        0,
-        article.LIBELLE_LIGNE_2.indexOf("-")
-      )}`.toLocaleLowerCase();
+        } ${article.LIBELLE_LIGNE_2.substr(
+          0,
+          article.LIBELLE_LIGNE_2.indexOf("-")
+        )}`.toLocaleLowerCase();
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
@@ -135,7 +165,12 @@ const start = async () => {
 
       console.log(searchTerms);
       if (bestProduct == null) console.log("Product not found");
-      else console.log(`Found : ${(bestProduct as any).url}`);
+      else {
+        console.log(`Found : ${(bestProduct as any).url}`);
+        const final = await createProduct(article, bestProduct);
+        console.log(final);
+        await sqlquery(sql, "INSERT INTO products (name, brand, price_unit, price_mass, ingredients, packaging, allergens, nutriments, nutriscore, health_score, environment_score, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [final.name, final.brand, final.priceUnit, final.priceMass, final.ingredients.join("|"), final.packaging.join("|"), final.allergens.toString(), final.nutriments.toString(), final.nutriscore, final.scoreHealth.toString(), final.scoreEnvironment.toString(), final.quantity]);
+      }
     })
   );
 
@@ -213,16 +248,15 @@ const nutriscoreToInt = (str: string) => {
 };
 const createProduct = async (
   leclerc: LeclercArticle,
-  off: any
+  product: any
 ): Promise<Article> => {
-  const product = off.products;
-  const nutriments = product.nutriments;
+  //const nutriments = product.nutriments;
 
   const nutriscore = product.nutriscore_grade;
   const allergens_tags = product.allergens_tags;
   const ingredients_ids_debug = product.ingredients_ids_debug;
   //const ingredients_hierarchy = product.ingredients_hierarchy;
-  const packaging = product.packaging;
+  const packaging = (product.packaging || "").split(",");
   const brands = product.brands;
   const name = product.product_name;
 
@@ -234,12 +268,12 @@ const createProduct = async (
   // need algo
   const scoreEnvironment = Math.floor(Math.random() * 5);
   const scoreHealth = nutriscoreToInt(nutriscore);
-  const ret = {
+  const ret: Article = {
     allergens: allergens_tags,
     brand: brands,
     ingredients: ingredients_ids_debug,
     name: name,
-    nutriments: nutriments,
+    nutriments: [],//nutriments,
     nutriscore: nutriscore,
     packaging: packaging,
     quantity: quantity,
