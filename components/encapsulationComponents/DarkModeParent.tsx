@@ -14,7 +14,7 @@ import darkTheme from "../../themes/site/darkTheme";
 
 interface DarkModeParentInterface {
   theme?: string;
-  children: any;
+  children?: any;
 
   isInSetting?: boolean;
 }
