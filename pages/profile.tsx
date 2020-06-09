@@ -16,6 +16,9 @@ const ProfilePage = () => {
           {t("buttonExample.label")}
           </Button>
         </div>
+        <div style={{marginLeft:"30px", marginRight:"30px", fontSize:"1eh"}}>
+            <p>{t('soto.description')}</p>
+        </div>
         <RightPanel>
           <ToggleLanguage t={t}></ToggleLanguage>
         </RightPanel>
