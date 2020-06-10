@@ -41,7 +41,7 @@ const DeleteAccount = () => {
 
     return (
         <div style={{display: "flex", justifyContent: "center"}}>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
                 Delete Account
             </Button>
             <Dialog
@@ -57,10 +57,10 @@ const DeleteAccount = () => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{display: "flex", justifyContent: "space-between"}}>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} color="secondary">
                         No that was a mistake, sorry
                     </Button>
-                    <Button color="primary" autoFocus onClick={() => {
+                    <Button color="secondary" autoFocus onClick={() => {
                         handleClose;
                         deleteAccount().then(function(value) {
                             if (value[0]) {
