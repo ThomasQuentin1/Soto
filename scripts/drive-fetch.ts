@@ -104,7 +104,7 @@ const start = async () => {
 
   const articles = await query<LeclercArticle>(
     db,
-    `SELECT * FROM ${tableName} LIMIT 1 OFFSET 20`
+    `SELECT * FROM ${tableName} LIMIT 50 OFFSET 110`
   );
 
   await Promise.all(
@@ -122,8 +122,6 @@ const start = async () => {
         )}&search_simple=1&action=process&json=true`
       );
       const offProducts = (await searchQuery.json()).products as any[];
-
-      console.log(`Found ${offProducts.length} products`);
 
       const leclercElems = [
         ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
@@ -151,19 +149,15 @@ const start = async () => {
         });
         const score = uniquematches.length;
 
-        console.log("score : " + score + " /// " + uniquematches.join(" | "));
         if (score > bestMatchScore) {
           bestMatchScore = score;
           bestProduct = product;
         }
       });
 
-      console.log(searchTerms);
       if (bestProduct == null) console.log("Product not found");
       else {
-        console.log(`Found : ${(bestProduct as any).url}`);
         const final = await createProduct(article, bestProduct);
-        console.log(final);
         await sqlquery(
           sql,
           "INSERT INTO products (name, brand, price_unit, price_mass, ingredients, packaging, allergens, nutriments, nutriscore, health_score, environment_score, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -256,6 +250,7 @@ const nutriscoreToInt = (str: string) => {
   tab.forEach((e, i) => {
     if (e === str) value = i + 1;
   });
+  if (value === -1) return 0;
   return value;
 };
 
@@ -275,7 +270,6 @@ const fillNutrimentsTab = (nutrimentsTab: string[], product: any) => {
 const quantityIdentifier = ["g", "ml", "L", "kg", "cl", "m", "pièce"];
 const extractQuantity = (str: string): string => {
   let ret: string = `${str.match(/\d+/)![0]}:`;
-  console.log(parseInt(str));
   quantityIdentifier.forEach((e) => {
     if (str.search(e) !== -1) ret += `${e}`;
   });
@@ -285,11 +279,9 @@ const createProduct = async (
   leclerc: LeclercArticle,
   product: any
 ): Promise<Article> => {
-  // const nutriments = product.nutriments.map((e: any) => {console.log(e)});
   let nutrimentsTab: string[] = [];
   fillNutrimentsTab(nutrimentsTab, product);
 
-  console.log(nutrimentsTab);
   const nutriscore = product.nutriscore_grade;
   const allergens_tags = product.allergens_tags;
   const ingredients_ids_debug = product.ingredients_ids_debug;
@@ -320,7 +312,6 @@ const createProduct = async (
     scoreEnvironment,
     scoreHealth,
   };
-  //console.log(ret);
   return ret;
 };
 
