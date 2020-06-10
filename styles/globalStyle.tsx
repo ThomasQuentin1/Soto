@@ -7,6 +7,11 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  #__next {
+    height: 100%;
+    width: 100%;
+  }
+
   body {
     align-items: center;
     background: ${({ theme }) => theme.body};
@@ -19,6 +24,24 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     transition: all 0.25s linear;
+  }
+
+  #example-features {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
+
+  #parent-login-form {
+    background: ${({ theme }) => theme.body};
+    color : ${({ theme }) => theme.text};
+  }
+
+  .right_panel {
+    border-eft: 1px solid black;
+    height: 100%;
+    padding-left: 30px;
   }
 
   .roundLogo {

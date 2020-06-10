@@ -9,7 +9,7 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 
 const ProfilePage = () => {
-const [theme, setTheme] = useDarkMode();
+  const [theme, setTheme] = useDarkMode();
   const tmpTheme: string = theme.toString();
   const [ t, i18n ] = useTranslation();
 
@@ -17,20 +17,22 @@ const [theme, setTheme] = useDarkMode();
   return (
     <DarkModeParent theme={tmpTheme}>
       <div style={{display:"flex", flexDirection:"row", height:"100%", width:"100%", alignItems:"center"}}>
-        <div style={{display:"flex", flexDirection:"column", alignItems:"center", flexGrow:8}}>
+        <div id="example-features">
+          <div>
+            <Button variant="contained" color="secondary">
+              {t("buttonExample.label")}
+            </Button>
+          </div>
+          <img
+          src={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
+          className={"roundLogo"}
+          />
           <Button variant="contained" color="secondary">
-          {t("buttonExample.label")}
+            {"Button Theme example"}
           </Button>
         </div>
-        <img
-        src={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
-        className={"roundLogo"}
-      />
-      <Button variant="contained" color="secondary">
-        {"Button Theme example"}
-      </Button>
         <div style={{marginLeft:"30px", marginRight:"30px", fontSize:"1eh"}}>
-            <p>{t('soto.description')}</p>
+          <p>{t('soto.description')}</p>
         </div>
         <RightPanel>
           <ToggleLanguage t={t}></ToggleLanguage>
