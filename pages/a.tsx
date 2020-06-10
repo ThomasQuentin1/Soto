@@ -1,11 +1,8 @@
 import { TextField } from "@material-ui/core";
 import React from "react";
-import '../i18n';
-import { useTranslation } from "react-i18next";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 
 const APage = () => {
-  const [t] = useTranslation();
   return (
     <div>
       <DarkModeParent>    
@@ -19,7 +16,6 @@ const APage = () => {
               />
               <br />
               <br />
-              <p>{t("hello.label")}</p>
               <TextField
                 color="secondary"
                 id="passwordInputLogin"
