@@ -60,6 +60,7 @@ interface Article {
   scoreHealth: number;
   scoreEnvironment: number;
   quantity: string;
+  keywords : string[];
 }
 
 interface LoginRequest {
@@ -160,7 +161,7 @@ const start = async () => {
         const final = await createProduct(article, bestProduct);
         await sqlquery(
           sql,
-          "INSERT INTO products (name, brand, price_unit, price_mass, ingredients, packaging, allergens, nutriments, nutriscore, health_score, environment_score, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO products (name, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             final.name,
             final.brand,
@@ -174,6 +175,7 @@ const start = async () => {
             final.scoreHealth.toString(),
             final.scoreEnvironment.toString(),
             final.quantity,
+            final.keywords.join("|")
           ]
         );
       }
@@ -289,7 +291,7 @@ const createProduct = async (
   const packaging = (product.packaging || "").split(",");
   const brands = product.brands;
   const name = product.product_name;
-
+const keywords = product._keywords
   // search in leclerc db
   const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
   const princeMass = leclerc.PRIX_UNITAIRE;
@@ -311,6 +313,7 @@ const createProduct = async (
     priceUnit: priceUnit,
     scoreEnvironment,
     scoreHealth,
+    keywords
   };
   return ret;
 };
