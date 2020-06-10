@@ -9,7 +9,7 @@ i18n
   .use(Backend)
   .init({    
     resources,
-    lng:'fr',
+      lng:'fr',
     fallbackLng: 'en',
     keySeparator: false,
     interpolation: {
