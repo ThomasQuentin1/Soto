@@ -14,7 +14,7 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
   >
     <span
       aria-disabled={false}
-      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-13 MuiSwitch-switchBase MuiSwitch-colorSecondary"
+      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiSwitch-switchBase MuiSwitch-colorSecondary"
       onBlur={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
@@ -34,7 +34,7 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
         <input
           aria-label="secondary checkbox"
           checked={false}
-          className="PrivateSwitchBase-input-16 MuiSwitch-input"
+          className="PrivateSwitchBase-input-4 MuiSwitch-input"
           name="colorMode"
           onChange={[Function]}
           type="checkbox"
@@ -49,7 +49,7 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
     />
   </span>
   <p>
-    Light mode is used
+    lightmode.label
   </p>
 </div>
 `;
