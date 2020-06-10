@@ -5,8 +5,6 @@ const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
 const mysql = require("mysql");
 
-
-
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
     fs.writeFile(path, data, (err: any) => {
@@ -72,12 +70,11 @@ interface LoginRequest {
 const sqlquery = async <T>(con: any, query: string, values?: string[]) => {
   return new Promise<T[]>((resolve, reject) => {
     con.query({ sql: query, values }, (err: any, results: any) => {
-      if (err)
-        reject(err);
+      if (err) reject(err);
       resolve(results);
     });
-  })
-}
+  });
+};
 
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
@@ -85,21 +82,19 @@ const sqlconnect = async () => {
       host: "51.11.241.109",
       user: "soto",
       password: "s0t0lefeu!",
-      database: 'algo'
+      database: "algo",
     });
     con.connect((err: any) => {
       if (err) reject(err);
       console.log("Connected to SQL");
       resolve(con);
     });
-  })
-
-}
+  });
+};
 
 const start = async () => {
-
   const sql = await sqlconnect();
-  const db = new sqlite.Database("catalogue.db", (_err: any) => { });
+  const db = new sqlite.Database("catalogue.db", (_err: any) => {});
 
   const tableNameQuery = await query<{ name: string }>(
     db,
@@ -116,10 +111,10 @@ const start = async () => {
     articles.map(async (article) => {
       const searchTerms = `${
         article.LIBELLE_LIGNE_1
-        } ${article.LIBELLE_LIGNE_2.substr(
-          0,
-          article.LIBELLE_LIGNE_2.indexOf("-")
-        )}`.toLocaleLowerCase();
+      } ${article.LIBELLE_LIGNE_2.substr(
+        0,
+        article.LIBELLE_LIGNE_2.indexOf("-")
+      )}`.toLocaleLowerCase();
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
@@ -169,7 +164,24 @@ const start = async () => {
         console.log(`Found : ${(bestProduct as any).url}`);
         const final = await createProduct(article, bestProduct);
         console.log(final);
-        await sqlquery(sql, "INSERT INTO products (name, brand, price_unit, price_mass, ingredients, packaging, allergens, nutriments, nutriscore, health_score, environment_score, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [final.name, final.brand, final.priceUnit, final.priceMass, final.ingredients.join("|"), final.packaging.join("|"), final.allergens.toString(), final.nutriments.toString(), final.nutriscore, final.scoreHealth.toString(), final.scoreEnvironment.toString(), final.quantity]);
+        await sqlquery(
+          sql,
+          "INSERT INTO products (name, brand, price_unit, price_mass, ingredients, packaging, allergens, nutriments, nutriscore, health_score, environment_score, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          [
+            final.name,
+            final.brand,
+            final.priceUnit,
+            final.priceMass,
+            final.ingredients.join("|"),
+            final.packaging.join("|"),
+            final.allergens.toString(),
+            final.nutriments.join("|"),
+            final.nutriscore,
+            final.scoreHealth.toString(),
+            final.scoreEnvironment.toString(),
+            final.quantity,
+          ]
+        );
       }
     })
   );
@@ -246,12 +258,38 @@ const nutriscoreToInt = (str: string) => {
   });
   return value;
 };
+
+const fillNutrimentsTab = (nutrimentsTab: string[], product: any) => {
+  if (product.nutriments["energy-kcal"])
+    nutrimentsTab.push(`energy-kcal:${product.nutriments["energy-kcal"]}`);
+  if (product.nutriments.sugars_100g)
+    nutrimentsTab.push(`sugars_100g:${product.nutriments.sugars_100g}`);
+  if (product.nutriments.fiber_100g)
+    nutrimentsTab.push(`fiber_100g:${product.nutriments.fiber_100g}`);
+  if (product.nutriments.salt_100g)
+    nutrimentsTab.push(`salt_100g:${product.nutriments.salt_100g}`);
+  if (product.nutriments.fat_100g)
+    nutrimentsTab.push(`fat_100g:${product.nutriments.fat_100g}`);
+};
+
+const quantityIdentifier = ["g", "ml", "L", "kg", "cl", "m", "pièce"];
+const extractQuantity = (str: string): string => {
+  let ret: string = `${str.match(/\d+/)![0]}:`;
+  console.log(parseInt(str));
+  quantityIdentifier.forEach((e) => {
+    if (str.search(e) !== -1) ret += `${e}`;
+  });
+  return ret;
+};
 const createProduct = async (
   leclerc: LeclercArticle,
   product: any
 ): Promise<Article> => {
-  //const nutriments = product.nutriments;
+  // const nutriments = product.nutriments.map((e: any) => {console.log(e)});
+  let nutrimentsTab: string[] = [];
+  fillNutrimentsTab(nutrimentsTab, product);
 
+  console.log(nutrimentsTab);
   const nutriscore = product.nutriscore_grade;
   const allergens_tags = product.allergens_tags;
   const ingredients_ids_debug = product.ingredients_ids_debug;
@@ -261,9 +299,9 @@ const createProduct = async (
   const name = product.product_name;
 
   // search in leclerc db
-  const quantity = "TODO extract quantity";
-  const princeMass = "TODO";
-  const priceUnit = leclerc.PRIX_UNITAIRE;
+  const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
+  const princeMass = leclerc.PRIX_UNITAIRE;
+  const priceUnit = leclerc.PV_UNITAIRE_TTC;
 
   // need algo
   const scoreEnvironment = Math.floor(Math.random() * 5);
@@ -273,7 +311,7 @@ const createProduct = async (
     brand: brands,
     ingredients: ingredients_ids_debug,
     name: name,
-    nutriments: [],//nutriments,
+    nutriments: nutrimentsTab,
     nutriscore: nutriscore,
     packaging: packaging,
     quantity: quantity,
