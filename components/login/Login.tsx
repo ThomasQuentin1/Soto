@@ -3,6 +3,8 @@ import {Button, CircularProgress, createStyles, Divider, TextField, Typography} 
 import {sha256} from "js-sha256";
 import {makeStyles} from "@material-ui/styles";
 import Router from "next/router";
+import DeleteAccount from "../profile/DeleteAccount";
+
 const useStyles = makeStyles(createStyles({
         buttonProgress: {
             position: 'absolute'
@@ -46,7 +48,7 @@ export const requestLogin = async (email: string, password: string) : Promise<[b
     //     return [false, "Connection error"]
     // }
     console.log(email + " " + password)
-    return [false, "not implemented yet"]
+    return [true, "not implemented yet"]
 };
 
 const Login = (props: Props) => {
@@ -105,7 +107,7 @@ const Login = (props: Props) => {
                             requestLogin(username, sha256(password)).then(function(value) {
                                 if (value[0]) {
                                     console.log(value[1])
-                                    Router.push("/home")
+                                    Router.push("/index")
                                 }
                                 else
                                     console.log(value[1])
@@ -125,6 +127,7 @@ const Login = (props: Props) => {
                         Inscivez-vous à un compte
                     </Button>
                 </div>
+            <DeleteAccount/>
             </div>
         </div>
     );

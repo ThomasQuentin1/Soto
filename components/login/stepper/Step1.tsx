@@ -13,7 +13,14 @@ const useStyles = makeStyles(createStyles({
     }),
 );
 
-const Step1 = () => {
+interface Props {
+    setEmail: (s: string) => void;
+    setUsername: (s: string) => void;
+    setPassword: (s: string) => void;
+    setCPassword: (s: string) => void;
+}
+
+const Step1 = (props: Props) => {
     const classes = useStyles();
 
     const [email, setEmail] = useState("");
@@ -36,7 +43,10 @@ const Step1 = () => {
             label="E-mail"
             autoFocus
             value={email}
-            onChange={(sender: any) => setEmail(sender.target.value)}
+            onChange={(sender: any) => {
+                setEmail(sender.target.value);
+                props.setEmail(sender.target.value)
+            }}
         />
         <TextField
             required
@@ -44,7 +54,10 @@ const Step1 = () => {
             id="nameRegister"
             label="Nom complet"
             value={username}
-            onChange={(sender: any) => setUsername(sender.target.value)}
+            onChange={(sender: any) => {
+                setUsername(sender.target.value);
+                props.setUsername(sender.target.value);
+            }}
         />
         <TextField
             required
@@ -53,7 +66,10 @@ const Step1 = () => {
             type="password"
             label="Mot de passe"
             value={password}
-            onChange={(sender: any) => setPassword(sender.target.value)}
+            onChange={(sender: any) => {
+                setPassword(sender.target.value);
+                props.setPassword(sender.target.value);
+            }}
         />
         <TextField
             required
@@ -62,7 +78,10 @@ const Step1 = () => {
             type="password"
             label="Confirmer le mot de passe"
             value={cPassword}
-            onChange={(sender: any) => setCPassword(sender.target.value)}
+            onChange={(sender: any) => {
+                setCPassword(sender.target.value);
+                props.setCPassword(sender.target.value);
+            }}
         />
     </div>
     )
