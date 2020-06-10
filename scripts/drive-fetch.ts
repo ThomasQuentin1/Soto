@@ -304,8 +304,8 @@ const createProduct = async (
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
 
   // need algo
-  const scoreEnvironment = Math.floor(Math.random() * 5);
-  const scoreHealth = nutriscoreToInt(nutriscore);
+  const scoreEnvironment = Math.floor(Math.random() * 100);
+  const scoreHealth = nutriscoreToInt(nutriscore) * 20;
   const ret: Article = {
     allergens: allergens_tags,
     brand: brands,
