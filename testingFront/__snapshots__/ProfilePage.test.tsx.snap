@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Creation of profile page in a component to test it 1`] = `
+<div
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "row",
+      "height": "100%",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "flexGrow": 8,
+      }
+    }
+  >
+    <button
+      className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
+      disabled={false}
+      onBlur={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={0}
+      type="button"
+    >
+      <span
+        className="MuiButton-label"
+      >
+        Bouton d'exemple
+      </span>
+    </button>
+  </div>
+  <div
+    style={
+      Object {
+        "fontSize": "1eh",
+        "marginLeft": "30px",
+        "marginRight": "30px",
+      }
+    }
+  >
+    <p>
+      Hey, t'es nouveau sur Soto ? Classe tes critères selon tes convictions, mets en place tes filtres, et commence tes courses. C'est tout simple, essaye de taper le nom d'un article, sans spéficier sa marque. Soto te proposera toujours le meilleur !
+    </p>
+  </div>
+  <div
+    id="right-panel"
+    style={
+      Object {
+        "borderLeft": "1px solid black",
+        "height": "100%",
+        "paddingLeft": "30px",
+      }
+    }
+  >
+    <div>
+      <button
+        className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
+        disabled={false}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onDragLeave={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        onMouseDown={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+        onTouchEnd={[Function]}
+        onTouchMove={[Function]}
+        onTouchStart={[Function]}
+        tabIndex={0}
+        type="button"
+      >
+        <span
+          className="MuiButton-label"
+        >
+          Changer la langue
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
