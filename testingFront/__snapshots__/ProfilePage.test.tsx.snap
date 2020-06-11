@@ -85,7 +85,7 @@ exports[`Creation of profile page in a component to test it 1`] = `
         <span
           className="MuiButton-label"
         >
-          Changer la langue
+          Changer pour anglais
         </span>
       </button>
     </div>

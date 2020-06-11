@@ -63,6 +63,10 @@ const Register = (props: Props) => {
     const [cPassword, setCPassword] = useState("")
     const [activeStep, setActiveStep] = React.useState(0);
     const steps = getSteps();
+    let lng : string | null = 'fr';
+    if (typeof window !== 'undefined') {
+        lng = localStorage.getItem('lng');
+    }
 
     const getStepContent = (step: number) => {
         switch (step) {
@@ -110,7 +114,7 @@ const Register = (props: Props) => {
                 }}
             >
                 <Typography variant="h6" gutterBottom style={{marginBottom: "20px", color: "grey", display: "flex", justifyContent: "center"}}>
-                    Inscivez-vous à un compte
+                    {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
                 </Typography>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label) => {
@@ -127,14 +131,14 @@ const Register = (props: Props) => {
             {getStepContent(activeStep)}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
                 <Button disabled={activeStep === 0} onClick={() => handleBack()}>
-                    Back
+                {lng == 'fr' ? 'Retour' : 'Back'}
                 </Button>
                 {activeStep === steps.length - 1 ?
                     <Button variant="contained" color="primary" onClick={() => handleFinish()}>
-                        Finish
+                         {lng == 'fr' ? 'Finir' : 'Finish'}
                     </Button> :
                     <Button variant="contained" color="primary" onClick={() => handleNext()}>
-                        Next
+                         {lng == 'fr' ? 'Suivant' : 'Next'}
                     </Button>}
             </div>
             <Divider variant={"middle"} style={{marginTop: "20px"}}/>
@@ -148,7 +152,7 @@ const Register = (props: Props) => {
                     style={{ marginTop: "20px", fontSize: "12px"}}
                     onClick={() => props.setDisplayRegister(false)}
                 >
-                    Vous avez déja un compte ? Connectez vous
+                     {lng == 'fr' ? 'Vous avez déja un compte ? Connectez vous' : 'You already have an account ? Sign in'}
                 </Button>
             </div>
         </div>

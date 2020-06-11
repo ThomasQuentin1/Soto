@@ -23,7 +23,7 @@ exports[`ToggleLanguague is the components that display the button which change 
     <span
       className="MuiButton-label"
     >
-      Changer la langue
+      Changer pour anglais
     </span>
   </button>
 </div>
