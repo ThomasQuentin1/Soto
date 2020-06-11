@@ -4,6 +4,7 @@ import {sha256} from "js-sha256";
 import {makeStyles} from "@material-ui/styles";
 import Router from "next/router";
 import DeleteAccount from "../profile/DeleteAccount";
+import 'i18n';
 
 const useStyles = makeStyles(createStyles({
         buttonProgress: {
@@ -67,7 +68,10 @@ const Login = (props: Props) => {
             }, 2000);
         }
     };
-
+    let lng : string | null = 'fr';
+    if (typeof window !== 'undefined') {
+        lng = localStorage.getItem('lng');
+    }
     return (
         <div style={{ width: "40vh", margin: "20px"}}>
             <div
@@ -78,7 +82,7 @@ const Login = (props: Props) => {
                 }}
             >
                 <Typography variant="h6" gutterBottom style={{color: "grey", display: "flex", justifyContent: "center"}}>
-                    Se connecter à Soto
+                    {lng == 'fr' ? "Se connecter à Soto" : "Connect to Soto"}
                 </Typography>
                 {loading && <CircularProgress size={48} className={classes.buttonProgress}/>}
                 <TextField
@@ -95,7 +99,7 @@ const Login = (props: Props) => {
                     className={classes.textField}
                     id="standard-password-input"
                     type="password"
-                    label="Mot de passe"
+                    label={lng == 'fr' ? "Mot de passe" : "Password"}
                     value={password}
                     onChange={(sender: any) => setPassword(sender.target.value)}
                 />
@@ -116,7 +120,7 @@ const Login = (props: Props) => {
                             })
                         }}
                     >
-                        Se connecter
+                        {lng == 'fr' ? 'Se connecter' : 'Connect'}
                     </Button>
                 </div>
                 <Divider variant={"middle"}/>
@@ -126,7 +130,7 @@ const Login = (props: Props) => {
                         style={{ marginTop: "20px", fontSize: "12px"}}
                         onClick={() => props.setDisplayRegister(true)}
                     >
-                        Inscivez-vous à un compte
+                        {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
                     </Button>
                 </div>
             <DeleteAccount/>

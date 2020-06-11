@@ -31,6 +31,10 @@ const deleteAccount = async () : Promise<[boolean, string]> => {
 const DeleteAccount = () => {
     const [open, setOpen] = React.useState(false);
 
+    let lng : string | null = 'fr';
+    if (typeof window !== 'undefined') {
+        lng = localStorage.getItem('lng');
+    }
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -42,7 +46,7 @@ const DeleteAccount = () => {
     return (
         <div style={{display: "flex", justifyContent: "center"}}>
             <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
-                Delete Account
+            {lng == 'fr' ? 'Supprimer compte' : 'Delete Account'}
             </Button>
             <Dialog
                 open={open}
@@ -53,12 +57,12 @@ const DeleteAccount = () => {
                 <DialogTitle id="alert-dialog-title">{"Delete your account"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete your SOTO account?
+                        {lng == 'fr' ? 'Voulez-vous vraiment supprimer votre compte ?' :'Are you sure you want to delete your SOTO account?'}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions style={{display: "flex", justifyContent: "space-between"}}>
                     <Button onClick={handleClose} color="secondary">
-                        No that was a mistake, sorry
+                        {lng == 'fr' ? 'Non c\'était une erreur' : 'No that was a mistake, sorry'}
                     </Button>
                     <Button color="secondary" autoFocus onClick={() => {
                         handleClose;

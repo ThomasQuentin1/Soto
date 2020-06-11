@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Button } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 import '../i18n'
@@ -9,9 +9,22 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 
 const ProfilePage = () => {
+  const [ t, i18n ] = useTranslation();
+  
+  let lng : string | null = 'fr';
+  if (typeof window !== 'undefined') {
+    lng = localStorage.getItem('lng');
+    if (lng == null) {
+      localStorage.setItem('lng', 'fr');
+    }
+    useEffect(() => {
+      i18n.changeLanguage(lng == 'fr' ? 'fr' : 'en')
+
+    }, []);
+  }
   const [theme, setTheme] = useDarkMode();
   const tmpTheme: string = theme.toString();
-  const [ t, i18n ] = useTranslation();
+
 
   i18n;
   return (
@@ -27,9 +40,6 @@ const ProfilePage = () => {
           src={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
           className={"roundLogo"}
           />
-          <Button variant="contained" color="secondary">
-            {"Button Theme example"}
-          </Button>
         </div>
         <div style={{marginLeft:"30px", marginRight:"30px", fontSize:"1eh"}}>
           <p>{t('soto.description')}</p>

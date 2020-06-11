@@ -9,9 +9,20 @@ const defaultValue: Array<string> = [
     "Proximité du produit"
 ];
 
-const Step2 = () => {
-    const [items, setItems] = useState<Array<string>>(defaultValue);
+const defaultValueEn: Array<string> = [
+    "Impact on health",
+    "environmental Impact",
+    "Price",
+    "nutritional value",
+    "proximity to product"
+];
 
+const Step2 = () => {
+    let lng : string | null = 'fr';
+    if (typeof window !== 'undefined') {
+        lng = localStorage.getItem('lng');
+    }
+    const [items, setItems] = useState<Array<string>>(lng == 'fr' ? defaultValue : defaultValueEn);
     return (
         <div
             style={{

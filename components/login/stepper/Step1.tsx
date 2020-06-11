@@ -28,6 +28,10 @@ const Step1 = (props: Props) => {
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
 
+    let lng : string | null = 'fr';
+    if (typeof window !== 'undefined') {
+        lng = localStorage.getItem('lng');
+    }
     return (
     <div style={{
         display: "flex",
@@ -52,7 +56,7 @@ const Step1 = (props: Props) => {
             required
             className={classes.textField}
             id="nameRegister"
-            label="Nom complet"
+            label={lng == 'fr' ? 'Nom complet' : 'Full name'}
             value={username}
             onChange={(sender: any) => {
                 setUsername(sender.target.value);
@@ -64,7 +68,7 @@ const Step1 = (props: Props) => {
             className={classes.textField}
             id="standard-password-input"
             type="password"
-            label="Mot de passe"
+            label={lng == 'fr' ? 'Mot de passe' : 'Password'}
             value={password}
             onChange={(sender: any) => {
                 setPassword(sender.target.value);
@@ -76,7 +80,7 @@ const Step1 = (props: Props) => {
             className={classes.textField}
             id="standard-confirm-password-input"
             type="password"
-            label="Confirmer le mot de passe"
+            label={lng == 'fr' ? "Confirmer le mot de passe" : 'Confirm password'}
             value={cPassword}
             onChange={(sender: any) => {
                 setCPassword(sender.target.value);
