@@ -4,8 +4,10 @@
     "module": "commonjs",
     "outDir": "dist",
     "target": "es2017",
-    "isolatedModules": false,
+    "isolatedModules": true,
     "noEmit": false
   },
-  "include": ["server/**/*.ts"]
+  "include": [
+    "server/**/*.ts"
+  ]
 }

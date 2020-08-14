@@ -26,9 +26,31 @@ export type MutationSetTestArgs = {
   message: Scalars['String'];
 };
 
+export type Product = {
+   __typename?: 'Product';
+  name: Scalars['String'];
+  brand?: Maybe<Scalars['String']>;
+  priceUnit: Scalars['String'];
+  priceMass?: Maybe<Scalars['String']>;
+  ingredients?: Maybe<Array<Maybe<Scalars['String']>>>;
+  packaging?: Maybe<Array<Maybe<Scalars['String']>>>;
+  allergens?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nutriments?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nutriscore?: Maybe<Scalars['String']>;
+  scoreHealth?: Maybe<Scalars['Int']>;
+  scoreEnvironment?: Maybe<Scalars['Int']>;
+  quantity?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
    __typename?: 'Query';
   getTest: Success;
+  searchProducts?: Maybe<Array<Maybe<Product>>>;
+};
+
+
+export type QuerySearchProductsArgs = {
+  query: Scalars['String'];
 };
 
 export type Success = {
@@ -113,6 +135,8 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>,
   Success: ResolverTypeWrapper<Success>,
   String: ResolverTypeWrapper<Scalars['String']>,
+  Product: ResolverTypeWrapper<Product>,
+  Int: ResolverTypeWrapper<Scalars['Int']>,
   Mutation: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   CacheControlScope: CacheControlScope,
@@ -124,6 +148,8 @@ export type ResolversParentTypes = {
   Query: {},
   Success: Success,
   String: Scalars['String'],
+  Product: Product,
+  Int: Scalars['Int'],
   Mutation: {},
   Boolean: Scalars['Boolean'],
   CacheControlScope: CacheControlScope,
@@ -134,8 +160,25 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   setTest?: Resolver<ResolversTypes['Success'], ParentType, ContextType, RequireFields<MutationSetTestArgs, 'message'>>,
 };
 
+export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  priceUnit?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  priceMass?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  ingredients?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  packaging?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  allergens?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  nutriments?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  nutriscore?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  quantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getTest?: Resolver<ResolversTypes['Success'], ParentType, ContextType>,
+  searchProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
 };
 
 export type SuccessResolvers<ContextType = any, ParentType extends ResolversParentTypes['Success'] = ResolversParentTypes['Success']> = {
@@ -149,6 +192,7 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 
 export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>,
+  Product?: ProductResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
   Success?: SuccessResolvers<ContextType>,
   Upload?: GraphQLScalarType,
