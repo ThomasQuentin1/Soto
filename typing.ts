@@ -11,19 +11,82 @@ export type Scalars = {
   Upload: any;
 };
 
+export type Account = {
+   __typename?: 'Account';
+  email: Scalars['String'];
+  criterions: Array<Criterion>;
+  obligations: Array<Obligation>;
+};
+
 export enum CacheControlScope {
   Public = 'PUBLIC',
   Private = 'PRIVATE'
 }
 
+export type Criterion = {
+   __typename?: 'Criterion';
+  activated: Scalars['Boolean'];
+  position?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  name: MultilangString;
+};
+
+export type CriterionInput = {
+  id: Scalars['Int'];
+  position: Scalars['Int'];
+};
+
+export type MultilangString = {
+   __typename?: 'MultilangString';
+  en?: Maybe<Scalars['String']>;
+  fr?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
    __typename?: 'Mutation';
-  setTest: Success;
+  login: Scalars['String'];
+  register: Scalars['String'];
+  setCriterions: Scalars['Boolean'];
+  setObligations: Scalars['Boolean'];
+  removeAccount: Scalars['Boolean'];
 };
 
 
-export type MutationSetTestArgs = {
-  message: Scalars['String'];
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  passwordSHA256: Scalars['String'];
+};
+
+
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
+  passwordSHA256: Scalars['String'];
+};
+
+
+export type MutationSetCriterionsArgs = {
+  criterions: Array<CriterionInput>;
+};
+
+
+export type MutationSetObligationsArgs = {
+  obligations: Array<ObligationInput>;
+};
+
+
+export type MutationRemoveAccountArgs = {
+  passwordSHA256: Scalars['String'];
+};
+
+export type Obligation = {
+   __typename?: 'Obligation';
+  activated: Scalars['Boolean'];
+  id: Scalars['Int'];
+  name: MultilangString;
+};
+
+export type ObligationInput = {
+  id: Scalars['Int'];
 };
 
 export type Product = {
@@ -44,18 +107,13 @@ export type Product = {
 
 export type Query = {
    __typename?: 'Query';
-  getTest: Success;
-  searchProducts?: Maybe<Array<Maybe<Product>>>;
+  account: Account;
+  searchProducts: Array<Product>;
 };
 
 
 export type QuerySearchProductsArgs = {
   query: Scalars['String'];
-};
-
-export type Success = {
-   __typename?: 'Success';
-  message?: Maybe<Scalars['String']>;
 };
 
 
@@ -133,12 +191,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>,
-  Success: ResolverTypeWrapper<Success>,
+  Account: ResolverTypeWrapper<Account>,
   String: ResolverTypeWrapper<Scalars['String']>,
-  Product: ResolverTypeWrapper<Product>,
-  Int: ResolverTypeWrapper<Scalars['Int']>,
-  Mutation: ResolverTypeWrapper<{}>,
+  Criterion: ResolverTypeWrapper<Criterion>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  Int: ResolverTypeWrapper<Scalars['Int']>,
+  MultilangString: ResolverTypeWrapper<MultilangString>,
+  Obligation: ResolverTypeWrapper<Obligation>,
+  Product: ResolverTypeWrapper<Product>,
+  Mutation: ResolverTypeWrapper<{}>,
+  CriterionInput: CriterionInput,
+  ObligationInput: ObligationInput,
   CacheControlScope: CacheControlScope,
   Upload: ResolverTypeWrapper<Scalars['Upload']>,
 };
@@ -146,18 +209,55 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {},
-  Success: Success,
+  Account: Account,
   String: Scalars['String'],
-  Product: Product,
-  Int: Scalars['Int'],
-  Mutation: {},
+  Criterion: Criterion,
   Boolean: Scalars['Boolean'],
+  Int: Scalars['Int'],
+  MultilangString: MultilangString,
+  Obligation: Obligation,
+  Product: Product,
+  Mutation: {},
+  CriterionInput: CriterionInput,
+  ObligationInput: ObligationInput,
   CacheControlScope: CacheControlScope,
   Upload: Scalars['Upload'],
 };
 
+export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
+  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type CriterionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Criterion'] = ResolversParentTypes['Criterion']> = {
+  activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['MultilangString'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type MultilangStringResolvers<ContextType = any, ParentType extends ResolversParentTypes['MultilangString'] = ResolversParentTypes['MultilangString']> = {
+  en?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  fr?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  setTest?: Resolver<ResolversTypes['Success'], ParentType, ContextType, RequireFields<MutationSetTestArgs, 'message'>>,
+  login?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'passwordSHA256'>>,
+  register?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'passwordSHA256'>>,
+  setCriterions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetCriterionsArgs, 'criterions'>>,
+  setObligations?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetObligationsArgs, 'obligations'>>,
+  removeAccount?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveAccountArgs, 'passwordSHA256'>>,
+};
+
+export type ObligationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Obligation'] = ResolversParentTypes['Obligation']> = {
+  activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['MultilangString'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
@@ -177,13 +277,8 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getTest?: Resolver<ResolversTypes['Success'], ParentType, ContextType>,
-  searchProducts?: Resolver<Maybe<Array<Maybe<ResolversTypes['Product']>>>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
-};
-
-export type SuccessResolvers<ContextType = any, ParentType extends ResolversParentTypes['Success'] = ResolversParentTypes['Success']> = {
-  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
+  searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
@@ -191,10 +286,13 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type Resolvers<ContextType = any> = {
+  Account?: AccountResolvers<ContextType>,
+  Criterion?: CriterionResolvers<ContextType>,
+  MultilangString?: MultilangStringResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
+  Obligation?: ObligationResolvers<ContextType>,
   Product?: ProductResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
-  Success?: SuccessResolvers<ContextType>,
   Upload?: GraphQLScalarType,
 };
 

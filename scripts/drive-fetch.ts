@@ -1,3 +1,4 @@
+/// @ts-nocheck
 // @ts-ignore
 const fs = require("fs");
 // @ts-ignore
@@ -60,7 +61,7 @@ interface Article {
   scoreHealth: number;
   scoreEnvironment: number;
   quantity: string;
-  keywords : string[];
+  keywords: string[];
 }
 
 interface LoginRequest {
@@ -95,7 +96,7 @@ const sqlconnect = async () => {
 
 const start = async () => {
   const sql = await sqlconnect();
-  const db = new sqlite.Database("catalogue.db", (_err: any) => {});
+  const db = new sqlite.Database("catalogue.db", (_err: any) => { });
 
   const tableNameQuery = await query<{ name: string }>(
     db,
@@ -112,10 +113,10 @@ const start = async () => {
     articles.map(async (article) => {
       const searchTerms = `${
         article.LIBELLE_LIGNE_1
-      } ${article.LIBELLE_LIGNE_2.substr(
-        0,
-        article.LIBELLE_LIGNE_2.indexOf("-")
-      )}`.toLocaleLowerCase();
+        } ${article.LIBELLE_LIGNE_2.substr(
+          0,
+          article.LIBELLE_LIGNE_2.indexOf("-")
+        )}`.toLocaleLowerCase();
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
@@ -291,7 +292,7 @@ const createProduct = async (
   const packaging = (product.packaging || "").split(",");
   const brands = product.brands;
   const name = product.product_name;
-const keywords = product._keywords
+  const keywords = product._keywords
   // search in leclerc db
   const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
   const princeMass = leclerc.PRIX_UNITAIRE;
