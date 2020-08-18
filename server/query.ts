@@ -33,3 +33,8 @@ export const usersQuery = async <T>(query: string, values?: string[]) => {
         });
     })
 }
+
+export const endConnections = () => {
+    algoPool.end();
+    usersPool.end();
+}

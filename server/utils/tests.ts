@@ -1,30 +1,17 @@
-import { ApolloServer } from 'apollo-server';
-import { createTestClient } from 'apollo-server-testing';
-import { context, formatError } from "../../pages/api/graphql";
 import { usersQuery } from '../query';
 import resolvers from "../resolvers";
-import typeDefs from "../schema";
 
-export const loggedTestUser = (token: string) => createTestClient(
-    new ApolloServer({
-        typeDefs,
-        resolvers: resolvers as any,
-        context: async () => {
-            let user;
-            try {
-                const userQ = await usersQuery("SELECT * FROM users WHERE token = ? LIMIT 1", [token]);
-                if (userQ.length == 1)
-                    user = userQ[0];
-            } catch { }
-            return { user };
-        },
-        formatError,
-    }));
+const QorM = async (op: "Query" | "Mutation", resolver: string, args: any, token?: string) => {
+    let user = null;
+    if (token) {
+        const userQ = await usersQuery("SELECT * FROM users WHERE token = ?", [token]);
+        if (userQ.length == 1)
+            user = userQ[0];
+    }
+    // @ts-ignore
+    const elem: any = resolvers![op]![resolver];
+    return await elem({}, args, { user }, {});
+}
 
-export const anonymous = createTestClient(
-    new ApolloServer({
-        typeDefs,
-        resolvers: resolvers as any,
-        context,
-        formatError,
-    }));
+export const Mutate = async (resolver: string, args: any, token?: string) => QorM("Mutation", resolver, args, token);
+export const Query = async (resolver: string, args: any, token?: string) => QorM("Query", resolver, args, token);

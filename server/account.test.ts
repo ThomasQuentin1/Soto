@@ -1,80 +1,45 @@
-import { ApolloServerTestClient } from 'apollo-server-testing';
-import gql from 'graphql-tag';
-import { anonymous, loggedTestUser } from './utils/tests';
+import { endConnections } from "./query";
+import { Mutate, Query } from "./utils/tests";
 
-const CREATE_ACCOUNT = gql`
-mutation {
-  register (email: "test${Math.floor(Math.random() * 1000)}@test.com" passwordSHA256: "pass")
-}
-`
 
-const ACCOUNT = gql`
-query {
-  account {
-    email
-    obligations {
-      id
-      activated
-    }
-    criterions {
-      id
-      position
-      activated
-    }
-  }
-}
-`
+let token: string = "";
+const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
 
-const UPDATE_OBLIGATIONS = gql`
-mutation {
-  setObligations(obligations: [{id: 1}])
-}
-`
-
-const UPDATE_CRITERIONS = gql`
-mutation {
-  setCriterions(criterions: [{id: 2, position: 1}])
-}
-`
-
-const DELETE_ACCOUNT = gql`
-mutation {
-  deleteAccount(passwordSHA256: "pass")
-}
-`
-
-let client: ApolloServerTestClient;
-
-beforeAll(async (done) => {
-  const res = await anonymous.mutate({ mutation: CREATE_ACCOUNT });
-  client = loggedTestUser(res.data!.register);
-  done();
-});
-
-afterAll(async (done) => {
-  await client.mutate({ mutation: DELETE_ACCOUNT });
-  done();
-});
-
+afterAll(() => {
+  endConnections();
+})
 
 describe('Account', () => {
-  it('should retrive the user email', async () => {
-    const res = await client.query({ query: ACCOUNT });
-    expect(res.errors?.length).not.toBeTruthy();
-    expect(res.data!.account.email.includes("@test.com")).toBeTruthy();
+
+  beforeAll(async (done) => {
+    token = await Mutate("register", { email, passwordSHA256: "blbl" });
+    done();
   })
 
-  it('handle filters and obligations poperly', async () => {
-    await client.mutate({ mutation: UPDATE_CRITERIONS });
-    await client.mutate({ mutation: UPDATE_OBLIGATIONS });
+  afterAll(() =>
+    Mutate("removeAccount", { passwordSHA256: "blbl" }))
 
-    const res = await client.query({ query: ACCOUNT });
+  it('should retrive the user email', async () => {
+    const acc = await Query("account", {}, token);
+    expect(acc.email).toBe(email);
+  })
 
-    expect(res.data?.account.criterions.find((c: any) => c.activated).position).toEqual(1);
-    expect(res.data?.account.criterions.find((c: any) => c.activated).id).toEqual(2);
-    expect(res.data?.account.obligations.find((c: any) => c.activated).id).toEqual(1);
+  it('handle obligations poperly', async () => {
+    const oldProfile = await Query("account", {}, token);
+    await Mutate("setObligations", { obligations: [{ id: 1 }] }, token);
+    const newProfile = await Query("account", {}, token);
+    expect(oldProfile).not.toBe(newProfile);
+    expect(newProfile.obligations.find((o: any) => o.activated).id).toBe(1);
+    expect(newProfile.obligations.filter((o: any) => o.activated).length).toBe(1);
+  })
 
-    expect(res.data?.account.criterions).toMatchSnapshot();
-    expect(res.data?.account.obligations).toMatchSnapshot();
+  it('handle critetions poperly', async () => {
+    const oldProfile = await Query("account", {}, token);
+    await Mutate("setCriterions", { criterions: [{ id: 2, position: 1 }, { id: 1, position: 2 }] }, token);
+    const newProfile = await Query("account", {}, token);
+    expect(oldProfile).not.toBe(newProfile);
+    expect(newProfile.criterions.find((o: any) => o.position == 1).id).toBe(2);
+    expect(newProfile.criterions.find((o: any) => o.position == 2).id).toBe(1);
+    expect(newProfile.criterions.filter((o: any) => o.activated).length).toBe(2);
   })
 })
