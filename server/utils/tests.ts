@@ -21,7 +21,7 @@ export const loggedTestUser = (token: string) => createTestClient(
         formatError,
     }));
 
-export const anonymous = createTestClient(
+export const anonymousTestUser = () => createTestClient(
     new ApolloServer({
         typeDefs,
         resolvers: resolvers as any,

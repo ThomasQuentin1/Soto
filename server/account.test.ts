@@ -1,6 +1,6 @@
 import { ApolloServerTestClient } from 'apollo-server-testing';
 import gql from 'graphql-tag';
-import { anonymous, loggedTestUser } from './utils/tests';
+import { anonymousTestUser, loggedTestUser } from './utils/tests';
 
 const CREATE_ACCOUNT = gql`
 mutation {
@@ -43,32 +43,37 @@ mutation {
 }
 `
 
-let client: ApolloServerTestClient;
+let client: ApolloServerTestClient | null;
+let anonymous: ApolloServerTestClient | null;
+
 
 beforeAll(async (done) => {
+  anonymous = anonymousTestUser();
   const res = await anonymous.mutate({ mutation: CREATE_ACCOUNT });
   client = loggedTestUser(res.data!.register);
   done();
 });
 
 afterAll(async (done) => {
-  await client.mutate({ mutation: DELETE_ACCOUNT });
+  await client!.mutate({ mutation: DELETE_ACCOUNT });
+  client = null;
+  anonymous = null;
   done();
 });
 
 
 describe('Account', () => {
   it('should retrive the user email', async () => {
-    const res = await client.query({ query: ACCOUNT });
+    const res = await client!.query({ query: ACCOUNT });
     expect(res.errors?.length).not.toBeTruthy();
     expect(res.data!.account.email.includes("@test.com")).toBeTruthy();
   })
 
   it('handle filters and obligations poperly', async () => {
-    await client.mutate({ mutation: UPDATE_CRITERIONS });
-    await client.mutate({ mutation: UPDATE_OBLIGATIONS });
+    await client!.mutate({ mutation: UPDATE_CRITERIONS });
+    await client!.mutate({ mutation: UPDATE_OBLIGATIONS });
 
-    const res = await client.query({ query: ACCOUNT });
+    const res = await client!.query({ query: ACCOUNT });
 
     expect(res.data?.account.criterions.find((c: any) => c.activated).position).toEqual(1);
     expect(res.data?.account.criterions.find((c: any) => c.activated).id).toEqual(2);
