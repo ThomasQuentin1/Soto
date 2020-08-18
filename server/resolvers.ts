@@ -88,6 +88,13 @@ const resolvers: Resolvers = {
         throw new AuthenticationError("Invalid password");
       await usersQuery("DELETE FROM users WHERE id = ?", [context.user.id]);
       return true;
+    },
+    subscribeNotifications: async (_obj, args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError("please login");
+
+      await usersQuery("UPDATE users SET pushToken = ? WHERE id = ?", [args.token, context.user.id]);
+      return true;
     }
   }
 };
