@@ -34,7 +34,7 @@ const start = async () => {
     await sqlquery(sql, "DROP TABLE IF EXISTS criterions;");
     await sqlquery(sql, "DROP TABLE IF EXISTS users;");
 
-    await sqlquery(sql, "CREATE TABLE users (id INT AUTO_INCREMENT primary key NOT NULL, token VARCHAR(64), email VARCHAR(255) NOT NULL, password VARCHAR(64) NOT NULL, pushToken VARCHAR(64));");
+    await sqlquery(sql, "CREATE TABLE users (id INT AUTO_INCREMENT primary key NOT NULL, token VARCHAR(64), email VARCHAR(255) NOT NULL, password VARCHAR(64) NOT NULL);");
     await sqlquery(sql, "CREATE TABLE criterions (userId INT, id INT NOT NULL, position TINYINT, FOREIGN KEY(userId) REFERENCES users(id));");
     await sqlquery(sql, "CREATE TABLE obligations (userId INT, id INT NOT NULL, FOREIGN KEY(userId) REFERENCES users(id));");
 }

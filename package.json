@@ -8,7 +8,7 @@
     "generate": "graphql-codegen --config codegen.yml",
     "test": "jest",
     "drive-fetch": "ts-node scripts/drive-fetch.ts",
-    "setup-db": "ts-node scripts/setup-db.ts"
+    "db-setup": "ts-node scripts/db-setup.ts"
   },
   "dependencies": {
     "@material-ui/core": "^4.10.1",
@@ -41,8 +41,6 @@
     "@types/react-dom": "16.8.4",
     "@types/sqlite3": "^3.1.6",
     "@types/styled-components": "^5.1.0",
-    "apollo-server": "^2.16.1",
-    "apollo-server-testing": "^2.16.1",
     "graphql": "^14.6.0",
     "jest": "^25.2.4",
     "js-sha256": "^0.9.0",
