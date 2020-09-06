@@ -11,6 +11,8 @@ import muiLightTheme from "../../themes/mui/mainLightTheme";
 import GlobalStyles from "../../styles/globalStyle";
 import lightTheme from "../../themes/site/lightTheme";
 import darkTheme from "../../themes/site/darkTheme";
+import Header from "../global/Header";
+import Footer from "../global/Footer";
 
 interface DarkModeParentInterface {
   theme?: string;
@@ -43,7 +45,9 @@ const DarkModeParent = (props: DarkModeParentInterface) => {
       <ThemeProviderMainStyle theme={siteThemeMode}>
         <GlobalStyles />
         <ThemeProviderMui<Theme> theme={muiThemeMode}>
+          <Header></Header>
           {props.children}
+          <Footer></Footer>
         </ThemeProviderMui>
       </ThemeProviderMainStyle>
     </NoSsr>
