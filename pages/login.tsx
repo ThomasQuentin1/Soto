@@ -2,6 +2,7 @@ import LoginController from "../components/login/LoginController";
 import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
+import {NotificationContainer} from 'react-notifications';
 
 const LoginPage = () => {
     const [theme] = useDarkMode();
@@ -19,6 +20,7 @@ const LoginPage = () => {
                 <div>
                     <LoginController/>
                 </div>
+                <NotificationContainer/>
             </DarkModeParent>
         </div>
     );
