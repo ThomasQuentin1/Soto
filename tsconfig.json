@@ -22,7 +22,8 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "noImplicitAny": false
   },
   "exclude": [
     "dist",
