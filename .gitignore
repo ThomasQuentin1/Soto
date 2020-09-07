@@ -12,3 +12,5 @@ yarn-error.log
 catalogue.db
 coverage
 *.db
+
+.idea/
