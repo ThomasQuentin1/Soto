@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {Button, CircularProgress, createStyles, Divider, TextField, Typography} from "@material-ui/core";
 import {sha256} from "js-sha256";
 import {makeStyles} from "@material-ui/styles";
-import Router from "next/router";
+// import Router from "next/router";
 import DeleteAccount from "../profile/DeleteAccount";
+import {NotificationManager} from 'react-notifications';
 import 'i18n';
 
 const useStyles = makeStyles(createStyles({
@@ -49,6 +50,7 @@ export const requestLogin = async (email: string, password: string) : Promise<[b
     //     return [false, "Connection error"]
     // }
     console.log(email + " " + password)
+    NotificationManager.success("Success", "LOGIN")
     return [true, "not implemented yet"]
 };
 
@@ -113,7 +115,7 @@ const Login = (props: Props) => {
                             requestLogin(username, sha256(password)).then(function(value) {
                                 if (value[0]) {
                                     console.log(value[1])
-                                    Router.push("/index")
+                                    // Router.push("/index")
                                 }
                                 else
                                     console.log(value[1])
