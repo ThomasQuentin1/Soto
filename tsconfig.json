@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "jsx": "preserve",
     "lib": [
       "dom",
@@ -28,8 +28,7 @@
     "dist",
     ".next",
     "out",
-    "next.config.js",
-    "scrips"
+    "next.config.js"
   ],
   "include": [
     "next-env.d.ts",

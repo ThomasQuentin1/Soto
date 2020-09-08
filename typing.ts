@@ -49,6 +49,7 @@ export type Mutation = {
   setCriterions: Scalars['Boolean'];
   setObligations: Scalars['Boolean'];
   removeAccount: Scalars['Boolean'];
+  subscribeNotifications: Scalars['Boolean'];
 };
 
 
@@ -76,6 +77,11 @@ export type MutationSetObligationsArgs = {
 
 export type MutationRemoveAccountArgs = {
   passwordSHA256: Scalars['String'];
+};
+
+
+export type MutationSubscribeNotificationsArgs = {
+  token: Scalars['String'];
 };
 
 export type Obligation = {
@@ -251,6 +257,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   setCriterions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetCriterionsArgs, 'criterions'>>,
   setObligations?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetObligationsArgs, 'obligations'>>,
   removeAccount?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveAccountArgs, 'passwordSHA256'>>,
+  subscribeNotifications?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubscribeNotificationsArgs, 'token'>>,
 };
 
 export type ObligationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Obligation'] = ResolversParentTypes['Obligation']> = {

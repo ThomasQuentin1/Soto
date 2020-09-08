@@ -12,6 +12,7 @@ const schema = gql`
     setCriterions(criterions: [CriterionInput!]!): Boolean!
     setObligations(obligations: [ObligationInput!]!): Boolean!
     removeAccount(passwordSHA256: String!): Boolean!
+    subscribeNotifications(token: String!): Boolean!
   }
 
   type Account {
