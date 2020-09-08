@@ -10,3 +10,4 @@ dist
 graphql.schema.json
 yarn-error.log
 catalogue.db
+*.db

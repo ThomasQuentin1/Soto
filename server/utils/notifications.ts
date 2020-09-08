@@ -1,4 +1,4 @@
-import { usersQuery } from "../query";
+const usersQuery = require("../query");
 
 const app_id = "4384c64d-c68b-4dba-ae9d-e05bfc6c21e9";
 
