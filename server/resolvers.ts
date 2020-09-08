@@ -54,7 +54,7 @@ const resolvers: Resolvers = {
     register: async (_obj, args, _context, _info) => {
       const loginQuery = await usersQuery("SELECT * FROM users WHERE email = ? LIMIT 1", [args.email]);
       if (loginQuery.length != 0)
-        throw new AuthenticationError("Email already in use"); // TODO: TEST
+        throw new AuthenticationError("Email already in use");
 
       const newToken = [...Array(64)].map(() => Math.random().toString(36)[2]).join('');
       await usersQuery("INSERT INTO users (email, password, token) VALUES (?, ?, ?)", [args.email, args.passwordSHA256, newToken]);
@@ -62,9 +62,9 @@ const resolvers: Resolvers = {
     },
     setObligations: async (_obj, args, context, _info) => {
       if (!context.user)
-        throw new AuthenticationError("please login");  // TODO: TEST
+        throw new AuthenticationError("please login");
       if (args.obligations.some(c1 => !Obligations.find(c2 => c1.id == c2.id)))
-        throw new UserInputError("Invalid obligation id");  // TODO: TEST
+        throw new UserInputError("Invalid obligation id");
 
 
       await usersQuery("DELETE FROM obligations WHERE userId = ?", [context.user.id]);
@@ -73,9 +73,9 @@ const resolvers: Resolvers = {
     },
     setCriterions: async (_obj, args, context, _info) => {
       if (!context.user)
-        throw new AuthenticationError("please login");  // TODO: TEST
+        throw new AuthenticationError("please login");
       if (args.criterions.some(c1 => !Criterions.find(c2 => c1.id == c2.id)))
-        throw new UserInputError("Invalid criterion id");  // TODO: TEST
+        throw new UserInputError("Invalid criterion id");
 
       if (args.criterions.some(c => c.position === 0))
         throw new UserInputError("Criterions position must start with 1");
@@ -93,7 +93,7 @@ const resolvers: Resolvers = {
     removeAccount: async (_obj, args, context, _info) => {
       if (!context.user)
         throw new AuthenticationError("please login");
-      const login = await usersQuery("SELECT * FROM users WHERE id = ? AND password = ? LIMIT 1", [context.user.id, args.passwordSHA256]);  // TODO: TEST
+      const login = await usersQuery("SELECT * FROM users WHERE id = ? AND password = ? LIMIT 1", [context.user.id, args.passwordSHA256]);
       if (login.length != 1)
         throw new AuthenticationError("Invalid password");
       await usersQuery("DELETE FROM users WHERE id = ?", [context.user.id]);
