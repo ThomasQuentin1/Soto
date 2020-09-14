@@ -2,6 +2,7 @@ import LoginController from "../components/login/LoginController";
 import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
+import Header from "../components/global/Header";
 
 const LoginPage = () => {
     const [theme] = useDarkMode();
@@ -16,6 +17,7 @@ const LoginPage = () => {
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
+                <Header></Header>
                 <div>
                     <LoginController/>
                 </div>
