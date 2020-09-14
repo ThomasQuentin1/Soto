@@ -54,6 +54,32 @@ const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.header};
     border-bottom : solid 2px ${({ theme }) => theme.border.color};
   }
+
+  .footer-div {
+    background: ${({ theme }) => theme.footer};
+    border-top : solid 2px ${({ theme }) => theme.border.color};
+  }
+
+  .profile-icon {
+    color: ${({ theme }) => theme.text};
+  }
+
+  a:link {
+    text-decoration: none;
+  }
+  
+  a:visited {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-link {
+    color: ${({ theme }) => theme.text};
+    text-decoration: none;
+  }
   `;
   
 export default GlobalStyles;

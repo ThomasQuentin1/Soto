@@ -10,7 +10,10 @@ const resources = {
         "soto.description" : "Hey you are new on Soto ? Sort criterias according to your convictions, select your filters and start your shopping. It's very easy, type an article name, without specifying its brand. Soto will always select the best for you !",
         "textfieldExample.label" : "Enter your text here",
         "loginSoto.label" : "Connect to Soto",
-        "baseline" : "Buy only the best"
+        "baseline" : "Buy only the best",
+        "aboutUs" : "About us",
+        "privacyPolicy" : "Privacy policy",
+        "conditionsOfUse" : "Conditions of use"
       }
     },
     fr: {
@@ -24,7 +27,10 @@ const resources = {
         "soto.description" : "Hey, t'es nouveau sur Soto ? Classe tes critères selon tes convictions, mets en place tes filtres, et commence tes courses. C'est tout simple, essaye de taper le nom d'un article, sans spéficier sa marque. Soto te proposera toujours le meilleur !",
         "textfieldExample.label" : "Entrez votre texte ici",
         "loginSoto.label" : "Se connecter à Soto",
-        "baseline" : "N'achetez que le meilleur"
+        "baseline" : "N'achetez que le meilleur",
+        "aboutUs" : "À propos de nous",
+        "privacyPolicy" : "Politique de confidentialité",
+        "conditionsOfUse" : "Conditions d'utilisations"
       }
     }
 };

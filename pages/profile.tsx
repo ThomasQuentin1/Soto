@@ -7,6 +7,8 @@ import ToggleLanguage from "components/settings/ToggleLanguage";
 import ToggleColorMode from "../components/settings/ToggleColorMode";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
+import Header from "../components/global/Header";
+import Footer from "../components/global/Footer";
 
 const ProfilePage = () => {
   const [ t, i18n ] = useTranslation();
@@ -29,6 +31,7 @@ const ProfilePage = () => {
   i18n;
   return (
     <DarkModeParent theme={tmpTheme}>
+      <Header></Header>
       <div style={{display:"flex", flexDirection:"row", height:"100%", width:"100%", alignItems:"center"}}>
         <div id="example-features">
           <div>
@@ -49,6 +52,7 @@ const ProfilePage = () => {
           <ToggleColorMode theme={theme} toggleTheme={setTheme}></ToggleColorMode>
         </RightPanel>
       </div>
+      <Footer></Footer>
     </DarkModeParent>
       
   );
