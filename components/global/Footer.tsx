@@ -23,6 +23,9 @@ const Footer = () => {
                     <a className={"footer-link"} href="profile">{t('aboutUs')}</a>
                 </li>
                 <li>
+                    <a className={"footer-link"} href="contact">{t('contactUs')}</a>
+                </li>
+                <li>
                     <a className={"footer-link"} href="profile">{t('privacyPolicy')}</a>
                 </li>
                 <li>
