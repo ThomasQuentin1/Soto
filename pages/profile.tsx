@@ -31,7 +31,7 @@ const ProfilePage = () => {
   i18n;
   return (
     <DarkModeParent theme={tmpTheme}>
-      <Header></Header>
+      <Header isConnected={true}></Header>
       <div style={{display:"flex", flexDirection:"row", height:"100%", width:"100%", alignItems:"center"}}>
         <div id="example-features">
           <div>

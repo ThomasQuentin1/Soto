@@ -13,7 +13,8 @@ const resources = {
         "baseline" : "Buy only the best",
         "aboutUs" : "About us",
         "privacyPolicy" : "Privacy policy",
-        "conditionsOfUse" : "Conditions of use"
+        "conditionsOfUse" : "Conditions of use",
+        "contactUs" : "Contact us"
       }
     },
     fr: {
@@ -30,7 +31,8 @@ const resources = {
         "baseline" : "N'achetez que le meilleur",
         "aboutUs" : "À propos de nous",
         "privacyPolicy" : "Politique de confidentialité",
-        "conditionsOfUse" : "Conditions d'utilisations"
+        "conditionsOfUse" : "Conditions d'utilisations",
+        "contactUs" : "Nous contacter",
       }
     }
 };
