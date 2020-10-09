@@ -95,6 +95,18 @@ const GlobalStyles = createGlobalStyle`
     margin: 10px 0px !important;
   }
   
+
+  .header_bar {
+    width: 100%;
+    height: 70px:
+    background: ${({ theme }) => theme.body};
+  }
+
+  .footer_bar {
+    width: 100%;
+    height: 70px;
+    background: ${({ theme }) => theme.body};
+  }
   `;
 
 export default GlobalStyles;

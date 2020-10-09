@@ -19,6 +19,8 @@ const resources = {
         "password.label" : "Password",
         "newPassword.label" : "New password",
         "confirmNewPassword.label" : "Confirm new password",
+        "button.criteria.label" : "Criteria",
+        "button.obligation.label" : "Obligations"
       }
     },
     fr: {
@@ -41,6 +43,8 @@ const resources = {
         "password.label" : "Mot de passe",
         "newPassword.label" : "Nouveau mot de passe",
         "confirmNewPassword.label" : "Confirmer le nouveau mot de passe",
+        "button.criteria.label" : "Critères",
+        "button.obligation.label" : "Obligations"
       }
     }
 };

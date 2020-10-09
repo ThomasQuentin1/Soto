@@ -33,6 +33,7 @@
     "react": "^16.8.4",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.8.4",
+    "react-drag-list": "^1.1.0",
     "react-i18next": "^11.5.0",
     "react-list-drag-and-drop": "^0.9.2",
     "react-movable": "^2.5.0",
