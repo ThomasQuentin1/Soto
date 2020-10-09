@@ -14,7 +14,9 @@ const resources = {
         "aboutUs" : "About us",
         "privacyPolicy" : "Privacy policy",
         "conditionsOfUse" : "Conditions of use",
-        "contactUs" : "Contact us"
+        "contactUs" : "Contact us",
+        "button.criteria.label" : "Criteria",
+        "button.obligation.label" : "Obligations"
       }
     },
     fr: {
@@ -33,6 +35,8 @@ const resources = {
         "privacyPolicy" : "Politique de confidentialité",
         "conditionsOfUse" : "Conditions d'utilisations",
         "contactUs" : "Nous contacter",
+        "button.criteria.label" : "Critères",
+        "button.obligation.label" : "Obligations"
       }
     }
 };

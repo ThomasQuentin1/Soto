@@ -1,22 +1,28 @@
 import React from 'react'
 import Link from 'next/link'
+import Header from '../components/defaultPage/Header'
 
-export default () => (
-    <ul>
-        <li>
-            <Link href="/a" as="/a">
-                <a>a</a>
-            </Link>
-        </li>
-        <li>
-            <Link href="/b" as="/b">
-                <a>b</a>
-            </Link>
-        </li>
-        <li>
-            <Link href="/login" as="/login">
-                <a>login</a>
-            </Link>
-        </li>
-    </ul>
+const indexPage = () => (
+    <div>
+        <Header/>
+        <ul>
+            <li>
+                <Link href="/a" as="/a">
+                    <a>a</a>
+                </Link>
+            </li>
+            <li>
+                <Link href="/b" as="/b">
+                    <a>b</a>
+                </Link>
+            </li>
+            <li>
+                <Link href="/login" as="/login">
+                    <a>login</a>
+                </Link>
+            </li>
+        </ul>
+    </div>
 )
+
+export default indexPage
