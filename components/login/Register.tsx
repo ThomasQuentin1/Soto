@@ -10,43 +10,47 @@ import React, {useState} from "react";
 import {sha256} from "js-sha256";
 import Step1 from "./stepper/Step1";
 import Step2 from "./stepper/Step2";
-import {requestLogin} from "./Login";
 import Router from "next/router";
+import {useMutation} from "@apollo/client";
+import {gql} from "@apollo/client/core";
+import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
+import Cookies from "js-cookie"
+
 
 interface Props {
     setDisplayRegister: (b: boolean) => void;
 }
 
-const requestRegister = async (email: string, username: string, password: string, cPassword: string) : Promise<[boolean, string]> => {
-    if (password != cPassword)
-    {
-        // PROBLEME
-        return [false, "Passwords are not the same"];
-    }
-    //
-    // const headers = new Headers();
-    // headers.append("Content-Type", "application/json");
-    //
-    // const raw = JSON.stringify({
-    //     username: username,
-    //     email: email,
-    //     password: password
-    // });
-    // try {
-    //     const response = (await (
-    //         await fetch("http://localhost:5000/register", {
-    //             method: "POST",
-    //             body: raw,
-    //             headers
-    //         })
-    //     ).json()) as RegisterResponse;
-    //     return [response.success, response.message];
-    // } catch (error) {
-    //     return [false, "Connection error"]
-    // }
-    console.log(email + " " + username)
-    return [true, "not implemented yet"]
-};
+// const requestRegister = async (email: string, username: string, password: string, cPassword: string) : Promise<[boolean, string]> => {
+//     if (password != cPassword)
+//     {
+//         // PROBLEME
+//         return [false, "Passwords are not the same"];
+//     }
+//     //
+//     // const headers = new Headers();
+//     // headers.append("Content-Type", "application/json");
+//     //
+//     // const raw = JSON.stringify({
+//     //     username: username,
+//     //     email: email,
+//     //     password: password
+//     // });
+//     // try {
+//     //     const response = (await (
+//     //         await fetch("http://localhost:5000/register", {
+//     //             method: "POST",
+//     //             body: raw,
+//     //             headers
+//     //         })
+//     //     ).json()) as RegisterResponse;
+//     //     return [response.success, response.message];
+//     // } catch (error) {
+//     //     return [false, "Connection error"]
+//     // }
+//     console.log(email + " " + username)
+//     return [true, "not implemented yet"]
+// };
 
 function getSteps() {
     return [
@@ -55,6 +59,15 @@ function getSteps() {
         // 'Sélectionner votre drive'
     ];
 }
+
+export const REGISTER_USER = gql`
+mutation Register($email: String!, $password: String!) {
+    register (email: $email, passwordSHA256: $password)}`;
+
+// interface RegisterTest {
+//     email: string;
+//     password: string;
+// }
 
 const Register = (props: Props) => {
     const [email, setEmail] = useState("")
@@ -67,6 +80,7 @@ const Register = (props: Props) => {
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng');
     }
+    const [register] = useMutation(REGISTER_USER, { variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
 
     const getStepContent = (step: number) => {
         switch (step) {
@@ -90,18 +104,18 @@ const Register = (props: Props) => {
     };
 
     const handleFinish = () => {
-        requestRegister(email, username, sha256(password), sha256(cPassword)).then(function(value) {
-            if (value[0]) {
-                requestLogin(email, sha256(password)).then(function(value) {
-                    if (value[0]) {
-                        console.log(value[1])
-                        Router.push("/index")
-                    }
-                    else
-                        console.log(value[1])
-                })
+        if (password !== cPassword)
+            return;
+        register().then(r => {
+            console.log(r)
+            if (r.errors)
+                loginError(r.errors[0].message)
+            else {
+                loginSuccess("Logged in as " + username)
+                Cookies.set("token", r.data.register, {expires: 7})
+                Router.push("/")
             }
-        })
+        });
     }
 
     return (
@@ -131,14 +145,16 @@ const Register = (props: Props) => {
             {getStepContent(activeStep)}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
                 <Button disabled={activeStep === 0} color="secondary" onClick={() => handleBack()}>
-                {lng == 'fr' ? 'Retour' : 'Back'}
+                    {lng == 'fr' ? 'Retour' : 'Back'}
                 </Button>
                 {activeStep === steps.length - 1 ?
-                    <Button variant="contained" color="secondary" onClick={() => handleFinish()}>
-                         {lng == 'fr' ? 'Finir' : 'Finish'}
-                    </Button> :
+                    <div>
+                        <Button variant="contained" color="secondary" onClick={() => handleFinish()}>
+                            {lng == 'fr' ? 'Finir' : 'Finish'}
+                        </Button>
+                    </div> :
                     <Button variant="contained" color="secondary" onClick={() => handleNext()}>
-                         {lng == 'fr' ? 'Suivant' : 'Next'}
+                        {lng == 'fr' ? 'Suivant' : 'Next'}
                     </Button>}
             </div>
             <Divider variant={"middle"} style={{marginTop: "20px"}}/>
@@ -152,7 +168,7 @@ const Register = (props: Props) => {
                     style={{ marginTop: "20px", fontSize: "12px"}}
                     onClick={() => props.setDisplayRegister(false)}
                 >
-                     {lng == 'fr' ? 'Vous avez déja un compte ? Connectez vous' : 'You already have an account ? Sign in'}
+                    {lng == 'fr' ? 'Vous avez déja un compte ? Connectez vous' : 'You already have an account ? Sign in'}
                 </Button>
             </div>
         </div>
