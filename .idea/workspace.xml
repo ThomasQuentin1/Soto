@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a7ed6b91-93cf-443c-9a7e-9d85d9be5e62" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/test.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/graphql/apollo.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/graphql/config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/graphql/mutations.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/common/flag_en.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/common/flag_fr.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/common/moon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/common/sun.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/dark/moon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/dark/sun.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/light/moon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/images/light/sun.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/login/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/login/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/login/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/profile/DeleteAccount.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/profile/DeleteAccount.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/settings/ToggleColorMode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/settings/ToggleColorMode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/i18n/translations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/i18n/translations.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/globalStyle.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/styles/globalStyle.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1hJzsnqbqlIRc3nvXcHdh7veqoG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pages" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pages" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a7ed6b91-93cf-443c-9a7e-9d85d9be5e62" name="Default Changelist" comment="" />
+      <created>1599744191928</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599744191928</updated>
+      <workItem from="1599744194609" duration="11398000" />
+      <workItem from="1602164056316" duration="6060000" />
+      <workItem from="1602508207181" duration="2783000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/components/encapsulationComponents/DarkModeParent.d.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="487" y="-966" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1602507643565">
+      <screen x="-392" y="-1440" width="2560" height="1440" />
+    </state>
+    <state x="487" y="-966" key="#com.intellij.fileTypes.FileTypeChooser/-392.-1440.2560.1440/0.0.1792.1120@-392.-1440.2560.1440" timestamp="1602507643565" />
+    <state x="615" y="369" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1792.1120@0.0.1792.1120" timestamp="1599506198245" />
+    <state x="476" y="-978" key="IDE.errors.dialog" timestamp="1602517287920">
+      <screen x="-392" y="-1440" width="2560" height="1440" />
+    </state>
+    <state x="476" y="-978" key="IDE.errors.dialog/-392.-1440.2560.1440/0.0.1792.1120@-392.-1440.2560.1440" timestamp="1602517287920" />
+    <state x="461" y="-1035" width="855" height="735" key="find.popup" timestamp="1602509433404">
+      <screen x="-392" y="-1440" width="2560" height="1440" />
+    </state>
+    <state x="461" y="-1035" width="855" height="735" key="find.popup/-392.-1440.2560.1440/0.0.1792.1120@-392.-1440.2560.1440" timestamp="1602509433404" />
+    <state x="597" y="315" width="598" height="490" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1600010049952" />
+  </component>
+</project>
