@@ -4,11 +4,11 @@ import { red } from '@material-ui/core/colors';
 const muiDarkTheme = createMuiTheme({
     palette: {
       text: {
-        secondary: '#FFFFFF'
+        secondary: '#FFFFFF',
       },
       secondary: {
         main: red[500],
-        contrastText: '#fff',
+        contrastText: '#fff'
       },
     },
   });
