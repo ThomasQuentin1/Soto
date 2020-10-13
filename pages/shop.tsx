@@ -11,6 +11,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
+import Header from 'components/global/Header';
+import Footer from 'components/global/Footer';
 
 const ShopPage = () => {
   const [theme] = useDarkMode();
@@ -27,8 +29,8 @@ const ShopPage = () => {
 
   return (
       <DarkModeParent theme={tmpTheme}>
-          {/* <Header></Header> */}
-          <Grid container justify="center">
+          <Header></Header>
+          <Grid container justify="center" style={{marginTop: '10px'}}>
             <Grid item xs={4}>
               <SearchWrapper/>
             </Grid>
@@ -44,7 +46,7 @@ const ShopPage = () => {
               <ShopList basket={basket} setBasket={setBasket}/>
             </Grid>
           </Grid>
-          {/* <Footer></Footer> */}
+          <Footer></Footer>
       </DarkModeParent>
   );
 };
