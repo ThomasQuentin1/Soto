@@ -52,12 +52,12 @@ const GlobalStyles = createGlobalStyle`
 
   .header-div {
     background: ${({ theme }) => theme.header};
-    border-bottom : solid 2px ${({ theme }) => theme.border.color};
+    border-bottom : solid 2px ${({ theme }) => theme.thirdColor};
   }
 
   .footer-div {
     background: ${({ theme }) => theme.footer};
-    border-top : solid 2px ${({ theme }) => theme.border.color};
+    border-top : solid 2px ${({ theme }) => theme.thirdColor};
   }
 
   .profile-icon {
