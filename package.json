@@ -8,15 +8,15 @@
     "generate": "graphql-codegen --config codegen.yml",
     "test": "jest",
     "drive-fetch": "ts-node scripts/drive-fetch.ts",
-    "db-setup": "ts-node scripts/db-setup.ts", 
+    "db-setup": "ts-node scripts/db-setup.ts",
     "all-notif": "ts-node scripts/sendNotificationToAllCustomer.ts",
     "one-notif": "ts-node scripts/sendNotificationToOneCustomer.ts"
-
   },
   "dependencies": {
     "@apollo/client": "^3.2.2",
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
+    "apollo-server-env": "^2.4.5",
     "apollo-server-micro": "^2.11.0",
     "cross-env": "^5.2.0",
     "graphql-tag": "^2.11.0",

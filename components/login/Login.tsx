@@ -26,38 +26,6 @@ interface Props {
     setDisplayRegister: (b: boolean) => void;
 }
 
-export const requestLogin = async (email: string, password: string) : Promise<[boolean, string]> => {
-    // const headers = new Headers();
-    // headers.append("Content-Type", "application/json");
-    //
-    // const raw = JSON.stringify({
-    //     email: email,
-    //     password: password
-    // });
-    // try {
-    //     const response = (await (
-    //         await fetch("http://localhost:5000/login", {
-    //             method: "POST",
-    //             body: raw,
-    //             headers,
-    //             redirect: "follow"
-    //         })
-    //     ).json()) as LoginResponse;
-    //     if (response.success) {
-    //         storeString("userEmail", email);
-    //         return [response.success, response.message];
-    //     } else {
-    //         return [response.success, response.message];
-    //     }
-    // } catch (error) {
-    //     // ERROR
-    //     return [false, "Connection error"]
-    // }
-    console.log(email + " " + password)
-    return [true, "not implemented yet"]
-};
-
-
 export const LOGIN_USER = gql`mutation Login($email: String!, $password: String!) {login (email: $email, passwordSHA256: $password)}`;
 
 const Login = (props: Props) => {

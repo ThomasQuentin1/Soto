@@ -17,42 +17,12 @@ import {loginError, loginSuccess} from "../../public/notifications/notifications
 import Cookies from "js-cookie";
 
 const useStyles = makeStyles(createStyles({
-        buttonProgress: {
-            position: 'absolute'
-        },
         textField: {
             marginTop: "10px",
             marginBottom: "10px"
         }
     }),
 );
-
-// const deleteAccount = async () : Promise<[boolean, string]> => {
-// //
-//     // const headers = new Headers();
-//     // headers.append("Content-Type", "application/json");
-//     //
-//     // const raw = JSON.stringify({
-//     //     username: username,
-//     //     email: email
-//     // });
-//     // try {
-//     //     const response = (await (
-//     //         await fetch("http://localhost:5000/deleteAccount", {
-//     //             method: "POST",
-//     //             body: raw,
-//     //             headers
-//     //         })
-//     //     ).json()) as RegisterResponse;
-//     //     return [response.success, response.message];
-//     // } catch (error) {
-//     //     return [false, "Connection error"]
-//     // }
-//
-//     console.log("account deleted")
-//     return [true, "not implemented yet"]
-// }
-
 
 export const DELETE_ACCOUNT = gql`
     mutation RemoveAccount($password: String!) {removeAccount (passwordSHA256: $password)}`;
@@ -76,10 +46,10 @@ const DeleteAccount = () => {
     };
 
     return (
-        <div style={{display: "flex", justifyContent: "center"}}>
-            {/*<div>*/}
+        // <div style={{display: "flex", justifyContent: "center"}}>
+            <div>
             <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
-            {lng == 'fr' ? 'Supprimer compte' : 'Delete Account'}
+                {lng == 'fr' ? 'Supprimer compte' : 'Delete Account'}
             </Button>
             <Dialog
                 open={open}
@@ -91,16 +61,16 @@ const DeleteAccount = () => {
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {lng == 'fr' ? 'Voulez-vous vraiment supprimer votre compte ?' :'Are you sure you want to delete your SOTO account?'}
-                        <TextField
-                            color="secondary"
-                            className={classes.textField}
-                            id="delete-account-password"
-                            type="password"
-                            label={lng == 'fr' ? "Mot de passe" : "Password"}
-                            value={password}
-                            onChange={(sender: any) => setPassword(sender.target.value)}
-                        />
                     </DialogContentText>
+                    <TextField
+                        color="secondary"
+                        className={classes.textField}
+                        id="delete-account-password"
+                        type="password"
+                        label={lng == 'fr' ? "Mot de passe" : "Password"}
+                        value={password}
+                        onChange={(sender: any) => setPassword(sender.target.value)}
+                    />
                 </DialogContent>
                 <DialogActions style={{display: "flex", justifyContent: "space-between"}}>
                     <Button onClick={handleClose} color="secondary">
