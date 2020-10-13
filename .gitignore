@@ -14,3 +14,4 @@ coverage
 *.db
 
 .idea/
+yarn.lock

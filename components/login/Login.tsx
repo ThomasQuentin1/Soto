@@ -89,12 +89,10 @@ const Login = (props: Props) => {
                             handleButtonClick();
                             console.log(sha256(password))
                             login().then(r => {
-                                console.log(r)
                                 if (r.errors)
                                     loginError(r.errors[0].message)
                                 else {
                                     loginSuccess("Logged in")
-                                    console.log(r.data.login)
                                     Cookies.set("token", r.data.login, {expires: 7})
                                     Router.push("/")
                                 }

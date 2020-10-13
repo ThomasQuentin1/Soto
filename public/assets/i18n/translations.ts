@@ -12,6 +12,8 @@ const resources = {
         "loginSoto.label" : "Connect to Soto",
         "settings.personalInfos" : "Your personal information",
         "password.label" : "Password",
+        "newPassword.label" : "New password",
+        "confirmNewPassword.label" : "Confirm new password",
       }
     },
     fr: {
@@ -27,6 +29,8 @@ const resources = {
         "loginSoto.label" : "Se connecter à Soto",
         "settings.personalInfos" : "Vos informations personnelles",
         "password.label" : "Mot de passe",
+        "newPassword.label" : "Nouveau mot de passe",
+        "confirmNewPassword.label" : "Confirmer le nouveau mot de passe",
       }
     }
 };

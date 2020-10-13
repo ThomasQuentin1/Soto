@@ -8,17 +8,23 @@ import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 //     uri: 'http://localhost:3000'
 // })
 
-export const client = new ApolloClient({
+export const clientLocal = new ApolloClient({
     cache: new InMemoryCache(),
     uri: 'http://localhost:3000/api/graphql'
+})
+// uri: 'http://' + process.env.NODE_ENV === 'development' ? 'localhost:3000' : 'soto.app' + '/api/graphql'
 
+export const clientProd = new ApolloClient({
+    cache: new InMemoryCache(),
+    uri: 'http://soto.app/api/graphql'
 })
 
 // @ts-ignore
 function MyApp({ Component, pageProps }: AppProps)  {
+    console.log(process.env.NODE_ENV)
     return (
         <>
-            <ApolloProvider client={client}>
+            <ApolloProvider client={process.env.NODE_ENV == "development" ? clientLocal : clientProd}>
                 <Component {...pageProps} />
                 <ToastContainer />
             </ApolloProvider>

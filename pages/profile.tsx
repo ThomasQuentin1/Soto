@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 // import { Button } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 import '../i18n'
@@ -7,13 +7,30 @@ import '../i18n'
 import ToggleColorMode from "../components/settings/ToggleColorMode";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
-import {TextField, Typography} from "@material-ui/core";
+import {Button, TextField, Typography} from "@material-ui/core";
 import DeleteAccount from "../components/profile/DeleteAccount";
+import {gql} from "@apollo/client/core";
+import {useMutation} from "@apollo/client";
+import {sha256} from "js-sha256";
+import {loginError, loginSuccess} from "../public/notifications/notificationsFunctions";
 // import {i18n} from "../i18n";
 
+export const CHANGE_EMAIL = gql`
+    mutation ChangeEmail($email: String!) {changeEmail (newEmail: $email)}`;
+
+export const CHANGE_PASSWORD = gql`
+    mutation ChangePassword($password: String!) {changePassword (newPasswordSHA256: $password)}`;
+
+export const GET_ACCOUNT = gql`
+    query Account {account {email}}`;
 
 const ProfilePage = () => {
     const [ t, i18n ] = useTranslation();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [cPassword, setCPassword] = useState("");
+    const [changeEmail] = useMutation(CHANGE_EMAIL, { variables: {email: email}, errorPolicy: 'all'})
+    const [changePassword] = useMutation(CHANGE_PASSWORD, { variables: {password: sha256(password)}, errorPolicy: 'all'})
 
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
@@ -58,53 +75,63 @@ const ProfilePage = () => {
                     <div style={{margin: "200px 20px 0px"}}>
                         <Typography variant="h5" className={"subTitle"}>{t('settings.personalInfos')}</Typography>
                         <div>
-                            {/*<p>Email: Not implemented</p>*/}
-                            <TextField
-                                color="secondary"
-                                className={"textField"}
-                                id="standard-basic"
-                                label="E-mail"
-                                // disabled={true}
-                                value={"Not implemented"}
-                                // onChange={(sender: any) => setUsername(sender.target.value)}
-                            />
+                            <div>
+                                <TextField
+                                    color="secondary"
+                                    className={"textField"}
+                                    label="E-mail"
+                                    value={email}
+                                    onChange={(sender: any) => setEmail(sender.target.value)}
+                                />
+                                <Button disabled={password !== cPassword || email === ""} onClick={() => {
+                                    changeEmail().then(r => {
+                                        if (r.errors)
+                                            loginError(r.errors[0].message)
+                                        else {
+                                            loginSuccess("Email changed to " + email)
+                                            setEmail("")
+                                        }
+                                    })
+                                }}>
+                                    Change Email
+                                </Button>
+                            </div>
 
-                            {/*<p>{t('password.label')}: Not implemented</p>*/}
-                            <TextField
-                                color="secondary"
-                                className={"textField"}
-                                id="standard-password-input"
-                                label={t('password.label')}
-                                type="password"
-                                // disabled={true}
-                                value={"Not implemented"}
-                                // onChange={(sender: any) => setUsername(sender.target.value)}
-                            />
+                            <div style={{display: "flex"}}>
+                                <TextField
+                                    color="secondary"
+                                    className={"textField"}
+                                    id="newPassword"
+                                    label={t('newPassword.label')}
+                                    type="password"
+                                    value={password}
+                                    onChange={(sender: any) => setPassword(sender.target.value)}
+                                />
+                                <TextField
+                                    color="secondary"
+                                    className={"textField"}
+                                    id="newPasswordConfirmed"
+                                    label={t('confirmNewPassword.label')}
+                                    type="password"
+                                    value={cPassword}
+                                    onChange={(sender: any) => setCPassword(sender.target.value)}
+                                />
+                                <Button disabled={password !== cPassword || password === ""} onClick={() => {
+                                    changePassword().then(r => {
+                                        if (r.errors)
+                                            loginError(r.errors[0].message)
+                                        else {
+                                            loginSuccess("Password changed")
+                                            setPassword("")
+                                            setCPassword("")
+                                        }
+                                    })
+                                }}>
+                                    Change Password
+                                </Button>
+                            </div>
                             <DeleteAccount/>
                         </div>
-                        {/*<div id="example-features">*/}
-                        {/*        <div>*/}
-                        {/*            <Button variant="contained" color="secondary" onClick={notify2}>*/}
-                        {/*                {t("buttonExample.label")}*/}
-                        {/*            </Button>*/}
-                        {/*            <Button variant="contained" color="secondary" onClick={notify2}>*/}
-                        {/*                React Toastify*/}
-                        {/*            </Button>*/}
-                        {/*        </div>*/}
-                        {/*        <img*/}
-                        {/*            src={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}*/}
-                        {/*            className={"roundLogo"}*/}
-                        {/*            alt={"roundSotoLogo"}*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-                        {/*    <div style={{marginLeft:"30px", marginRight:"30px", fontSize:"1eh"}}>*/}
-                        {/*        <p>{t('soto.description')}</p>*/}
-                        {/*    </div>*/}
-                        {/*    <RightPanel>*/}
-                        {/*        /!*<ToggleLanguage t={t}></ToggleLanguage>*!/*/}
-                        {/*        <ToggleColorMode theme={theme} toggleTheme={setTheme}></ToggleColorMode>*/}
-                        {/*    </RightPanel>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </DarkModeParent>
