@@ -105,7 +105,19 @@ const resolvers: Resolvers = {
 
       await usersQuery("UPDATE users SET pushToken = ? WHERE id = ?", [args.token, context.user.id]);
       return true;
-    }
+    },
+    changeEmail: async (_obj, args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError("please login");
+      await usersQuery("UPDATE users SET email = ? WHERE id = ?", [args.newEmail, context.user.id]);
+      return true;
+    },
+    changePassword: async (_obj, args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError("please login");
+      await usersQuery("UPDATE users SET password = ? WHERE id = ?", [args.newPasswordSHA256, context.user.id]);
+      return true;
+    },
   }
 };
 
