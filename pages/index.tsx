@@ -32,6 +32,11 @@ export default () => {
                         <Typography color="secondary" style={{cursor: "pointer"}}>Profile</Typography>
                     </Link>
                 </li>
+                <li>
+                    <Link href="/test" as="/test">
+                        <Typography color="secondary" style={{cursor: "pointer"}}>Test new things</Typography>
+                    </Link>
+                </li>
             </ul>
         </DarkModeParent>
     )

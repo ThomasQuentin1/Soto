@@ -49,6 +49,21 @@ const GlobalStyles = createGlobalStyle`
       height: 100px;
       src: 
   }
-  `;
   
+  .flagLogo {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+  }
+  
+  .textField {
+    margin: 10px !important;
+  }
+  
+  .MuiTypography-h5 {
+    margin: 10px 0px !important;
+  }
+  
+  `;
+
 export default GlobalStyles;
