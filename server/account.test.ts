@@ -20,9 +20,12 @@ describe('Basic errors cases with account', () => {
     await expect(Mutate("login", { email: "invalid-email@test.com", passwordSHA256: "invalidPassword123" })).rejects.toStrictEqual(new AuthenticationError("Invalid email or password"));
   })
 
-  it('should deny setting criterions or filters to a unlogged user', async () => {
+  it('should deny actions to a unlogged user', async () => {
     await expect(Mutate("setObligations", { obligations: [] })).rejects.toStrictEqual(new AuthenticationError("please login"));
     await expect(Mutate("setCriterions", { criterions: [] })).rejects.toStrictEqual(new AuthenticationError("please login"));
+    await expect(Mutate("changeEmail", { newEmail: "newemail" })).rejects.toStrictEqual(new AuthenticationError("please login"));
+    await expect(Mutate("changePassword", { newPasswordSHA256: "newpass" })).rejects.toStrictEqual(new AuthenticationError("please login"));
+    await expect(Mutate("subscribeNotifications", { token: "tok" })).rejects.toStrictEqual(new AuthenticationError("please login"));
   })
 
   it('should deny the creation of a double account', async () => {
@@ -51,7 +54,28 @@ describe('Account', () => {
     expect(acc.email).toBe(email);
   })
 
-  it('handle obligations poperly', async () => {
+  it('should save notification token', async () => {
+    await Mutate("subscribeNotifications", { token: "thisismytoken" }, token); // should not throw
+  })
+
+  it('should change email properly', async () => {
+    const oldProfile = await Query("account", {}, token);
+    await Mutate("changeEmail", { newEmail: "thisIsMyNewEmail@gmail.com" }, token);
+    const newProfile = await Query("account", {}, token);
+    expect(oldProfile.email).not.toBe(newProfile.email);
+    expect(newProfile.email).toBe("thisIsMyNewEmail@gmail.com");
+  })
+
+  it('should change password properly', async () => {
+    const tmpemail = `user${Math.floor(Math.random() * 1000)}@test.com`;
+    const tmptoken = await Mutate("register", { email: tmpemail, passwordSHA256: "blbl" });
+    await Mutate("changePassword", {newPasswordSHA256: "newblbl"}, tmptoken); // This would throw in case of error
+    const secondtoken = await Mutate("login", {email : tmpemail, passwordSHA256: "newblbl"});
+    expect(secondtoken.length).toBeGreaterThan(1);
+    await Mutate("removeAccount", {passwordSHA256: "newblbl"}, secondtoken);
+  })
+
+  it('handle obligations properly', async () => {
     const oldProfile = await Query("account", {}, token);
     await Mutate("setObligations", { obligations: [{ id: 1 }] }, token);
     const newProfile = await Query("account", {}, token);
@@ -60,7 +84,7 @@ describe('Account', () => {
     expect(newProfile.obligations.filter((o: any) => o.activated).length).toBe(1);
   })
 
-  it('handle critetions poperly', async () => {
+  it('handle critetions properly', async () => {
     const oldProfile = await Query("account", {}, token);
     await Mutate("setCriterions", { criterions: [{ id: 2, position: 1 }, { id: 1, position: 2 }] }, token);
     const newProfile = await Query("account", {}, token);
