@@ -2,7 +2,9 @@ import { Product } from './Product'
 
 interface ShopItemRowProps {
     key: number;
-    products : Product[];
+    productsToDisplay: Product[];
+    basket : Product[];
+    setBasket : any;
 }
 
 export default ShopItemRowProps
