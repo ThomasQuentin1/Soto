@@ -20,7 +20,19 @@ const resources = {
         "newPassword.label" : "New password",
         "confirmNewPassword.label" : "Confirm new password",
         "button.criteria.label" : "Criteria",
-        "button.obligation.label" : "Obligations"
+        "button.obligation.label" : "Obligations",
+        "searchbar.placeholder.label" : "Milk, pastas, fruits, ...",
+        "obligation.vegetarian" : "Vegetarian",
+        "obligation.vegan" : "Vegan",
+        "obligation.peanut_free" : "Peanut free",
+        "obligation.lactose_free" : "Lactose free",
+        "obligation.halal" : "Halal",
+        "obligation.kosher" : "Kosher",
+        "shop.tooltip.label" : "The colored dot defines whether the product matches your criteria or not",
+        "shop.banner.myBasket" : "My basket",
+        "shop.banner.savedListButton.label" : "My lists saved",
+        "shop.totalPrice.label" : "Total price :",
+        "shop.payButton.label" : "Pay",
       }
     },
     fr: {
@@ -44,7 +56,19 @@ const resources = {
         "newPassword.label" : "Nouveau mot de passe",
         "confirmNewPassword.label" : "Confirmer le nouveau mot de passe",
         "button.criteria.label" : "Critères",
-        "button.obligation.label" : "Obligations"
+        "button.obligation.label" : "Obligations",
+        "searchbar.placeholder.label" : "Lait, pâtes, fruits, ...",
+        "obligation.vegetarian" : "Végétarien",
+        "obligation.vegan" : "Végan",
+        "obligation.peanut_free" : "Sans arachide",
+        "obligation.lactose_free" : "Sans lactose",
+        "obligation.halal" : "Halal",
+        "obligation.kosher" : "Casher",
+        "shop.tooltip.label" : "La pastille de couleur définit si le produit correspond bien à vos critères ou non",
+        "shop.banner.myBasket" : "Mon panier",
+        "shop.banner.savedListButton.label" : "Mes listes sauvegardées",
+        "shop.totalPrice.label" : "Prix total :",
+        "shop.payButton.label" : "Payer",
       }
     }
 };

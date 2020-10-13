@@ -1,15 +1,11 @@
 import React from 'react'
-import CriteriaButton from "components/shop/CriteriaButton";
-import ObligationButton from "components/shop/ObligationButton";
+import ParametersSelect from "components/shop/ParametersSelect";
 import SearchBar from "components/shop/SearchBar";
 
 const SearchWrapper = () => {
     return (
         <div style={{display: 'flex', flexDirection: 'column'}}>
-        <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-            <CriteriaButton></CriteriaButton>
-            <ObligationButton></ObligationButton>
-        </div>
+            <ParametersSelect/>
         <div>
             <SearchBar></SearchBar>
         </div>

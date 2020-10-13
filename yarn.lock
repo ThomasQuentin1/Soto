@@ -3287,14 +3287,6 @@ babel-preset-jest@^25.5.0:
     babel-plugin-jest-hoist "^25.5.0"
     babel-preset-current-node-syntax "^0.1.2"
 
-babel-runtime@6.x:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
-  integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
-  dependencies:
-    core-js "^2.4.0"
-    regenerator-runtime "^0.11.0"
-
 backo2@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
@@ -4142,7 +4134,7 @@ core-js-compat@^3.6.2:
     browserslist "^4.8.5"
     semver "7.0.0"
 
-core-js@^2.4.0, core-js@^2.4.1:
+core-js@^2.4.1:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
@@ -9024,6 +9016,11 @@ react-beautiful-dnd@^13.0.0:
     redux "^4.0.4"
     use-memo-one "^1.1.1"
 
+react-checkbox-list@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-checkbox-list/-/react-checkbox-list-0.0.2.tgz#8f4b26261f5bb468db25107eebbebc5d61224cc9"
+  integrity sha1-j0smJh9btGjbJRB+6768XWEiTMk=
+
 react-dom@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
@@ -9052,7 +9049,7 @@ react-list-drag-and-drop@^0.9.2:
   resolved "https://registry.yarnpkg.com/react-list-drag-and-drop/-/react-list-drag-and-drop-0.9.2.tgz#ca636a6c06bb2a8318733434237faa302277159e"
   integrity sha512-wGZ5l/OubVZ29zJxaS7qwokGa2gjbkvtR0KMQMwLEUa13vjtXjI+sIG8PfZPZaG+8FTFGJeO74s06ZOiXgH2Bw==
 
-react-movable@^2.5.0:
+react-movable@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/react-movable/-/react-movable-2.5.1.tgz#a17176e9c6e95ad4c5207b3e7eccd75dff993389"
   integrity sha512-9aqzLEdCnZQUqAK38+SVQRgmsrriqT4rZpUm29p5oeTka+nLb+NNcbNzng9Xp8hv3yADGUMl04u/pRbZGyY1rA==
