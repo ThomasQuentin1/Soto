@@ -13,7 +13,8 @@ import {gql} from "@apollo/client/core";
 import {useMutation} from "@apollo/client";
 import {sha256} from "js-sha256";
 import {loginError, loginSuccess} from "../public/notifications/notificationsFunctions";
-// import {i18n} from "../i18n";
+import Header from "../components/global/Header";
+import Footer from "../components/global/Footer";
 
 export const CHANGE_EMAIL = gql`
     mutation ChangeEmail($email: String!) {changeEmail (newEmail: $email)}`;
@@ -56,8 +57,9 @@ const ProfilePage = () => {
     return (
         <>
             <DarkModeParent theme={tmpTheme}>
+                <Header isConnected={true}/>
                 <div>
-                    <div style={{position:"absolute", display: "flex", top:"0", right:"10px"}}>
+                    <div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>
                         {langs.map(lang => {
                             return (
                                 <img
@@ -134,6 +136,7 @@ const ProfilePage = () => {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </DarkModeParent>
         </>
     );

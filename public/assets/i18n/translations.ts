@@ -14,7 +14,7 @@ const resources = {
         "aboutUs" : "About us",
         "privacyPolicy" : "Privacy policy",
         "conditionsOfUse" : "Conditions of use",
-        "contactUs" : "Contact us"
+        "contactUs" : "Contact us",
         "settings.personalInfos" : "Your personal information",
         "password.label" : "Password",
         "newPassword.label" : "New password",
