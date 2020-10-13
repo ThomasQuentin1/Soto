@@ -28,6 +28,9 @@ interface Props {
 
 export const LOGIN_USER = gql`mutation Login($email: String!, $password: String!) {login (email: $email, passwordSHA256: $password)}`;
 
+
+export const LOGIN_USER = gql`mutation Login($email: String!, $password: String!) {login (email: $email, passwordSHA256: $password)}`;
+
 const Login = (props: Props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
