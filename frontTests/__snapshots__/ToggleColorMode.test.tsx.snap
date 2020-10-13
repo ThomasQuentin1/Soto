@@ -4,11 +4,22 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
 <div
   style={
     Object {
+      "alignItems": "center",
       "display": "flex",
       "flexDirection": "row",
     }
   }
 >
+  <img
+    alt="lightMode"
+    src="/images/light/sun.png"
+    style={
+      Object {
+        "height": "25px",
+        "width": "25px",
+      }
+    }
+  />
   <span
     className="MuiSwitch-root"
   >
@@ -48,8 +59,15 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
       className="MuiSwitch-track"
     />
   </span>
-  <p>
-    lightmode.label
-  </p>
+  <img
+    alt="darkMode"
+    src="/images/light/moon.png"
+    style={
+      Object {
+        "height": "25px",
+        "width": "25px",
+      }
+    }
+  />
 </div>
 `;
