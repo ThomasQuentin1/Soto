@@ -9,7 +9,7 @@ const lightTheme = {
     toggleBorder: '#FFF',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
     border : {
-        color: 'BABABA'
+        color: '#BABABA'
     }
 }
 
