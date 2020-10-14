@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     align-items: center;
-    background: ${({ theme }) => theme.body};
+    background: ${({ theme }) => theme.firstColor};
     color: ${({ theme }) => theme.text};
     display: flex;
     flex-direction: column;
@@ -34,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   #parent-login-form {
-    background: ${({ theme }) => theme.body};
+    background: ${({ theme }) => theme.firstColor};
     color : ${({ theme }) => theme.text};
   }
 
@@ -52,12 +52,12 @@ const GlobalStyles = createGlobalStyle`
 
   .header-div {
     background: ${({ theme }) => theme.header};
-    border-bottom : solid 2px ${({ theme }) => theme.border.color};
+    border-bottom : solid 2px ${({ theme }) => theme.thirdColor};
   }
 
   .footer-div {
     background: ${({ theme }) => theme.footer};
-    border-top : solid 2px ${({ theme }) => theme.border.color};
+    border-top : solid 2px ${({ theme }) => theme.thirdColor};
   }
 
   .profile-icon {
@@ -95,6 +95,48 @@ const GlobalStyles = createGlobalStyle`
     margin: 10px 0px !important;
   }
   
+
+  .header_bar {
+    width: 100%;
+    height: 70px:
+    background: ${({ theme }) => theme.firstColor};
+  }
+
+  .footer_bar {
+    width: 100%;
+    height: 70px;
+    background: ${({ theme }) => theme.firstColor };
+  }
+
+  .criteria_drag_list {
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid ${({ theme }) => theme.border.color};
+    list-style-type: none;
+    color: ${({ theme }) => theme.text};
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .search_bar {
+    color: ${({ theme }) => theme.text};
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .price_banner {
+    background-color: ${({ theme }) => theme.secondaryColor}
+  }
+
+  .item_shop {
+    border: 1px solid ${({ theme }) => theme.border.color};
+    background-color: ${({ theme }) => theme.secondaryColor};
+    border-radius: 10px;
+    padding-top: 10px;
+  }
+
+  .icons {
+    color: ${({theme}) => theme.text}
+  }
   `;
 
 export default GlobalStyles;
