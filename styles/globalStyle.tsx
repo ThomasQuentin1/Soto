@@ -55,9 +55,19 @@ const GlobalStyles = createGlobalStyle`
     border-bottom : solid 2px ${({ theme }) => theme.thirdColor};
   }
 
-  .footer-div {
+  .footer-div-sticky {
     background: ${({ theme }) => theme.footer};
-    border-top : solid 2px ${({ theme }) => theme.thirdColor};
+    border-top : solid 2px ${({ theme }) => theme.border.color};
+    position: absolute;
+    bottom: 0px;
+  }
+
+  .footer-div-scroll {
+    background: ${({ theme }) => theme.footer};
+    border-top : solid 2px ${({ theme }) => theme.border.color};
+    left: 0px;
+    bottom: 0px;
+    margin-top: 20px;
   }
 
   .profile-icon {
