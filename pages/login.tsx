@@ -23,7 +23,6 @@ const LoginPage = () => {
                 <div>
                     <LoginController/>
                 </div>
-                <Footer/>
             </DarkModeParent>
         </div>
     );

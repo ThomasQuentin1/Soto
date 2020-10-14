@@ -60,9 +60,10 @@ const ProfilePage = () => {
                 <Header isConnected={true}/>
                 <div>
                     <div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>
-                        {langs.map(lang => {
+                        {langs.map((lang, index) => {
                             return (
                                 <img
+                                    key={index}
                                     src={`/images/common/flag_${lang}.png`}
                                     className={"flagLogo"}
                                     alt={"roundSotoLogo"}
