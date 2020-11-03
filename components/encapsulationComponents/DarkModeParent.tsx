@@ -32,8 +32,8 @@ export const getColorMode = () => {
 const DarkModeParent = (props: DarkModeParentInterface) => {
   const [theme] = useDarkMode();
   let realTheme = props.theme ? props.theme : theme;
-  let muiThemeMode = null;
-  let siteThemeMode = null;
+  let muiThemeMode: any = null;
+  let siteThemeMode: any = null;
 
   muiThemeMode = realTheme === "light" ? muiLightTheme : muiDarkTheme;
   siteThemeMode = realTheme === "light" ? lightTheme : darkTheme;

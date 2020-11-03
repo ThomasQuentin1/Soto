@@ -1,0 +1,4 @@
+mutation Register($email: String!, $password: String!) {
+    login (email: $email, passwordSHA256: $password) {
+    }
+}

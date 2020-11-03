@@ -2,7 +2,7 @@ import { usersQuery } from '../query';
 import resolvers from "../resolvers";
 
 const QorM = async (op: "Query" | "Mutation", resolver: string, args: any, token?: string) => {
-    let user = null;
+    let user;
     if (token) {
         const userQ = await usersQuery("SELECT * FROM users WHERE token = ?", [token]);
         if (userQ.length == 1)
