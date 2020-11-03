@@ -35,6 +35,7 @@ export type Mutation = {
   subscribeNotifications: Scalars['Boolean'];
   changePassword: Scalars['Boolean'];
   changeEmail: Scalars['Boolean'];
+  setShop: Scalars['Boolean'];
 };
 
 
@@ -79,6 +80,11 @@ export type MutationChangeEmailArgs = {
   newEmail: Scalars['String'];
 };
 
+
+export type MutationSetShopArgs = {
+  shopId: Scalars['Int'];
+};
+
 export type Shop = {
   __typename?: 'Shop';
   name: Scalars['String'];
@@ -93,6 +99,7 @@ export type Account = {
   email: Scalars['String'];
   criterions: Array<Criterion>;
   obligations: Array<Obligation>;
+  currentShop?: Maybe<Shop>;
 };
 
 export type MultilangString = {
@@ -224,9 +231,9 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>,
   Mutation: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  Int: ResolverTypeWrapper<Scalars['Int']>,
   Shop: ResolverTypeWrapper<Shop>,
   Float: ResolverTypeWrapper<Scalars['Float']>,
-  Int: ResolverTypeWrapper<Scalars['Int']>,
   Account: ResolverTypeWrapper<Account>,
   MultilangString: ResolverTypeWrapper<MultilangString>,
   Criterion: ResolverTypeWrapper<Criterion>,
@@ -244,9 +251,9 @@ export type ResolversParentTypes = {
   String: Scalars['String'],
   Mutation: {},
   Boolean: Scalars['Boolean'],
+  Int: Scalars['Int'],
   Shop: Shop,
   Float: Scalars['Float'],
-  Int: Scalars['Int'],
   Account: Account,
   MultilangString: MultilangString,
   Criterion: Criterion,
@@ -273,6 +280,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   subscribeNotifications?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubscribeNotificationsArgs, 'token'>>,
   changePassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'newPasswordSHA256'>>,
   changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
+  setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
 };
 
 export type ShopResolvers<ContextType = any, ParentType extends ResolversParentTypes['Shop'] = ResolversParentTypes['Shop']> = {
@@ -288,6 +296,7 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
   obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
+  currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 

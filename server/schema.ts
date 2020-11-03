@@ -16,6 +16,7 @@ const schema = gql`
     subscribeNotifications(token: String!): Boolean!
     changePassword(newPasswordSHA256: String!): Boolean!
     changeEmail(newEmail: String!): Boolean!
+    setShop(shopId: Int!): Boolean!
   }
 
   type Shop {
@@ -30,6 +31,7 @@ const schema = gql`
     email: String!
     criterions: [Criterion!]!
     obligations: [Obligation!]!
+    currentShop: Shop
   }
 
   type MultilangString {

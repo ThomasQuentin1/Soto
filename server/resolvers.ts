@@ -1,8 +1,39 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { Criterion, Obligation, Product, Resolvers } from "../typing";
+import { Criterion, Obligation, Product, Resolvers, Shop } from "../typing";
 import { Criterions } from "./algo/critetions";
 import { Obligations } from "./algo/obligations";
 import { algoQuery, usersQuery } from "./query";
+
+const ShopList: Shop[] = [
+  {
+    name: "E.Leclerc Drive Erstein",
+    city: "Erstein",
+    lat: 48.425563,
+    long: 7.638703,
+    id: 1,
+  },
+  {
+    name: "E.Leclerc Drive Strasbourg - Neuhof",
+    city: "Strasbourg",
+    lat: 48.545883,
+    long: 7.767355,
+    id: 2,
+  },
+  {
+    name: "E.Leclerc Drive Strasbourg - Neuhof",
+    city: "Strasbourg",
+    lat: 48.576761,
+    long: 7.768423,
+    id: 3,
+  },
+  {
+    name: "E.Leclerc Drive Strasbourg Marché Gare",
+    city: "Strasbourg",
+    lat: 48.597222,
+    long: 7.735704,
+    id: 4,
+  },
+];
 
 const resolvers: Resolvers = {
   Query: {
@@ -13,36 +44,7 @@ const resolvers: Resolvers = {
       ); // TODO: TEST
     },
     shopList: async (_obj, _args, _context, _info) => {
-      return [
-        {
-          name: "E.Leclerc Drive Erstein",
-          city: "Erstein",
-          lat: 48.425563,
-          long: 7.638703,
-          id: 1,
-        },
-        {
-          name: "E.Leclerc Drive Strasbourg - Neuhof",
-          city: "Strasbourg",
-          lat: 48.545883,
-          long: 7.767355,
-          id: 2,
-        },
-        {
-          name: "E.Leclerc Drive Strasbourg - Neuhof",
-          city: "Strasbourg",
-          lat: 48.576761,
-          long: 7.768423,
-          id: 3,
-        },
-        {
-          name: "E.Leclerc Drive Strasbourg Marché Gare",
-          city: "Strasbourg",
-          lat: 48.597222,
-          long: 7.735704,
-          id: 4,
-        },
-      ];
+      return ShopList;
     },
     account: async (_obj, _args, context, _info) => {
       if (!context.user) throw new AuthenticationError("please login");
@@ -57,6 +59,7 @@ const resolvers: Resolvers = {
 
       return {
         email: context.user.email,
+        currentShop: ShopList.find((s) => s.id == context.user.shopId),
         criterions: Criterions.map<Criterion>((criterionData) => {
           const criterionDb = critetionsQuery.find(
             (c: any) => c.id === criterionData.id
@@ -115,6 +118,16 @@ const resolvers: Resolvers = {
         [args.email, args.passwordSHA256, newToken]
       );
       return newToken;
+    },
+    setShop: async (_obj, args, context, _info) => {
+      if (!context.user) throw new AuthenticationError("please login");
+      if (args.shopId == 0 || args.shopId > 4)
+        throw new UserInputError("Bad shop id");
+      await usersQuery("UPDATE users SET shopId = ? WHERE id = ?", [
+        args.shopId,
+        context.user.id,
+      ]);
+      return true;
     },
     setObligations: async (_obj, args, context, _info) => {
       if (!context.user) throw new AuthenticationError("please login");
