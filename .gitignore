@@ -9,3 +9,9 @@ dist
 
 graphql.schema.json
 yarn-error.log
+catalogue.db
+coverage
+*.db
+
+.idea/
+yarn.lock
