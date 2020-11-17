@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Shop list gathering should retrive 4 leclerc in the area 1`] = `
+Array [
+  Object {
+    "city": "Erstein",
+    "id": 1,
+    "lat": 48.425563,
+    "long": 7.638703,
+    "name": "E.Leclerc Drive Erstein",
+  },
+  Object {
+    "city": "Strasbourg",
+    "id": 2,
+    "lat": 48.545883,
+    "long": 7.767355,
+    "name": "E.Leclerc Drive Strasbourg - Neuhof",
+  },
+  Object {
+    "city": "Strasbourg",
+    "id": 3,
+    "lat": 48.576761,
+    "long": 7.768423,
+    "name": "E.Leclerc Drive Strasbourg - Neuhof",
+  },
+  Object {
+    "city": "Strasbourg",
+    "id": 4,
+    "lat": 48.597222,
+    "long": 7.735704,
+    "name": "E.Leclerc Drive Strasbourg Marché Gare",
+  },
+]
+`;

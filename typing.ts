@@ -1,5 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -8,42 +9,24 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
 
-export type Account = {
-   __typename?: 'Account';
-  email: Scalars['String'];
-  criterions: Array<Criterion>;
-  obligations: Array<Obligation>;
+export type Query = {
+  __typename?: 'Query';
+  account: Account;
+  searchProducts: Array<Product>;
+  shopList: Array<Shop>;
 };
 
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
 
-export type Criterion = {
-   __typename?: 'Criterion';
-  activated: Scalars['Boolean'];
-  position?: Maybe<Scalars['Int']>;
-  id: Scalars['Int'];
-  name: MultilangString;
-};
-
-export type CriterionInput = {
-  id: Scalars['Int'];
-  position: Scalars['Int'];
-};
-
-export type MultilangString = {
-   __typename?: 'MultilangString';
-  en?: Maybe<Scalars['String']>;
-  fr?: Maybe<Scalars['String']>;
+export type QuerySearchProductsArgs = {
+  query: Scalars['String'];
 };
 
 export type Mutation = {
-   __typename?: 'Mutation';
+  __typename?: 'Mutation';
   login: Scalars['String'];
   register: Scalars['String'];
   setCriterions: Scalars['Boolean'];
@@ -52,6 +35,7 @@ export type Mutation = {
   subscribeNotifications: Scalars['Boolean'];
   changePassword: Scalars['Boolean'];
   changeEmail: Scalars['Boolean'];
+  setShop: Scalars['Boolean'];
 };
 
 
@@ -96,11 +80,52 @@ export type MutationChangeEmailArgs = {
   newEmail: Scalars['String'];
 };
 
+
+export type MutationSetShopArgs = {
+  shopId: Scalars['Int'];
+};
+
+export type Shop = {
+  __typename?: 'Shop';
+  name: Scalars['String'];
+  city: Scalars['String'];
+  long: Scalars['Float'];
+  lat: Scalars['Float'];
+  id: Scalars['Int'];
+};
+
+export type Account = {
+  __typename?: 'Account';
+  email: Scalars['String'];
+  criterions: Array<Criterion>;
+  obligations: Array<Obligation>;
+  currentShop?: Maybe<Shop>;
+};
+
+export type MultilangString = {
+  __typename?: 'MultilangString';
+  en?: Maybe<Scalars['String']>;
+  fr?: Maybe<Scalars['String']>;
+};
+
+export type Criterion = {
+  __typename?: 'Criterion';
+  activated: Scalars['Boolean'];
+  position?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  name: MultilangString;
+};
+
 export type Obligation = {
-   __typename?: 'Obligation';
+  __typename?: 'Obligation';
   activated: Scalars['Boolean'];
   id: Scalars['Int'];
   name: MultilangString;
+};
+
+export type CriterionInput = {
+  id: Scalars['Int'];
+  position: Scalars['Int'];
 };
 
 export type ObligationInput = {
@@ -108,7 +133,7 @@ export type ObligationInput = {
 };
 
 export type Product = {
-   __typename?: 'Product';
+  __typename?: 'Product';
   name: Scalars['String'];
   brand?: Maybe<Scalars['String']>;
   priceUnit: Scalars['String'];
@@ -123,16 +148,10 @@ export type Product = {
   quantity?: Maybe<Scalars['String']>;
 };
 
-export type Query = {
-   __typename?: 'Query';
-  account: Account;
-  searchProducts: Array<Product>;
-};
-
-
-export type QuerySearchProductsArgs = {
-  query: Scalars['String'];
-};
+export enum CacheControlScope {
+  Public = 'PUBLIC',
+  Private = 'PRIVATE'
+}
 
 
 
@@ -209,17 +228,19 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>,
-  Account: ResolverTypeWrapper<Account>,
   String: ResolverTypeWrapper<Scalars['String']>,
-  Criterion: ResolverTypeWrapper<Criterion>,
+  Mutation: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
+  Shop: ResolverTypeWrapper<Shop>,
+  Float: ResolverTypeWrapper<Scalars['Float']>,
+  Account: ResolverTypeWrapper<Account>,
   MultilangString: ResolverTypeWrapper<MultilangString>,
+  Criterion: ResolverTypeWrapper<Criterion>,
   Obligation: ResolverTypeWrapper<Obligation>,
-  Product: ResolverTypeWrapper<Product>,
-  Mutation: ResolverTypeWrapper<{}>,
   CriterionInput: CriterionInput,
   ObligationInput: ObligationInput,
+  Product: ResolverTypeWrapper<Product>,
   CacheControlScope: CacheControlScope,
   Upload: ResolverTypeWrapper<Scalars['Upload']>,
 };
@@ -227,40 +248,27 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {},
-  Account: Account,
   String: Scalars['String'],
-  Criterion: Criterion,
+  Mutation: {},
   Boolean: Scalars['Boolean'],
   Int: Scalars['Int'],
+  Shop: Shop,
+  Float: Scalars['Float'],
+  Account: Account,
   MultilangString: MultilangString,
+  Criterion: Criterion,
   Obligation: Obligation,
-  Product: Product,
-  Mutation: {},
   CriterionInput: CriterionInput,
   ObligationInput: ObligationInput,
+  Product: Product,
   CacheControlScope: CacheControlScope,
   Upload: Scalars['Upload'],
 };
 
-export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
-  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
-
-export type CriterionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Criterion'] = ResolversParentTypes['Criterion']> = {
-  activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-  position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  name?: Resolver<ResolversTypes['MultilangString'], ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
-
-export type MultilangStringResolvers<ContextType = any, ParentType extends ResolversParentTypes['MultilangString'] = ResolversParentTypes['MultilangString']> = {
-  en?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  fr?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
+  searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
+  shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -272,6 +280,38 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   subscribeNotifications?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubscribeNotificationsArgs, 'token'>>,
   changePassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'newPasswordSHA256'>>,
   changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
+  setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
+};
+
+export type ShopResolvers<ContextType = any, ParentType extends ResolversParentTypes['Shop'] = ResolversParentTypes['Shop']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  long?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
+  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
+  currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type MultilangStringResolvers<ContextType = any, ParentType extends ResolversParentTypes['MultilangString'] = ResolversParentTypes['MultilangString']> = {
+  en?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  fr?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type CriterionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Criterion'] = ResolversParentTypes['Criterion']> = {
+  activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['MultilangString'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type ObligationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Obligation'] = ResolversParentTypes['Obligation']> = {
@@ -297,23 +337,19 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
-  searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
-};
-
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
   name: 'Upload'
 }
 
 export type Resolvers<ContextType = any> = {
-  Account?: AccountResolvers<ContextType>,
-  Criterion?: CriterionResolvers<ContextType>,
-  MultilangString?: MultilangStringResolvers<ContextType>,
+  Query?: QueryResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
+  Shop?: ShopResolvers<ContextType>,
+  Account?: AccountResolvers<ContextType>,
+  MultilangString?: MultilangStringResolvers<ContextType>,
+  Criterion?: CriterionResolvers<ContextType>,
   Obligation?: ObligationResolvers<ContextType>,
   Product?: ProductResolvers<ContextType>,
-  Query?: QueryResolvers<ContextType>,
   Upload?: GraphQLScalarType,
 };
 

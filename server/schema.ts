@@ -3,7 +3,8 @@ import { gql } from "apollo-server-micro";
 const schema = gql`
   type Query {
     account: Account!
-    searchProducts(query: String!) : [Product!]!
+    searchProducts(query: String!): [Product!]!
+    shopList: [Shop!]!
   }
 
   type Mutation {
@@ -13,14 +14,24 @@ const schema = gql`
     setObligations(obligations: [ObligationInput!]!): Boolean!
     removeAccount(passwordSHA256: String!): Boolean!
     subscribeNotifications(token: String!): Boolean!
-    changePassword(newPasswordSHA256: String!) : Boolean!
-    changeEmail(newEmail: String!) : Boolean!
+    changePassword(newPasswordSHA256: String!): Boolean!
+    changeEmail(newEmail: String!): Boolean!
+    setShop(shopId: Int!): Boolean!
+  }
+
+  type Shop {
+    name: String!
+    city: String!
+    long: Float!
+    lat: Float!
+    id: Int!
   }
 
   type Account {
     email: String!
     criterions: [Criterion!]!
     obligations: [Obligation!]!
+    currentShop: Shop
   }
 
   type MultilangString {
