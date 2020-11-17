@@ -7,6 +7,8 @@ const schema = gql`
     account: Account!
     searchProducts(query: String!): [Product!]!
     shopList: [Shop!]!
+    cart: Cart
+    oldCarts: [Cart]!
   }
 
   type Mutation {
@@ -19,6 +21,11 @@ const schema = gql`
     changePassword(newPasswordSHA256: String!): Boolean!
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
+
+    addToCart(productId: Int!): Boolean!
+    removeFromCart(productId: Int!): Boolean!
+    confirmCart: Boolean!
+    clearCart: Boolean!
   }
 
   type Cart {

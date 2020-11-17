@@ -1,9 +1,10 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { Criterion, Obligation, Resolvers } from "../../typing";
+import { Criterion, Obligation, Resolvers, Shop } from "../../typing";
 import { Criterions } from "../algo/critetions";
 import { Obligations } from "../algo/obligations";
 import { usersQuery } from "../query";
 import { ShopList } from "../constData/shopList";
+
 
 export const acountResolvers: Resolvers = {
   Query: {
@@ -167,3 +168,4 @@ export const acountResolvers: Resolvers = {
     },
   },
 };
+

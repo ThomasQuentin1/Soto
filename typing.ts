@@ -20,6 +20,8 @@ export type Query = {
   account: Account;
   searchProducts: Array<Product>;
   shopList: Array<Shop>;
+  cart?: Maybe<Cart>;
+  oldCarts: Array<Maybe<Cart>>;
 };
 
 
@@ -38,6 +40,10 @@ export type Mutation = {
   changePassword: Scalars['Boolean'];
   changeEmail: Scalars['Boolean'];
   setShop: Scalars['Boolean'];
+  addToCart: Scalars['Boolean'];
+  removeFromCart: Scalars['Boolean'];
+  confirmCart: Scalars['Boolean'];
+  clearCart: Scalars['Boolean'];
 };
 
 
@@ -85,6 +91,16 @@ export type MutationChangeEmailArgs = {
 
 export type MutationSetShopArgs = {
   shopId: Scalars['Int'];
+};
+
+
+export type MutationAddToCartArgs = {
+  productId: Scalars['Int'];
+};
+
+
+export type MutationRemoveFromCartArgs = {
+  productId: Scalars['Int'];
 };
 
 export type Cart = {
@@ -289,6 +305,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
   searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
   shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
+  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
+  oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -301,6 +319,10 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   changePassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'newPasswordSHA256'>>,
   changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
   setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
+  addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
+  removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
+  confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
 };
 
 export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {

@@ -6,10 +6,18 @@ import { ShopList } from "../constData/shopList";
 export const productResolvers: Resolvers = {
   Query: {
     searchProducts: async (_obj, _args, _context, _info) => {
-      return algoQuery<Product>(
+      return (await (algoQuery<Product>(
         "SELECT * FROM products WHERE name LIKE ? OR keywords LIKE ? LIMIT 10",
         [`%${_args.query}%`, `%${_args.query}%`]
-      ); // TODO: TEST
+      ))).map((r) => ({
+        ... r,
+        allergens: r.allergens?.split("|") ?? [],
+        ingredients: r.ingredients?.split("|") ?? [],
+        nutriments: r.nutriments?.split("|") ?? [],
+        packaging: r.packaging?.split("|") ?? [],
+        scoreEnvironment: r.environmentScore,
+        scoreHealth: r.healthscore
+      })); // TODO: TEST
     },
     shopList: async (_obj, _args, _context, _info) => {
       return ShopList;
@@ -20,8 +28,17 @@ export const productResolvers: Resolvers = {
       if (!context.user) throw new AuthenticationError("please login");
       if (args.shopId == 0 || args.shopId > 4)
         throw new UserInputError("Bad shop id");
-      await usersQuery("UPDATE users SET shopId = ? WHERE id = ?", [
+
+      const maxCartId = (await usersQuery("SELECT cartId FROM users")).reduce<number>((max, current:any) => {
+        if (current.cartId > max)
+          return current.cartId;
+          else 
+        return max;
+      }, 0);
+
+      await usersQuery("UPDATE users SET shopId = ?, cartId = ? WHERE id = ?", [
         args.shopId,
+        maxCartId + 1,
         context.user.id,
       ]);
       return true;

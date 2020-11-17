@@ -84,7 +84,7 @@ const sqlconnect = async () => {
       host: "51.11.241.109",
       user: "soto",
       password: "s0t0lefeu!",
-      database: "algo",
+      database: "users",
     });
     con.connect((err: any) => {
       if (err) reject(err);
@@ -162,7 +162,7 @@ const start = async () => {
         const final = await createProduct(article, bestProduct);
         await sqlquery(
           sql,
-          "INSERT INTO products (name, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO products3 (name, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             final.name,
             final.brand,

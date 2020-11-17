@@ -55,7 +55,7 @@ const start = async () => {
   );
   await sqlquery(
     sql,
-    "CREATE TABLE carts (id INT NOT NULL, userId INT NOT NULL, productId INT NOT NULL, driveId INT NOT NULL);"
+    "CREATE TABLE carts (id INT NOT NULL, userId INT NOT NULL, productId INT NOT NULL, driveId INT NOT NULL, date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);"
   );
   await sqlquery(sql, `CREATE TABLE products1 ${insertProduct};`);
   await sqlquery(sql, `CREATE TABLE products2 ${insertProduct};`);
