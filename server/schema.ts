@@ -1,6 +1,8 @@
 import { gql } from "apollo-server-micro";
 
 const schema = gql`
+  scalar Date
+
   type Query {
     account: Account!
     searchProducts(query: String!): [Product!]!
@@ -17,6 +19,15 @@ const schema = gql`
     changePassword(newPasswordSHA256: String!): Boolean!
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
+  }
+
+  type Cart {
+    products: [Product!]!
+    dateCreated: Date!
+    dateLastEdit: Date!
+    dateClosed: Date
+    shop: Shop!
+    price: Float!
   }
 
   type Shop {
