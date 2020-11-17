@@ -51,6 +51,9 @@ describe("Basic errors cases with account", () => {
     await expect(
       Mutate("subscribeNotifications", { token: "tok" })
     ).rejects.toStrictEqual(new AuthenticationError("please login"));
+    await expect(Mutate("setShop", { token: "tok" })).rejects.toStrictEqual(
+      new AuthenticationError("please login")
+    );
   });
 
   it("should deny the creation of a double account", async () => {
@@ -183,5 +186,28 @@ describe("Account", () => {
     ).rejects.toStrictEqual(
       new UserInputError("Criterions position are incorrect (not 1, 2, 3...)")
     );
+  });
+
+  it("sould deny deny invalid shop selection", async () => {
+    await expect(Mutate("setShop", { shopId: 0 }, token)).rejects.toStrictEqual(
+      new UserInputError("Bad shop id")
+    );
+    await expect(
+      Mutate("setShop", { shopId: 10 }, token)
+    ).rejects.toStrictEqual(new UserInputError("Bad shop id"));
+  });
+
+  it("sould handle shop modification properly", async () => {
+    const account = await Query("account", {}, token);
+    expect(account.currentShop).toBeFalsy();
+
+    const shops = await Query("shopList", {}, token);
+    const selectedShopId = shops[0].id;
+
+    await Mutate("setShop", { shopId: selectedShopId }, token);
+
+    const newAccount = await Query("account", {}, token);
+    const selectedShop = newAccount.currentShop;
+    expect(selectedShop.id).toBe(selectedShopId);
   });
 });
