@@ -108,7 +108,6 @@ export type Cart = {
   products: Array<Product>;
   dateCreated: Scalars['Date'];
   dateLastEdit: Scalars['Date'];
-  dateClosed?: Maybe<Scalars['Date']>;
   shop: Shop;
   price: Scalars['Float'];
 };
@@ -329,7 +328,6 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
   products?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>,
   dateCreated?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
   dateLastEdit?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
-  dateClosed?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>,
   shop?: Resolver<ResolversTypes['Shop'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,

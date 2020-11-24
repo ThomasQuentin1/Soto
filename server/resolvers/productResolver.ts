@@ -5,18 +5,18 @@ import { ShopList } from "../constData/shopList";
 
 export const productResolvers: Resolvers = {
   Query: {
-    searchProducts: async (_obj, _args, _context, _info) => {
-      return (await (algoQuery<Product>(
-        "SELECT * FROM products WHERE name LIKE ? OR keywords LIKE ? LIMIT 10",
+    searchProducts: async (_obj, _args, context, _info) => {
+      return (await (usersQuery<any>(
+        `SELECT * FROM products${context.user?.shopId ?? 3} WHERE name LIKE ? OR keywords LIKE ? LIMIT 10`,
         [`%${_args.query}%`, `%${_args.query}%`]
       ))).map((r) => ({
-        ... r,
         allergens: r.allergens?.split("|") ?? [],
         ingredients: r.ingredients?.split("|") ?? [],
         nutriments: r.nutriments?.split("|") ?? [],
         packaging: r.packaging?.split("|") ?? [],
         scoreEnvironment: r.environmentScore,
-        scoreHealth: r.healthscore
+        scoreHealth: r.healthscore,
+        ...r,
       })); // TODO: TEST
     },
     shopList: async (_obj, _args, _context, _info) => {

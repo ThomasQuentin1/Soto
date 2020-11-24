@@ -32,7 +32,6 @@ const schema = gql`
     products: [Product!]!
     dateCreated: Date!
     dateLastEdit: Date!
-    dateClosed: Date
     shop: Shop!
     price: Float!
   }
