@@ -78,7 +78,6 @@ export const cartResolvers: Resolvers = {
         rawAllCarts.filter((f) => f.cartId == id)
       );
 
-      console.warn(userCarts);
       return await Promise.all(userCarts.map((c) => createCartFromRawData(c)));
     },
   },
