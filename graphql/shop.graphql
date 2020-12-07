@@ -1,0 +1,12 @@
+query LookForProducts ($name: String!) {
+  searchProducts(query : $name) {
+    name
+    brand
+    priceUnit
+    priceMass
+    nutriscore
+    scoreHealth
+    scoreEnvironment
+    quantity
+  }
+}

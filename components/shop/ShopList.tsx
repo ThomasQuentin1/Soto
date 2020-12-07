@@ -1,20 +1,15 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
-import { Product } from 'interfaces/Product'
 import ShopItem from 'components/shop/ShopItem';
-
-
-export interface ShopListProps {
-    basket : Product[];
-    setBasket : any;
-}
+import ShopListProps from 'interfaces/ShopList';
 
 const ShopList = ({basket, setBasket} : ShopListProps) => {
+    console.log(basket);
     return (
         <Grid justify={"center"} container>
             {basket && basket.length != 0 && basket.map((item, index) => {
                 return (
-                    <ShopItem key={index} index={index} product={item} basket={basket} setBasket={setBasket}></ShopItem>
+                    <ShopItem key={index} index={index} countableProduct={item} basket={basket} setBasket={setBasket}/>
                 ); 
             })}
         </Grid>
