@@ -6,7 +6,7 @@ import { usersQuery } from "../query";
 export const productResolvers: Resolvers = {
   Query: {
     searchProducts: async (_obj, _args, context, _info) => {
-      return (
+      const data = (
         await usersQuery<any>(
           `SELECT * FROM products${
             context.user?.shopId ?? 3
@@ -14,14 +14,15 @@ export const productResolvers: Resolvers = {
           [`%${_args.query}%`, `%${_args.query}%`]
         )
       ).map((r) => ({
+        ...r,
         allergens: r.allergens?.split("|") ?? [],
         ingredients: r.ingredients?.split("|") ?? [],
         nutriments: r.nutriments?.split("|") ?? [],
         packaging: r.packaging?.split("|") ?? [],
         scoreEnvironment: r.environmentScore,
         scoreHealth: r.healthscore,
-        ...r,
-      })); // TODO: TEST
+      }));
+      return data;
     },
     shopList: async (_obj, _args, _context, _info) => {
       return ShopList;
