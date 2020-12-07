@@ -136,6 +136,14 @@ const GlobalStyles = createGlobalStyle`
     padding-left: 10px;
   }
 
+  .item_search_bar {
+    border: 1px solid ${({ theme }) => theme.border.color};
+    background-color: ${({ theme }) => theme.secondaryColor};
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+  }
+
   .icons {
     color: ${({theme}) => theme.text}
   }

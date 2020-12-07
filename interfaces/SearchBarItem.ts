@@ -4,5 +4,4 @@ export default interface SearchBarItemProps {
     countableProduct : CountableProduct;
     basket: CountableProduct[];
     setBasket: any;
-    setOpen: any;
 }
