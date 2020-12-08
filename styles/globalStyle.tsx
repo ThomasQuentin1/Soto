@@ -141,7 +141,6 @@ const GlobalStyles = createGlobalStyle`
     border: 1px solid ${({ theme }) => theme.border.color};
     background-color: ${({ theme }) => theme.secondaryColor};
     border-radius: 10px;
-    padding-top: 10px;
   }
 
   .item_search_bar {
