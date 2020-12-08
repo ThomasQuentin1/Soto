@@ -3,6 +3,7 @@ import { Typography, Grid } from '@material-ui/core';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
+import '../i18n'
 
 export default () => {
     const [theme] = useDarkMode();
