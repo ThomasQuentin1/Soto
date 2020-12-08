@@ -6,10 +6,17 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
 import CountableProduct from 'interfaces/CountableProduct';
 
-const AddToBasket = (product: CountableProduct, basket: CountableProduct[], setBasket: any) => {
+const getRandomIntInclusive = (min : number, max : number) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min +1)) + min;
+  }
+
+const AddToBasket = (countableProduct: CountableProduct, basket: CountableProduct[], setBasket: any) => {
     let newBasket: CountableProduct[] = [];
     basket.map((item) => newBasket.push(item));
-    newBasket.push(product);
+    countableProduct.product.score = getRandomIntInclusive(50, 99);
+    newBasket.push(countableProduct);
     setBasket(newBasket);
 }
 

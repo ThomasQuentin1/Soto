@@ -9,6 +9,19 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CountableProduct from 'interfaces/CountableProduct';
 
+const color = {
+    dark_red: "#ff0000",
+    red: "#ff6821",
+    orange: "#ffb300",
+    green: "#bbff29",
+    dark_green: "#00ff00",
+    dark_red_alpha: "#ff000088",
+    red_alpha: "#ff682188",
+    orange_alpha: "#ffb30088",
+    green_alpha: "#bbff2988",
+    dark_green_alpha: "#00ff0088",
+};
+
 const reduceQuantity = (quantity: number, basket: CountableProduct[], setBasket: any, index: number) => {
     let newBasket: CountableProduct[] = [];
     basket.map((item) => newBasket.push(item));
@@ -51,27 +64,31 @@ const returnRemoveOrReduceButton = (countableProduct: CountableProduct, basket: 
 }
 
 const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) => {
-    let scoreColor : string = "red";
+    let scoreColorAlpha : string = color.red_alpha; // red
+    let scoreColor : string = color.red;
 
     const [isToggled, SetIsToggled] = useState<boolean>(false);
 
-    if (countableProduct.product.score <= 75) {
-        scoreColor = "green";
-    } else if (countableProduct.product.score <= 40) {
-        scoreColor = "orange";
+    if (countableProduct.product.score >= 40) {
+        scoreColorAlpha = color.orange_alpha; // orange
+        scoreColor = color.orange;
+    }
+    if (countableProduct.product.score >= 75) {
+        scoreColorAlpha = color.green_alpha; // green
+        scoreColor = color.green;
     }
     const removeOrReduceButton = returnRemoveOrReduceButton(countableProduct, basket, setBasket, index);
     return (
         <>
         {countableProduct && !isToggled &&
             <Grid
-            item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center'}} className="item_shop">
+            item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
                 {/** This is the dot that show the score next to the product */}
-                <div style={{position:'relative'}}>
-                    <div style={{borderRadius: '24px', backgroundColor: scoreColor, height: "25px", width: "25px", position: 'absolute', right: '12px', top:'-11px'}}></div>
-                    <Container><img width='200px' src={countableProduct.product.picture}></img></Container>
+                <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
+                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.score}%</Typography>
+                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.score}%`}}/>
                 </div>
-                <Container>{countableProduct.product.name}</Container>
+                <Container style={{marginBottom: '5px', marginTop: '10px'}}>{countableProduct.product.name}</Container>
                 <Container>{countableProduct.product.price.toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
@@ -91,8 +108,12 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
         }
         {countableProduct && isToggled &&
             <Grid
-            item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingLeft:'40px', paddingRight:'40px'}} className="item_shop">
-                <Container>{countableProduct.product.name}</Container>
+            item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
+                <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
+                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.score}%</Typography>
+                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.score}%`}}/>
+                </div>
+                <Container style={{marginBottom: '5px', marginTop: '10px'}}>{countableProduct.product.name}</Container>
                 <Container>{countableProduct.product.price.toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
@@ -103,9 +124,9 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
-                <Typography style={{marginBottom:'10px'}} align="left">Score par rapport à vos critères : {countableProduct.product.score}</Typography>
-                <Typography style={{marginBottom:'10px'}} align="left">Marque : {countableProduct.product.brand}</Typography>
-                <Container style={{marginLeft: '0px', paddingLeft: '0px'}} maxWidth="xs">
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {countableProduct.product.score}</Typography>
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {countableProduct.product.brand}</Typography>
+                <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
                     <Typography align="left">Ingrédients : {countableProduct.product.ingredients}</Typography>
                 </Container>
                 <Box style={{display:'flex', justifyContent: 'flex-end'}}>
