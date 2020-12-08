@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
-import { Product } from '../../interfaces/Product';
 import Skeleton from '@material-ui/lab/Skeleton';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
 import CountableProduct from 'interfaces/CountableProduct';
@@ -14,7 +13,7 @@ const AddToBasket = (product: CountableProduct, basket: CountableProduct[], setB
     setBasket(newBasket);
 }
 
-const SearchBarItem = ({countableProduct, basket, setBasket} : SearchBarItemProps) => {
+const SearchBarItem = ({countableProduct, basket, setBasket, setOpen} : SearchBarItemProps) => {
     let scoreColor : string = "red";
 
     if (countableProduct.product.score <= 75) {
@@ -23,7 +22,11 @@ const SearchBarItem = ({countableProduct, basket, setBasket} : SearchBarItemProp
         scoreColor = "orange";
     }
     return (
-        <Grid container style={{display:'flex', flexDirection:'row'}} className="item_search_bar" onClick={() => AddToBasket(countableProduct, basket, setBasket)}>
+        <Grid container style={{display:'flex', flexDirection:'row'}} className="item_search_bar" onClick={() => {
+                    AddToBasket(countableProduct, basket, setBasket);
+                    setOpen(false);
+                }
+            }>
             <Grid item xs={4}>
                 <Skeleton variant="rect" width='100%' height='100%'/>
             </Grid>
