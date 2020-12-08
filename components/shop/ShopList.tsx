@@ -6,7 +6,7 @@ import ShopListProps from 'interfaces/ShopList';
 const ShopList = ({basket, setBasket} : ShopListProps) => {
     console.log(basket);
     return (
-        <Grid justify={"center"} container>
+        <Grid justify={"center"} container style={{alignItems: 'flex-start'}}>
             {basket && basket.length != 0 && basket.map((item, index) => {
                 return (
                     <ShopItem key={index} index={index} countableProduct={item} basket={basket} setBasket={setBasket}/>
