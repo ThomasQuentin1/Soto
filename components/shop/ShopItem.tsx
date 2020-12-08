@@ -83,7 +83,7 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
         {countableProduct && !isToggled &&
             <Grid
             item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
-                {/** This is the dot that show the score next to the product */}
+                {/** This is the bar that show the score of the product */}
                 <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
                     <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.score}%</Typography>
                     <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.score}%`}}/>
@@ -127,7 +127,7 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
                 <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {countableProduct.product.score}</Typography>
                 <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {countableProduct.product.brand}</Typography>
                 <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
-                    <Typography align="left">Ingrédients : {countableProduct.product.ingredients}</Typography>
+                <Typography align="left">Ingrédients : {countableProduct.product.ingredients}</Typography>
                 </Container>
                 <Box style={{display:'flex', justifyContent: 'flex-end'}}>
                     <Tooltip TransitionComponent={Zoom} title={"Voir plus d'informations"}>
