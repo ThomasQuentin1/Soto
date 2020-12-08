@@ -137,7 +137,9 @@ const ProfilePage = () => {
                         </div>
                     </div>
                 </div>
-                <Footer/>
+                <div style={{position:"absolute", bottom:'0px', left:'0px', width:'100%'}}>
+                    <Footer/>
+                </div>
             </DarkModeParent>
         </>
     );
