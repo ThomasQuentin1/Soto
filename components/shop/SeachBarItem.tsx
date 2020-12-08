@@ -15,7 +15,6 @@ const getRandomIntInclusive = (min : number, max : number) => {
 const AddToBasket = (countableProduct: CountableProduct, basket: CountableProduct[], setBasket: any) => {
     let newBasket: CountableProduct[] = [];
     basket.map((item) => newBasket.push(item));
-    countableProduct.product.score = getRandomIntInclusive(50, 99);
     newBasket.push(countableProduct);
     setBasket(newBasket);
 }
@@ -23,10 +22,13 @@ const AddToBasket = (countableProduct: CountableProduct, basket: CountableProduc
 const SearchBarItem = ({countableProduct, basket, setBasket, setOpen} : SearchBarItemProps) => {
     let scoreColor : string = "red";
 
-    if (countableProduct.product.score <= 75) {
-        scoreColor = "green";
-    } else if (countableProduct.product.score <= 40) {
+    countableProduct.product.score = getRandomIntInclusive(50, 99); // TODO remove this, it's just for demo
+    
+    if (countableProduct.product.score >= 40) {
         scoreColor = "orange";
+    }
+    if (countableProduct.product.score >= 75) {
+        scoreColor = "green";
     }
     return (
         <Grid container style={{display:'flex', flexDirection:'row'}} className="item_search_bar" onClick={() => {
@@ -41,10 +43,10 @@ const SearchBarItem = ({countableProduct, basket, setBasket, setOpen} : SearchBa
             item xs={8} style={{textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                 {/** This is the dot that show the score next to the product */}
                 <div style={{position:'relative'}}>
-                    <div style={{borderRadius: '24px', backgroundColor: scoreColor, height: "25px", width: "25px", position: 'absolute', right: '12px', top:'-11px'}}></div>
-                    <Container><img width='200px' src={countableProduct.product.picture}></img></Container>
+                    <Typography variant="subtitle2" style={{right:'10px', position:'absolute', fontWeight:'bold', color:scoreColor}}>Score : {countableProduct.product.score}%</Typography>
                 </div>
-                <Container><Typography variant="h6">{countableProduct.product.name}</Typography></Container>
+
+                <Container><Typography variant="h6" style={{marginTop:'19px'}}>{countableProduct.product.name}</Typography></Container>
                 <Container>Marque : {countableProduct.product.brand}</Container>
                 <Container>{countableProduct.product.price.toFixed(2)}€</Container>
             </Grid>
