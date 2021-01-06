@@ -4,31 +4,39 @@ exports[`Shop list gathering should retrive 4 leclerc in the area 1`] = `
 Array [
   Object {
     "city": "Erstein",
+    "code": "056701",
     "id": 1,
     "lat": 48.425563,
     "long": 7.638703,
     "name": "E.Leclerc Drive Erstein",
+    "server": "fd12",
   },
   Object {
     "city": "Strasbourg",
+    "code": "086702",
     "id": 2,
     "lat": 48.545883,
     "long": 7.767355,
     "name": "E.Leclerc Drive Strasbourg - Neuhof",
+    "server": "fd6",
   },
   Object {
     "city": "Strasbourg",
+    "code": "086703",
     "id": 3,
     "lat": 48.576761,
     "long": 7.768423,
-    "name": "E.Leclerc Drive Strasbourg - Neuhof",
+    "name": "E.Leclerc Drive Strasbourg - Esplanade",
+    "server": "fd6",
   },
   Object {
     "city": "Strasbourg",
+    "code": "086701",
     "id": 4,
     "lat": 48.597222,
     "long": 7.735704,
     "name": "E.Leclerc Drive Strasbourg Marché Gare",
+    "server": "fd6",
   },
 ]
 `;
