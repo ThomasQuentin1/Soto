@@ -119,6 +119,8 @@ export type Shop = {
   long: Scalars['Float'];
   lat: Scalars['Float'];
   id: Scalars['Int'];
+  server: Scalars['String'];
+  code: Scalars['String'];
 };
 
 export type Account = {
@@ -173,6 +175,8 @@ export type Product = {
   scoreHealth?: Maybe<Scalars['Int']>;
   scoreEnvironment?: Maybe<Scalars['Int']>;
   quantity?: Maybe<Scalars['String']>;
+  photo: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export enum CacheControlScope {
@@ -339,6 +343,8 @@ export type ShopResolvers<ContextType = any, ParentType extends ResolversParentT
   long?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  server?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -384,6 +390,8 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   quantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  photo?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 

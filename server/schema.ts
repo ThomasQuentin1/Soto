@@ -42,6 +42,8 @@ const schema = gql`
     long: Float!
     lat: Float!
     id: Int!
+    server: String!
+    code: String!
   }
 
   type Account {
@@ -91,6 +93,8 @@ const schema = gql`
     scoreHealth: Int
     scoreEnvironment: Int
     quantity: String
+    photo: String!
+    url: String!
   }
 `;
 

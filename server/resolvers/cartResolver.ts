@@ -1,9 +1,9 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { Cart, Product, Resolvers } from "../../typing";
+import { Cart, Product, Resolvers, Shop } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
 
-const createCartFromRawData = async (rawCart: any[]) => {
+const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
   let totalPrice = 0;
 
   await Promise.all(
@@ -37,6 +37,14 @@ const createCartFromRawData = async (rawCart: any[]) => {
       scoreEnvironment: r.environmentScore,
       scoreHealth: r.healthscore,
       cartId: undefined,
+      photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
+        r.leclercId
+      }&use=d&cat=p&typeid=i&width=300`,
+      url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
+        shop!.code
+      }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
+        r.leclercId
+      }-${r.name.replace(/ /g, "-")}.aspx`,
     })),
     shop: ShopList[0],
   };
@@ -51,6 +59,8 @@ export const cartResolvers: Resolvers = {
       if (!context.user?.shopId)
         throw new UserInputError("select a shop first");
 
+      const shop = ShopList.find((s) => s.id == context.user.shopId);
+
       const rawCart = await usersQuery<any>(
         `SELECT * FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.id WHERE carts.id = ?`,
         [context.user.cartId]
@@ -58,12 +68,12 @@ export const cartResolvers: Resolvers = {
 
       if (!rawCart) throw new UserInputError("Bad parameters");
 
-      return await createCartFromRawData(rawCart);
+      return await createCartFromRawData(shop!, rawCart);
     },
     oldCarts: async (_obj, _args, context, _info) => {
       if (!context.user) throw new AuthenticationError("please login");
 
-      const rawAllCarts = await usersQuery<{ id: number; cartId: number }>(
+      const rawAllCarts = await usersQuery<any>(
         `SELECT carts.id as cartId, carts.*, products${context.user.shopId}.* FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.id WHERE carts.userId = ?`,
         [context.user.id]
       );
@@ -78,7 +88,14 @@ export const cartResolvers: Resolvers = {
         rawAllCarts.filter((f) => f.cartId == id)
       );
 
-      return await Promise.all(userCarts.map((c) => createCartFromRawData(c)));
+      return await Promise.all(
+        userCarts.map((c) => {
+          return createCartFromRawData(
+            ShopList.find((s) => s.id == c[0].driveId)!,
+            c
+          );
+        })
+      );
     },
   },
   Mutation: {
@@ -98,8 +115,8 @@ export const cartResolvers: Resolvers = {
     removeFromCart: async (_obj, args, context, _info) => {
       if (!context.user) throw new AuthenticationError("please login");
       const { cartId, id: userId, shopId } = context.user;
-      if (!cartId || !userId || !shopId)
-        throw new UserInputError("Bad parameters");
+      // if (!cartId || !userId || !shopId) // test me
+      //   throw new UserInputError("Bad parameters");
       if (!args.productId) throw new UserInputError("Bad parameters");
 
       await usersQuery(
