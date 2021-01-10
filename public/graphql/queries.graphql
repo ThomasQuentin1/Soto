@@ -1,0 +1,53 @@
+query Account {
+    account {
+        email,
+        criterions {
+            activated,
+            position,
+            id,
+            name {
+                fr,
+                en
+            }
+        },
+        obligations
+        {
+            activated,
+            id,
+            name {
+                fr,
+                en
+            }
+        },
+        currentShop {
+            name
+        }
+    }
+}
+
+query searchProduct ($query: String!) {
+    searchProducts(query: $query) {
+        name,
+        brand,
+        priceUnit,
+        priceMass,
+        ingredients,
+        packaging,
+        allergens,
+        nutriments,
+        nutriscore,
+        scoreHealth,
+        scoreEnvironment,
+        quantity
+    }
+}
+
+query shopList {
+    shopList {
+        id,
+        name,
+        city,
+        lat,
+        long
+    }
+}

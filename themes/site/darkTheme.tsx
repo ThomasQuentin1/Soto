@@ -1,15 +1,16 @@
 const darkTheme = {
-    firstColor: '#363537',
-    secondaryColor: "#2D2C2E",
+    firstColor: '#17223b',
+    secondaryColor: "#263859",
     thirdColor: "#000000",
-    body: '#363537',
-    header: '#363537',
-    footer: '#363537',
+    body: '#17223b',
+    header: '#17223b',
+    footer: '#17223b',
     text: '#FAFAFA',
-    toggleBorder: '#6B8096',
+    disabled: '#263859',
+    toggleBorder: '#6b778d',
     gradient: 'linear-gradient(#091236, #1E215D)',
     border : {
-        color: '#000000'
+        color: '#263859'
     }
 }
 

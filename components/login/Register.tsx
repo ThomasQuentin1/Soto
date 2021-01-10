@@ -11,46 +11,19 @@ import {sha256} from "js-sha256";
 import Step1 from "./stepper/Step1";
 import Step2 from "./stepper/Step2";
 import Router from "next/router";
-import {useMutation} from "@apollo/client";
-import {gql} from "@apollo/client/core";
+// import {useMutation} from "@apollo/client";
+// import {gql} from "@apollo/client/core";
 import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
+import {useRegisterMutation, useSetCriterionsMutation, useSetObligationsMutation} from "../../typing";
+import { CheckBoxData } from "components/shop/ObligationCheckboxList";
+import {CriteriaData} from "../shop/DragList";
 
+// import {CriteriaInput} from "interfaces/Settings"
 
 interface Props {
     setDisplayRegister: (b: boolean) => void;
 }
-
-// const requestRegister = async (email: string, username: string, password: string, cPassword: string) : Promise<[boolean, string]> => {
-//     if (password != cPassword)
-//     {
-//         // PROBLEME
-//         return [false, "Passwords are not the same"];
-//     }
-//     //
-//     // const headers = new Headers();
-//     // headers.append("Content-Type", "application/json");
-//     //
-//     // const raw = JSON.stringify({
-//     //     username: username,
-//     //     email: email,
-//     //     password: password
-//     // });
-//     // try {
-//     //     const response = (await (
-//     //         await fetch("http://localhost:5000/register", {
-//     //             method: "POST",
-//     //             body: raw,
-//     //             headers
-//     //         })
-//     //     ).json()) as RegisterResponse;
-//     //     return [response.success, response.message];
-//     // } catch (error) {
-//     //     return [false, "Connection error"]
-//     // }
-//     console.log(email + " " + username)
-//     return [true, "not implemented yet"]
-// };
 
 function getSteps() {
     return [
@@ -60,36 +33,34 @@ function getSteps() {
     ];
 }
 
-export const REGISTER_USER = gql`
-mutation Register($email: String!, $password: String!) {
-    register (email: $email, passwordSHA256: $password)}`;
-
-// interface RegisterTest {
-//     email: string;
-//     password: string;
-// }
-
 const Register = (props: Props) => {
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [cPassword, setCPassword] = useState("")
     const [activeStep, setActiveStep] = React.useState(0);
+    const [obligations, setObligations] = React.useState<CheckBoxData[]>([]);
+    const [criteria, setCriteria] = React.useState<CriteriaData[]>([]);
     const steps = getSteps();
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng');
     }
-    const [register] = useMutation(REGISTER_USER, { variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
-
+    const [register] = useRegisterMutation({ variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
+    const [obligationsMutation] = useSetObligationsMutation({variables: {
+            obligations: obligations.filter(item => item.checked).map(function (item) {
+                return {id: item.id}
+            })}})
+    const [criteriaMutation] = useSetCriterionsMutation({variables: {
+            criterias: criteria.map(function(item, index) {
+                return {id: item.id, position: index + 1}
+            })}})
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
                 return <Step1 setEmail={setEmail} setUsername={setUsername} setPassword={setPassword} setCPassword={setCPassword}/>;
             case 1:
-                return <Step2/>;
-            // case 2:
-            //     return 'This is the bit I really care about!';
+                return <Step2 setCriteria={setCriteria} setObligations={setObligations}/>;
             default:
                 return 'Unknown step';
         }
@@ -107,15 +78,27 @@ const Register = (props: Props) => {
         if (password !== cPassword)
             return;
         register().then(r => {
-            console.log(r)
-            if (r.errors)
+            if (r.errors) {
                 loginError(r.errors[0].message)
-            else {
-                loginSuccess("Logged in as " + username)
+            } else {
                 Cookies.set("token", r.data.register, {expires: 7})
-                Router.push("/")
+                criteria.map(function(item) {console.log({id: item.id, position: item.position})})
+                obligations.filter(item => item.checked).map(function (item) {console.log({id: item.id})})
+                criteriaMutation().then(r2 => {
+                    obligationsMutation().then(r3 => {
+                        if (!r2) {
+                            loginError("Criteria saving failed")
+                        } else if (!r3) {
+                            loginError("Obligations saving failed")
+                        } else {
+                            loginSuccess("Logged in as " + username)
+                            Router.push("/")
+                        }
+                    })
+                })
             }
         });
+
     }
 
     return (
