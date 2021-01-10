@@ -6,10 +6,11 @@ import {makeStyles} from "@material-ui/styles";
 import DeleteAccount from "../profile/DeleteAccount";
 import 'i18n';
 import Router from "next/router";
-import {gql} from "@apollo/client/core";
-import {useMutation} from "@apollo/client";
+// import {gql} from "@apollo/client/core";
+// import {useMutation} from "@apollo/client";
 import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie";
+import {useLoginMutation} from "../../typing";
 
 const useStyles = makeStyles(createStyles({
         buttonProgress: {
@@ -26,7 +27,7 @@ interface Props {
     setDisplayRegister: (b: boolean) => void;
 }
 
-export const LOGIN_USER = gql`mutation Login($email: String!, $password: String!) {login (email: $email, passwordSHA256: $password)}`;
+// export const LOGIN_USER = gql`mutation Login($email: String!, $password: String!) {login (email: $email, passwordSHA256: $password)}`;
 
 const Login = (props: Props) => {
     const [email, setEmail] = useState("");
@@ -35,7 +36,8 @@ const Login = (props: Props) => {
     const classes = useStyles();
     const timer = React.useRef<any>();
     const formValid = (email != "" && password != "")
-    const [login] = useMutation(LOGIN_USER, { variables: {email: email, password: sha256(password)}, errorPolicy: 'all', ignoreResults: false})
+    // const [login] = useMutation(LOGIN_USER, { variables: {email: email, password: sha256(password)}, errorPolicy: 'all', ignoreResults: false})
+    const [login] = useLoginMutation({ variables: {email: email, password: sha256(password)}, errorPolicy: 'all', ignoreResults: false})
 
     const handleButtonClick = () => {
         if (!loading) {
