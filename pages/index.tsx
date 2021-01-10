@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Button } from '@material-ui/core';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
@@ -39,6 +39,11 @@ export default () => {
                         <Typography align={'center'} style={{fontSize:'18px'}}>
                             Soto te proposera toujours le meilleur choix !
                         </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container xs={12} justify={'center'} style={{marginTop:'20px'}}>
+                    <Grid item>
+                        <Button color="secondary" style={{border:'1px solid'}} href={'shop'}>Commencer les courses !</Button>
                     </Grid>
                 </Grid>
                 {/*<Grid style={{marginTop:'40px'}} item xs={12} justify={'center'}>*/}
