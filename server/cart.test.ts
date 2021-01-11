@@ -38,6 +38,7 @@ describe("Cart", () => {
   });
 
   it("should search the old cart", async () => {
+    await Mutate("setShop", { shopId: 3 }, token);
     await Mutate("addToCart", { productId: 1 }, token);
     await Mutate("addToCart", { productId: 2 }, token);
     await Mutate("addToCart", { productId: 3 }, token);
