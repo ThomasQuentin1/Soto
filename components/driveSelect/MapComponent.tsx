@@ -39,6 +39,8 @@ const MapComponent = ({name, city, id} : MapComponentProps) => {
     // when the shop is setted, redirect to the index page
     if (shopSetted) {
       // here redirect to the index
+      console.log("shop setted");
+
     }
     
     const [SetShop] = useSetShopMutation({ variables: {id: id}, errorPolicy: 'all'})
