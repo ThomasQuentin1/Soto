@@ -1,23 +1,38 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { Product, Resolvers } from "../../typing";
-import { algoQuery, usersQuery } from "../query";
 import { ShopList } from "../constData/shopList";
+import { usersQuery } from "../query";
 
 export const productResolvers: Resolvers = {
   Query: {
     searchProducts: async (_obj, _args, context, _info) => {
-      return (await (usersQuery<any>(
-        `SELECT * FROM products${context.user?.shopId ?? 3} WHERE name LIKE ? OR keywords LIKE ? LIMIT 10`,
-        [`%${_args.query}%`, `%${_args.query}%`]
-      ))).map((r) => ({
+      const shop = ShopList.find((s) => s.id == (context.user?.shopId ?? 3));
+
+      const data = (
+        await usersQuery<any>(
+          `SELECT * FROM products${
+            context.user?.shopId ?? 3
+          } WHERE name LIKE ? OR keywords LIKE ? LIMIT 10`,
+          [`%${_args.query}%`, `%${_args.query}%`]
+        )
+      ).map<Product>((r) => ({
+        ...r,
         allergens: r.allergens?.split("|") ?? [],
         ingredients: r.ingredients?.split("|") ?? [],
         nutriments: r.nutriments?.split("|") ?? [],
         packaging: r.packaging?.split("|") ?? [],
         scoreEnvironment: r.environmentScore,
         scoreHealth: r.healthscore,
-        ...r,
-      })); // TODO: TEST
+        photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
+          r.leclercId
+        }&use=d&cat=p&typeid=i&width=300`,
+        url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
+          shop!.code
+        }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
+          r.leclercId
+        }-${r.name.replace(/ /g, "-")}.aspx`,
+      }));
+      return data;
     },
     shopList: async (_obj, _args, _context, _info) => {
       return ShopList;
@@ -29,11 +44,11 @@ export const productResolvers: Resolvers = {
       if (args.shopId == 0 || args.shopId > 4)
         throw new UserInputError("Bad shop id");
 
-      const maxCartId = (await usersQuery("SELECT cartId FROM users")).reduce<number>((max, current:any) => {
-        if (current.cartId > max)
-          return current.cartId;
-          else 
-        return max;
+      const maxCartId = (
+        await usersQuery("SELECT cartId FROM users")
+      ).reduce<number>((max, current: any) => {
+        if (current.cartId > max) return current.cartId;
+        else return max;
       }, 0);
 
       await usersQuery("UPDATE users SET shopId = ?, cartId = ? WHERE id = ?", [

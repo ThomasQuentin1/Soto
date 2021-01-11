@@ -5,9 +5,8 @@ const fs = require("fs");
 const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
 const mysql = require("mysql");
-import HealthScoring from "../server/algo/scoring/HealthScoring";
 import EnvScoring from "../server/algo/scoring/EnvScoring";
-
+import HealthScoring from "../server/algo/scoring/HealthScoring";
 
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
@@ -54,6 +53,7 @@ interface LeclercArticle {
 interface Article {
   name: string;
   brand: string;
+  leclercId: string;
   priceUnit: string;
   priceMass: string;
   ingredients: string[];
@@ -99,11 +99,13 @@ const sqlconnect = async () => {
 
 const start = async () => {
   const sql = await sqlconnect();
-  const db = new sqlite.Database("catalogue.db", (_err: any) => {});
+  const db = new sqlite.Database("catalogue.db", (err: any) => {
+    if (err) console.error(_err);
+  });
 
   const tableNameQuery = await query<{ name: string }>(
     db,
-    "SELECT name FROM sqlite_master where type='table' AND name LIKE '%ARTICLES'"
+    "SELECT name FROM sqlite_master where type='table' AND name LIKE '%_ARTICLES'"
   );
   const tableName = tableNameQuery[0].name;
 
@@ -175,19 +177,21 @@ const start = async () => {
         const health: IScoring = new HealthScoring();
         const environmnet: IScoring = new EnvScoring();
 
-
-        // need algo
-        serialized.scoreEnvironment = environmnet.getScore(serialized).toString();
+        serialized.scoreEnvironment = environmnet
+          .getScore(serialized)
+          .toString();
         serialized.scoreHealth = health.getScore(serialized).toString();
 
-
-        console.log(`Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`);
+        console.log(
+          `Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
+        );
 
         await sqlquery(
           sql,
-          "INSERT INTO products3 (name, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO products3 (name, leclercId, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             serialized.name,
+            final.leclercId,
             serialized.brand,
             serialized.priceUnit,
             serialized.priceMass,
@@ -250,7 +254,6 @@ const createProduct = async (
   const brands = product.brands;
   const name = product.product_name;
   const keywords = product._keywords;
- // console.log(product)
   // search in leclerc db
   const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
   const princeMass = leclerc.PRIX_UNITAIRE;
@@ -267,9 +270,11 @@ const createProduct = async (
     quantity: quantity,
     priceMass: princeMass,
     priceUnit: priceUnit,
-    scoreEnvironment: 0,
-    scoreHealth: 0,
     keywords,
+    scoreEnvironment,
+    scoreHealth,
+    keywords,
+    leclercId: leclerc.ID_PRODUIT_WEB,
   };
   return ret;
 };
