@@ -1,10 +1,8 @@
 import LoginController from "../components/login/LoginController";
-import DriveSelection from "../components/login/DriveSelection";
-import React, { useEffect } from "react";
+import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "components/global/Header";
-import { useShopListQuery } from 'typing';
 
 
 const LoginPage = () => {
@@ -18,7 +16,6 @@ const LoginPage = () => {
       }
     }
 
-    const {data, loading} = useShopListQuery();
       
     return (
         <div>
@@ -26,9 +23,6 @@ const LoginPage = () => {
                 <Header/>
                 <div>
                     <LoginController/>
-                    {/* {!loading &&
-                        <DriveSelection data={data}></DriveSelection>
-                    } */}
                 </div>
                 
             </DarkModeParent>

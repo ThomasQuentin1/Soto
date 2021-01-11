@@ -1,11 +1,10 @@
-import DriveSelection from "../components/login/DriveSelection";
+import DriveSelection from "../components/driveSelect/DriveSelection";
 import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "components/global/Header";
 import { useShopListQuery } from 'typing';
 import '../i18n';
-import { BrowserRouter } from "react-router-dom";
 
 const DriveSelectPage = () => {
     const [theme] = useDarkMode();
