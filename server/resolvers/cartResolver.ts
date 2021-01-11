@@ -114,8 +114,8 @@ export const cartResolvers: Resolvers = {
     removeFromCart: async (_obj, args, context, _info) => {
       if (!context.user) throw new AuthenticationError("please login");
       const { cartId, id: userId, shopId } = context.user;
-      // if (!cartId || !userId || !shopId) // test me
-      //   throw new UserInputError("Bad parameters");
+      if (!cartId || !userId || !shopId)
+        throw new UserInputError("Bad parameters");
       if (!args.productId) throw new UserInputError("Bad parameters");
 
       await usersQuery(
@@ -126,13 +126,13 @@ export const cartResolvers: Resolvers = {
     },
     clearCart: async (_obj, _args, context, _info) => {
       if (!context.user) throw new AuthenticationError("please login");
-      const { cartId, id } = context.user;
-      if (!cartId || !id) throw new UserInputError("Bad parameters");
+      const { cartId, id, shopId } = context.user;
+      if (!cartId || !id || !shopId) throw new UserInputError("Bad parameters");
 
-      await usersQuery("DELETE FROM carts WHERE id = ? AND userId = ?", [
-        cartId,
-        id,
-      ]);
+      await usersQuery(
+        "DELETE FROM carts WHERE id = ? AND userId = ? AND driveId = ?",
+        [cartId, id, shopId]
+      );
       return true;
     },
     confirmCart: async (_obj, _args, context, _info) => {
