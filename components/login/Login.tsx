@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, CircularProgress, createStyles, Divider, TextField, Typography} from "@material-ui/core";
 import {sha256} from "js-sha256";
 import {makeStyles} from "@material-ui/styles";
+import DeleteAccount from "../profile/DeleteAccount";
 import 'i18n';
 import Router from "next/router";
 import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";

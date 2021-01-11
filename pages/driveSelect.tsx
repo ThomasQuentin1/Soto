@@ -25,7 +25,7 @@ const DriveSelectPage = () => {
                 <Header/>
                 <div>
                     {!loading &&
-                        <DriveSelection data={data}></DriveSelection>
+                        <DriveSelection data={data}/>
                     }
                 </div>
             </DarkModeParent>

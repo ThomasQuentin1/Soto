@@ -1,25 +1,25 @@
-import { Typography, Card, CardContent, Button, Grid } from '@material-ui/core';
+import { Typography, Button, Grid } from '@material-ui/core';
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import CloseIcon from '@material-ui/icons/Close';
+// import { makeStyles } from '@material-ui/core/styles';
+// import CloseIcon from '@material-ui/icons/Close';
 import { useSetShopMutation } from 'typing';
 
-const useStyles = makeStyles({
-    root: {
-      minWidth: 275,
-    },
-    bullet: {
-      display: 'inline-block',
-      margin: '0 2px',
-      transform: 'scale(0.8)',
-    },
-    title: {
-      fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-  });
+// const useStyles = makeStyles({
+//     root: {
+//       minWidth: 275,
+//     },
+//     bullet: {
+//       display: 'inline-block',
+//       margin: '0 2px',
+//       transform: 'scale(0.8)',
+//     },
+//     title: {
+//       fontSize: 14,
+//     },
+//     pos: {
+//       marginBottom: 12,
+//     },
+//   });
 
 interface ListComponentProps {
     name: string;
@@ -28,9 +28,9 @@ interface ListComponentProps {
 }
 
 const ListComponent = ({name, city, id} : ListComponentProps) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
-    const [isToggled, setIsToggled] = useState(false);
+    // const [isToggled, setIsToggled] = useState(false);
     const [shopSetted, isShopSetted] = useState(false);
 
     // when the shop is setted, redirect to the index page

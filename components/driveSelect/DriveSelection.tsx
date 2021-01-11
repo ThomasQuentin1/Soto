@@ -44,7 +44,7 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
     }
     return (
         <Grid container justify={'flex-start'}>
-            <Grid container xs={9} style={{ height: '90vh'}}>
+            <Grid container xs={9} style={{ height: '80vh'}}>
                 <GoogleMapReact
                     defaultCenter={defaultSettings.center}
                     defaultZoom={defaultSettings.zoom}
@@ -62,12 +62,12 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
                         })}
                 </GoogleMapReact>
             </Grid>
-            <Grid container xs={3} style={{paddingLeft:'10px', maxHeight: '90vh', overflow:'auto'}}>
+            <Grid xs={3} style={{paddingLeft:'10px', maxHeight: '90vh', overflow:'auto'}}>
                 <Grid container justify={"center"} style={{paddingBottom:"30px"}}>
                     <Input onChange={(event: any) => {
                         setInput(event.target.value)
                     }}
-                    color='secondary'></Input>
+                    color='secondary' placeholder={"Search"}/>
                 </Grid>
                 <Grid container justify="flex-start" direction="column" spacing={5}>
                     {data && filteredShopList.map((shopInfo, index) => {
