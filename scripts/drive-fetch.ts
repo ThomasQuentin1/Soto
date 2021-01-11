@@ -119,12 +119,11 @@ const start = async () => {
 
   await Promise.all(
     articles.map(async (article) => {
-      const searchTerms = `${
-        article.LIBELLE_LIGNE_1
-      } ${article.LIBELLE_LIGNE_2.substr(
-        0,
-        article.LIBELLE_LIGNE_2.indexOf("-")
-      )}`.toLocaleLowerCase();
+      const searchTerms =
+        `${article.LIBELLE_LIGNE_1} ${article.LIBELLE_LIGNE_2.substr(
+          0,
+          article.LIBELLE_LIGNE_2.indexOf("-")
+        )}`?.toLocaleLowerCase() ?? "";
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
@@ -173,7 +172,7 @@ const start = async () => {
           ingredients: product.ingredients.join("|"),
           packaging: product.packaging.join("|"),
           allergens: product.allergens.toString(),
-          nutriment: product.nutriments.join("|"),
+          nutriments: product.nutriments.join("|"),
           keywords: product.keywords.join("|"),
         };
 
@@ -198,7 +197,10 @@ const start = async () => {
             serialized.allergens,
             serialized.nutriments,
             serialized.nutriscore,
+            serialized.scoreHealth,
+            serialized.scoreEnvironment,
             serialized.quantity,
+            serialized.keywords,
           ]
         );
       }

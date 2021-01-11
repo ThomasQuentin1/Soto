@@ -11,7 +11,7 @@ export default class HealthScoring extends AScoring {
       scoresCount++;
     });
 
-    switch (product.nutriscore.toLowerCase()) {
+    switch (product.nutriscore?.toLowerCase()) {
       case "a":
         scores.push(100);
         break;
@@ -27,8 +27,8 @@ export default class HealthScoring extends AScoring {
       case "e":
         scores.push(0);
         break;
-        default:
-            scoresCount -= 1;
+      default:
+        scoresCount -= 1;
     }
     return (
       scores.reduce((acc, curr) => {
