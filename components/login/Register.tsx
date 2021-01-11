@@ -15,6 +15,8 @@ import {useMutation} from "@apollo/client";
 import {gql} from "@apollo/client/core";
 import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
+// import DriveSelection from "../driveSelect/DriveSelection";
+// import {useShopListQuery} from "../../typing";
 
 
 interface Props {
@@ -64,11 +66,6 @@ export const REGISTER_USER = gql`
 mutation Register($email: String!, $password: String!) {
     register (email: $email, passwordSHA256: $password)}`;
 
-// interface RegisterTest {
-//     email: string;
-//     password: string;
-// }
-
 const Register = (props: Props) => {
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
@@ -81,6 +78,7 @@ const Register = (props: Props) => {
         lng = localStorage.getItem('lng');
     }
     const [register] = useMutation(REGISTER_USER, { variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
+    // const {data, loading} = useShopListQuery();
 
     const getStepContent = (step: number) => {
         switch (step) {
@@ -89,7 +87,11 @@ const Register = (props: Props) => {
             case 1:
                 return <Step2/>;
             // case 2:
-            //     return 'This is the bit I really care about!';
+            //     return <div>
+            //         {!loading &&
+            //         <DriveSelection data={data}/>
+            //         }
+            //     </div>;
             default:
                 return 'Unknown step';
         }

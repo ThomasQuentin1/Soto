@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 // import { Button } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 import '../i18n'
-// import RightPanel from "components/encapsulationComponents/RightPanel";
-// import ToggleLanguage from "components/settings/ToggleLanguage";
 import ToggleColorMode from "../components/settings/ToggleColorMode";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
@@ -15,6 +13,7 @@ import {sha256} from "js-sha256";
 import {loginError, loginSuccess} from "../public/notifications/notificationsFunctions";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
+import Router from "next/router";
 
 export const CHANGE_EMAIL = gql`
     mutation ChangeEmail($email: String!) {changeEmail (newEmail: $email)}`;
@@ -133,7 +132,12 @@ const ProfilePage = () => {
                                     Change Password
                                 </Button>
                             </div>
-                            <DeleteAccount/>
+                            <div>
+                                <DeleteAccount/>
+                                <Button variant="outlined" color="secondary" onClick={() => {Router.push("/driveSelect")}}>
+                                    {lng == 'fr' ? 'Changer mon drive' : 'Change my drive'}
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
