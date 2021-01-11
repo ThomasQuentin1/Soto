@@ -1,13 +1,13 @@
-import LoginController from "../components/login/LoginController";
 import DriveSelection from "../components/login/DriveSelection";
-import React, { useEffect } from "react";
+import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "components/global/Header";
 import { useShopListQuery } from 'typing';
+import '../i18n';
+import { BrowserRouter } from "react-router-dom";
 
-
-const LoginPage = () => {
+const DriveSelectPage = () => {
     const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     let lng : string | null = 'fr';
@@ -25,15 +25,13 @@ const LoginPage = () => {
             <DarkModeParent theme={tmpTheme}>
                 <Header/>
                 <div>
-                    <LoginController/>
-                    {/* {!loading &&
+                    {!loading &&
                         <DriveSelection data={data}></DriveSelection>
-                    } */}
+                    }
                 </div>
-                
             </DarkModeParent>
         </div>
     );
 }
 
-export default LoginPage;
+export default DriveSelectPage;
