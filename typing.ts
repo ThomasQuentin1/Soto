@@ -1,4 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -359,3 +361,115 @@ export type Resolvers<ContextType = any> = {
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
 */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+
+
+export const SetShopDocument = gql`
+    mutation SetShop($id: Int!) {
+  setShop(shopId: $id)
+}
+    `;
+export type SetShopMutationFn = Apollo.MutationFunction<SetShopMutation, SetShopMutationVariables>;
+
+/**
+ * __useSetShopMutation__
+ *
+ * To run a mutation, you first call `useSetShopMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetShopMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setShopMutation, { data, loading, error }] = useSetShopMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSetShopMutation(baseOptions?: Apollo.MutationHookOptions<SetShopMutation, SetShopMutationVariables>) {
+        return Apollo.useMutation<SetShopMutation, SetShopMutationVariables>(SetShopDocument, baseOptions);
+      }
+export type SetShopMutationHookResult = ReturnType<typeof useSetShopMutation>;
+export type SetShopMutationResult = Apollo.MutationResult<SetShopMutation>;
+export type SetShopMutationOptions = Apollo.BaseMutationOptions<SetShopMutation, SetShopMutationVariables>;
+export const ShopListDocument = gql`
+    query shopList {
+  shopList {
+    id
+    name
+    city
+    lat
+    long
+  }
+}
+    `;
+
+/**
+ * __useShopListQuery__
+ *
+ * To run a query within a React component, call `useShopListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useShopListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useShopListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useShopListQuery(baseOptions?: Apollo.QueryHookOptions<ShopListQuery, ShopListQueryVariables>) {
+        return Apollo.useQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, baseOptions);
+      }
+export function useShopListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShopListQuery, ShopListQueryVariables>) {
+          return Apollo.useLazyQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, baseOptions);
+        }
+export type ShopListQueryHookResult = ReturnType<typeof useShopListQuery>;
+export type ShopListLazyQueryHookResult = ReturnType<typeof useShopListLazyQuery>;
+export type ShopListQueryResult = Apollo.QueryResult<ShopListQuery, ShopListQueryVariables>;
+export const SearchProductDocument = gql`
+    query searchProduct($query: String!) {
+  searchProducts(query: $query) {
+    name
+    brand
+    priceUnit
+    priceMass
+    ingredients
+    packaging
+    allergens
+    nutriments
+    nutriscore
+    scoreHealth
+    scoreEnvironment
+    quantity
+  }
+}
+    `;
+
+/**
+ * __useSearchProductQuery__
+ *
+ * To run a query within a React component, call `useSearchProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchProductQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function useSearchProductQuery(baseOptions: Apollo.QueryHookOptions<SearchProductQuery, SearchProductQueryVariables>) {
+        return Apollo.useQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, baseOptions);
+      }
+export function useSearchProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchProductQuery, SearchProductQueryVariables>) {
+          return Apollo.useLazyQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, baseOptions);
+        }
+export type SearchProductQueryHookResult = ReturnType<typeof useSearchProductQuery>;
+export type SearchProductLazyQueryHookResult = ReturnType<typeof useSearchProductLazyQuery>;
+export type SearchProductQueryResult = Apollo.QueryResult<SearchProductQuery, SearchProductQueryVariables>;
