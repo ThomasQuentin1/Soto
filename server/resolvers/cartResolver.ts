@@ -109,7 +109,6 @@ export const cartResolvers: Resolvers = {
         "INSERT INTO carts ( id, userId, productId, driveId) VALUES (?, ?, ?, ?)",
         [cartId, id, args.productId, shopId]
       );
-
       return true;
     },
     removeFromCart: async (_obj, args, context, _info) => {
