@@ -3,7 +3,7 @@
 const mysql = require("mysql");
 
 const insertProduct =
-  "(id INT AUTO_INCREMENT primary key NOT NULL, leclercId VARCHAR(64), name VARCHAR(255), brand VARCHAR(64), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(1024), packaging VARCHAR(1024), allergens VARCHAR(256), nutriments VARCHAR(1024), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, quantity VARCHAR(16), keywords VARCHAR(1024))";
+  "(id INT AUTO_INCREMENT primary key NOT NULL, leclercId VARCHAR(64), name VARCHAR(1024), brand VARCHAR(64), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(4096), packaging VARCHAR(4096), allergens VARCHAR(4096), nutriments VARCHAR(4096), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, quantity VARCHAR(16), keywords VARCHAR(4096))";
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
     const con = mysql.createConnection({
