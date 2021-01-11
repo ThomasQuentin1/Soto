@@ -51,6 +51,7 @@ interface LeclercArticle {
 interface Article {
   name: string;
   brand: string;
+  leclercId: string;
   priceUnit: string;
   priceMass: string;
   ingredients: string[];
@@ -84,7 +85,7 @@ const sqlconnect = async () => {
       host: "51.11.241.109",
       user: "soto",
       password: "s0t0lefeu!",
-      database: "algo",
+      database: "users",
     });
     con.connect((err: any) => {
       if (err) reject(err);
@@ -96,11 +97,13 @@ const sqlconnect = async () => {
 
 const start = async () => {
   const sql = await sqlconnect();
-  const db = new sqlite.Database("catalogue.db", (_err: any) => { });
+  const db = new sqlite.Database("catalogue.db", (err: any) => {
+    if (err) console.error(_err);
+  });
 
   const tableNameQuery = await query<{ name: string }>(
     db,
-    "SELECT name FROM sqlite_master where type='table' AND name LIKE '%ARTICLES'"
+    "SELECT name FROM sqlite_master where type='table' AND name LIKE '%_ARTICLES'"
   );
   const tableName = tableNameQuery[0].name;
 
@@ -113,10 +116,10 @@ const start = async () => {
     articles.map(async (article) => {
       const searchTerms = `${
         article.LIBELLE_LIGNE_1
-        } ${article.LIBELLE_LIGNE_2.substr(
-          0,
-          article.LIBELLE_LIGNE_2.indexOf("-")
-        )}`.toLocaleLowerCase();
+      } ${article.LIBELLE_LIGNE_2.substr(
+        0,
+        article.LIBELLE_LIGNE_2.indexOf("-")
+      )}`.toLocaleLowerCase();
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
@@ -160,11 +163,13 @@ const start = async () => {
       if (bestProduct == null) console.log("Product not found");
       else {
         const final = await createProduct(article, bestProduct);
+        console.log("Inserted product id : " + final.leclercId);
         await sqlquery(
           sql,
-          "INSERT INTO products (name, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO products3 (name, leclercId, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             final.name,
+            final.leclercId,
             final.brand,
             final.priceUnit,
             final.priceMass,
@@ -176,7 +181,7 @@ const start = async () => {
             final.scoreHealth.toString(),
             final.scoreEnvironment.toString(),
             final.quantity,
-            final.keywords.join("|")
+            final.keywords.join("|"),
           ]
         );
       }
@@ -292,7 +297,7 @@ const createProduct = async (
   const packaging = (product.packaging || "").split(",");
   const brands = product.brands;
   const name = product.product_name;
-  const keywords = product._keywords
+  const keywords = product._keywords;
   // search in leclerc db
   const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
   const princeMass = leclerc.PRIX_UNITAIRE;
@@ -301,6 +306,7 @@ const createProduct = async (
   // need algo
   const scoreEnvironment = Math.floor(Math.random() * 100);
   const scoreHealth = nutriscoreToInt(nutriscore) * 20;
+
   const ret: Article = {
     allergens: allergens_tags,
     brand: brands,
@@ -314,7 +320,8 @@ const createProduct = async (
     priceUnit: priceUnit,
     scoreEnvironment,
     scoreHealth,
-    keywords
+    keywords,
+    leclercId: leclerc.ID_PRODUIT_WEB,
   };
   return ret;
 };

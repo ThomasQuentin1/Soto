@@ -9,15 +9,19 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
+
 
 export type Query = {
   __typename?: 'Query';
   account: Account;
   searchProducts: Array<Product>;
   shopList: Array<Shop>;
+  cart?: Maybe<Cart>;
+  oldCarts: Array<Maybe<Cart>>;
 };
 
 
@@ -36,6 +40,10 @@ export type Mutation = {
   changePassword: Scalars['Boolean'];
   changeEmail: Scalars['Boolean'];
   setShop: Scalars['Boolean'];
+  addToCart: Scalars['Boolean'];
+  removeFromCart: Scalars['Boolean'];
+  confirmCart: Scalars['Boolean'];
+  clearCart: Scalars['Boolean'];
 };
 
 
@@ -85,6 +93,25 @@ export type MutationSetShopArgs = {
   shopId: Scalars['Int'];
 };
 
+
+export type MutationAddToCartArgs = {
+  productId: Scalars['Int'];
+};
+
+
+export type MutationRemoveFromCartArgs = {
+  productId: Scalars['Int'];
+};
+
+export type Cart = {
+  __typename?: 'Cart';
+  products: Array<Product>;
+  dateCreated: Scalars['Date'];
+  dateLastEdit: Scalars['Date'];
+  shop: Shop;
+  price: Scalars['Float'];
+};
+
 export type Shop = {
   __typename?: 'Shop';
   name: Scalars['String'];
@@ -92,6 +119,8 @@ export type Shop = {
   long: Scalars['Float'];
   lat: Scalars['Float'];
   id: Scalars['Int'];
+  server: Scalars['String'];
+  code: Scalars['String'];
 };
 
 export type Account = {
@@ -146,6 +175,8 @@ export type Product = {
   scoreHealth?: Maybe<Scalars['Int']>;
   scoreEnvironment?: Maybe<Scalars['Int']>;
   quantity?: Maybe<Scalars['String']>;
+  photo: Scalars['String'];
+  url: Scalars['String'];
 };
 
 export enum CacheControlScope {
@@ -227,13 +258,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Date: ResolverTypeWrapper<Scalars['Date']>,
   Query: ResolverTypeWrapper<{}>,
   String: ResolverTypeWrapper<Scalars['String']>,
   Mutation: ResolverTypeWrapper<{}>,
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   Int: ResolverTypeWrapper<Scalars['Int']>,
-  Shop: ResolverTypeWrapper<Shop>,
+  Cart: ResolverTypeWrapper<Cart>,
   Float: ResolverTypeWrapper<Scalars['Float']>,
+  Shop: ResolverTypeWrapper<Shop>,
   Account: ResolverTypeWrapper<Account>,
   MultilangString: ResolverTypeWrapper<MultilangString>,
   Criterion: ResolverTypeWrapper<Criterion>,
@@ -247,13 +280,15 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Date: Scalars['Date'],
   Query: {},
   String: Scalars['String'],
   Mutation: {},
   Boolean: Scalars['Boolean'],
   Int: Scalars['Int'],
-  Shop: Shop,
+  Cart: Cart,
   Float: Scalars['Float'],
+  Shop: Shop,
   Account: Account,
   MultilangString: MultilangString,
   Criterion: Criterion,
@@ -265,10 +300,16 @@ export type ResolversParentTypes = {
   Upload: Scalars['Upload'],
 };
 
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date'
+}
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
   searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
   shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
+  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
+  oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -281,6 +322,19 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   changePassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'newPasswordSHA256'>>,
   changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
   setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
+  addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
+  removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
+  confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+};
+
+export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
+  products?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>,
+  dateCreated?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
+  dateLastEdit?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
+  shop?: Resolver<ResolversTypes['Shop'], ParentType, ContextType>,
+  price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type ShopResolvers<ContextType = any, ParentType extends ResolversParentTypes['Shop'] = ResolversParentTypes['Shop']> = {
@@ -289,6 +343,8 @@ export type ShopResolvers<ContextType = any, ParentType extends ResolversParentT
   long?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  server?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -334,6 +390,8 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   quantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  photo?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -342,8 +400,10 @@ export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 }
 
 export type Resolvers<ContextType = any> = {
+  Date?: GraphQLScalarType,
   Query?: QueryResolvers<ContextType>,
   Mutation?: MutationResolvers<ContextType>,
+  Cart?: CartResolvers<ContextType>,
   Shop?: ShopResolvers<ContextType>,
   Account?: AccountResolvers<ContextType>,
   MultilangString?: MultilangStringResolvers<ContextType>,

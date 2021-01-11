@@ -10,6 +10,8 @@ const QorM = async (op: "Query" | "Mutation", resolver: string, args: any, token
     }
     // @ts-ignore
     const elem: any = resolvers![op]![resolver];
+    if (!elem)
+        throw "bad resolver name, or missmatch on query/mutation";
     return await elem({}, args, { user }, {});
 }
 

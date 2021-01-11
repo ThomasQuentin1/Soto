@@ -1,10 +1,14 @@
 import { gql } from "apollo-server-micro";
 
 const schema = gql`
+  scalar Date
+
   type Query {
     account: Account!
     searchProducts(query: String!): [Product!]!
     shopList: [Shop!]!
+    cart: Cart
+    oldCarts: [Cart]!
   }
 
   type Mutation {
@@ -17,6 +21,19 @@ const schema = gql`
     changePassword(newPasswordSHA256: String!): Boolean!
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
+
+    addToCart(productId: Int!): Boolean!
+    removeFromCart(productId: Int!): Boolean!
+    confirmCart: Boolean!
+    clearCart: Boolean!
+  }
+
+  type Cart {
+    products: [Product!]!
+    dateCreated: Date!
+    dateLastEdit: Date!
+    shop: Shop!
+    price: Float!
   }
 
   type Shop {
@@ -25,6 +42,8 @@ const schema = gql`
     long: Float!
     lat: Float!
     id: Int!
+    server: String!
+    code: String!
   }
 
   type Account {
@@ -74,6 +93,8 @@ const schema = gql`
     scoreHealth: Int
     scoreEnvironment: Int
     quantity: String
+    photo: String!
+    url: String!
   }
 `;
 

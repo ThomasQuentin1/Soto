@@ -34,7 +34,21 @@ export const usersQuery = async <T>(query: string, values?: string[]) => {
     })
 }
 
-export const endConnections = () => {
-    algoPool.end();
-    usersPool.end();
+let connections = 0;
+
+export const openConnection = () => {
+    connections += 1;
 }
+
+export const endConnection = async () => (
+    new Promise((resolve) => {
+        if (connections != 0) {
+            connections -= 1;
+            resolve();
+        } else {
+            setTimeout(() => {
+                algoPool.end();
+                usersPool.end();
+                resolve();
+            }, 1000)
+    }}))

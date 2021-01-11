@@ -3,7 +3,7 @@
 const mysql = require("mysql");
 
 const insertProduct =
-  "(id INT AUTO_INCREMENT primary key NOT NULL, name VARCHAR(255), brand VARCHAR(64), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(1024), packaging VARCHAR(512), allergens VARCHAR(256), nutriments VARCHAR(1024), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, quantity VARCHAR(16), keywords VARCHAR(1024))";
+  "(id INT AUTO_INCREMENT primary key NOT NULL, leclercId VARCHAR(64), name VARCHAR(255), brand VARCHAR(64), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(1024), packaging VARCHAR(1024), allergens VARCHAR(256), nutriments VARCHAR(1024), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, quantity VARCHAR(16), keywords VARCHAR(1024))";
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
     const con = mysql.createConnection({
@@ -55,7 +55,7 @@ const start = async () => {
   );
   await sqlquery(
     sql,
-    "CREATE TABLE carts (id INT NOT NULL, userId INT NOT NULL, productId INT NOT NULL, driveId INT NOT NULL);"
+    "CREATE TABLE carts (id INT NOT NULL, userId INT NOT NULL, productId INT NOT NULL, driveId INT NOT NULL, date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP);"
   );
   await sqlquery(sql, `CREATE TABLE products1 ${insertProduct};`);
   await sqlquery(sql, `CREATE TABLE products2 ${insertProduct};`);

@@ -1,12 +1,17 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { endConnections } from "./query";
+import { endConnection, openConnection } from "./query";
 import { Mutate, Query } from "./utils/tests";
 
 let token: string = "";
 const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
 
+
 afterAll(() => {
-  endConnections();
+  openConnection();
+});
+
+afterAll(async () => {
+  await endConnection();
 });
 
 describe("Shop list gathering", () => {
