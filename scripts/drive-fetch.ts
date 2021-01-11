@@ -8,6 +8,9 @@ const mysql = require("mysql");
 import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
 
+const EnvScorer = new EnvScoring();
+const HealthScorer = new HealthScoring();
+
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
     fs.writeFile(path, data, (err: any) => {
@@ -174,13 +177,8 @@ const start = async () => {
           keywords: product.keywords.join("|"),
         };
 
-        const health: IScoring = new HealthScoring();
-        const environmnet: IScoring = new EnvScoring();
-
-        serialized.scoreEnvironment = environmnet
-          .getScore(serialized)
-          .toString();
-        serialized.scoreHealth = health.getScore(serialized).toString();
+        serialized.scoreEnvironment = EnvScorer.getScore(serialized).toString();
+        serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
 
         console.log(
           `Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
@@ -191,7 +189,7 @@ const start = async () => {
           "INSERT INTO products3 (name, leclercId, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             serialized.name,
-            final.leclercId,
+            serialized.leclercId,
             serialized.brand,
             serialized.priceUnit,
             serialized.priceMass,
@@ -270,9 +268,6 @@ const createProduct = async (
     quantity: quantity,
     priceMass: princeMass,
     priceUnit: priceUnit,
-    keywords,
-    scoreEnvironment,
-    scoreHealth,
     keywords,
     leclercId: leclerc.ID_PRODUIT_WEB,
   };
