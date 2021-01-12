@@ -473,3 +473,38 @@ export function useSearchProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type SearchProductQueryHookResult = ReturnType<typeof useSearchProductQuery>;
 export type SearchProductLazyQueryHookResult = ReturnType<typeof useSearchProductLazyQuery>;
 export type SearchProductQueryResult = Apollo.QueryResult<SearchProductQuery, SearchProductQueryVariables>;
+export const AccountDocument = gql`
+    query Account {
+  account {
+    email
+    currentShop {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useAccountQuery__
+ *
+ * To run a query within a React component, call `useAccountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAccountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAccountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAccountQuery(baseOptions?: Apollo.QueryHookOptions<AccountQuery, AccountQueryVariables>) {
+        return Apollo.useQuery<AccountQuery, AccountQueryVariables>(AccountDocument, baseOptions);
+      }
+export function useAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AccountQuery, AccountQueryVariables>) {
+          return Apollo.useLazyQuery<AccountQuery, AccountQueryVariables>(AccountDocument, baseOptions);
+        }
+export type AccountQueryHookResult = ReturnType<typeof useAccountQuery>;
+export type AccountLazyQueryHookResult = ReturnType<typeof useAccountLazyQuery>;
+export type AccountQueryResult = Apollo.QueryResult<AccountQuery, AccountQueryVariables>;

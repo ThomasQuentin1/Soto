@@ -24,3 +24,12 @@ query searchProduct ($query: String!) {
         quantity
     }
 }
+
+query Account {
+    account {
+        email,
+        currentShop {
+            name
+        }
+    }
+}
