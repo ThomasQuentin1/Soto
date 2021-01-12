@@ -1,0 +1,28 @@
+query Cart {
+    cart {
+        products {
+            name,
+            brand,
+            priceUnit,
+            priceMass,
+            ingredients,
+            packaging,
+            allergens,
+            nutriments,
+            nutriscore,
+            scoreHealth,
+            scoreEnvironment,
+            quantity
+        },
+        dateCreated,
+        dateLastEdit,
+        shop {
+            name,
+            city,
+            long,
+            lat,
+            id,
+        },
+        price
+    }
+}

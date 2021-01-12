@@ -11,7 +11,7 @@ const calculateTotalPrice = (basket: CountableProduct[]) => {
 
     if (basket) {
         basket.map((item) => {
-            totalPrice += item.product.price * item.quantity;
+            totalPrice += Number(item.product.priceUnit) * item.quantity;
         });
     }
     return totalPrice;

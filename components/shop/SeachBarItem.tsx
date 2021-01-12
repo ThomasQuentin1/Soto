@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
 import CountableProduct from 'interfaces/CountableProduct';
+import { useAddToCartMutation } from 'typing';
 
 const getRandomIntInclusive = (min : number, max : number) => {
     min = Math.ceil(min);
@@ -13,6 +14,7 @@ const getRandomIntInclusive = (min : number, max : number) => {
   }
 
 const AddToBasket = (countableProduct: CountableProduct, basket: CountableProduct[], setBasket: any) => {
+
     let newBasket: CountableProduct[] = [];
     basket.map((item) => newBasket.push(item));
     newBasket.push(countableProduct);
@@ -21,18 +23,29 @@ const AddToBasket = (countableProduct: CountableProduct, basket: CountableProduc
 
 const SearchBarItem = ({countableProduct, basket, setBasket, setOpen} : SearchBarItemProps) => {
     let scoreColor : string = "red";
+    // uncomment when we get id of the product from the backend
+    // const [AddToCartMutation] = useAddToCartMutation({variables: { id: countableProduct.product.id}, errorPolicy: 'all'})
 
-    countableProduct.product.score = getRandomIntInclusive(50, 99); // TODO remove this, it's just for demo
+    countableProduct.product.scoreHealth = getRandomIntInclusive(50, 99); // TODO remove this, it's just for demo
     
-    if (countableProduct.product.score >= 40) {
+    if (countableProduct.product.scoreHealth >= 40) {
         scoreColor = "orange";
     }
-    if (countableProduct.product.score >= 75) {
+    if (countableProduct.product.scoreHealth >= 75) {
         scoreColor = "green";
     }
     return (
         <Grid container style={{display:'flex', flexDirection:'row'}} className="item_search_bar" onClick={() => {
+                    // add in local
                     AddToBasket(countableProduct, basket, setBasket);
+                    // add in server
+                    // AddToCartMutation().then((r) => {
+                    //     if (r.errors) {
+                    //         console.log(r.errors[0].message);
+                    //     } else {
+                    //         console.log('product added to cart')
+                    //     }
+                    // });
                     setOpen(false);
                 }
             }>
@@ -43,12 +56,12 @@ const SearchBarItem = ({countableProduct, basket, setBasket, setOpen} : SearchBa
             item xs={8} style={{textAlign: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                 {/** This is the dot that show the score next to the product */}
                 <div style={{position:'relative'}}>
-                    <Typography variant="subtitle2" style={{right:'10px', position:'absolute', fontWeight:'bold', color:scoreColor}}>Score : {countableProduct.product.score}%</Typography>
+                    <Typography variant="subtitle2" style={{right:'10px', position:'absolute', fontWeight:'bold', color:scoreColor}}>Score : {countableProduct.product.scoreHealth}%</Typography>
                 </div>
 
                 <Container><Typography variant="h6" style={{marginTop:'19px'}}>{countableProduct.product.name}</Typography></Container>
                 <Container>Marque : {countableProduct.product.brand}</Container>
-                <Container>{countableProduct.product.price.toFixed(2)}€</Container>
+                <Container>{Number(countableProduct.product.priceUnit).toFixed(2)}€</Container>
             </Grid>
         </Grid>
 
