@@ -33,3 +33,12 @@ mutation subscribeNotifications($token: String!) {
 mutation setShop($shopId: Int!) {
     setShop(shopId: $shopId)
 }
+
+
+mutation AddToCart($id: Int!) {
+    addToCart (productId : $id)
+}
+
+mutation RemoveFromCart($id: Int!) {
+    removeFromCart (productId : $id)
+}

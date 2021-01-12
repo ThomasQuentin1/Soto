@@ -8,6 +8,7 @@ import Zoom from '@material-ui/core/Zoom';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CountableProduct from 'interfaces/CountableProduct';
+import { useRemoveFromCartMutation } from 'typing';
 
 const color = {
     dark_red: "#ff0000",
@@ -45,12 +46,22 @@ const removeFromBasket = (basket: CountableProduct[], setBasket: any, index: num
     setBasket(newBasket);
 }
 
-const returnRemoveOrReduceButton = (countableProduct: CountableProduct, basket: CountableProduct[], setBasket: any, index: number) => {
+const returnRemoveOrReduceButton = (countableProduct: CountableProduct, basket: CountableProduct[], setBasket: any, index: number, RemoveFromCartMutation: any) => {
     if (countableProduct.quantity === 1) {
         return (
             <Button
                 color="secondary"
-                onClick={() => removeFromBasket(basket, setBasket, index)}
+                onClick={() => {
+                    RemoveFromCartMutation().then((r) => {
+                        if (r.error) {
+                            console.log(r.error[0].message);
+                        } else {
+                            console.log('Item remove from cart')
+                        }
+                    });
+                    removeFromBasket(basket, setBasket, index)
+                }
+                }
                 style={{borderRadius: "24px", fontSize: '23px', height: '25px', width: '25px'}}><DeleteIcon fontSize={"small"}></DeleteIcon>
             </Button>);
     } else {
@@ -64,20 +75,24 @@ const returnRemoveOrReduceButton = (countableProduct: CountableProduct, basket: 
 }
 
 const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) => {
+
+    // Mutation to remove this item from the cart
+const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { id: 1 /*countableProduct.product.id */}, errorPolicy: 'all'})
+
     let scoreColorAlpha : string = color.red_alpha; // red
     let scoreColor : string = color.red;
 
     const [isToggled, SetIsToggled] = useState<boolean>(false);
 
-    if (countableProduct.product.score >= 40) {
+    if (Number(countableProduct.product.scoreHealth) >= 40) {
         scoreColorAlpha = color.orange_alpha; // orange
         scoreColor = color.orange;
     }
-    if (countableProduct.product.score >= 75) {
+    if (Number(countableProduct.product.scoreHealth) >= 75) {
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(countableProduct, basket, setBasket, index);
+    const removeOrReduceButton = returnRemoveOrReduceButton(countableProduct, basket, setBasket, index, RemoveFromCartMutation);
     return (
         <>
         {countableProduct && !isToggled &&
@@ -85,11 +100,11 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
             item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
                 {/** This is the bar that show the score of the product */}
                 <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
-                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.score}%</Typography>
-                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.score}%`}}/>
+                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.scoreHealth}%</Typography>
+                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.scoreHealth}%`}}/>
                 </div>
                 <Container style={{marginBottom: '5px', marginTop: '10px'}}>{countableProduct.product.name}</Container>
-                <Container>{countableProduct.product.price.toFixed(2)}€</Container>
+                <Container>{Number(countableProduct.product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
                     {removeOrReduceButton}
@@ -110,11 +125,11 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
             <Grid
             item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
                 <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
-                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.score}%</Typography>
-                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.score}%`}}/>
+                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.scoreHealth}%</Typography>
+                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.scoreHealth}%`}}/>
                 </div>
                 <Container style={{marginBottom: '5px', marginTop: '10px'}}>{countableProduct.product.name}</Container>
-                <Container>{countableProduct.product.price.toFixed(2)}€</Container>
+                <Container>{Number(countableProduct.product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
                     {removeOrReduceButton}
@@ -124,7 +139,7 @@ const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) 
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
-                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {countableProduct.product.score}</Typography>
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {countableProduct.product.scoreHealth}</Typography>
                 <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {countableProduct.product.brand}</Typography>
                 <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
                 <Typography align="left">Ingrédients : {countableProduct.product.ingredients}</Typography>

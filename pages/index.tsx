@@ -41,7 +41,7 @@ export default () => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container xs={12} justify={'center'} style={{marginTop:'20px'}}>
+                <Grid container xs={12} style={{marginTop:'20px', justifyContent:'center'}}>
                     <Grid item>
                         <Button color="secondary" style={{border:'1px solid'}} href={'shop'}>Commencer les courses !</Button>
                     </Grid>

@@ -13,6 +13,17 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
+import { Product, useCartQuery } from 'typing';
+import CoutableProduct from "interfaces/CountableProduct";
+
+const ReturnAsCountable = (products: Product[]) => {
+  let coutableProducts : CoutableProduct[] = [];
+  products.map((product) => {
+    const toPush : CoutableProduct = {product: product, quantity: 1}
+    coutableProducts.push(toPush);
+  });
+  return coutableProducts;
+}
 
 const ShopPage = () => {
   const [theme] = useDarkMode();
@@ -25,8 +36,15 @@ const ShopPage = () => {
     }
   }
   const [t] = useTranslation();
-  // const [basket, setBasket] = useState<Product[]>([{name: 'Pain', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'https://www.moneyvox.fr/i/media/05l/005991lb54.jpg', price: 2.47, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'Pâtes', brand: 'Barilla', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'Semoule de blé dur, eau. peut contenir des traces de soja.', manual: 'no name', numberOfProduct: 1, picture: 'https://images-na.ssl-images-amazon.com/images/I/41AsfNVKjAL._AC_SY400_.jpg', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 50}, {name: 'Pesto', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'https://i1.wp.com/www.mygusto.co.uk/wp-content/uploads/2020/03/0024839.jpg?fit=700%2C700&ssl=1', price: 11.01  , productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}, {name: 'no name', brand: 'no name', description: 'no name', energy: {carbohydrates: 1, fat: 1, kcal: 1, protein: 1, salt: 1}, geographicOrigin: 'no name', ingredients: 'no name', manual: 'no name', numberOfProduct: 1, picture: 'no name', price: 1, productInformation: 'no name', quantity: 1, quantityType: 'no name', score: 100}]);
+
+  // get the current cart of 
+  const {data, loading} = useCartQuery();
   const [basket, setBasket] = useState<CountableProduct[]>([]);
+
+  if (!loading && data && basket != []) {
+    setBasket(ReturnAsCountable(data.products))
+  }
+
   const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
   if (basket.length != 0 && !isAnyItem) {
     setIsAnyItem(true);

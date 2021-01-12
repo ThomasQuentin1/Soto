@@ -36,9 +36,9 @@ const GetThreeFirstProducts = (data: any) => {
             return;
         let countableProduct = {product: {}, quantity: 0} as CountableProduct;
         countableProduct.product.name = element.name;
-        countableProduct.product.price = Number(element.priceUnit);
+        countableProduct.product.priceUnit = element.priceUnit;
         countableProduct.product.brand = element.brand;
-        countableProduct.product.score = element.scoreHealth;
+        countableProduct.product.scoreHealth = element.scoreHealth;
         countableProduct.product.quantity = element.quantity;
         countableProduct.quantity = 1;
         countableProductsToReturn.push(countableProduct);
