@@ -44,14 +44,14 @@ const ListComponent = ({name, city, id} : ListComponentProps) => {
         <Grid item>
             <Typography color="secondary" variant="subtitle1">{name}</Typography>
             <Typography color="secondary" variant="subtitle2">{city}</Typography>
-            <Button color="secondary" style={{border:'1px solid', marginTop:'15px'}}
+            <Button color="secondary" size='small' style={{border:'1px solid', marginTop:'15px'}}
             onClick={() => SetShop().then((err) => {
                 if (err.errors) {
                     console.log(err.errors[0].message);
                 } else {
                     isShopSetted(!shopSetted)}
                 }
-                )}><Typography>Choisir ce drive</Typography></Button>
+                )}><Typography variant='caption'>Choisir ce drive</Typography></Button>
         </Grid>
 
             );
