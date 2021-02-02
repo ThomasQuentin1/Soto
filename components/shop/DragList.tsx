@@ -22,7 +22,7 @@ export interface CriteriaData {
 
 interface Props {
     criteriaData: CriteriaData[];
-    setCriteria: (items: CriteriaData[]) => void;
+    // setCriteria: (items: CriteriaData[]) => void;
 }
 
 const DragList = (props: Props) => {
@@ -38,7 +38,7 @@ const DragList = (props: Props) => {
                 setItems(arrayMove(items, oldIndex, newIndex))
                 // changePositions(oldIndex, newIndex)
                 // props.criteriaData[oldIndex].position = newIndex + 1
-                props.setCriteria(items)
+                // props.setCriteria(items)
         }}
         renderList={({ children, props }) => 
             <ul

@@ -7,17 +7,20 @@ import {criteriaBaseData, obligationsBaseData} from "../../public/values";
 
 interface Props {
     shop: boolean
-    setCriteria: (items: CriteriaData[]) => void;
-    setObligations: (items: CheckBoxData[]) => void;
     criteria?: CriteriaData[]
     obligations?: CheckBoxData[]
 }
 
+/*interface Setters {
+    setCriteria: (items: CriteriaData[]) => void;
+    setObligations: (items: CheckBoxData[]) => void;
+}*/
+
 const returnButtonToggle = (criteriaIsActive : Boolean, obligationIsActive : Boolean, props: Props) => {
     if (criteriaIsActive) {
-        return(<DragList criteriaData={props.shop ? props.criteria! : criteriaBaseData} setCriteria={props.setCriteria}/>);
+        return(<DragList criteriaData={props.shop ? props.criteria! : criteriaBaseData}/>);
     } else if (obligationIsActive) {
-        return(<ObligationCheckboxList data={props.shop ? props.obligations! : obligationsBaseData} setObligations={props.setObligations}/>);
+        return(<ObligationCheckboxList data={props.shop ? props.obligations! : obligationsBaseData}/>);
     } else {
         return(<></>) // Display nothing
     }
@@ -27,7 +30,6 @@ const ParametersSelect = (props: Props) => {
     const [t] = useTranslation();
     const [criteriaIsActive, setCriteriaIsActive] = useState<Boolean>(!props.shop);
     const [obligationIsActive, setObligationIsActive] = useState<Boolean>(false);
-
     const buttonToggle = returnButtonToggle(criteriaIsActive, obligationIsActive, props);
 
     return (

@@ -12,19 +12,19 @@ export interface CheckBoxData {
 
 interface ObligationCheckboxListProps {
     data: CheckBoxData[];
-    setObligations: (list: CheckBoxData[]) => void
+    // setObligations: (list: CheckBoxData[]) => void
 }
 
 // const SendToBack = () => {
 // }
 
-const handleChange = (list : CheckBoxData[], setList : React.Dispatch<React.SetStateAction<CheckBoxData[]>>, id : number, props: ObligationCheckboxListProps) => {
+const handleChange = (list : CheckBoxData[], setList : React.Dispatch<React.SetStateAction<CheckBoxData[]>>, id : number) => {
     let newList : CheckBoxData[] = [];
     list.map((item) => newList.push(item));
     let index = list.findIndex((item) => item.id == id);
     newList[index].checked = !list[index].checked;
     setList(newList);
-    props.setObligations(newList)
+    // props.setObligations(newList)
 };
 
     
@@ -42,7 +42,7 @@ const ObligationCheckboxList = (data : ObligationCheckboxListProps) => {
                 control={
                     <Checkbox
                         checked={item.checked}
-                        onChange={() => handleChange(list, setList, item.id, data)}
+                        onChange={() => handleChange(list, setList, item.id)}
                         name={item.label}
                         color="secondary"
                     />}

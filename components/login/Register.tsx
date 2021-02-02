@@ -39,8 +39,8 @@ const Register = (props: Props) => {
     const [password, setPassword] = useState("")
     const [cPassword, setCPassword] = useState("")
     const [activeStep, setActiveStep] = React.useState(0);
-    const [obligations, setObligations] = React.useState<CheckBoxData[]>([]);
-    const [criteria, setCriteria] = React.useState<CriteriaData[]>([]);
+    const [obligations] = React.useState<CheckBoxData[]>([]);
+    const [criteria] = React.useState<CriteriaData[]>([]);
     const steps = getSteps();
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
@@ -60,7 +60,8 @@ const Register = (props: Props) => {
             case 0:
                 return <Step1 setEmail={setEmail} setUsername={setUsername} setPassword={setPassword} setCPassword={setCPassword}/>;
             case 1:
-                return <Step2 setCriteria={setCriteria} setObligations={setObligations}/>;
+                // return <Step2 setCriteria={setCriteria} setObligations={setObligations}/>;
+                return <Step2/>;
             default:
                 return 'Unknown step';
         }

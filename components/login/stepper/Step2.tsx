@@ -1,16 +1,16 @@
 
 import React from "react"
 import ParametersSelect from "../../shop/ParametersSelect";
-import {CheckBoxData} from "../../shop/ObligationCheckboxList";
-import {CriteriaData} from "../../shop/DragList";
+// import {CheckBoxData} from "../../shop/ObligationCheckboxList";
+// import {CriteriaData} from "../../shop/DragList";
 
 
-interface Props {
+/*interface Props {
     setCriteria: (items: CriteriaData[]) => void;
     setObligations: (items: CheckBoxData[]) => void;
-}
+}*/
 
-const Step2 = (props: Props) => {
+const Step2 = () => {
     // let lng : string | null = 'fr';
     // if (typeof window !== 'undefined') {
     //     lng = localStorage.getItem('lng');
@@ -84,7 +84,8 @@ const Step2 = (props: Props) => {
         // </div>
         <div>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <ParametersSelect shop={false} setCriteria={props.setCriteria} setObligations={props.setObligations}/>
+                {/*<ParametersSelect shop={false} setCriteria={props.setCriteria} setObligations={props.setObligations}/>*/}
+                <ParametersSelect shop={false}/>
             </div>
         </div>
 

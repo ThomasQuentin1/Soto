@@ -166,7 +166,7 @@ const ProfilePage = () => {
                             </div>
                             <DeleteAccount/>
                             <div style={{width: "400px", marginTop: "10px"}}>
-                                <ParametersSelect shop={true} setCriteria={setCriteria} setObligations={setObligations} criteria={criteria} obligations={obligations}/>
+                                <ParametersSelect shop={true}/>
                                 <Button
                                 onClick={() => {
                                     criteriaMutation().then(r2 => {
