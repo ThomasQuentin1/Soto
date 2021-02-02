@@ -2,12 +2,8 @@ import React, {useState} from 'react';
 import {Button, CircularProgress, createStyles, Divider, TextField, Typography} from "@material-ui/core";
 import {sha256} from "js-sha256";
 import {makeStyles} from "@material-ui/styles";
-// import Router from "next/router";
-import DeleteAccount from "../profile/DeleteAccount";
 import 'i18n';
 import Router from "next/router";
-// import {gql} from "@apollo/client/core";
-// import {useMutation} from "@apollo/client";
 import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie";
 import {useLoginMutation} from "../../typing";
@@ -27,8 +23,6 @@ interface Props {
     setDisplayRegister: (b: boolean) => void;
 }
 
-// export const LOGIN_USER = gql`mutation Login($email: String!, $password: String!) {login (email: $email, passwordSHA256: $password)}`;
-
 const Login = (props: Props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,7 +30,6 @@ const Login = (props: Props) => {
     const classes = useStyles();
     const timer = React.useRef<any>();
     const formValid = (email != "" && password != "")
-    // const [login] = useMutation(LOGIN_USER, { variables: {email: email, password: sha256(password)}, errorPolicy: 'all', ignoreResults: false})
     const [login] = useLoginMutation({ variables: {email: email, password: sha256(password)}, errorPolicy: 'all', ignoreResults: false})
 
     const handleButtonClick = () => {
@@ -99,31 +92,10 @@ const Login = (props: Props) => {
                                     Router.push("/")
                                 }
                             });
-                            // requestLogin(email, sha256(password)).then(function(value) {
-                            //     if (value[0]) {
-                            //         loginSuccess();
-                            //         console.log(value[1])
-                            //         Router.push("/")
-                            //     }
-                            //     else {
-                            //         loginError();
-                            //         console.log(value[1])
-                            //     }
-                            // })
                         }}
                     >
                         {lng == 'fr' ? 'Se connecter' : 'Connect'}
                     </Button>
-                    {/*<Button*/}
-                    {/*    color="secondary"*/}
-                    {/*    disabled={!formValid}*/}
-                    {/*    style={{ marginTop: "20px", marginBottom: "20px"}}*/}
-                    {/*    onClick={() =>  {*/}
-                    {/*        loginError("Login error");*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    {lng == 'fr' ? 'Se connecter erreur' : 'Connect will fail'}*/}
-                    {/*</Button>*/}
                 </div>
                 <Divider variant={"middle"}/>
                 <div style={{display: "flex", justifyContent: "center"}}>
@@ -135,7 +107,6 @@ const Login = (props: Props) => {
                         {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
                     </Button>
                 </div>
-                <DeleteAccount/>
             </div>
         </div>
     );
