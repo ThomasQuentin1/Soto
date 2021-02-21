@@ -6,11 +6,7 @@ import { useDarkMode } from "../../components/settings/useDarkMode";
 import { useAccountQuery } from 'typing';
 import { Typography } from '@material-ui/core';
 
-export interface HeaderProps {
-    isConnected? : boolean;
-}
-
-const Header = ({isConnected} : HeaderProps) => {
+const Header = () => {
     const [ t, i18n ] = useTranslation();
     const [theme, setTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();

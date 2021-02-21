@@ -56,7 +56,7 @@ const ProfilePage = () => {
     return (
         <>
             <DarkModeParent theme={tmpTheme}>
-                <Header isConnected={true}/>
+                <Header/>
                 <div>
                     <div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>
                         {langs.map((lang, index) => {
