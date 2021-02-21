@@ -1,37 +1,34 @@
 import React, {useEffect, useState} from "react";
-// import { Button } from "@material-ui/core";
 import { useTranslation } from 'react-i18next';
 import '../i18n'
-// import RightPanel from "components/encapsulationComponents/RightPanel";
-// import ToggleLanguage from "components/settings/ToggleLanguage";
 import ToggleColorMode from "../components/settings/ToggleColorMode";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import {Button, TextField, Typography} from "@material-ui/core";
 import DeleteAccount from "../components/profile/DeleteAccount";
-import {gql} from "@apollo/client/core";
-import {useMutation} from "@apollo/client";
 import {sha256} from "js-sha256";
 import {loginError, loginSuccess} from "../public/notifications/notificationsFunctions";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
-
-export const CHANGE_EMAIL = gql`
-    mutation ChangeEmail($email: String!) {changeEmail (newEmail: $email)}`;
-
-export const CHANGE_PASSWORD = gql`
-    mutation ChangePassword($password: String!) {changePassword (newPasswordSHA256: $password)}`;
-
-export const GET_ACCOUNT = gql`
-    query Account {account {email}}`;
+import {
+    useAccountQuery,
+    useChangeEmailMutation,
+    useChangePasswordMutation,
+    useSetCriterionsMutation,
+    useSetObligationsMutation
+} from "../typing";
+import ParametersSelect from "../components/shop/ParametersSelect";
+import {CheckBoxData} from "../components/shop/ObligationCheckboxList";
+import {CriteriaData} from "../components/shop/DragList";
 
 const ProfilePage = () => {
     const [ t, i18n ] = useTranslation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
-    const [changeEmail] = useMutation(CHANGE_EMAIL, { variables: {email: email}, errorPolicy: 'all'})
-    const [changePassword] = useMutation(CHANGE_PASSWORD, { variables: {password: sha256(password)}, errorPolicy: 'all'})
+    const [changeEmail] = useChangeEmailMutation({ variables: {email: email}, errorPolicy: 'all'})
+    const [changePassword] = useChangePasswordMutation({ variables: {password: sha256(password)}, errorPolicy: 'all'})
+    const {data, loading} = useAccountQuery()
 
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
@@ -44,9 +41,43 @@ const ProfilePage = () => {
 
         }, []);
     }
+
+    const loadCriteriaValues = () => {
+        let list: CriteriaData[] = []
+        data.account.criterions.forEach(function(item) {
+            list.push({id: item.id, position: item.position, name: item.name.fr, activated: item.activated})
+        })
+        setCriteria(list)
+    }
+
+    const loadObligationValues = () => {
+        let list: CheckBoxData[] = []
+        data.account.obligations.forEach(function(item) {
+            list.push({id: item.id, label: item.name.fr, checked: item.activated})
+        })
+        setObligations(list)
+    }
+
+    const [criteria, setCriteria] = React.useState<CriteriaData[]>([]);
+    const [obligations, setObligations] = React.useState<CheckBoxData[]>([]);
+    const [obligationsMutation] = useSetObligationsMutation({variables: {
+            obligations: obligations.filter(item => item.checked).map(function (item) {
+                return {id: item.id}
+            })}})
+    const [criteriaMutation] = useSetCriterionsMutation({variables: {
+            criterias: criteria.map(function(item, index) {
+                return {id: item.id, position: index + 1}
+            })}})
+
+
     const changeLang = (lang: string) => {
         i18n.changeLanguage(lang)
         localStorage.setItem('lng', lang)
+    }
+
+    if (!loading && criteria.length == 0) {
+        loadCriteriaValues()
+        loadObligationValues()
     }
 
     const langs = ['fr', 'en']
@@ -134,6 +165,25 @@ const ProfilePage = () => {
                                 </Button>
                             </div>
                             <DeleteAccount/>
+                            <div style={{width: "400px", marginTop: "10px"}}>
+                                <ParametersSelect shop={true}/>
+                                <Button
+                                onClick={() => {
+                                    criteriaMutation().then(r2 => {
+                                        obligationsMutation().then(r3 => {
+                                            if (!r2) {
+                                                loginError("Criteria saving failed")
+                                            } else if (!r3) {
+                                                loginError("Obligations saving failed")
+                                            } else {
+                                                loginSuccess("Criteria and obligations save successfully")
+                                            }
+                                        })
+                                    })
+                                }}>
+                                    Save changes
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

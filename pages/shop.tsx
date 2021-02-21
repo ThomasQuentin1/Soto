@@ -29,13 +29,13 @@ const ShopPage = () => {
 
   return (
       <DarkModeParent theme={tmpTheme}>
-          <Header></Header>
+          <Header/>
           <Grid container justify="center" style={{marginTop: '10px'}}>
             <Grid item xs={4}>
               <SearchWrapper/>
             </Grid>
             <Grid item xs={12}>
-              <PriceBanner basket={basket}></PriceBanner>
+              <PriceBanner basket={basket}/>
             </Grid>
             <Grid item xs={12}>
               <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
@@ -46,7 +46,7 @@ const ShopPage = () => {
               <ShopList basket={basket} setBasket={setBasket}/>
             </Grid>
           </Grid>
-          <Footer></Footer>
+          <Footer/>
       </DarkModeParent>
   );
 };

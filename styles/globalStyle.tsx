@@ -52,7 +52,7 @@ const GlobalStyles = createGlobalStyle`
 
   .header-div {
     background: ${({ theme }) => theme.header};
-    border-bottom : solid 2px ${({ theme }) => theme.thirdColor};
+    border-bottom : solid 2px ${({ theme }) => theme.border.color};
   }
 
   .footer-div-sticky {
@@ -108,7 +108,7 @@ const GlobalStyles = createGlobalStyle`
 
   .header_bar {
     width: 100%;
-    height: 70px:
+    height: 70px;
     background: ${({ theme }) => theme.firstColor};
   }
 

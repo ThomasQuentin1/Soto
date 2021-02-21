@@ -1,47 +1,51 @@
 import React, { useState } from 'react'
 import Button from '@material-ui/core/Button';
 import { useTranslation } from "react-i18next"
-import DragList from './DragList';
+import DragList, {CriteriaData} from './DragList';
 import ObligationCheckboxList, { CheckBoxData } from './ObligationCheckboxList';
+import {criteriaBaseData, obligationsBaseData} from "../../public/values";
 
-const data : CheckBoxData[] = [
-    {value: 'vegetarian', label: 'obligation.vegetarian', checked: false},
-    {value: 'vegan', label: 'obligation.vegan', checked: false},
-    {value: 'peanut_free', label: 'obligation.peanut_free', checked: true},
-    {value: 'lactose_free', label: 'obligation.lactose_free', checked: true},
-    {value: 'halal', label: 'obligation.halal', checked: true},
-    {value: 'kosher', label: 'obligation.kosher', checked: true}
-];
+interface Props {
+    shop: boolean
+    criteria?: CriteriaData[]
+    obligations?: CheckBoxData[]
+}
 
-const returnButtonToggle = (criteriaIsActive : Boolean, obligationIsActive : Boolean) => {
+/*interface Setters {
+    setCriteria: (items: CriteriaData[]) => void;
+    setObligations: (items: CheckBoxData[]) => void;
+}*/
+
+const returnButtonToggle = (criteriaIsActive : Boolean, obligationIsActive : Boolean, props: Props) => {
     if (criteriaIsActive) {
-        return(<DragList></DragList>);
+        return(<DragList criteriaData={props.shop ? props.criteria! : criteriaBaseData}/>);
     } else if (obligationIsActive) {
-        return(<ObligationCheckboxList data={data}></ObligationCheckboxList>);
+        return(<ObligationCheckboxList data={props.shop ? props.obligations! : obligationsBaseData}/>);
     } else {
         return(<></>) // Display nothing
     }
 }
 
-const ParametersSelect = () => {
+const ParametersSelect = (props: Props) => {
     const [t] = useTranslation();
-    const [criteriaIsActive, setCriteriaIsActive] = useState<Boolean>(false);
+    const [criteriaIsActive, setCriteriaIsActive] = useState<Boolean>(!props.shop);
     const [obligationIsActive, setObligationIsActive] = useState<Boolean>(false);
-
-    const buttonToggle = returnButtonToggle(criteriaIsActive, obligationIsActive);
+    const buttonToggle = returnButtonToggle(criteriaIsActive, obligationIsActive, props);
 
     return (
         <div>
             <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
             <Button color='secondary' variant={criteriaIsActive ? "outlined" : undefined} onClick={() => {
-                setCriteriaIsActive(!criteriaIsActive);
+                if (!props.shop && !criteriaIsActive || props.shop)
+                    setCriteriaIsActive(!criteriaIsActive);
                 if (obligationIsActive)
                     setObligationIsActive(!obligationIsActive);
             }}>
                 {t('button.criteria.label')}
             </Button>
             <Button color='secondary' variant={obligationIsActive ? "outlined" : undefined} onClick={() => {
-                setObligationIsActive(!obligationIsActive);
+                if (!props.shop && !obligationIsActive || props.shop)
+                    setObligationIsActive(!obligationIsActive);
                 if (criteriaIsActive)
                     setCriteriaIsActive(!criteriaIsActive);
             }}>

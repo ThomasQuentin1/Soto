@@ -5,31 +5,33 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { useTranslation } from "react-i18next"
 
 export interface CheckBoxData {
-    value: string,
-    label: string,
+    id: number
+    label: string
     checked: boolean
 }
 
 interface ObligationCheckboxListProps {
     data: CheckBoxData[];
+    // setObligations: (list: CheckBoxData[]) => void
 }
 
 // const SendToBack = () => {
 // }
 
-const handleChange = (list : CheckBoxData[], setList : React.Dispatch<React.SetStateAction<CheckBoxData[]>>, value : string) => {
+const handleChange = (list : CheckBoxData[], setList : React.Dispatch<React.SetStateAction<CheckBoxData[]>>, id : number) => {
     let newList : CheckBoxData[] = [];
     list.map((item) => newList.push(item));
-    let index = list.findIndex((item) => item.value == value);
+    let index = list.findIndex((item) => item.id == id);
     newList[index].checked = !list[index].checked;
     setList(newList);
+    // props.setObligations(newList)
 };
 
     
-const ObligationCheckboxList = ({data} : ObligationCheckboxListProps) => {
+const ObligationCheckboxList = (data : ObligationCheckboxListProps) => {
     const [t] = useTranslation();
     
-    const [list, setList] = useState<CheckBoxData[]>(data);
+    const [list, setList] = useState<CheckBoxData[]>(data.data);
     return (
     <div>
         <FormGroup>
@@ -40,7 +42,7 @@ const ObligationCheckboxList = ({data} : ObligationCheckboxListProps) => {
                 control={
                     <Checkbox
                         checked={item.checked}
-                        onChange={() => handleChange(list, setList, item.value)}
+                        onChange={() => handleChange(list, setList, item.id)}
                         name={item.label}
                         color="secondary"
                     />}

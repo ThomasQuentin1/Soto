@@ -9,12 +9,10 @@ declare module 'styled-components' {
     body: string,
     header: string,
     footer: string,
-    firstColor: string,
-    secondaryColor: string,
-    thirdColor: string,
     text: string,
     toggleBorder: string,
     gradient: string,
+    disabled: string,
     border: {
       color: string,
     }

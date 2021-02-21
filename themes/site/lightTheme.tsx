@@ -1,15 +1,15 @@
 const lightTheme = {
-    body: '#E2E2E2',
-    header: '#E2E2E2',
-    footer: '#E2E2E2',
-    firstColor: '#E2E2E2',
-    secondaryColor: "#D1D1D1",
-    thirdColor: "#BABABA",
+    body: '#edf7fa',
+    header: '#edf7fa',
+    footer: '#edf7fa',
+    firstColor: '#edf7fa',
+    secondaryColor: "#5f6caf",
+    thirdColor: "#ffb677",
     text: '#363537',
     toggleBorder: '#FFF',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
     border : {
-        color: '#BABABA'
+        color: '#5f6caf'
     }
 }
 

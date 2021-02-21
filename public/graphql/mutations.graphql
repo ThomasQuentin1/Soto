@@ -1,4 +1,35 @@
 mutation Register($email: String!, $password: String!) {
-    login (email: $email, passwordSHA256: $password) {
-    }
+    register (email: $email, passwordSHA256: $password)
+}
+
+mutation Login($email: String!, $password: String!) {
+    login (email: $email, passwordSHA256: $password)
+}
+
+mutation ChangeEmail($email: String!) {
+    changeEmail (newEmail: $email)
+}
+
+mutation ChangePassword($password: String!) {
+    changePassword (newPasswordSHA256: $password)
+}
+
+mutation setCriterions($criterias: [CriterionInput!]!) {
+    setCriterions(criterions: $criterias)
+}
+
+mutation setObligations($obligations: [ObligationInput!]!) {
+    setObligations(obligations: $obligations)
+}
+
+mutation removeAccount($password: String!) {
+    removeAccount(passwordSHA256: $password)
+}
+
+mutation subscribeNotifications($token: String!) {
+    subscribeNotifications(token: $token)
+}
+
+mutation setShop($shopId: Int!) {
+    setShop(shopId: $shopId)
 }

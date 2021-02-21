@@ -11,7 +11,7 @@ const LoginController = () => {
     return (
         <div id="parent-login-form" style={{display: "flex", justifyContent: "center", marginTop: "170px"}}>
             <NoSsr>
-                <Card color="secondary">
+                <Card color={'primary'}>
                     {!displayRegister && (
                         <Login setDisplayRegister={setDisplayRegister} />
                     )}
