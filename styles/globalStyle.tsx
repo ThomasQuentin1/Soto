@@ -55,19 +55,10 @@ const GlobalStyles = createGlobalStyle`
     border-bottom : solid 2px ${({ theme }) => theme.border.color};
   }
 
-  .footer-div-sticky {
+  .footer {
     background: ${({ theme }) => theme.footer};
     border-top : solid 2px ${({ theme }) => theme.border.color};
-    position: absolute;
-    bottom: 0px;
-  }
-
-  .footer-div-scroll {
-    background: ${({ theme }) => theme.footer};
-    border-top : solid 2px ${({ theme }) => theme.border.color};
-    left: 0px;
-    bottom: 0px;
-    margin-top: 20px;
+    margin-top: 50px;
   }
 
   .profile-icon {
@@ -112,12 +103,6 @@ const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.firstColor};
   }
 
-  .footer_bar {
-    width: 100%;
-    height: 70px;
-    background: ${({ theme }) => theme.firstColor };
-  }
-
   .criteria_drag_list {
     padding: 8px;
     margin: 8px;
@@ -141,7 +126,14 @@ const GlobalStyles = createGlobalStyle`
     border: 1px solid ${({ theme }) => theme.border.color};
     background-color: ${({ theme }) => theme.secondaryColor};
     border-radius: 10px;
+  }
+
+  .item_search_bar {
+    border: 1px solid ${({ theme }) => theme.border.color};
+    background-color: ${({ theme }) => theme.secondaryColor};
     padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
   }
 
   .icons {
