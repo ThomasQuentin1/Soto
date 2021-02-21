@@ -42,3 +42,11 @@ mutation AddToCart($id: Int!) {
 mutation RemoveFromCart($id: Int!) {
     removeFromCart (productId : $id)
 }
+
+mutation AddToCart($id: Int!) {
+    addToCart (productId : $id)
+}
+
+mutation RemoveFromCart($id: Int!) {
+    removeFromCart (productId : $id)
+}
