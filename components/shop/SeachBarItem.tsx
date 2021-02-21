@@ -5,7 +5,6 @@ import { Typography } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
 import CountableProduct from 'interfaces/CountableProduct';
-import { useAddToCartMutation } from 'typing';
 
 const getRandomIntInclusive = (min : number, max : number) => {
     min = Math.ceil(min);
