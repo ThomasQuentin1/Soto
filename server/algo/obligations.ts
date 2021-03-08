@@ -1,8 +1,8 @@
-import { MultilangString } from "typing";
+import { TranslationEnum } from "interfaces/TranslationEnum";
 
 interface ObligationInternal {
     id: number,
-    name: MultilangString,
+    name: TranslationEnum,
     fieldDB: string,
 }
 
@@ -10,17 +10,11 @@ export const Obligations: ObligationInternal[] = [
     {
         id: 1,
         fieldDB: "vegan",
-        name: {
-            fr: "Végétarien",
-            en: "Vegan"
-        }
+        name: "obligation.vegan"
     },
     {
         id: 2,
         fieldDB: "noGluten",
-        name: {
-            fr: "Sans gluten",
-            en: "Gluten-free"
-        }
+        name: "obligation.gluten_free"
     }
 ];

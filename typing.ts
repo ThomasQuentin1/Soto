@@ -1,10 +1,10 @@
-// @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -25,6 +25,8 @@ export type Query = {
   shopList: Array<Shop>;
   cart?: Maybe<Cart>;
   oldCarts: Array<Maybe<Cart>>;
+  criterions: Array<Criterion>;
+  obligations: Array<Obligation>;
 };
 
 
@@ -129,15 +131,7 @@ export type Shop = {
 export type Account = {
   __typename?: 'Account';
   email: Scalars['String'];
-  criterions: Array<Criterion>;
-  obligations: Array<Obligation>;
   currentShop?: Maybe<Shop>;
-};
-
-export type MultilangString = {
-  __typename?: 'MultilangString';
-  en?: Maybe<Scalars['String']>;
-  fr?: Maybe<Scalars['String']>;
 };
 
 export type Criterion = {
@@ -145,14 +139,14 @@ export type Criterion = {
   activated: Scalars['Boolean'];
   position?: Maybe<Scalars['Int']>;
   id: Scalars['Int'];
-  name: MultilangString;
+  name: Scalars['String'];
 };
 
 export type Obligation = {
   __typename?: 'Obligation';
   activated: Scalars['Boolean'];
   id: Scalars['Int'];
-  name: MultilangString;
+  name: Scalars['String'];
 };
 
 export type CriterionInput = {
@@ -271,7 +265,6 @@ export type ResolversTypes = {
   Float: ResolverTypeWrapper<Scalars['Float']>,
   Shop: ResolverTypeWrapper<Shop>,
   Account: ResolverTypeWrapper<Account>,
-  MultilangString: ResolverTypeWrapper<MultilangString>,
   Criterion: ResolverTypeWrapper<Criterion>,
   Obligation: ResolverTypeWrapper<Obligation>,
   CriterionInput: CriterionInput,
@@ -293,7 +286,6 @@ export type ResolversParentTypes = {
   Float: Scalars['Float'],
   Shop: Shop,
   Account: Account,
-  MultilangString: MultilangString,
   Criterion: Criterion,
   Obligation: Obligation,
   CriterionInput: CriterionInput,
@@ -313,6 +305,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
   cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
   oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
+  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
+  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -353,15 +347,7 @@ export type ShopResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
-  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
   currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
-  __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
-
-export type MultilangStringResolvers<ContextType = any, ParentType extends ResolversParentTypes['MultilangString'] = ResolversParentTypes['MultilangString']> = {
-  en?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  fr?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -369,14 +355,14 @@ export type CriterionResolvers<ContextType = any, ParentType extends ResolversPa
   activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  name?: Resolver<ResolversTypes['MultilangString'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type ObligationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Obligation'] = ResolversParentTypes['Obligation']> = {
   activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  name?: Resolver<ResolversTypes['MultilangString'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -409,7 +395,6 @@ export type Resolvers<ContextType = any> = {
   Cart?: CartResolvers<ContextType>,
   Shop?: ShopResolvers<ContextType>,
   Account?: AccountResolvers<ContextType>,
-  MultilangString?: MultilangStringResolvers<ContextType>,
   Criterion?: CriterionResolvers<ContextType>,
   Obligation?: ObligationResolvers<ContextType>,
   Product?: ProductResolvers<ContextType>,
@@ -450,7 +435,8 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * });
  */
 export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
       }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
@@ -481,7 +467,8 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * });
  */
 export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
       }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
@@ -511,7 +498,8 @@ export type ChangeEmailMutationFn = Apollo.MutationFunction<ChangeEmailMutation,
  * });
  */
 export function useChangeEmailMutation(baseOptions?: Apollo.MutationHookOptions<ChangeEmailMutation, ChangeEmailMutationVariables>) {
-        return Apollo.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument, options);
       }
 export type ChangeEmailMutationHookResult = ReturnType<typeof useChangeEmailMutation>;
 export type ChangeEmailMutationResult = Apollo.MutationResult<ChangeEmailMutation>;
@@ -541,7 +529,8 @@ export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMut
  * });
  */
 export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
-        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
       }
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
@@ -571,7 +560,8 @@ export type SetCriterionsMutationFn = Apollo.MutationFunction<SetCriterionsMutat
  * });
  */
 export function useSetCriterionsMutation(baseOptions?: Apollo.MutationHookOptions<SetCriterionsMutation, SetCriterionsMutationVariables>) {
-        return Apollo.useMutation<SetCriterionsMutation, SetCriterionsMutationVariables>(SetCriterionsDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetCriterionsMutation, SetCriterionsMutationVariables>(SetCriterionsDocument, options);
       }
 export type SetCriterionsMutationHookResult = ReturnType<typeof useSetCriterionsMutation>;
 export type SetCriterionsMutationResult = Apollo.MutationResult<SetCriterionsMutation>;
@@ -601,7 +591,8 @@ export type SetObligationsMutationFn = Apollo.MutationFunction<SetObligationsMut
  * });
  */
 export function useSetObligationsMutation(baseOptions?: Apollo.MutationHookOptions<SetObligationsMutation, SetObligationsMutationVariables>) {
-        return Apollo.useMutation<SetObligationsMutation, SetObligationsMutationVariables>(SetObligationsDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetObligationsMutation, SetObligationsMutationVariables>(SetObligationsDocument, options);
       }
 export type SetObligationsMutationHookResult = ReturnType<typeof useSetObligationsMutation>;
 export type SetObligationsMutationResult = Apollo.MutationResult<SetObligationsMutation>;
@@ -631,7 +622,8 @@ export type RemoveAccountMutationFn = Apollo.MutationFunction<RemoveAccountMutat
  * });
  */
 export function useRemoveAccountMutation(baseOptions?: Apollo.MutationHookOptions<RemoveAccountMutation, RemoveAccountMutationVariables>) {
-        return Apollo.useMutation<RemoveAccountMutation, RemoveAccountMutationVariables>(RemoveAccountDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveAccountMutation, RemoveAccountMutationVariables>(RemoveAccountDocument, options);
       }
 export type RemoveAccountMutationHookResult = ReturnType<typeof useRemoveAccountMutation>;
 export type RemoveAccountMutationResult = Apollo.MutationResult<RemoveAccountMutation>;
@@ -661,7 +653,8 @@ export type SubscribeNotificationsMutationFn = Apollo.MutationFunction<Subscribe
  * });
  */
 export function useSubscribeNotificationsMutation(baseOptions?: Apollo.MutationHookOptions<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>) {
-        return Apollo.useMutation<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>(SubscribeNotificationsDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>(SubscribeNotificationsDocument, options);
       }
 export type SubscribeNotificationsMutationHookResult = ReturnType<typeof useSubscribeNotificationsMutation>;
 export type SubscribeNotificationsMutationResult = Apollo.MutationResult<SubscribeNotificationsMutation>;
@@ -691,7 +684,8 @@ export type SetShopMutationFn = Apollo.MutationFunction<SetShopMutation, SetShop
  * });
  */
 export function useSetShopMutation(baseOptions?: Apollo.MutationHookOptions<SetShopMutation, SetShopMutationVariables>) {
-        return Apollo.useMutation<SetShopMutation, SetShopMutationVariables>(SetShopDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetShopMutation, SetShopMutationVariables>(SetShopDocument, options);
       }
 export type SetShopMutationHookResult = ReturnType<typeof useSetShopMutation>;
 export type SetShopMutationResult = Apollo.MutationResult<SetShopMutation>;
@@ -721,7 +715,8 @@ export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, Add
  * });
  */
 export function useAddToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddToCartMutation, AddToCartMutationVariables>) {
-        return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, options);
       }
 export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation>;
 export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
@@ -751,7 +746,8 @@ export type RemoveFromCartMutationFn = Apollo.MutationFunction<RemoveFromCartMut
  * });
  */
 export function useRemoveFromCartMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromCartMutation, RemoveFromCartMutationVariables>) {
-        return Apollo.useMutation<RemoveFromCartMutation, RemoveFromCartMutationVariables>(RemoveFromCartDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromCartMutation, RemoveFromCartMutationVariables>(RemoveFromCartDocument, options);
       }
 export type RemoveFromCartMutationHookResult = ReturnType<typeof useRemoveFromCartMutation>;
 export type RemoveFromCartMutationResult = Apollo.MutationResult<RemoveFromCartMutation>;
@@ -760,23 +756,6 @@ export const AccountDocument = gql`
     query Account {
   account {
     email
-    criterions {
-      activated
-      position
-      id
-      name {
-        fr
-        en
-      }
-    }
-    obligations {
-      activated
-      id
-      name {
-        fr
-        en
-      }
-    }
     currentShop {
       name
     }
@@ -800,10 +779,12 @@ export const AccountDocument = gql`
  * });
  */
 export function useAccountQuery(baseOptions?: Apollo.QueryHookOptions<AccountQuery, AccountQueryVariables>) {
-        return Apollo.useQuery<AccountQuery, AccountQueryVariables>(AccountDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AccountQuery, AccountQueryVariables>(AccountDocument, options);
       }
 export function useAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AccountQuery, AccountQueryVariables>) {
-          return Apollo.useLazyQuery<AccountQuery, AccountQueryVariables>(AccountDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AccountQuery, AccountQueryVariables>(AccountDocument, options);
         }
 export type AccountQueryHookResult = ReturnType<typeof useAccountQuery>;
 export type AccountLazyQueryHookResult = ReturnType<typeof useAccountLazyQuery>;
@@ -844,10 +825,12 @@ export const SearchProductDocument = gql`
  * });
  */
 export function useSearchProductQuery(baseOptions: Apollo.QueryHookOptions<SearchProductQuery, SearchProductQueryVariables>) {
-        return Apollo.useQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, options);
       }
 export function useSearchProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchProductQuery, SearchProductQueryVariables>) {
-          return Apollo.useLazyQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, options);
         }
 export type SearchProductQueryHookResult = ReturnType<typeof useSearchProductQuery>;
 export type SearchProductLazyQueryHookResult = ReturnType<typeof useSearchProductLazyQuery>;
@@ -880,10 +863,12 @@ export const ShopListDocument = gql`
  * });
  */
 export function useShopListQuery(baseOptions?: Apollo.QueryHookOptions<ShopListQuery, ShopListQueryVariables>) {
-        return Apollo.useQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, options);
       }
 export function useShopListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShopListQuery, ShopListQueryVariables>) {
-          return Apollo.useLazyQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, options);
         }
 export type ShopListQueryHookResult = ReturnType<typeof useShopListQuery>;
 export type ShopListLazyQueryHookResult = ReturnType<typeof useShopListLazyQuery>;
@@ -935,10 +920,12 @@ export const CartDocument = gql`
  * });
  */
 export function useCartQuery(baseOptions?: Apollo.QueryHookOptions<CartQuery, CartQueryVariables>) {
-        return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, options);
       }
 export function useCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartQuery, CartQueryVariables>) {
-          return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, options);
         }
 export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
 export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>;

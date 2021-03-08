@@ -1,6 +1,7 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { endConnection, openConnection } from "./query";
 import { Mutate, Query } from "./utils/tests";
+import { ErrMsg } from "../interfaces/TranslationEnum";
 
 let token: string = "";
 const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
@@ -22,13 +23,13 @@ describe("Cart", () => {
 
   it("should deny cart access without login", async () => {
     expect(Query("cart", {})).rejects.toStrictEqual(
-      new AuthenticationError("please login")
+      new AuthenticationError(ErrMsg("error.notloggedin"))
     );
   });
 
   it("should not search the cart", async () => {
     expect(Query("cart", {}, token)).rejects.toStrictEqual(
-      new UserInputError("select a shop first")
+      new UserInputError(ErrMsg("error.badparams"))
     );
   });
 

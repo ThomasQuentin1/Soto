@@ -123,7 +123,7 @@ const start = async () => {
         `${article.LIBELLE_LIGNE_1} ${article.LIBELLE_LIGNE_2.substr(
           0,
           article.LIBELLE_LIGNE_2.indexOf("-")
-        )}`?.toLocaleLowerCase() ?? "";
+        )}`.toLocaleLowerCase();
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(

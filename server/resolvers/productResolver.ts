@@ -2,6 +2,7 @@ import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { Product, Resolvers } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
+import { ErrMsg } from "../../interfaces/TranslationEnum";
 
 export const productResolvers: Resolvers = {
   Query: {
@@ -40,9 +41,9 @@ export const productResolvers: Resolvers = {
   },
   Mutation: {
     setShop: async (_obj, args, context, _info) => {
-      if (!context.user) throw new AuthenticationError("please login");
+      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
       if (args.shopId == 0 || args.shopId > 4)
-        throw new UserInputError("Bad shop id");
+        throw new UserInputError(ErrMsg("error.badparams"));
 
       const maxCartId = (
         await usersQuery("SELECT cartId FROM users")

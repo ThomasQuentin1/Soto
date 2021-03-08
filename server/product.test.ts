@@ -1,6 +1,7 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { endConnection, openConnection } from "./query";
 import { Mutate, Query } from "./utils/tests";
+import { ErrMsg } from "../interfaces/TranslationEnum";
 
 let token: string = "";
 const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
@@ -32,13 +33,13 @@ describe("Account", () => {
 
   it("should not set the shop", async () => { // J'ai fix le sheitan de DELETE * FROM
     expect(Mutate("setShop", { shopId: 0 }, token)).rejects.toStrictEqual(
-      new UserInputError("Bad shop id")
+      new UserInputError(ErrMsg("error.badparams"))
     );
   });
 
   it("should not set the shop", async () => {
     expect(Mutate("setShop", { shopId: 3 }, undefined)).rejects.toStrictEqual(
-      new AuthenticationError("please login")
+      new AuthenticationError(ErrMsg("error.notloggedin"))
     );
 
   afterAll(() => Mutate("removeAccount", { passwordSHA256: "blbl" }));
