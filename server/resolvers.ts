@@ -1,7 +1,7 @@
 import { acountResolvers } from "./resolvers/accountResolver";
 import { productResolvers } from "./resolvers/productResolver";
 import {cartResolvers} from "./resolvers/cartResolver"
-import {criterionResolvers} from "./resolvers/CriterionResolver"
+import {criterionResolvers} from "./resolvers/criterionResolver"
 import {obligationResolvers} from "./resolvers/obligationResolver"
 import { Resolvers } from "typing";
 

@@ -106,7 +106,14 @@ export const cartResolvers: Resolvers = {
       if (!cartId || !id || !shopId) throw new UserInputError(ErrMsg("error.badparams"));
       if (!args.productId) throw new UserInputError(ErrMsg("error.badparams"));
 
-      usersQuery(
+      const leclercProductQuery = await usersQuery(
+        `SELECT id FROM products${context.user.shopId} WHERE id = ?`,
+        [String(args.productId)]
+      );
+      if (leclercProductQuery.length !== 1)
+      throw new UserInputError(ErrMsg("error.badparams"));
+
+      await usersQuery(
         "INSERT INTO carts ( id, userId, productId, driveId) VALUES (?, ?, ?, ?)",
         [cartId, id, args.productId, shopId]
       );
