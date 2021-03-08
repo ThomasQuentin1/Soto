@@ -101,6 +101,8 @@ const sqlconnect = async () => {
   });
 };
 
+const clear = (str: string) => str.replace(/[^\x00-\x7F]/g, "");
+
 const start = async () => {
   const sql = await sqlconnect();
   const db = new sqlite.Database("catalogue.db", (err: any) => {
@@ -171,11 +173,11 @@ const start = async () => {
         const product = await createProduct(article, bestProduct);
         let serialized = {
           ...product,
-          ingredients: (product.ingredients || []).join("|"),
-          packaging: (product.packaging || []).join("|"),
-          allergens: product.allergens.toString(),
-          nutriments: product.nutriments.join("|"),
-          keywords: (product.keywords || []).join("|"),
+          ingredients: clear((product.ingredients || []).join("|")),
+          packaging: clear((product.packaging || []).join("|")),
+          allergens: clear(product.allergens.toString()),
+          nutriments: clear(product.nutriments.join("|")),
+          keywords: clear((product.keywords || []).join("|")),
         };
 
         serialized.scoreEnvironment = EnvScorer.getScore(serialized).toString();
@@ -281,7 +283,13 @@ const createProduct = async (
 };
 
 start()
-  .then(() => console.log("Ok"))
-  .catch((ex) => console.warn(ex));
+  .then(() => {
+    console.log("Ok");
+    process.exit(0);
+  })
+  .catch((ex) => {
+    console.warn(ex);
+    process.exit(1);
+  });
 
 // export default start;

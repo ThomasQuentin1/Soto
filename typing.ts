@@ -10,6 +10,10 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 export type RequireFields<T, K extends keyof T> = {
   [X in Exclude<keyof T, K>]?: T[X];
 } &
@@ -98,11 +102,11 @@ export type MutationSetShopArgs = {
 };
 
 export type MutationAddToCartArgs = {
-  productId: Scalars["Int"];
+  productId: Scalars["String"];
 };
 
 export type MutationRemoveFromCartArgs = {
-  productId: Scalars["Int"];
+  productId: Scalars["String"];
 };
 
 export type Cart = {
@@ -326,6 +330,18 @@ export type ResolversParentTypes = {
   CacheControlScope: CacheControlScope;
   Upload: Scalars["Upload"];
 };
+
+export type CacheControlDirectiveArgs = {
+  maxAge?: Maybe<Scalars["Int"]>;
+  scope?: Maybe<CacheControlScope>;
+};
+
+export type CacheControlDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = CacheControlDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes["Date"], any> {
@@ -573,6 +589,17 @@ export type Resolvers<ContextType = any> = {
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type DirectiveResolvers<ContextType = any> = {
+  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
+};
+
+/**
+ * @deprecated
+ * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
+ */
+export type IDirectiveResolvers<
+  ContextType = any
+> = DirectiveResolvers<ContextType>;
 
 export const RegisterDocument = gql`
   mutation Register($email: String!, $password: String!) {
@@ -994,7 +1021,7 @@ export type SetShopMutationOptions = Apollo.BaseMutationOptions<
   SetShopMutationVariables
 >;
 export const AddToCartDocument = gql`
-  mutation AddToCart($id: Int!) {
+  mutation AddToCart($id: String!) {
     addToCart(productId: $id)
   }
 `;
@@ -1041,7 +1068,7 @@ export type AddToCartMutationOptions = Apollo.BaseMutationOptions<
   AddToCartMutationVariables
 >;
 export const RemoveFromCartDocument = gql`
-  mutation RemoveFromCart($id: Int!) {
+  mutation RemoveFromCart($id: String!) {
     removeFromCart(productId: $id)
   }
 `;

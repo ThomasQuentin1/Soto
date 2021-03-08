@@ -10,7 +10,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
   await Promise.all(
     rawCart.map(async () => {
       const products = await usersQuery<any>(
-        `SELECT priceUnit FROM products${rawCart[0].driveId} WHERE id = ? LIMIT 1`,
+        `SELECT priceUnit FROM products${rawCart[0].driveId} WHERE leclercId = ? LIMIT 1`,
         [rawCart[0].productId]
       );
       totalPrice += products[0].priceUnit;
@@ -64,7 +64,7 @@ export const cartResolvers: Resolvers = {
       const shop = ShopList.find((s) => s.id == context.user.shopId);
 
       const rawCart = await usersQuery<any>(
-        `SELECT * FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.id WHERE carts.id = ?`,
+        `SELECT * FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.leclercId WHERE carts.id = ?`,
         [context.user.cartId]
       );
 
@@ -77,7 +77,7 @@ export const cartResolvers: Resolvers = {
         throw new AuthenticationError(ErrMsg("error.notloggedin"));
 
       const rawAllCarts = await usersQuery<any>(
-        `SELECT carts.id as cartId, carts.*, products${context.user.shopId}.* FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.id WHERE carts.userId = ?`,
+        `SELECT carts.id as cartId, carts.*, products${context.user.shopId}.* FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.leclercId WHERE carts.userId = ?`,
         [context.user.id]
       );
       const usersCartsId: number[] = rawAllCarts

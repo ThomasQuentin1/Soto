@@ -1,7 +1,7 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
+import { ErrMsg } from "../interfaces/TranslationEnum";
 import { endConnection, openConnection } from "./query";
 import { Mutate, Query } from "./utils/tests";
-import { ErrMsg } from "../interfaces/TranslationEnum";
 
 let token: string = "";
 const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
@@ -40,9 +40,9 @@ describe("Cart", () => {
 
   it("should search the old cart", async () => {
     await Mutate("setShop", { shopId: 3 }, token);
-    await Mutate("addToCart", { productId: 1 }, token);
-    await Mutate("addToCart", { productId: 2 }, token);
-    await Mutate("addToCart", { productId: 3 }, token);
+    await Mutate("addToCart", { productId: "262" }, token);
+    await Mutate("addToCart", { productId: "363" }, token);
+    await Mutate("addToCart", { productId: "298" }, token);
 
     const initCart = await Query("cart", {}, token);
 
@@ -61,18 +61,18 @@ describe("Cart", () => {
     const initCart = await Query("cart", {}, token);
     expect(initCart.products.length).toBe(0);
     expect(initCart.price).toBe(0);
-    await Mutate("addToCart", { productId: 1 }, token);
+    await Mutate("addToCart", { productId: "262" }, token);
     const oneProductCart = await Query("cart", {}, token);
     expect(oneProductCart.products.length).toBe(1);
     expect(oneProductCart.price).not.toBe(0);
-    await Mutate("removeFromCart", { productId: 1 }, token);
+    await Mutate("removeFromCart", { productId: "262" }, token);
     const removedProductCard = await Query("cart", {}, token);
     expect(removedProductCard.products.length).toBe(0);
     expect(removedProductCard.price).toBe(0);
 
-    await Mutate("addToCart", { productId: 1 }, token);
-    await Mutate("addToCart", { productId: 2 }, token);
-    await Mutate("addToCart", { productId: 2 }, token);
+    await Mutate("addToCart", { productId: "262" }, token);
+    await Mutate("addToCart", { productId: "363" }, token);
+    await Mutate("addToCart", { productId: "363" }, token);
     const threeProductCart = await Query("cart", {}, token);
     expect(threeProductCart.products.length).toBe(3);
     expect(threeProductCart.price).not.toBe(0);

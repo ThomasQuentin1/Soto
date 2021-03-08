@@ -23,8 +23,8 @@ const schema = gql`
     changePassword(newPasswordSHA256: String!): Boolean!
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
-    addToCart(productId: Int!): Boolean!
-    removeFromCart(productId: Int!): Boolean!
+    addToCart(productId: String!): Boolean!
+    removeFromCart(productId: String!): Boolean!
     confirmCart: Boolean!
     clearCart: Boolean!
   }
