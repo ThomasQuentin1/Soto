@@ -1,9 +1,9 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
+import { DbProduct } from "server/dbSchema";
+import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
-import { ErrMsg } from "../../interfaces/TranslationEnum";
-import { DbProduct } from "server/dbSchema";
 
 export const productResolvers: Resolvers = {
   Query: {
@@ -19,7 +19,7 @@ export const productResolvers: Resolvers = {
         )
       ).map<Product>((r) => ({
         ...r,
-        id : r.leclerdId,
+        id: r.leclercId,
         allergens: r.allergens?.split("|") ?? [],
         ingredients: r.ingredients?.split("|") ?? [],
         nutriments: r.nutriments?.split("|") ?? [],
@@ -27,12 +27,12 @@ export const productResolvers: Resolvers = {
         scoreEnvironment: r.environmentScore,
         scoreHealth: r.healthscore,
         photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
-          r.leclerdId
+          r.photo
         }&use=d&cat=p&typeid=i&width=300`,
         url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
           shop!.code
         }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
-          r.leclerdId
+          r.leclercId
         }-${r.name.replace(/ /g, "-")}.aspx`,
       }));
       return data;
@@ -43,7 +43,8 @@ export const productResolvers: Resolvers = {
   },
   Mutation: {
     setShop: async (_obj, args, context, _info) => {
-      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
       if (args.shopId == 0 || args.shopId > 4)
         throw new UserInputError(ErrMsg("error.badparams"));
 

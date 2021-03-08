@@ -1,8 +1,8 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
+import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Cart, Product, Resolvers, Shop } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
-import { ErrMsg } from "../../interfaces/TranslationEnum";
 
 const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
   let totalPrice = 0;
@@ -55,7 +55,8 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
 export const cartResolvers: Resolvers = {
   Query: {
     cart: async (_obj, _args, context, _info) => {
-      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
 
       if (!context.user?.shopId)
         throw new UserInputError(ErrMsg("error.badparams"));
@@ -72,7 +73,8 @@ export const cartResolvers: Resolvers = {
       return await createCartFromRawData(shop!, rawCart);
     },
     oldCarts: async (_obj, _args, context, _info) => {
-      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
 
       const rawAllCarts = await usersQuery<any>(
         `SELECT carts.id as cartId, carts.*, products${context.user.shopId}.* FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.id WHERE carts.userId = ?`,
@@ -101,17 +103,19 @@ export const cartResolvers: Resolvers = {
   },
   Mutation: {
     addToCart: async (_obj, args, context, _info) => {
-      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
       const { cartId, id, shopId } = context.user;
-      if (!cartId || !id || !shopId) throw new UserInputError(ErrMsg("error.badparams"));
+      if (!cartId || !id || !shopId)
+        throw new UserInputError(ErrMsg("error.badparams"));
       if (!args.productId) throw new UserInputError(ErrMsg("error.badparams"));
 
       const leclercProductQuery = await usersQuery(
-        `SELECT id FROM products${context.user.shopId} WHERE id = ?`,
+        `SELECT id FROM products${context.user.shopId} WHERE leclercId = ?`,
         [String(args.productId)]
       );
       if (leclercProductQuery.length !== 1)
-      throw new UserInputError(ErrMsg("error.badparams"));
+        throw new UserInputError(ErrMsg("error.badparams"));
 
       await usersQuery(
         "INSERT INTO carts ( id, userId, productId, driveId) VALUES (?, ?, ?, ?)",
@@ -120,7 +124,8 @@ export const cartResolvers: Resolvers = {
       return true;
     },
     removeFromCart: async (_obj, args, context, _info) => {
-      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
       const { cartId, id: userId, shopId } = context.user;
       if (!cartId || !userId || !shopId)
         throw new UserInputError(ErrMsg("error.badparams"));
@@ -133,9 +138,11 @@ export const cartResolvers: Resolvers = {
       return true;
     },
     clearCart: async (_obj, _args, context, _info) => {
-      if (!context.user) throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
       const { cartId, id, shopId } = context.user;
-      if (!cartId || !id || !shopId) throw new UserInputError(ErrMsg("error.badparams"));
+      if (!cartId || !id || !shopId)
+        throw new UserInputError(ErrMsg("error.badparams"));
 
       await usersQuery(
         "DELETE FROM carts WHERE id = ? AND userId = ? AND driveId = ?",
