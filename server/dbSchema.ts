@@ -1,6 +1,7 @@
 export interface DbProduct
 {
     id: number;
+    leclerdId: string;
     name: string;
     brand: string;
     priceUnit: string;

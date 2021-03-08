@@ -3,6 +3,7 @@ import { Product, Resolvers } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
+import { DbProduct } from "server/dbSchema";
 
 export const productResolvers: Resolvers = {
   Query: {
@@ -10,7 +11,7 @@ export const productResolvers: Resolvers = {
       const shop = ShopList.find((s) => s.id == (context.user?.shopId ?? 3));
 
       const data = (
-        await usersQuery<any>(
+        await usersQuery<DbProduct>(
           `SELECT * FROM products${
             context.user?.shopId ?? 3
           } WHERE name LIKE ? OR keywords LIKE ? LIMIT 10`,
@@ -18,6 +19,7 @@ export const productResolvers: Resolvers = {
         )
       ).map<Product>((r) => ({
         ...r,
+        id : r.leclerdId,
         allergens: r.allergens?.split("|") ?? [],
         ingredients: r.ingredients?.split("|") ?? [],
         nutriments: r.nutriments?.split("|") ?? [],
@@ -25,12 +27,12 @@ export const productResolvers: Resolvers = {
         scoreEnvironment: r.environmentScore,
         scoreHealth: r.healthscore,
         photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
-          r.leclercId
+          r.leclerdId
         }&use=d&cat=p&typeid=i&width=300`,
         url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
           shop!.code
         }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
-          r.leclercId
+          r.leclerdId
         }-${r.name.replace(/ /g, "-")}.aspx`,
       }));
       return data;

@@ -75,6 +75,7 @@ const schema = gql`
   }
 
   type Product {
+    id: String!
     name: String!
     brand: String
     priceUnit: String!

@@ -60,8 +60,11 @@ export const acountResolvers: Resolvers = {
       );
       if (login.length != 1)
         throw new AuthenticationError(ErrMsg("error.invalidcredentails"));
-      await usersQuery("DELETE FROM users WHERE id = ?", [context.user.id]);
-      return true;
+        await usersQuery("DELETE FROM carts WHERE userId = ?", [context.user.id]);
+        await usersQuery("DELETE FROM criterions WHERE userId = ?", [context.user.id]);
+        await usersQuery("DELETE FROM obligations WHERE userId = ?", [context.user.id]);
+        await usersQuery("DELETE FROM users WHERE id = ?", [context.user.id]);
+        return true;
     },
     subscribeNotifications: async (_obj, args, context, _info) => {
       if (!context.user)

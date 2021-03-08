@@ -160,6 +160,7 @@ export type ObligationInput = {
 
 export type Product = {
   __typename?: 'Product';
+  id: Scalars['String'];
   name: Scalars['String'];
   brand?: Maybe<Scalars['String']>;
   priceUnit: Scalars['String'];
@@ -367,6 +368,7 @@ export type ObligationResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   priceUnit?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
