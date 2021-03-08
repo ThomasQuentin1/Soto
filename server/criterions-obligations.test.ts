@@ -73,61 +73,38 @@ describe("Criterions & Obligations", () => {
     );
   });
 
-  // it("sould deny invalid ids into criterions and obligations", async () => {
-  //   await expect(
-  //     Mutate(
-  //       "setCriterions",
-  //       { criterions: [{ id: 9999, position: 1 }] },
-  //       token
-  //     )
-  //   ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
-  //   await expect(
-  //     Mutate("setObligations", { obligations: [{ id: 9999 }] }, token)
-  //   ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
-  // });
-
-  // it("sould deny invalid positions in criterions", async () => {
-  //   await expect(
-  //     Mutate("setCriterions", { criterions: [{ id: 1, position: 0 }] }, token)
-  //   ).rejects.toStrictEqual(
-  //     new UserInputError(ErrMsg("error.badparams"))
-  //   );
-  //   await expect(
-  //     Mutate(
-  //       "setCriterions",
-  //       {
-  //         criterions: [
-  //           { id: 1, position: 1 },
-  //           { id: 2, position: 3 },
-  //         ],
-  //       },
-  //       token
-  //     )
-  //   ).rejects.toStrictEqual(
-  //     new UserInputError(ErrMsg("error.badparams"))
-  //   );
-  // });
-
-  it("sould deny deny invalid shop selection", async () => {
-    await expect(Mutate("setShop", { shopId: 0 }, token)).rejects.toStrictEqual(
-      new UserInputError(ErrMsg("error.badparams"))
-    );
+  it("sould deny invalid ids into criterions and obligations", async () => {
     await expect(
-      Mutate("setShop", { shopId: 10 }, token)
+      Mutate(
+        "setCriterions",
+        { criterions: [{ id: 9999, position: 1 }] },
+        token
+      )
+    ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
+    await expect(
+      Mutate("setObligations", { obligations: [{ id: 9999 }] }, token)
     ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
   });
 
-  it("sould handle shop modification properly", async () => {
-    const account = await Query("account", {}, token);
-    expect(account.currentShop).toBeFalsy();
-
-    const shops = await Query("shopList", {}, token);
-    const selectedShopId = shops[0].id;
-
-    await Mutate("setShop", { shopId: selectedShopId }, token);
-
-    const newAccount = await Query("account", {}, token);
-    const selectedShop = newAccount.currentShop;
-    expect(selectedShop.id).toBe(selectedShopId);
+  it("sould deny invalid positions in criterions", async () => {
+    await expect(
+      Mutate("setCriterions", { criterions: [{ id: 1, position: 0 }] }, token)
+    ).rejects.toStrictEqual(
+      new UserInputError(ErrMsg("error.badparams"))
+    );
+    await expect(
+      Mutate(
+        "setCriterions",
+        {
+          criterions: [
+            { id: 1, position: 1 },
+            { id: 2, position: 3 },
+          ],
+        },
+        token
+      )
+    ).rejects.toStrictEqual(
+      new UserInputError(ErrMsg("error.badparams"))
+    );
   });
 });

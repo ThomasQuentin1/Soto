@@ -7,8 +7,14 @@ import { ErrMsg } from "../../interfaces/TranslationEnum";
 export const criterionResolvers: Resolvers = {
   Query: {
     criterions: async (_obj, _args, context, _info) => {
-      if (!context.user)
-        throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      if (!context.user) {
+        return Criterions.map<Criterion>((criterionData) => ({
+          activated: false,
+          id: criterionData.id,
+          name: criterionData.name,
+          position: undefined,
+        }));
+      }
       const critetionsQuery = await usersQuery(
         "SELECT * FROM criterions WHERE userId = ?",
         [context.user.id]
