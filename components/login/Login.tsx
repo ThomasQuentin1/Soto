@@ -4,7 +4,7 @@ import {sha256} from "js-sha256";
 import {makeStyles} from "@material-ui/styles";
 import 'i18n';
 import Router from "next/router";
-import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
+import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie";
 import {useLoginMutation} from "../../typing";
 
@@ -85,9 +85,9 @@ const Login = (props: Props) => {
                             console.log(sha256(password))
                             login().then(r => {
                                 if (r.errors)
-                                    loginError(r.errors[0].message)
+                                    notifyError(r.errors[0].message)
                                 else {
-                                    loginSuccess("Logged in")
+                                    notifySuccess("Logged in")
                                     Cookies.set("token", r.data.login, {expires: 7})
                                     Router.push("/")
                                 }

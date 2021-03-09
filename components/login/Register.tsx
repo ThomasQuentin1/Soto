@@ -13,7 +13,7 @@ import Step2 from "./stepper/Step2";
 import Router from "next/router";
 // import {useMutation} from "@apollo/client";
 // import {gql} from "@apollo/client/core";
-import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
+import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
 import {useRegisterMutation, useSetCriterionsMutation, useSetObligationsMutation} from "../../typing";
 import { CheckBoxData } from "components/shop/ObligationCheckboxList";
@@ -80,7 +80,7 @@ const Register = (props: Props) => {
             return;
         register().then(r => {
             if (r.errors) {
-                loginError(r.errors[0].message)
+                notifyError(r.errors[0].message)
             } else {
                 Cookies.set("token", r.data.register, {expires: 7})
                 criteria.map(function(item) {console.log({id: item.id, position: item.position})})
@@ -88,11 +88,11 @@ const Register = (props: Props) => {
                 criteriaMutation().then(r2 => {
                     obligationsMutation().then(r3 => {
                         if (!r2) {
-                            loginError("Criteria saving failed")
+                            notifyError("Criteria saving failed")
                         } else if (!r3) {
-                            loginError("Obligations saving failed")
+                            notifyError("Obligations saving failed")
                         } else {
-                            loginSuccess("Logged in as " + username)
+                            notifySuccess("Logged in as " + username)
                             Router.push("/")
                         }
                     })

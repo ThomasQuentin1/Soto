@@ -5,7 +5,7 @@ import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
 import '../i18n'
 
-export default () => {
+const Index = () => {
     const [theme] = useDarkMode();
     const usedTheme: string = theme.toString();
     let lng : string | null = 'fr';
@@ -83,3 +83,5 @@ export default () => {
             </Grid>
         </DarkModeParent>);
 }
+
+export default Index;

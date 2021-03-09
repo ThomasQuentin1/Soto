@@ -1,6 +1,6 @@
 
 import React from "react"
-import ParametersSelect from "../../shop/ParametersSelect";
+// import ParametersSelect from "../../shop/ParametersSelect";
 // import {CheckBoxData} from "../../shop/ObligationCheckboxList";
 // import {CriteriaData} from "../../shop/DragList";
 
@@ -85,7 +85,7 @@ const Step2 = () => {
         <div>
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 {/*<ParametersSelect shop={false} setCriteria={props.setCriteria} setObligations={props.setObligations}/>*/}
-                <ParametersSelect shop={false}/>
+                {/*<ParametersSelect shop={false}/>*/}
             </div>
         </div>
 
