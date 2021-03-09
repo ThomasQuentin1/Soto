@@ -4,7 +4,7 @@ import '../i18n'
 import ToggleColorMode from "../components/settings/ToggleColorMode";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
-import {Button, TextField, Typography} from "@material-ui/core";
+import {Button, Paper, TextField, Typography} from "@material-ui/core";
 import DeleteAccount from "../components/profile/DeleteAccount";
 import {sha256} from "js-sha256";
 import {notifyError, notifySuccess} from "../public/notifications/notificationsFunctions";
@@ -12,6 +12,19 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import {useAccountQuery, useChangeEmailMutation, useChangePasswordMutation} from "../typing";
 import ParametersSelect from "../components/shop/ParametersSelect";
+import { useRouter } from "next/router";
+import CellComponent from "../components/profile/CellComponent";
+
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         display: 'flex',
+//         '& > *': {
+//             margin: theme.spacing(1),
+//             width: theme.spacing(160),
+//             height: theme.spacing(16),
+//         },
+//     },
+// }));
 
 const ProfilePage = () => {
     const [ t, i18n ] = useTranslation();
@@ -22,6 +35,10 @@ const ProfilePage = () => {
     const [changeEmail] = useChangeEmailMutation({ variables: {email: email}, errorPolicy: 'all'})
     const [changePassword] = useChangePasswordMutation({ variables: {password: sha256(password)}, errorPolicy: 'all'})
     const {data, loading} = useAccountQuery()
+
+    const router = useRouter()
+    console.log(router.pathname)
+    // const classes = useStyles();
 
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
@@ -46,27 +63,45 @@ const ProfilePage = () => {
 
     i18n;
     if (!loading) {
+        console.log(data)
         return (
             <>
+                <title>{t("title.profile")}</title>
                 <DarkModeParent theme={tmpTheme}>
                     <Header isConnected={true}/>
-                    <div>
-                        <div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>
-                            {langs.map((lang, index) => {
-                                return (
-                                    <img
-                                        key={index}
-                                        src={`/images/common/flag_${lang}.png`}
-                                        className={"flagLogo"}
-                                        alt={"roundSotoLogo"}
-                                        onClick={() => {
-                                            changeLang(lang)}
-                                        }
-                                    />
-                                )
-                            })}
-                            <ToggleColorMode theme={theme} toggleTheme={setTheme}/>
-                        </div>
+                    <div className='centered'>
+                        {/*<div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>*/}
+                        {/*    {langs.map((lang, index) => {*/}
+                        {/*        return (*/}
+                        {/*            <img*/}
+                        {/*                key={index}*/}
+                        {/*                src={`/images/common/flag_${lang}.png`}*/}
+                        {/*                className={"flagLogo"}*/}
+                        {/*                alt={"roundSotoLogo"}*/}
+                        {/*                onClick={() => {*/}
+                        {/*                    changeLang(lang)}*/}
+                        {/*                }*/}
+                        {/*            />*/}
+                        {/*        )*/}
+                        {/*    })}*/}
+                        {/*    <ToggleColorMode theme={theme} toggleTheme={setTheme}/>*/}
+                        {/*</div>*/}
+                        <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
+                            <div>
+                                <Typography variant="h5" className={"subTitle marginBottom50px padding1020"}>{t('settings.personalInfos')}</Typography>
+                                <CellComponent label={"E-MAIL ADDRESS"} value={data.account.email} path={"test"}/>
+                                <div className={'cellDivider'}/>
+                                <CellComponent label={"PASSWORD"} value={"••••••••"} path={"test"}/>
+                            </div>
+                        </Paper>
+
+                        <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
+                            <div>
+                                <Typography variant="h5" className={"subTitle marginBottom50px padding1020"}>{t('settings.personalization')}</Typography>
+
+                            </div>
+                        </Paper>
+
                         <div style={{margin: "200px 20px 0px"}}>
                             <Typography variant="h5" className={"subTitle"}>{t('settings.personalInfos')}</Typography>
                             <div>

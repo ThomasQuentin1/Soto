@@ -25,6 +25,24 @@ const GlobalStyles = createGlobalStyle`
     font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     transition: all 0.25s linear;
   }
+  
+  .halfWidth {
+    width: 50%
+  }
+  
+  .flexAlignJustifyCentered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
+  
+  .centered {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
+  }
 
   #example-features {
     height: 100%;
@@ -74,7 +92,7 @@ const GlobalStyles = createGlobalStyle`
   }
   
   a:hover {
-    text-decoration: underline;
+    //text-decoration: underline;
   }
   
   .footer-link {
@@ -138,6 +156,43 @@ const GlobalStyles = createGlobalStyle`
 
   .icons {
     color: ${({theme}) => theme.text}
+  }
+  
+  .flexWidthFull {
+    display: flex;
+    width: 100%;
+  }
+  
+  .padding1020 {
+    padding: 10px 20px;
+  }
+  
+  .cell {
+    //margin: 10px;
+    display: flex;
+  }
+  
+  .cellDivider {
+    border-top: 1px solid;
+    //width: 99%
+  }
+  
+  .cell :hover {
+    cursor: pointer;
+    background: ${({ theme }) => theme.hover};
+  }
+  
+  .MuiPaper-root {
+    color: inherit !important;
+    background: inherit !important;
+  }
+  
+  .MuiTypography-root {
+    align-self: center;
+  }
+
+  .marginBottom50px {
+    margin-bottom: 50px !important;
   }
   `;
 

@@ -15,7 +15,8 @@ const resources = {
         "privacyPolicy" : "Privacy policy",
         "conditionsOfUse" : "Conditions of use",
         "contactUs" : "Contact us",
-        "settings.personalInfos" : "Your personal information",
+        "settings.personalInfos" : "Personal info",
+        "settings.personalization" : "Personalization",
         "password.label" : "Password",
         "newPassword.label" : "New password",
         "confirmNewPassword.label" : "Confirm new password",
@@ -39,6 +40,7 @@ const resources = {
         "shop.banner.savedListButton.label" : "My lists saved",
         "shop.totalPrice.label" : "Total price :",
         "shop.payButton.label" : "Pay",
+        "title.profile" : "Profile",
       }
     },
     fr: {
@@ -58,6 +60,7 @@ const resources = {
         "conditionsOfUse" : "Conditions d'utilisations",
         "contactUs" : "Nous contacter",
         "settings.personalInfos" : "Vos informations personnelles",
+        "settings.personalization" : "Personnalisation",
         "password.label" : "Mot de passe",
         "newPassword.label" : "Nouveau mot de passe",
         "confirmNewPassword.label" : "Confirmer le nouveau mot de passe",
@@ -81,6 +84,7 @@ const resources = {
         "shop.banner.savedListButton.label" : "Mes listes sauvegardées",
         "shop.totalPrice.label" : "Prix total :",
         "shop.payButton.label" : "Payer",
+        "title.profile" : "Profil",
       }
     }
 };

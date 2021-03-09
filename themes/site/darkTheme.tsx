@@ -8,6 +8,7 @@ const darkTheme = {
     text: '#FAFAFA',
     disabled: '#263859',
     toggleBorder: '#6b778d',
+    hover: '#D8E1E3',
     gradient: 'linear-gradient(#091236, #1E215D)',
     border : {
         color: '#263859'
