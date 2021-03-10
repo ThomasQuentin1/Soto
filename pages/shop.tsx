@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import '../i18n';
+import React, { useState, useEffect } from "react";
+import '../i18n'
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
@@ -9,9 +9,27 @@ import PriceBanner from "components/shop/PriceBanner";
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
+import HistoryShortCut from 'components/history/HistoryShortCut';
+import { Cart } from 'interfaces/Cart';
 import Footer from 'components/global/Footer';
-import { Product, useCartLazyQuery } from 'typing';
+import { Product, useCartLazyQuery, useAddToCartMutation } from 'typing';
 // import { notifySuccess, notifyError } from "public/notifications/notificationsFunctions";
+
+const AddToBasketFromHistory = (oldCart: Cart, basket: Product[]) => {
+    let newBasket : Product[] = [];
+
+    basket.map((item) => newBasket.push(item));
+    oldCart.products.map((item) => {
+      const [addToCartMutation, {}] = useAddToCartMutation({
+        variables: {
+           productId: item.id
+        },
+      });
+      for (let i = 0; i < item.itemQuantity; i++) {
+        addToCartMutation();
+      }
+    });
+}
 
 const ShopPage = () => {
   const [theme] = useDarkMode();
@@ -46,7 +64,6 @@ const ShopPage = () => {
   
   if (data && data.cart && !isBasketUpToDate) {
     setIsBasketUpToDate(!isBasketUpToDate);
-    console.log(data)
     setBasket(data.cart.products)
     console.log(basket)
   } else if (error) {
@@ -57,7 +74,20 @@ const ShopPage = () => {
   if (basket.length != 0 && !isAnyItem) {
     setIsAnyItem(true);
   }
+
+  let oldCart : Cart;
+  useEffect(() => {
+    if (window != null && window != undefined && sessionStorage.getItem('cart')) {
+      let jsonString : any = sessionStorage.getItem('cart');
+      oldCart = JSON.parse(jsonString);
+      AddToBasketFromHistory(oldCart, basket);
+      sessionStorage.removeItem('cart');
+    }
+  }, []);
+
   
+  const cartHistory : Cart[] = [{shop: {name: 'Auchan', city: 'Strasbourg', long: 1, lat: 1, id:1, server:'null', code:'null'}, price: 55, dateCreated: new Date(), dateLastEdit: new Date(), products: [{name: 'Pain', brand: 'no name', scoreHealth: 20, quantity: 1, price: 1}, {name: 'Soda', brand: 'Coca-cola', scoreHealth: 1, quantity: 2, price: 1}, {name: 'Pâtes', brand: 'Barilla', scoreHealth: 100, quantity: 25, price: 2}, {name: 'Sauce tomate', brand: 'no name', scoreHealth: 50, quantity: 1, price: 1}]}, {shop: {name: 'Auchan', city: 'Strasbourg', long: 1, lat: 1, id:1, server:'null', code:'null'}, price: 55, dateCreated: new Date(), dateLastEdit: new Date(), products: [{name: 'Pain', brand: 'no name', scoreHealth: 20, quantity: 1, price: 1}, {name: 'Soda', brand: 'Coca-cola', scoreHealth: 1, quantity: 2, price: 1}, {name: 'Pâtes', brand: 'Barilla', scoreHealth: 100, quantity: 25, price: 2}, {name: 'Sauce tomate', brand: 'no name', scoreHealth: 50, quantity: 1, price: 1}]}, {shop: {name: 'Auchan', city: 'Strasbourg', long: 1, lat: 1, id:1, server:'null', code:'null'}, price: 55, dateCreated: new Date(), dateLastEdit: new Date(), products: [{name: 'Pain', brand: 'no name', scoreHealth: 20, quantity: 1, price: 1}, {name: 'Soda', brand: 'Coca-cola', scoreHealth: 1, quantity: 2, price: 1}, {name: 'Pâtes', brand: 'Barilla', scoreHealth: 100, quantity: 25, price: 2}, {name: 'Sauce tomate', brand: 'no name', scoreHealth: 50, quantity: 1, price: 1}]}];
+
   return (
       <DarkModeParent theme={tmpTheme}>
           <Header/>
@@ -80,6 +110,8 @@ const ShopPage = () => {
               <ShopList basket={basket} cartQuery={cartQuery}/>
             </Grid>
           </Grid>
+          <HistoryShortCut cartHistory={cartHistory} basket={basket} setBasket={setBasket}/>
+          {/* <Footer></Footer> */}
           <Footer changeStyle={isAnyItem}></Footer>
       </DarkModeParent>
   );

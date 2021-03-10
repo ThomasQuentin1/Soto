@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleLanguague is the components that display the button which change the language 1`] = `
+<div
+  className="MuiGrid-root MuiGrid-item"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container"
+    style={
+      Object {
+        "paddingLeft": "10px",
+      }
+    }
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      style={
+        Object {
+          "marginBottom": "5px",
+        }
+      }
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1"
+      >
+        Mercredi 10 Mars
+      </p>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item"
+      >
+        <p
+          className="MuiTypography-root MuiTypography-body1"
+        >
+          Total de produits : 
+          29
+        </p>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+      >
+        <div
+          className="MuiGrid-root MuiGrid-container MuiGrid-justify-xs-space-between"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            onClick={[Function]}
+          >
+            Plus
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              style={
+                Object {
+                  "position": "absolute",
+                }
+              }
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              />
+            </svg>
+          </p>
+          <button
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label"
+            >
+              Ajouter au panier
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root"
+  />
+</div>
+`;

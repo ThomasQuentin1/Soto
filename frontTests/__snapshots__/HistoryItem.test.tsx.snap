@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleLanguague is the components that display the button which change the language 1`] = `
+<div
+  className="MuiGrid-root history_item MuiGrid-item MuiGrid-grid-xs-6"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container"
+    style={
+      Object {
+        "paddingLeft": "50px",
+      }
+    }
+  >
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+      style={
+        Object {
+          "marginBottom": "5px",
+        }
+      }
+    >
+      <p
+        className="MuiTypography-root MuiTypography-body1"
+      >
+        Mercredi 10 Mars
+         - 
+        Auchan
+         
+        Strasbourg
+      </p>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-container"
+      >
+        <p
+          className="MuiTypography-root MuiTypography-body1"
+        >
+          Vous avez payé : 
+          55
+          €
+        </p>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        className="MuiGrid-root MuiGrid-item"
+      >
+        <p
+          className="MuiTypography-root MuiTypography-body1"
+        >
+          Total de produits commandés : 
+          29
+        </p>
+      </div>
+      <div
+        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
+      >
+        <div
+          className="MuiGrid-root MuiGrid-container MuiGrid-justify-xs-space-between"
+        >
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            onClick={[Function]}
+          >
+            Plus
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              style={
+                Object {
+                  "position": "absolute",
+                }
+              }
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              />
+            </svg>
+          </p>
+          <a
+            aria-disabled={false}
+            className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary"
+            href="/shop"
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+          >
+            <span
+              className="MuiButton-label"
+            >
+              Ajouter au panier
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="MuiGrid-root"
+  />
+</div>
+`;
