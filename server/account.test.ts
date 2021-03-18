@@ -1,6 +1,7 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { endConnection, openConnection } from "./query";
 import { Mutate, Query } from "./utils/tests";
+import { ErrMsg } from "../interfaces/TranslationEnum";
 
 let token: string = "";
 const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
@@ -25,7 +26,7 @@ describe("Shop list gathering", () => {
 describe("Basic errors cases with account", () => {
   it("should deny access to account without being logged in", async () => {
     await expect(Query("account", {})).rejects.toStrictEqual(
-      new AuthenticationError("please login")
+      new AuthenticationError(ErrMsg("error.notloggedin"))
     );
   });
 
@@ -36,28 +37,28 @@ describe("Basic errors cases with account", () => {
         passwordSHA256: "invalidPassword123",
       })
     ).rejects.toStrictEqual(
-      new AuthenticationError("Invalid email or password")
+      new AuthenticationError(ErrMsg("error.invalidcredentails"))
     );
   });
 
   it("should deny actions to a unlogged user", async () => {
     await expect(
       Mutate("setObligations", { obligations: [] })
-    ).rejects.toStrictEqual(new AuthenticationError("please login"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
     await expect(
       Mutate("setCriterions", { criterions: [] })
-    ).rejects.toStrictEqual(new AuthenticationError("please login"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
     await expect(
       Mutate("changeEmail", { newEmail: "newemail" })
-    ).rejects.toStrictEqual(new AuthenticationError("please login"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
     await expect(
       Mutate("changePassword", { newPasswordSHA256: "newpass" })
-    ).rejects.toStrictEqual(new AuthenticationError("please login"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
     await expect(
       Mutate("subscribeNotifications", { token: "tok" })
-    ).rejects.toStrictEqual(new AuthenticationError("please login"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
     await expect(Mutate("setShop", { token: "tok" })).rejects.toStrictEqual(
-      new AuthenticationError("please login")
+      new AuthenticationError(ErrMsg("error.notloggedin"))
     );
   });
 
@@ -71,10 +72,10 @@ describe("Basic errors cases with account", () => {
     });
     await expect(
       Mutate("register", { email: duplicateEmail, passwordSHA256: "rand" })
-    ).rejects.toStrictEqual(new AuthenticationError("Email already in use"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.emailalreadyinuse")));
     await expect(
       Mutate("removeAccount", { passwordSHA256: "invalid" }, token)
-    ).rejects.toStrictEqual(new AuthenticationError("Invalid password"));
+    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.invalidcredentails")));
     await expect(
       Mutate("removeAccount", { passwordSHA256: "rand" }, token)
     ).resolves.toBeTruthy();
@@ -126,80 +127,80 @@ describe("Account", () => {
     await Mutate("removeAccount", { passwordSHA256: "newblbl" }, secondtoken);
   });
 
-  it("handle obligations properly", async () => {
-    const oldProfile = await Query("account", {}, token);
-    await Mutate("setObligations", { obligations: [{ id: 1 }] }, token);
-    const newProfile = await Query("account", {}, token);
-    expect(oldProfile).not.toBe(newProfile);
-    expect(newProfile.obligations.find((o: any) => o.activated).id).toBe(1);
-    expect(newProfile.obligations.filter((o: any) => o.activated).length).toBe(
-      1
-    );
-  });
+  // it("handle obligations properly", async () => {
+  //   const oldProfile = await Query("account", {}, token);
+  //   await Mutate("setObligations", { obligations: [{ id: 1 }] }, token);
+  //   const newProfile = await Query("account", {}, token);
+  //   expect(oldProfile).not.toBe(newProfile);
+  //   expect(newProfile.obligations.find((o: any) => o.activated).id).toBe(1);
+  //   expect(newProfile.obligations.filter((o: any) => o.activated).length).toBe(
+  //     1
+  //   );
+  // });
 
-  it("handle critetions properly", async () => {
-    const oldProfile = await Query("account", {}, token);
-    await Mutate(
-      "setCriterions",
-      {
-        criterions: [
-          { id: 2, position: 1 },
-          { id: 1, position: 2 },
-        ],
-      },
-      token
-    );
-    const newProfile = await Query("account", {}, token);
-    expect(oldProfile).not.toBe(newProfile);
-    expect(newProfile.criterions.find((o: any) => o.position == 1).id).toBe(2);
-    expect(newProfile.criterions.find((o: any) => o.position == 2).id).toBe(1);
-    expect(newProfile.criterions.filter((o: any) => o.activated).length).toBe(
-      2
-    );
-  });
+  // it("handle critetions properly", async () => {
+  //   const oldProfile = await Query("account", {}, token);
+  //   await Mutate(
+  //     "setCriterions",
+  //     {
+  //       criterions: [
+  //         { id: 2, position: 1 },
+  //         { id: 1, position: 2 },
+  //       ],
+  //     },
+  //     token
+  //   );
+  //   const newProfile = await Query("account", {}, token);
+  //   expect(oldProfile).not.toBe(newProfile);
+  //   expect(newProfile.criterions.find((o: any) => o.position == 1).id).toBe(2);
+  //   expect(newProfile.criterions.find((o: any) => o.position == 2).id).toBe(1);
+  //   expect(newProfile.criterions.filter((o: any) => o.activated).length).toBe(
+  //     2
+  //   );
+  // });
 
-  it("sould deny invalid ids into criterions and obligations", async () => {
-    await expect(
-      Mutate(
-        "setCriterions",
-        { criterions: [{ id: 9999, position: 1 }] },
-        token
-      )
-    ).rejects.toStrictEqual(new UserInputError("Invalid criterion id"));
-    await expect(
-      Mutate("setObligations", { obligations: [{ id: 9999 }] }, token)
-    ).rejects.toStrictEqual(new UserInputError("Invalid obligation id"));
-  });
+  // it("sould deny invalid ids into criterions and obligations", async () => {
+  //   await expect(
+  //     Mutate(
+  //       "setCriterions",
+  //       { criterions: [{ id: 9999, position: 1 }] },
+  //       token
+  //     )
+  //   ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
+  //   await expect(
+  //     Mutate("setObligations", { obligations: [{ id: 9999 }] }, token)
+  //   ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
+  // });
 
-  it("sould deny invalid positions in criterions", async () => {
-    await expect(
-      Mutate("setCriterions", { criterions: [{ id: 1, position: 0 }] }, token)
-    ).rejects.toStrictEqual(
-      new UserInputError("Criterions position must start with 1")
-    );
-    await expect(
-      Mutate(
-        "setCriterions",
-        {
-          criterions: [
-            { id: 1, position: 1 },
-            { id: 2, position: 3 },
-          ],
-        },
-        token
-      )
-    ).rejects.toStrictEqual(
-      new UserInputError("Criterions position are incorrect (not 1, 2, 3...)")
-    );
-  });
+  // it("sould deny invalid positions in criterions", async () => {
+  //   await expect(
+  //     Mutate("setCriterions", { criterions: [{ id: 1, position: 0 }] }, token)
+  //   ).rejects.toStrictEqual(
+  //     new UserInputError(ErrMsg("error.badparams"))
+  //   );
+  //   await expect(
+  //     Mutate(
+  //       "setCriterions",
+  //       {
+  //         criterions: [
+  //           { id: 1, position: 1 },
+  //           { id: 2, position: 3 },
+  //         ],
+  //       },
+  //       token
+  //     )
+  //   ).rejects.toStrictEqual(
+  //     new UserInputError(ErrMsg("error.badparams"))
+  //   );
+  // });
 
   it("sould deny deny invalid shop selection", async () => {
     await expect(Mutate("setShop", { shopId: 0 }, token)).rejects.toStrictEqual(
-      new UserInputError("Bad shop id")
+      new UserInputError(ErrMsg("error.badparams"))
     );
     await expect(
       Mutate("setShop", { shopId: 10 }, token)
-    ).rejects.toStrictEqual(new UserInputError("Bad shop id"));
+    ).rejects.toStrictEqual(new UserInputError(ErrMsg("error.badparams")));
   });
 
   it("sould handle shop modification properly", async () => {

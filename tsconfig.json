@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "commonjs",
+    "target": "ES2017",
+    "module": "ES2020",
     "jsx": "preserve",
     "lib": [
       "dom",
@@ -29,11 +29,11 @@
     "dist",
     ".next",
     "out",
-    "next.config.js"
+    "next.config.js",
   ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ]
+  ],
 }

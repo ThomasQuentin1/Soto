@@ -9,6 +9,8 @@ const schema = gql`
     shopList: [Shop!]!
     cart: Cart
     oldCarts: [Cart]!
+    criterions: [Criterion!]!
+    obligations: [Obligation!]!
   }
 
   type Mutation {
@@ -21,9 +23,8 @@ const schema = gql`
     changePassword(newPasswordSHA256: String!): Boolean!
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
-
-    addToCart(productId: Int!): Boolean!
-    removeFromCart(productId: Int!): Boolean!
+    addToCart(productId: String!): Boolean!
+    removeFromCart(productId: String!): Boolean!
     confirmCart: Boolean!
     clearCart: Boolean!
   }
@@ -48,27 +49,20 @@ const schema = gql`
 
   type Account {
     email: String!
-    criterions: [Criterion!]!
-    obligations: [Obligation!]!
     currentShop: Shop
-  }
-
-  type MultilangString {
-    en: String
-    fr: String
   }
 
   type Criterion {
     activated: Boolean!
     position: Int
     id: Int!
-    name: MultilangString!
+    name: String!
   }
 
   type Obligation {
     activated: Boolean!
     id: Int!
-    name: MultilangString!
+    name: String!
   }
 
   input CriterionInput {
@@ -81,6 +75,7 @@ const schema = gql`
   }
 
   type Product {
+    id: String!
     name: String!
     brand: String
     priceUnit: String!

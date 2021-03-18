@@ -1,4 +1,6 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
+import { DbProduct } from "server/dbSchema";
+import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
@@ -9,7 +11,7 @@ export const productResolvers: Resolvers = {
       const shop = ShopList.find((s) => s.id == (context.user?.shopId ?? 3));
 
       const data = (
-        await usersQuery<any>(
+        await usersQuery<DbProduct>(
           `SELECT * FROM products${
             context.user?.shopId ?? 3
           } WHERE name LIKE ? OR keywords LIKE ? LIMIT 10`,
@@ -17,6 +19,7 @@ export const productResolvers: Resolvers = {
         )
       ).map<Product>((r) => ({
         ...r,
+        id: r.leclercId,
         allergens: r.allergens?.split("|") ?? [],
         ingredients: r.ingredients?.split("|") ?? [],
         nutriments: r.nutriments?.split("|") ?? [],
@@ -24,7 +27,7 @@ export const productResolvers: Resolvers = {
         scoreEnvironment: r.environmentScore,
         scoreHealth: r.healthscore,
         photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
-          r.leclercId
+          r.photo
         }&use=d&cat=p&typeid=i&width=300`,
         url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
           shop!.code
@@ -40,9 +43,10 @@ export const productResolvers: Resolvers = {
   },
   Mutation: {
     setShop: async (_obj, args, context, _info) => {
-      if (!context.user) throw new AuthenticationError("please login");
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
       if (args.shopId == 0 || args.shopId > 4)
-        throw new UserInputError("Bad shop id");
+        throw new UserInputError(ErrMsg("error.badparams"));
 
       const maxCartId = (
         await usersQuery("SELECT cartId FROM users")

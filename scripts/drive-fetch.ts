@@ -57,6 +57,7 @@ interface Article {
   name: string;
   brand: string;
   leclercId: string;
+  photo: string;
   priceUnit: string;
   priceMass: string;
   ingredients: string[];
@@ -100,6 +101,8 @@ const sqlconnect = async () => {
   });
 };
 
+const clear = (str: string) => str.replace(/[^\x00-\x7F]/g, "");
+
 const start = async () => {
   const sql = await sqlconnect();
   const db = new sqlite.Database("catalogue.db", (err: any) => {
@@ -119,11 +122,12 @@ const start = async () => {
 
   await Promise.all(
     articles.map(async (article) => {
-      const searchTerms =
-        `${article.LIBELLE_LIGNE_1} ${article.LIBELLE_LIGNE_2.substr(
-          0,
-          article.LIBELLE_LIGNE_2.indexOf("-")
-        )}`?.toLocaleLowerCase() ?? "";
+      const searchTerms = `${
+        article.LIBELLE_LIGNE_1
+      } ${article.LIBELLE_LIGNE_2.substr(
+        0,
+        article.LIBELLE_LIGNE_2.indexOf("-")
+      )}`.toLocaleLowerCase();
 
       const searchQuery = await fetch(
         `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
@@ -169,11 +173,11 @@ const start = async () => {
         const product = await createProduct(article, bestProduct);
         let serialized = {
           ...product,
-          ingredients: product.ingredients.join("|"),
-          packaging: product.packaging.join("|"),
-          allergens: product.allergens.toString(),
-          nutriments: product.nutriments.join("|"),
-          keywords: product.keywords.join("|"),
+          ingredients: clear((product.ingredients || []).join("|")),
+          packaging: clear((product.packaging || []).join("|")),
+          allergens: clear(product.allergens.toString()),
+          nutriments: clear(product.nutriments.join("|")),
+          keywords: clear((product.keywords || []).join("|")),
         };
 
         serialized.scoreEnvironment = EnvScorer.getScore(serialized).toString();
@@ -185,10 +189,11 @@ const start = async () => {
 
         await sqlquery(
           sql,
-          "INSERT INTO products3 (name, leclercId, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+          "INSERT INTO products3 (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
           [
             serialized.name,
             serialized.leclercId,
+            serialized.photo,
             serialized.brand,
             serialized.priceUnit,
             serialized.priceMass,
@@ -272,12 +277,19 @@ const createProduct = async (
     priceUnit: priceUnit,
     keywords,
     leclercId: leclerc.ID_PRODUIT_WEB,
+    photo: leclerc.ID_PHOTO_DETAIL,
   };
   return ret;
 };
 
 start()
-  .then(() => console.log("Ok"))
-  .catch((ex) => console.warn(ex));
+  .then(() => {
+    console.log("Ok");
+    process.exit(0);
+  })
+  .catch((ex) => {
+    console.warn(ex);
+    process.exit(1);
+  });
 
 // export default start;

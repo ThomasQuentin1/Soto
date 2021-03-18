@@ -39,6 +39,10 @@ const resources = {
         "shop.banner.savedListButton.label" : "My lists saved",
         "shop.totalPrice.label" : "Total price :",
         "shop.payButton.label" : "Pay",
+        "error.notloggedin" : "Please login",
+        "error.invalidcredentails": "Invalid email or password",
+        "error.emailalreadyinuse": "Email already in use",
+        "error.badparams": "Bad parameters",
       }
     },
     fr: {
@@ -81,6 +85,10 @@ const resources = {
         "shop.banner.savedListButton.label" : "Mes listes sauvegardées",
         "shop.totalPrice.label" : "Prix total :",
         "shop.payButton.label" : "Payer",
+        "error.notloggedin" : "Veillez vous connecter",
+        "error.invalidcredentails": "Email ou mot de passe invalides",
+        "error.emailalreadyinuse": "Email déjà utilisé",
+        "error.badparams": "Mauvais paramètres",
       }
     }
 };

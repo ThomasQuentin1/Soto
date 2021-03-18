@@ -1,26 +1,20 @@
-import { MultilangString } from "typing";
+import { TranslationEnum } from "interfaces/TranslationEnum";
 
 interface CriterionInternal {
-    id: number,
-    name: MultilangString,
-    fieldDB: string
+    id: number;
+    name: TranslationEnum;
+    fieldDB: string;
 }
 
 export const Criterions: CriterionInternal[] = [
     {
         id: 1,
         fieldDB: "health",
-        name: {
-            fr: "Impact sur la santé",
-            en: "Health impact"
-        }
+        name: "criteria.health"
     },
     {
         id: 2,
         fieldDB: "environment",
-        name: {
-            fr: "Impact sur l'environnement",
-            en: "Environment impact"
-        }
+        name: "criteria.environmental_impact"
     }
 ];
