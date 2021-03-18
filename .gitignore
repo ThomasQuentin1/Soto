@@ -10,7 +10,7 @@ dist
 graphql.schema.json
 yarn-error.log
 catalogue.db
-coverage
+coverage.
 *.db
 
 .idea/

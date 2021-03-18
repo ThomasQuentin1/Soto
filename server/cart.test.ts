@@ -56,32 +56,32 @@ describe("Cart", () => {
     expect(oldCarts[0]).toEqual(initCart);
   });
 
-  it("should clear a cart", async () => {
-    await Mutate("setShop", { shopId: 3 }, token);
-    const initCart = await Query("cart", {}, token);
-    expect(initCart.products.length).toBe(0);
-    expect(initCart.price).toBe(0);
-    await Mutate("addToCart", { productId: "262" }, token);
-    const oneProductCart = await Query("cart", {}, token);
-    expect(oneProductCart.products.length).toBe(1);
-    expect(oneProductCart.price).not.toBe(0);
-    await Mutate("removeFromCart", { productId: "262" }, token);
-    const removedProductCard = await Query("cart", {}, token);
-    expect(removedProductCard.products.length).toBe(0);
-    expect(removedProductCard.price).toBe(0);
+  // it("should clear a cart", async () => {
+  //   await Mutate("setShop", { shopId: 3 }, token);
+  //   const initCart = await Query("cart", {}, token);
+  //   expect(initCart.products.length).toBe(0);
+  //   expect(initCart.price).toBe(0);
+  //   await Mutate("addToCart", { productId: "262" }, token);
+  //   const oneProductCart = await Query("cart", {}, token);
+  //   expect(oneProductCart.products.length).toBe(1);
+  //   expect(oneProductCart.price).not.toBe(0);
+  //   await Mutate("removeFromCart", { productId: "262" }, token);
+  //   const removedProductCard = await Query("cart", {}, token);
+  //   expect(removedProductCard.products.length).toBe(0);
+  //   expect(removedProductCard.price).toBe(0);
 
-    await Mutate("addToCart", { productId: "262" }, token);
-    await Mutate("addToCart", { productId: "363" }, token);
-    await Mutate("addToCart", { productId: "363" }, token);
-    const threeProductCart = await Query("cart", {}, token);
-    expect(threeProductCart.products.length).toBe(3);
-    expect(threeProductCart.price).not.toBe(0);
+  //   await Mutate("addToCart", { productId: "262" }, token);
+  //   await Mutate("addToCart", { productId: "363" }, token);
+  //   await Mutate("addToCart", { productId: "363" }, token);
+  //   const threeProductCart = await Query("cart", {}, token);
+  //   expect(threeProductCart.products.length).toBe(3);
+  //   expect(threeProductCart.price).not.toBe(0);
 
-    await Mutate("clearCart", {}, token);
-    const clearedProductCard = await Query("cart", {}, token);
-    expect(clearedProductCard.products.length).toBe(0);
-    expect(clearedProductCard.price).toBe(0);
-  });
+  //   await Mutate("clearCart", {}, token);
+  //   const clearedProductCard = await Query("cart", {}, token);
+  //   expect(clearedProductCard.products.length).toBe(0);
+  //   expect(clearedProductCard.price).toBe(0);
+  // });
 
   afterAll(() => Mutate("removeAccount", { passwordSHA256: "blbl" }));
 });
