@@ -23,6 +23,9 @@ jobs:
 
       - name: Install the dependencies
         run: yarn
+      
+      - name : setup the db
+        run : yarn setup-test-db
 
       - name: Run the tests
         run: yarn test
