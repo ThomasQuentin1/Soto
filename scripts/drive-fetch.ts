@@ -97,7 +97,10 @@ const sqlconnect = async () => {
   });
 };
 
-const clear = (str: string) => str.replace(/[^\x00-\x7F]/g, "");
+const clear = (str: string) => {
+  if (!str) return "";
+  str.replace(/[^\x00-\x7F]/g, "");
+};
 
 const start = async () => {
   const sql = await sqlconnect();
@@ -145,7 +148,7 @@ const start = async () => {
         let bestMatchScore = 0;
 
         offProducts.forEach((product: any) => {
-          if (!product) return;
+          if (!product || !product.product_name_fr) return;
           const offElems: string[] = [
             ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
             product.quantity || product.nutrition_data_prepared_per,
@@ -173,6 +176,7 @@ const start = async () => {
           const product = await createProduct(article, bestProduct);
           let serialized = {
             ...product,
+            brand: clear(product.brand),
             ingredients: clear((product.ingredients || []).join("|")),
             packaging: clear((product.packaging || []).join("|")),
             allergens: clear(product.allergens.toString()),
