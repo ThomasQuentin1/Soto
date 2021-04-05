@@ -11,7 +11,8 @@
     "db-setup": "ts-node --project tsconfig.server.json scripts/db-setup.ts",
     "all-notif": "ts-node --project tsconfig.server.json scripts/sendNotificationToAllCustomer.ts",
     "one-notif": "ts-node --project tsconfig.server.json cripts/sendNotificationToOneCustomer.ts",
-    "generate-translation-types": "ts-node --project tsconfig.server.json scripts/generate-translation-types.ts"
+    "generate-translation-types": "ts-node --project tsconfig.server.json scripts/generate-translation-types.ts",
+    "setup-test-db" : "export TEST=TRUE && ts-node --project tsconfig.server.json scripts/db-setup.ts && ts-node --project tsconfig.server.json scripts/drive-fetch.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.2.2",

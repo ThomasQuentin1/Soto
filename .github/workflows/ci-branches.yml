@@ -25,8 +25,7 @@ jobs:
         run: yarn
       
       - name : setup the db
-        env: TEST:TRUE
-        run : yarn db-setup && yarn drive-fetch
+        run : yarn setup-test-db
 
       - name: Run the tests
         run: yarn test
