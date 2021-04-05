@@ -1,10 +1,10 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { ErrMsg } from "../interfaces/TranslationEnum";
 import { endConnection, openConnection } from "./query";
-import { Mutate, Query } from "./utils/tests";
+import { makeid, Mutate, Query } from "./utils/tests";
 
 let token: string = "";
-const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
+const email = `user${makeid(64)}@test.com`;
 
 afterAll(() => {
   openConnection();

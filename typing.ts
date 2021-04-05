@@ -45,6 +45,8 @@ export type Query = {
 
 export type QuerySearchProductsArgs = {
   query: Scalars["String"];
+  obligationsOverride?: Maybe<Array<Maybe<ObligationInput>>>;
+  criterionsOverride?: Maybe<Array<Maybe<CriterionInput>>>;
 };
 
 export type Mutation = {

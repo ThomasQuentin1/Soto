@@ -5,7 +5,11 @@ const schema = gql`
 
   type Query {
     account: Account!
-    searchProducts(query: String!): [Product!]!
+    searchProducts(
+      query: String!
+      obligationsOverride: [ObligationInput]
+      criterionsOverride: [CriterionInput]
+    ): [Product!]!
     shopList: [Shop!]!
     cart: Cart
     oldCarts: [Cart]!
