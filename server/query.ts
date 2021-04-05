@@ -24,8 +24,6 @@ const algoPool = mysql.createPool({
 });
 
 const usersPool = mysql.createPool(getPool());
-console.log("usersPool");
-console.log(usersPool);
 
 export const algoQuery = async <T>(query: string, values?: string[]) => {
   return new Promise<T[]>((resolve, reject) => {

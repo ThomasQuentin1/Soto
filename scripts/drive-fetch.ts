@@ -5,6 +5,7 @@ const fs = require("fs");
 const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
 const mysql = require("mysql");
+import { getPool } from "../server/query";
 import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
 
@@ -87,12 +88,7 @@ const sqlquery = async <T>(con: any, query: string, values?: string[]) => {
 
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
-    const con = mysql.createConnection({
-      host: "51.11.241.109",
-      user: "soto",
-      password: "s0t0lefeu!",
-      database: "users",
-    });
+    const con = mysql.createConnection(getPool());
     con.connect((err: any) => {
       if (err) reject(err);
       console.log("Connected to SQL");
@@ -105,8 +101,8 @@ const clear = (str: string) => str.replace(/[^\x00-\x7F]/g, "");
 
 const start = async () => {
   const sql = await sqlconnect();
-  const db = new sqlite.Database("catalogue.db", (err: any) => {
-    if (err) console.error(_err);
+  const db = new sqlite.Database("./server/drive-data/drive1.ashz", (err: any) => {
+    if (err) console.error(err);
   });
 
   const tableNameQuery = await query<{ name: string }>(
