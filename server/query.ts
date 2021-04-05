@@ -1,6 +1,6 @@
 import * as mysql from "mysql";
 
-const getPool = () => {
+export const getPool = () => {
   if (process.env && process.env.TEST && process.env.TEST === "TRUE")
     return {
       host: "51.11.241.109",

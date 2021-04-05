@@ -1,4 +1,5 @@
-// @ts-nocheck
+import { getPool } from "server/query";
+
 // @ts-ignore
 const mysql = require("mysql");
 
@@ -6,12 +7,7 @@ const insertProduct =
   "(id INT AUTO_INCREMENT primary key NOT NULL, leclercId VARCHAR(64), photo INT, name VARCHAR(1024), brand VARCHAR(64), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(4096), packaging VARCHAR(4096), allergens VARCHAR(4096), nutriments VARCHAR(4096), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, quantity VARCHAR(16), keywords VARCHAR(4096))";
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
-    const con = mysql.createConnection({
-      host: "51.11.241.109",
-      user: "soto",
-      password: "s0t0lefeu!",
-      database: "users",
-    });
+    const con = mysql.createConnection(getPool());
     con.connect((err: any) => {
       if (err) reject(err);
       console.log("Connected to SQL");
