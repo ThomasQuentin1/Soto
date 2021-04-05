@@ -24,7 +24,7 @@ jobs:
         run: yarn
 
       - name : setup the db
-        run : yarn db-setup && yarn drive-fetch
+        run : EXPORT TEST=TRUE && yarn db-setup && yarn drive-fetch
 
       - name: Run the tests
         run: yarn test

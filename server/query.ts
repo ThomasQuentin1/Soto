@@ -1,20 +1,25 @@
 import * as mysql from "mysql";
 
 export const getPool = () => {
-  if (process.env && process.env.TEST && process.env.TEST === "TRUE")
+  if (process.env && process.env.TEST && process.env.TEST === "TRUE") {
+    console.log("db test")
     return {
       host: "51.11.241.109",
       user: "soto",
       password: "s0t0lefeu!",
       database: "algo",
     };
-  else
+  }
+
+  else {
+    console.log("db prod")
     return {
       host: "51.11.241.109",
       user: "soto",
       password: "s0t0lefeu!",
       database: "users",
     };
+  }
 };
 const algoPool = mysql.createPool({
   host: "51.11.241.109",
