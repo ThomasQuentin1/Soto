@@ -101,112 +101,119 @@ const clear = (str: string) => str.replace(/[^\x00-\x7F]/g, "");
 
 const start = async () => {
   const sql = await sqlconnect();
-  const db = new sqlite.Database("./server/drive-data/drive1.ashz", (err: any) => {
-    if (err) console.error(err);
-  });
+  for (let i = 1; i < 5; i++) {
+    const db = new sqlite.Database(
+      `./server/drive-data/drive${i}.ashz`,
+      (err: any) => {
+        if (err) console.error(err);
+      }
+    );
 
-  const tableNameQuery = await query<{ name: string }>(
-    db,
-    "SELECT name FROM sqlite_master where type='table' AND name LIKE '%_ARTICLES'"
-  );
-  const tableName = tableNameQuery[0].name;
+    const tableNameQuery = await query<{ name: string }>(
+      db,
+      "SELECT name FROM sqlite_master where type='table' AND name LIKE '%_ARTICLES'"
+    );
+    const tableName = tableNameQuery[0].name;
 
-  const articles = await query<LeclercArticle>(
-    db,
-    `SELECT * FROM ${tableName} LIMIT 50 OFFSET 110`
-  );
+    const articles = await query<LeclercArticle>(
+      db,
+      `SELECT * FROM ${tableName} LIMIT 50 OFFSET 110`
+    );
 
-  await Promise.all(
-    articles.map(async (article) => {
-      const searchTerms = `${
-        article.LIBELLE_LIGNE_1
-      } ${article.LIBELLE_LIGNE_2.substr(
-        0,
-        article.LIBELLE_LIGNE_2.indexOf("-")
-      )}`.toLocaleLowerCase();
+    await Promise.all(
+      articles.map(async (article) => {
+        const searchTerms = `${
+          article.LIBELLE_LIGNE_1
+        } ${article.LIBELLE_LIGNE_2.substr(
+          0,
+          article.LIBELLE_LIGNE_2.indexOf("-")
+        )}`.toLocaleLowerCase();
 
-      const searchQuery = await fetch(
-        `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
-          searchTerms
-        )}&search_simple=1&action=process&json=true`
-      );
-      const offProducts = (await searchQuery.json()).products as any[];
+        const searchQuery = await fetch(
+          `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
+            searchTerms
+          )}&search_simple=1&action=process&json=true`
+        );
+        const offProducts = (await searchQuery.json()).products as any[];
 
-      const leclercElems = [
-        ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
-        ...article.LIBELLE_LIGNE_2.split(" ").map((a) => a.trim()),
-      ].map((e) => (e ? e.toLocaleLowerCase() : e));
-
-      let bestProduct = null;
-      let bestMatchScore = 0;
-
-      offProducts.forEach((product: any) => {
-        if (!product) return;
-        const offElems: string[] = [
-          ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
-          product.quantity || product.nutrition_data_prepared_per,
-          ...(product.brands_tags || []),
+        const leclercElems = [
+          ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
+          ...article.LIBELLE_LIGNE_2.split(" ").map((a) => a.trim()),
         ].map((e) => (e ? e.toLocaleLowerCase() : e));
 
-        const matches = offElems.filter((le) =>
-          leclercElems.find(
-            (oe) => le && oe && (le.includes(oe) || oe.includes(le))
-          )
-        );
-        var uniquematches = matches.filter((elem, index, self) => {
-          return index === self.indexOf(elem);
+        let bestProduct = null;
+        let bestMatchScore = 0;
+
+        offProducts.forEach((product: any) => {
+          if (!product) return;
+          const offElems: string[] = [
+            ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
+            product.quantity || product.nutrition_data_prepared_per,
+            ...(product.brands_tags || []),
+          ].map((e) => (e ? e.toLocaleLowerCase() : e));
+
+          const matches = offElems.filter((le) =>
+            leclercElems.find(
+              (oe) => le && oe && (le.includes(oe) || oe.includes(le))
+            )
+          );
+          var uniquematches = matches.filter((elem, index, self) => {
+            return index === self.indexOf(elem);
+          });
+          const score = uniquematches.length;
+
+          if (score > bestMatchScore) {
+            bestMatchScore = score;
+            bestProduct = product;
+          }
         });
-        const score = uniquematches.length;
 
-        if (score > bestMatchScore) {
-          bestMatchScore = score;
-          bestProduct = product;
+        if (bestProduct == null) console.log("Product not found");
+        else {
+          const product = await createProduct(article, bestProduct);
+          let serialized = {
+            ...product,
+            ingredients: clear((product.ingredients || []).join("|")),
+            packaging: clear((product.packaging || []).join("|")),
+            allergens: clear(product.allergens.toString()),
+            nutriments: clear(product.nutriments.join("|")),
+            keywords: clear((product.keywords || []).join("|")),
+          };
+
+          serialized.scoreEnvironment = EnvScorer.getScore(
+            serialized
+          ).toString();
+          serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
+
+          console.log(
+            `Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
+          );
+
+          await sqlquery(
+            sql,
+            "INSERT INTO products3 (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [
+              serialized.name,
+              serialized.leclercId,
+              serialized.photo,
+              serialized.brand,
+              serialized.priceUnit,
+              serialized.priceMass,
+              serialized.ingredients,
+              serialized.packaging,
+              serialized.allergens,
+              serialized.nutriments,
+              serialized.nutriscore,
+              serialized.scoreHealth,
+              serialized.scoreEnvironment,
+              serialized.quantity,
+              serialized.keywords,
+            ]
+          );
         }
-      });
-
-      if (bestProduct == null) console.log("Product not found");
-      else {
-        const product = await createProduct(article, bestProduct);
-        let serialized = {
-          ...product,
-          ingredients: clear((product.ingredients || []).join("|")),
-          packaging: clear((product.packaging || []).join("|")),
-          allergens: clear(product.allergens.toString()),
-          nutriments: clear(product.nutriments.join("|")),
-          keywords: clear((product.keywords || []).join("|")),
-        };
-
-        serialized.scoreEnvironment = EnvScorer.getScore(serialized).toString();
-        serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
-
-        console.log(
-          `Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
-        );
-
-        await sqlquery(
-          sql,
-          "INSERT INTO products3 (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [
-            serialized.name,
-            serialized.leclercId,
-            serialized.photo,
-            serialized.brand,
-            serialized.priceUnit,
-            serialized.priceMass,
-            serialized.ingredients,
-            serialized.packaging,
-            serialized.allergens,
-            serialized.nutriments,
-            serialized.nutriscore,
-            serialized.scoreHealth,
-            serialized.scoreEnvironment,
-            serialized.quantity,
-            serialized.keywords,
-          ]
-        );
-      }
-    })
-  );
+      })
+    );
+  }
 };
 
 const tab = ["a", "b", "c", "d", "e"];
