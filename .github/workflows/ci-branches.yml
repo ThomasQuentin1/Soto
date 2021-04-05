@@ -22,11 +22,10 @@ jobs:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
 
       - name: Install the dependencies
-        env: TEST:TRUE
-
         run: yarn
       
       - name : setup the db
+        env: TEST:TRUE
         run : yarn db-setup && yarn drive-fetch
 
       - name: Run the tests
