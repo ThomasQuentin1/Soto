@@ -5,6 +5,8 @@ export default class EnvScoring extends AScoring {
     const scores = [50];
     let scoresCount = 1;
 
+    if (!product.packaging)
+      return 50
     this.getTags(product.packaging.split("|"), EnvironmentTags).forEach((p) => {
       scores.push(p.score);
       scoresCount++;

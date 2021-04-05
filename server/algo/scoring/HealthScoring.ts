@@ -6,6 +6,8 @@ export default class HealthScoring extends AScoring {
     const scores = [80];
     let scoresCount = 2;
 
+    if (!product.ingredients)
+      return 50;
     this.getTags(product.ingredients.split("|"), HealthTags).forEach((p) => {
       scores.push(p.score);
       scoresCount++;
