@@ -117,7 +117,7 @@ const start = async () => {
 
     const articles = await query<LeclercArticle>(
       db,
-      `SELECT * FROM ${tableName} LIMIT 50 OFFSET 110`
+      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 5000000}`
     );
 
     await Promise.all(
