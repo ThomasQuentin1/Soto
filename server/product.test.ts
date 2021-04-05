@@ -1,11 +1,10 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { endConnection, openConnection } from "./query";
-import { Mutate, Query } from "./utils/tests";
 import { ErrMsg } from "../interfaces/TranslationEnum";
+import { endConnection, openConnection } from "./query";
+import { makeid, Mutate, Query } from "./utils/tests";
 
 let token: string = "";
-const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
-
+const email = `user${makeid(64)}@test.com`;
 
 afterAll(() => {
   openConnection();
@@ -22,7 +21,6 @@ describe("Account", () => {
     done();
   });
 
-
   it("should search the product", async () => {
     await Query("searchProducts", { query: "Tartines" }, token);
   });
@@ -31,7 +29,8 @@ describe("Account", () => {
     await Mutate("setShop", { shopId: 3 }, token);
   });
 
-  it("should not set the shop", async () => { // J'ai fix le sheitan de DELETE * FROM
+  it("should not set the shop", async () => {
+    // J'ai fix le sheitan de DELETE * FROM
     expect(Mutate("setShop", { shopId: 0 }, token)).rejects.toStrictEqual(
       new UserInputError(ErrMsg("error.badparams"))
     );
@@ -42,7 +41,6 @@ describe("Account", () => {
       new AuthenticationError(ErrMsg("error.notloggedin"))
     );
 
-  afterAll(() => Mutate("removeAccount", { passwordSHA256: "blbl" }));
-
+    afterAll(() => Mutate("removeAccount", { passwordSHA256: "blbl" }));
   });
 });
