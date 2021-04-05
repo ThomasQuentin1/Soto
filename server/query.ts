@@ -1,5 +1,21 @@
 import * as mysql from "mysql";
 
+const getPool = () => {
+  if (process.env && process.env.TEST && process.env.TEST === "TRUE")
+    return {
+      host: "51.11.241.109",
+      user: "soto",
+      password: "s0t0lefeu!",
+      database: "algo",
+    };
+  else
+    return {
+      host: "51.11.241.109",
+      user: "soto",
+      password: "s0t0lefeu!",
+      database: "users",
+    };
+};
 const algoPool = mysql.createPool({
   host: "51.11.241.109",
   user: "soto",
@@ -7,12 +23,9 @@ const algoPool = mysql.createPool({
   database: "algo",
 });
 
-const usersPool = mysql.createPool({
-  host: "51.11.241.109",
-  user: "soto",
-  password: "s0t0lefeu!",
-  database: "users",
-});
+const usersPool = mysql.createPool(getPool());
+console.log("usersPool");
+console.log(usersPool);
 
 export const algoQuery = async <T>(query: string, values?: string[]) => {
   return new Promise<T[]>((resolve, reject) => {
