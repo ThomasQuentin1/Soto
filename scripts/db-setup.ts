@@ -1,4 +1,4 @@
-import { getPool } from "server/query";
+import { getPool } from "../server/query";
 
 // @ts-ignore
 const mysql = require("mysql");
