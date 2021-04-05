@@ -15,3 +15,5 @@ coverage.
 
 .idea/
 yarn.lock
+
+coverage/

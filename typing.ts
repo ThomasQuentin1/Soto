@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import * as Apollo from "@apollo/client";
 import { gql } from "@apollo/client";
 import {
@@ -173,7 +174,8 @@ export type Product = {
   nutriscore?: Maybe<Scalars["String"]>;
   scoreHealth?: Maybe<Scalars["Int"]>;
   scoreEnvironment?: Maybe<Scalars["Int"]>;
-  quantity?: Maybe<Scalars["String"]>;
+  packagingQuantity?: Maybe<Scalars["String"]>;
+  itemQuantity?: Maybe<Scalars["Int"]>;
   photo: Scalars["String"];
   url: Scalars["String"];
 };
@@ -560,7 +562,16 @@ export type ProductResolvers<
     ParentType,
     ContextType
   >;
-  quantity?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+  packagingQuantity?: Resolver<
+    Maybe<ResolversTypes["String"]>,
+    ParentType,
+    ContextType
+  >;
+  itemQuantity?: Resolver<
+    Maybe<ResolversTypes["Int"]>,
+    ParentType,
+    ContextType
+  >;
   photo?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   url?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   __isTypeOf?: isTypeOfResolverFn<ParentType>;
@@ -1178,7 +1189,8 @@ export const SearchProductDocument = gql`
       nutriscore
       scoreHealth
       scoreEnvironment
-      quantity
+      itemQuantity
+      packagingQuantity
     }
   }
 `;
@@ -1304,7 +1316,8 @@ export const CartDocument = gql`
         nutriscore
         scoreHealth
         scoreEnvironment
-        quantity
+        itemQuantity
+        packagingQuantity
       }
       dateCreated
       dateLastEdit

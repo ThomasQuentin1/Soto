@@ -46,9 +46,23 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
       }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
         r.leclercId
       }-${r.name.replace(/ /g, "-")}.aspx`,
+      itemQuantity: 1,
     })),
     shop: ShopList[0],
   };
+
+  // now remove duplicates
+
+  cart.products = cart.products.reduce<Product[]>((acc, curr) => {
+    const alreadyExists = acc.find((e) => e.id === curr.id);
+    if (alreadyExists) {
+      alreadyExists!.itemQuantity = (alreadyExists!.itemQuantity ?? 0) + 1;
+    } else {
+      acc.push(curr);
+    }
+    return acc;
+  }, []);
+
   return cart;
 };
 
