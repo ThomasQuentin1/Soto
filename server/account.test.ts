@@ -1,11 +1,10 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { endConnection, openConnection } from "./query";
-import { Mutate, Query } from "./utils/tests";
 import { ErrMsg } from "../interfaces/TranslationEnum";
+import { endConnection, openConnection } from "./query";
+import { makeid, Mutate, Query } from "./utils/tests";
 
 let token: string = "";
-const email = `user${Math.floor(Math.random() * 1000)}@test.com`;
-
+const email = `user${makeid(64)}@test.com`;
 
 afterAll(() => {
   openConnection();
@@ -44,38 +43,50 @@ describe("Basic errors cases with account", () => {
   it("should deny actions to a unlogged user", async () => {
     await expect(
       Mutate("setObligations", { obligations: [] })
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.notloggedin"))
+    );
     await expect(
       Mutate("setCriterions", { criterions: [] })
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.notloggedin"))
+    );
     await expect(
       Mutate("changeEmail", { newEmail: "newemail" })
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.notloggedin"))
+    );
     await expect(
       Mutate("changePassword", { newPasswordSHA256: "newpass" })
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.notloggedin"))
+    );
     await expect(
       Mutate("subscribeNotifications", { token: "tok" })
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.notloggedin")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.notloggedin"))
+    );
     await expect(Mutate("setShop", { token: "tok" })).rejects.toStrictEqual(
       new AuthenticationError(ErrMsg("error.notloggedin"))
     );
   });
 
   it("should deny the creation of a double account", async () => {
-    const duplicateEmail = `user-dup-${Math.floor(
-      Math.random() * 1000
-    )}@test.com`;
+    const duplicateEmail = `user-dup-${makeid(64)}@test.com`;
     const token = await Mutate("register", {
       email: duplicateEmail,
       passwordSHA256: "rand",
     });
     await expect(
       Mutate("register", { email: duplicateEmail, passwordSHA256: "rand" })
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.emailalreadyinuse")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.emailalreadyinuse"))
+    );
     await expect(
       Mutate("removeAccount", { passwordSHA256: "invalid" }, token)
-    ).rejects.toStrictEqual(new AuthenticationError(ErrMsg("error.invalidcredentails")));
+    ).rejects.toStrictEqual(
+      new AuthenticationError(ErrMsg("error.invalidcredentails"))
+    );
     await expect(
       Mutate("removeAccount", { passwordSHA256: "rand" }, token)
     ).resolves.toBeTruthy();

@@ -1,92 +1,95 @@
 query Account {
-    account {
-        email,
-        currentShop {
-            name
-        }
+  account {
+    email
+    currentShop {
+      name
     }
+  }
 }
 
-query searchProduct ($query: String!) {
-    searchProducts(query: $query) {
-        name,
-        brand,
-        priceUnit,
-        priceMass,
-        ingredients,
-        packaging,
-        allergens,
-        nutriments,
-        nutriscore,
-        scoreHealth,
-        scoreEnvironment,
-        quantity
-    }
+query searchProduct($query: String!) {
+  searchProducts(query: $query) {
+    name
+    brand
+    priceUnit
+    priceMass
+    ingredients
+    packaging
+    allergens
+    nutriments
+    nutriscore
+    scoreHealth
+    scoreEnvironment
+    itemQuantity
+    packagingQuantity
+  }
 }
 
 query shopList {
-    shopList {
-        id,
-        name,
-        city,
-        lat,
-        long
-    }
+  shopList {
+    id
+    name
+    city
+    lat
+    long
+  }
 }
 
 query Cart {
-    cart {
-        products {
-            name,
-            brand,
-            priceUnit,
-            priceMass,
-            ingredients,
-            packaging,
-            allergens,
-            nutriments,
-            nutriscore,
-            scoreHealth,
-            scoreEnvironment,
-            quantity
-        },
-        dateCreated,
-        dateLastEdit,
-        shop {
-            name,
-            city,
-            long,
-            lat,
-            id,
-        },
-        price
+  cart {
+    products {
+      name
+      brand
+      priceUnit
+      priceMass
+      ingredients
+      packaging
+      allergens
+      nutriments
+      nutriscore
+      scoreHealth
+      scoreEnvironment
+      itemQuantity
+      packagingQuantity
     }
+    dateCreated
+    dateLastEdit
+    shop {
+      name
+      city
+      long
+      lat
+      id
+    }
+    price
+  }
 }
 query Cart {
-    cart {
-        products {
-            name,
-            brand,
-            priceUnit,
-            priceMass,
-            ingredients,
-            packaging,
-            allergens,
-            nutriments,
-            nutriscore,
-            scoreHealth,
-            scoreEnvironment,
-            quantity
-        },
-        dateCreated,
-        dateLastEdit,
-        shop {
-            name,
-            city,
-            long,
-            lat,
-            id,
-        },
-        price
+  cart {
+    products {
+      name
+      brand
+      priceUnit
+      priceMass
+      ingredients
+      packaging
+      allergens
+      nutriments
+      nutriscore
+      scoreHealth
+      scoreEnvironment
+      itemQuantity
+      packagingQuantity
     }
+    dateCreated
+    dateLastEdit
+    shop {
+      name
+      city
+      long
+      lat
+      id
+    }
+    price
+  }
 }
