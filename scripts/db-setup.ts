@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { getPool } from "../server/query";
 
 // @ts-ignore
