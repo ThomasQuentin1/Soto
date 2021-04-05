@@ -6,7 +6,7 @@
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
     "generate": "graphql-codegen --config codegen.yml",
-    "test": "jest export TEST=TRUE",
+    "test": "export TEST=TRUE && jest ",
     "drive-fetch": "ts-node --project tsconfig.server.json scripts/drive-fetch.ts",
     "db-setup": "ts-node --project tsconfig.server.json scripts/db-setup.ts",
     "all-notif": "ts-node --project tsconfig.server.json scripts/sendNotificationToAllCustomer.ts",
