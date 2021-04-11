@@ -18,6 +18,9 @@ interface Props {
     setUsername: (s: string) => void;
     setPassword: (s: string) => void;
     setCPassword: (s: string) => void;
+
+    emailError: string;
+    passwordError: string
 }
 
 const Step1 = (props: Props) => {
@@ -52,6 +55,8 @@ const Step1 = (props: Props) => {
                 setEmail(sender.target.value);
                 props.setEmail(sender.target.value)
             }}
+            error={props.emailError != ""}
+            helperText={props.emailError}
         />
         <TextField
             color="secondary"
@@ -77,6 +82,8 @@ const Step1 = (props: Props) => {
                 setPassword(sender.target.value);
                 props.setPassword(sender.target.value);
             }}
+            error={props.passwordError != ""}
+            helperText={props.passwordError}
         />
         <TextField
             color="secondary"
@@ -90,6 +97,8 @@ const Step1 = (props: Props) => {
                 setCPassword(sender.target.value);
                 props.setCPassword(sender.target.value);
             }}
+            error={props.passwordError != ""}
+            helperText={props.passwordError}
         />
     </div>
     )

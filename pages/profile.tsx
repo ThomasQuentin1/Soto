@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { useTranslation } from 'react-i18next';
 import '../i18n'
-import ToggleColorMode from "../components/settings/ToggleColorMode";
+// import ToggleColorMode from "../components/settings/ToggleColorMode";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import {Button, Paper, TextField, Typography} from "@material-ui/core";
@@ -12,19 +12,10 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import {useAccountQuery, useChangeEmailMutation, useChangePasswordMutation} from "../typing";
 import ParametersSelect from "../components/shop/ParametersSelect";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
+import Router from "next/router"
 import CellComponent from "../components/profile/CellComponent";
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         display: 'flex',
-//         '& > *': {
-//             margin: theme.spacing(1),
-//             width: theme.spacing(160),
-//             height: theme.spacing(16),
-//         },
-//     },
-// }));
+import {lngFullName} from "../public/values";
 
 const ProfilePage = () => {
     const [ t, i18n ] = useTranslation();
@@ -34,11 +25,10 @@ const ProfilePage = () => {
     const [cPassword, setCPassword] = useState("");
     const [changeEmail] = useChangeEmailMutation({ variables: {email: email}, errorPolicy: 'all'})
     const [changePassword] = useChangePasswordMutation({ variables: {password: sha256(password)}, errorPolicy: 'all'})
-    const {data, loading} = useAccountQuery()
+    const {error, data, loading, refetch} = useAccountQuery()
 
     const router = useRouter()
     console.log(router.pathname)
-    // const classes = useStyles();
 
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
@@ -48,61 +38,50 @@ const ProfilePage = () => {
         }
         useEffect(() => {
             i18n.changeLanguage(lng == 'fr' ? 'fr' : 'en')
-
         }, []);
     }
-
-    const changeLang = (lang: string) => {
-        i18n.changeLanguage(lang)
-        localStorage.setItem('lng', lang)
-    }
-
-    const langs = ['fr', 'en']
-    const [theme, setTheme] = useDarkMode();
+    const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
 
+    useEffect(() => {
+        refetch().then()
+    }, [])
+
     i18n;
+
     if (!loading) {
-        console.log(data)
+        if (error?.message === "please login") {
+            Router.push("/login")
+            return <></>
+        }
         return (
             <>
                 <title>{t("title.profile")}</title>
                 <DarkModeParent theme={tmpTheme}>
                     <Header isConnected={true}/>
-                    <div className='centered'>
-                        {/*<div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>*/}
-                        {/*    {langs.map((lang, index) => {*/}
-                        {/*        return (*/}
-                        {/*            <img*/}
-                        {/*                key={index}*/}
-                        {/*                src={`/images/common/flag_${lang}.png`}*/}
-                        {/*                className={"flagLogo"}*/}
-                        {/*                alt={"roundSotoLogo"}*/}
-                        {/*                onClick={() => {*/}
-                        {/*                    changeLang(lang)}*/}
-                        {/*                }*/}
-                        {/*            />*/}
-                        {/*        )*/}
-                        {/*    })}*/}
-                        {/*    <ToggleColorMode theme={theme} toggleTheme={setTheme}/>*/}
-                        {/*</div>*/}
+                    <div className='centered' style={{overflowY: "auto"}}>
+
                         <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
                             <div>
                                 <Typography variant="h5" className={"subTitle marginBottom50px padding1020"}>{t('settings.personalInfos')}</Typography>
-                                <CellComponent label={"E-MAIL ADDRESS"} value={data.account.email} path={"test"}/>
+                                <CellComponent label={t("email.label").toUpperCase()} value={data.account.email} path={"email"}/>
                                 <div className={'cellDivider'}/>
-                                <CellComponent label={"PASSWORD"} value={"••••••••"} path={"test"}/>
+                                <CellComponent label={t("password.label").toUpperCase()} value={"••••••••"} path={"password"}/>
                             </div>
                         </Paper>
 
                         <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
                             <div>
                                 <Typography variant="h5" className={"subTitle marginBottom50px padding1020"}>{t('settings.personalization')}</Typography>
-
+                                <CellComponent label={t("language").toUpperCase()} value={t(lngFullName.find((item) => {return item.shortName === localStorage.getItem('lng')})?.key!) } path={"language"} iconName={"language"}/>
+                                <div className={'cellDivider'}/>
+                                <CellComponent label={t("label.accessibility").toUpperCase()} value={tmpTheme === "light" ? t("label.lightTheme") : t("label.darkTheme")} path={"accessibility"} iconName={"accessibility"}/>
+                                <div className={'cellDivider'}/>
+                                <CellComponent label={t("label.criteriaAndObligations").toUpperCase()} value={t("description.criteriaAndObligations")} path={"criteriaAndObligations"} iconName={"cart"}/>
                             </div>
                         </Paper>
 
-                        <div style={{margin: "200px 20px 0px"}}>
+                        <div style={{margin: "100px 20px 0px", border: "5px solid red"}}>
                             <Typography variant="h5" className={"subTitle"}>{t('settings.personalInfos')}</Typography>
                             <div>
                                 <div>
@@ -170,7 +149,8 @@ const ProfilePage = () => {
                             </div>
                         </div>
                     </div>
-                    <div style={{position:"absolute", bottom:'0px', left:'0px', width:'100%'}}>
+                    {/*<div style={{position:"absolute", bottom:'0px', left:'0px', width:'100%'}}>*/}
+                    <div style={{marginBottom: "0px", marginTop: "auto"}}>
                         <Footer/>
                     </div>
                 </DarkModeParent>
@@ -179,7 +159,12 @@ const ProfilePage = () => {
     } else {
         return (
             <>
-                <p>Loading</p>
+                <DarkModeParent theme={tmpTheme}>
+                    <Header isConnected={true}/>
+                    <div>
+                        <Footer/>
+                    </div>
+                </DarkModeParent>
             </>
         )
     }

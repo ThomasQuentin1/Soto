@@ -22,7 +22,8 @@ const GlobalStyles = createGlobalStyle`
     height: 100vh;
     margin: 0;
     padding: 0;
-    font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    //font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     transition: all 0.25s linear;
   }
   
@@ -92,6 +93,7 @@ const GlobalStyles = createGlobalStyle`
   }
   
   a:hover {
+    cursor: pointer;
     //text-decoration: underline;
   }
   
@@ -182,6 +184,15 @@ const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.hover};
   }
   
+  .cellTitle {
+    font-size: 1rem;
+  }
+  
+  .cellValue {
+    font-size: 0.875rem;
+    color: #5f6368;
+  }
+  
   .MuiPaper-root {
     color: inherit !important;
     background: inherit !important;
@@ -194,6 +205,40 @@ const GlobalStyles = createGlobalStyle`
   .marginBottom50px {
     margin-bottom: 50px !important;
   }
+  .marginB20px {
+    margin-bottom: 20px !important;
+  }
+  .marginV10H0px {
+    margin: 10px 0px !important;
+  }
+  
+  .padRight10 {
+    padding-right: 10px;
+  }
+  .pad5 {
+    padding: 5px;
+  }
+  
+  .dFlex {
+    display: flex;
+  }
+
+  .flexDirCol {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .flexDirRow {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .alignCenter {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  
   `;
 
 export default GlobalStyles;

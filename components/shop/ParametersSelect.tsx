@@ -45,8 +45,6 @@ const ParametersSelect = (props: Props) => {
     const [newElement, setNewElement] = useState<toPrint>(toPrint.EMPTY)
     const [isTransitioning, setTransitioning] = useState(false)
     const [launch, setLaunch] = useState(false)
-    // const [isEntered, enter] = useState(false)
-    // const [isExited, exit] = useState(false)
     // To avoid multiple save calls
     const [validationProcessing, setValidation] = useState(false)
     // To store criteria and obligations values
