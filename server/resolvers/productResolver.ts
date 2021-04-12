@@ -1,5 +1,5 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { Criterions } from "server/algo/critetions";
+import { Criterions } from "../algo/critetions";
 import { DbProduct } from "server/dbSchema";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers } from "../../typing";
