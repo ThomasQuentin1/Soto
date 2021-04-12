@@ -22,18 +22,15 @@ export const productResolvers: Resolvers = {
         args.criterionsOverride ||
         (await usersQuery<{ id: number; position: number }>(
           "SELECT * FROM criterions WHERE userId = ?",
-          [context.user.id]
+          [context.user?.id ?? -1]
         ))
-      )
-        .map((e) => ({
+      ).map((e, _i, arr) => {
+        return {
           position: e!.position,
+          coeff: arr.length + 1 - e!.position,
           ...Criterions.find((i) => i.id === e!.id),
-        }))
-        .map((e, _i, arr) => ({
-          ...e,
-          coeff: arr.length + 1 - e.position,
-        }));
-
+        };
+      });
       const maxtotalscore = criterions.reduce<number>(
         (acc, curr) => acc + 100 * curr.position,
         0
@@ -55,8 +52,7 @@ export const productResolvers: Resolvers = {
             }, 0) /
               maxtotalscore) *
             100;
-          console.log(finalScore);
-          return r;
+          return { ...r, finalScore: isNaN(finalScore) ? null : finalScore };
         })
         .map<Product>((r) => ({
           ...r,
@@ -80,7 +76,8 @@ export const productResolvers: Resolvers = {
             / /g,
             "-"
           )}.aspx`,
-        }));
+        }))
+        .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
       return data;
     },
     shopList: async (_obj, _args, _context, _info) => {

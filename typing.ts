@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import * as Apollo from "@apollo/client";
 import { gql } from "@apollo/client";
 import {
@@ -176,6 +175,7 @@ export type Product = {
   nutriscore?: Maybe<Scalars["String"]>;
   scoreHealth?: Maybe<Scalars["Int"]>;
   scoreEnvironment?: Maybe<Scalars["Int"]>;
+  finalScore?: Maybe<Scalars["Int"]>;
   packagingQuantity?: Maybe<Scalars["String"]>;
   itemQuantity?: Maybe<Scalars["Int"]>;
   photo: Scalars["String"];
@@ -564,6 +564,7 @@ export type ProductResolvers<
     ParentType,
     ContextType
   >;
+  finalScore?: Resolver<Maybe<ResolversTypes["Int"]>, ParentType, ContextType>;
   packagingQuantity?: Resolver<
     Maybe<ResolversTypes["String"]>,
     ParentType,
