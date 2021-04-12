@@ -1,4 +1,5 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
+import { Criterions } from "../algo/critetions";
 import { DbProduct } from "server/dbSchema";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers } from "../../typing";
@@ -7,34 +8,76 @@ import { usersQuery } from "../query";
 
 export const productResolvers: Resolvers = {
   Query: {
-    searchProducts: async (_obj, _args, context, _info) => {
+    searchProducts: async (_obj, args, context, _info) => {
       const shop = ShopList.find((s) => s.id == (context.user?.shopId ?? 3));
+
+      // const obligations = (
+      //   await usersQuery<{ id: number }>(
+      //     "SELECT * FROM obligations WHERE userId = ?",
+      //     [context.user.id ?? - 1]
+      //   )
+      // ).map((e) => Obligations.find((i) => i.id === e.id));
+
+      const criterions: any[] = (
+        args.criterionsOverride ||
+        (await usersQuery<{ id: number; position: number }>(
+          "SELECT * FROM criterions WHERE userId = ?",
+          [context.user?.id ?? -1]
+        ))
+      ).map((e, _i, arr) => {
+        return {
+          position: e!.position,
+          coeff: arr.length + 1 - e!.position,
+          ...Criterions.find((i) => i.id === e!.id),
+        };
+      });
+      const maxtotalscore = criterions.reduce<number>(
+        (acc, curr) => acc + 100 * curr.position,
+        0
+      );
 
       const data = (
         await usersQuery<DbProduct>(
           `SELECT * FROM products${
             context.user?.shopId ?? 3
-          } WHERE name LIKE ? OR keywords LIKE ? LIMIT 10`,
-          [`%${_args.query}%`, `%${_args.query}%`]
+          } WHERE name LIKE ? OR keywords LIKE ?`,
+          [`%${args.query}%`, `%${args.query}%`]
         )
-      ).map<Product>((r) => ({
-        ...r,
-        id: r.leclercId,
-        allergens: r.allergens?.split("|") ?? [],
-        ingredients: r.ingredients?.split("|") ?? [],
-        nutriments: r.nutriments?.split("|") ?? [],
-        packaging: r.packaging?.split("|") ?? [],
-        scoreEnvironment: r.environmentScore,
-        scoreHealth: r.healthscore,
-        photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
-          r.photo
-        }&use=d&cat=p&typeid=i&width=300`,
-        url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
-          shop!.code
-        }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
-          r.leclercId
-        }-${r.name.replace(/ /g, "-")}.aspx`,
-      }));
+      )
+        .map((r) => {
+          const finalScore =
+            (criterions.reduce<number>((acc, curr) => {
+              acc += curr.coeff * r[curr.fieldDB];
+              return acc;
+            }, 0) /
+              maxtotalscore) *
+            100;
+          return { ...r, finalScore: isNaN(finalScore) ? null : finalScore };
+        })
+        .map<Product>((r) => ({
+          ...r,
+          id: r.leclercId,
+          allergens: r.allergens?.split("|") ?? [],
+          ingredients: r.ingredients?.split("|") ?? [],
+          nutriments: r.nutriments?.split("|") ?? [],
+          packaging: r.packaging?.split("|") ?? [],
+          scoreEnvironment: r.environmentScore,
+          scoreHealth: r.healthscore,
+          photo: `https://${
+            shop!.server
+          }-photos.leclercdrive.fr/image.ashx?id=${
+            r.photo
+          }&use=d&cat=p&typeid=i&width=300`,
+          url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
+            shop!.code
+          }-${shop?.name
+            .toLocaleLowerCase()
+            .replace(/ /g, "-")}/fiche-produits-${r.leclercId}-${r.name.replace(
+            / /g,
+            "-"
+          )}.aspx`,
+        }))
+        .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
       return data;
     },
     shopList: async (_obj, _args, _context, _info) => {

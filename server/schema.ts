@@ -5,7 +5,11 @@ const schema = gql`
 
   type Query {
     account: Account!
-    searchProducts(query: String!): [Product!]!
+    searchProducts(
+      query: String!
+      obligationsOverride: [ObligationInput]
+      criterionsOverride: [CriterionInput]
+    ): [Product!]!
     shopList: [Shop!]!
     cart: Cart
     oldCarts: [Cart]!
@@ -87,6 +91,7 @@ const schema = gql`
     nutriscore: String
     scoreHealth: Int
     scoreEnvironment: Int
+    finalScore: Int
     packagingQuantity: String
     itemQuantity: Int
     photo: String!
