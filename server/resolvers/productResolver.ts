@@ -1,22 +1,32 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { Criterions } from "../algo/critetions";
+import { ObligationInternal, Obligations } from "server/algo/obligations";
 import { DbProduct } from "server/dbSchema";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers } from "../../typing";
+import { Criterions } from "../algo/critetions";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
+
+const sqlFieldIsTrue = (field: string) => `${field} IS TRUE`;
+const sqlWhereObligations = (obligations: ObligationInternal[]) => {
+  if (obligations.length === 0) return "";
+  return `AND (${obligations
+    .map((o) => sqlFieldIsTrue(o.fieldDB))
+    .join(" AND ")})`;
+};
 
 export const productResolvers: Resolvers = {
   Query: {
     searchProducts: async (_obj, args, context, _info) => {
       const shop = ShopList.find((s) => s.id == (context.user?.shopId ?? 3));
 
-      // const obligations = (
-      //   await usersQuery<{ id: number }>(
-      //     "SELECT * FROM obligations WHERE userId = ?",
-      //     [context.user.id ?? - 1]
-      //   )
-      // ).map((e) => Obligations.find((i) => i.id === e.id));
+      const obligations = (
+        args.obligationsOverride ||
+        (await usersQuery<{ id: number }>(
+          "SELECT * FROM obligations WHERE userId = ?",
+          [context.user?.id ?? -1]
+        ))
+      ).map((e) => Obligations.find((i) => i.id === e.id)!);
 
       const criterions: any[] = (
         args.criterionsOverride ||
@@ -40,7 +50,9 @@ export const productResolvers: Resolvers = {
         await usersQuery<DbProduct>(
           `SELECT * FROM products${
             context.user?.shopId ?? 3
-          } WHERE name LIKE ? OR keywords LIKE ?`,
+          } WHERE (name LIKE ? OR keywords LIKE ?) ${sqlWhereObligations(
+            obligations
+          )}`,
           [`%${args.query}%`, `%${args.query}%`]
         )
       )
@@ -52,7 +64,10 @@ export const productResolvers: Resolvers = {
             }, 0) /
               maxtotalscore) *
             100;
-          return { ...r, finalScore: isNaN(finalScore) ? null : finalScore };
+          return {
+            ...r,
+            finalScore: isNaN(finalScore) ? null : Math.round(finalScore),
+          };
         })
         .map<Product>((r) => ({
           ...r,

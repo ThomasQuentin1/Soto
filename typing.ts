@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import * as Apollo from "@apollo/client";
 import { gql } from "@apollo/client";
 import {
@@ -44,8 +45,9 @@ export type Query = {
 
 export type QuerySearchProductsArgs = {
   query: Scalars["String"];
-  obligationsOverride?: Maybe<Array<Maybe<ObligationInput>>>;
-  criterionsOverride?: Maybe<Array<Maybe<CriterionInput>>>;
+  obligationsOverride?: Maybe<Array<ObligationInput>>;
+  criterionsOverride?: Maybe<Array<CriterionInput>>;
+  shopIdOverride?: Maybe<Scalars["Int"]>;
 };
 
 export type Mutation = {
@@ -298,9 +300,9 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars["Date"]>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars["String"]>;
+  Int: ResolverTypeWrapper<Scalars["Int"]>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars["Boolean"]>;
-  Int: ResolverTypeWrapper<Scalars["Int"]>;
   Cart: ResolverTypeWrapper<Cart>;
   Float: ResolverTypeWrapper<Scalars["Float"]>;
   Shop: ResolverTypeWrapper<Shop>;
@@ -319,9 +321,9 @@ export type ResolversParentTypes = {
   Date: Scalars["Date"];
   Query: {};
   String: Scalars["String"];
+  Int: Scalars["Int"];
   Mutation: {};
   Boolean: Scalars["Boolean"];
-  Int: Scalars["Int"];
   Cart: Cart;
   Float: Scalars["Float"];
   Shop: Shop;

@@ -7,8 +7,9 @@ const schema = gql`
     account: Account!
     searchProducts(
       query: String!
-      obligationsOverride: [ObligationInput]
-      criterionsOverride: [CriterionInput]
+      obligationsOverride: [ObligationInput!]
+      criterionsOverride: [CriterionInput!]
+      shopIdOverride: Int
     ): [Product!]!
     shopList: [Shop!]!
     cart: Cart

@@ -5,9 +5,11 @@ const fs = require("fs");
 const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
 const mysql = require("mysql");
-import { getPool } from "../server/query";
 import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
+import { IsNoGluten } from "../server/algo/scoring/NoGluten";
+import { IsVegan } from "../server/algo/scoring/Vegan";
+import { getPool } from "../server/query";
 
 const EnvScorer = new EnvScoring();
 const HealthScorer = new HealthScoring();
@@ -99,14 +101,14 @@ const sqlconnect = async () => {
 
 const clear = (str: string) => {
   if (!str) return "";
-  str.replace(/[^\x00-\x7F]/g, "");
+  return str.replace(/[^\x00-\x7F]/g, "");
 };
 
 const start = async () => {
   const sql = await sqlconnect();
-  for (let i = 1; i < 5; i++) {
+  for (let _i_ = 1; _i_ < 5; _i_++) {
     const db = new sqlite.Database(
-      `./server/drive-data/drive${i}.ashz`,
+      `./server/drive-data/drive${_i_}.ashz`,
       (err: any) => {
         if (err) console.error(err);
       }
@@ -120,23 +122,39 @@ const start = async () => {
 
     const articles = await query<LeclercArticle>(
       db,
-      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 5000000}`
+      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 300}`
     );
 
     await Promise.all(
-      articles.map(async (article) => {
-        const searchTerms = `${
-          article.LIBELLE_LIGNE_1
-        } ${article.LIBELLE_LIGNE_2.substr(
-          0,
-          article.LIBELLE_LIGNE_2.indexOf("-")
-        )}`.toLocaleLowerCase();
+      articles.map(async (article, i) => {
+        await new Promise((r) => setTimeout(r, i * 50));
+        const searchTerms = `${article.LIBELLE_LIGNE_1} ${
+          article.LIBELLE_LIGNE_2
+            ? article.LIBELLE_LIGNE_2.substr(
+                0,
+                article.LIBELLE_LIGNE_2.indexOf("-")
+              )
+            : ""
+        }`.toLocaleLowerCase();
 
-        const searchQuery = await fetch(
-          `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
-            searchTerms
-          )}&search_simple=1&action=process&json=true`
-        );
+        let searchQuery = undefined;
+        while (!searchQuery) {
+          try {
+            searchQuery = await fetch(
+              `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
+                searchTerms
+              )}&search_simple=1&action=process&json=true`
+            );
+          } catch {
+            console.log(
+              "Retrying fetch : " +
+                `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
+                  searchTerms
+                )}&search_simple=1&action=process&json=true`
+            );
+            await new Promise((r) => setTimeout(r, 5000));
+          }
+        }
         const offProducts = (await searchQuery.json()).products as any[];
 
         const leclercElems = [
@@ -189,29 +207,34 @@ const start = async () => {
           ).toString();
           serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
 
+          serialized.vegan = IsVegan(serialized);
+          serialized.noGluten = IsNoGluten(serialized);
+
           console.log(
-            `Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
           );
 
           await sqlquery(
             sql,
-            "INSERT INTO products3 (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords, vegan, noGluten) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
-              serialized.name,
+              clear(serialized.name),
               serialized.leclercId,
               serialized.photo,
-              serialized.brand,
+              clear(serialized.brand),
               serialized.priceUnit,
               serialized.priceMass,
-              serialized.ingredients,
-              serialized.packaging,
-              serialized.allergens,
-              serialized.nutriments,
+              clear(serialized.ingredients),
+              clear(serialized.packaging),
+              clear(serialized.allergens),
+              clear(serialized.nutriments),
               serialized.nutriscore,
               serialized.scoreHealth,
               serialized.scoreEnvironment,
-              serialized.quantity,
-              serialized.keywords,
+              clear(serialized.quantity),
+              clear(serialized.keywords),
+              serialized.vegan,
+              serialized.noGluten,
             ]
           );
         }
