@@ -1,10 +1,10 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
-import { ObligationInternal, Obligations } from "server/algo/obligations";
-import { DbProduct } from "server/dbSchema";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers } from "../../typing";
 import { Criterions } from "../algo/critetions";
+import { ObligationInternal, Obligations } from "../algo/obligations";
 import { ShopList } from "../constData/shopList";
+import { DbProduct } from "../dbSchema";
 import { usersQuery } from "../query";
 
 const sqlFieldIsTrue = (field: string) => `${field} IS TRUE`;
