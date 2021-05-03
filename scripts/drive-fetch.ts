@@ -67,6 +67,7 @@ interface Article {
   packaging: string[];
   allergens: string[];
   nutriments: string[];
+  labels: string[];
   nutriscore: string;
   scoreHealth: number;
   scoreEnvironment: number;
@@ -101,7 +102,7 @@ const sqlconnect = async () => {
 
 const clear = (str: string) => {
   if (!str) return "";
-  return str.replace(/[^\x00-\x7F]/g, "");
+  return str.replace(/œ/g, "oe").replace(/[^\x00-\xFF]/g, "");
 };
 
 const start = async () => {
@@ -122,7 +123,7 @@ const start = async () => {
 
     const articles = await query<LeclercArticle>(
       db,
-      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 300}`
+      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 500}`
     );
 
     await Promise.all(
@@ -196,6 +197,7 @@ const start = async () => {
             ...product,
             brand: clear(product.brand),
             ingredients: clear((product.ingredients || []).join("|")),
+            labels: clear((product.labels || []).join("|")),
             packaging: clear((product.packaging || []).join("|")),
             allergens: clear(product.allergens.toString()),
             nutriments: clear(product.nutriments.join("|")),
@@ -216,7 +218,7 @@ const start = async () => {
 
           await sqlquery(
             sql,
-            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords, vegan, noGluten) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords, vegan, noGluten, labels) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               clear(serialized.name),
               serialized.leclercId,
@@ -235,6 +237,7 @@ const start = async () => {
               clear(serialized.keywords),
               serialized.vegan,
               serialized.noGluten,
+              serialized.labels,
             ]
           );
         }
@@ -308,6 +311,7 @@ const createProduct = async (
     keywords,
     leclercId: leclerc.ID_PRODUIT_WEB,
     photo: leclerc.ID_PHOTO_DETAIL,
+    labels: product.labels_tags ?? [],
   };
   return ret;
 };

@@ -16,6 +16,7 @@ export interface DbProduct {
   quantity: string;
   keywords: string;
   origin?: string;
+  labels: string;
 }
 
 export interface DbUser {

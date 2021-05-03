@@ -1,12 +1,18 @@
+import { EnvironmentTags } from "../../constData/scoring";
 import AScoring from "./AScoring";
-import {EnvironmentTags} from "../../constData/scoring"
+
+// Intresting filed in OFF DB :
+// ecoscore_data
+// ecoscore_score
+// ecoscore_grade
+// labels_tags -> 'fr:eco-emballages'
+
 export default class EnvScoring extends AScoring {
   public getScore(product: import("../../dbSchema").DbProduct): number {
     const scores = [50];
     let scoresCount = 1;
 
-    if (!product.packaging)
-      return 50
+    if (!product.packaging) return 50;
     this.getTags(product.packaging.split("|"), EnvironmentTags).forEach((p) => {
       scores.push(p.score);
       scoresCount++;
@@ -24,7 +30,7 @@ export default class EnvScoring extends AScoring {
     return `Produits dangereux : ${tags.map((e) => e.comment).join(" ")}`;
   }
   public getRisk(product: import("../../dbSchema").DbProduct): string {
-    const tags = this.getTags(product.packaging.split("|"),EnvironmentTags );
+    const tags = this.getTags(product.packaging.split("|"), EnvironmentTags);
     return `risque : ${tags.map((e) => e.risk).join(" ")}`;
   }
 }

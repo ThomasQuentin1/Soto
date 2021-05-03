@@ -18,7 +18,11 @@ const sqlWhereObligations = (obligations: ObligationInternal[]) => {
 export const productResolvers: Resolvers = {
   Query: {
     searchProducts: async (_obj, args, context, _info) => {
-      const shop = ShopList.find((s) => s.id == (context.user?.shopId ?? 3));
+      const shop = ShopList.find(
+        (s) => s.id == (context.user?.shopId ?? args.shopIdOverride)
+      );
+
+      if (!shop) throw new UserInputError(ErrMsg("error.badparams"));
 
       const obligations = (
         args.obligationsOverride ||

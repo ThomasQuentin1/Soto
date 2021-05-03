@@ -1,7 +1,18 @@
+// import fs from "fs";
+
+// const clear = (str: string) => {
+//   if (!str) return "";
+//   return str.replace(/œ/g, "oe").replace(/[^\x00-\xFF]/g, "");
+// };
+
+// const self = fs.readFileSync("./server/constData/vegan.ts").toString();
+// fs.writeFileSync("./server/constData/vegan.ts", clear(self));
+
 interface veganFood {
   en: string[];
   fr: string[];
 }
+
 export const veganUnallowedFood: veganFood = {
   en: [
     //Meat
@@ -1089,7 +1100,7 @@ export const veganUnallowedFood: veganFood = {
     "boeuf",
     "coeur de boeuf",
     "foie de boeuf",
-    "langue de bœuf",
+    "langue de boeuf",
     "beepollen",
     "cire d'abeille",
     "cire d'abeille en nid d'abeille",
@@ -1286,13 +1297,13 @@ export const veganUnallowedFood: veganFood = {
     "albumine d'oeuf",
     "albumine d'oeuf/albumine",
     "huile d'oeuf",
-    "poudre d'œuf",
+    "poudre d'oeuf",
     "protéines d'oeuf",
-    "blanc d'œuf",
-    "jaune d'œuf",
-    "extrait de jaune d'œuf",
+    "blanc d'oeuf",
     "jaune d'oeuf",
-    "œufs",
+    "extrait de jaune d'oeuf",
+    "jaune d'oeuf",
+    "oeufs",
     "élastine",
     "bacon d'élan",
     "extrait d'embryon",
@@ -1304,9 +1315,9 @@ export const veganUnallowedFood: veganFood = {
     "ergostérol",
     "estradiol",
     "benzoate d'estradiol",
-    "œstrogène",
-    "œstrogène/estradiol",
-    "œstrogène/estradiol",
+    "oestrogène",
+    "oestrogène/estradiol",
+    "oestrogène/estradiol",
     "estrone",
     "ester éthylique de protéine animale hydrolysée",
     "morrhuatelipineate d'éthyle",
@@ -1359,7 +1370,7 @@ export const veganUnallowedFood: veganFood = {
     "oie",
     "plumes isolantes d'oie",
     "foie d'oie",
-    "viande de bœuf hachée",
+    "viande de boeuf hachée",
     "grouse",
     "guanine",
     "essence de perle de guanine",
@@ -1550,7 +1561,7 @@ export const veganUnallowedFood: veganFood = {
     "sucre du lait",
     "matière grasse du lait",
     "poudre de lait",
-    "viande de bœuf hachée",
+    "viande de boeuf hachée",
     "viande hachée",
     "huile de vison",
     "minkamidopropyl diethylamine",
@@ -1614,7 +1625,7 @@ export const veganUnallowedFood: veganFood = {
     "autruche",
     "ovalbumine",
     "extrait d'ovaire",
-    "bile de bœuf",
+    "bile de boeuf",
     "oxgall",
     "huître",
     "palmitamide",
