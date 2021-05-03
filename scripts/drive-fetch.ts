@@ -203,7 +203,12 @@ const start = async () => {
             nutriments: clear(product.nutriments.join("|")),
             keywords: clear((product.keywords || []).join("|")),
           };
+          // console.log(serialized)
 
+          if (!serialized.ingredients || serialized.ingredients.length === 0) {
+            console.log("no ingredients");
+            return;
+          }
           serialized.scoreEnvironment = EnvScorer.getScore(
             serialized
           ).toString();
@@ -282,6 +287,7 @@ const createProduct = async (
   product: any
 ): Promise<Article> => {
   let nutrimentsTab: string[] = [];
+  console.log("PRODUCT");
   fillNutrimentsTab(nutrimentsTab, product);
 
   const nutriscore = product.nutriscore_grade;
@@ -296,6 +302,7 @@ const createProduct = async (
   const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
   const princeMass = leclerc.PRIX_UNITAIRE;
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
+  const ecoScore = product?.ecoscore_data?.score ?? 0;
 
   const ret: Article = {
     allergens: allergens_tags,
@@ -312,6 +319,7 @@ const createProduct = async (
     leclercId: leclerc.ID_PRODUIT_WEB,
     photo: leclerc.ID_PHOTO_DETAIL,
     labels: product.labels_tags ?? [],
+    ecoscore: ecoScore,
   };
   return ret;
 };

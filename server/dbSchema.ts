@@ -17,6 +17,7 @@ export interface DbProduct {
   keywords: string;
   origin?: string;
   labels: string;
+  ecoscore: string;
 }
 
 export interface DbUser {
