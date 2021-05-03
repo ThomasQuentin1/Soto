@@ -1,5 +1,5 @@
 import { DbProduct } from "server/dbSchema";
-import { veganUnallowedFood } from "../../constData/vegan";
+import { veganUnallowedFood } from "../../constData/Vegan";
 
 export const IsVegan = (product: DbProduct): boolean => {
   const ing = product.ingredients.split("|");

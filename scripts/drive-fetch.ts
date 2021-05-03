@@ -123,12 +123,12 @@ const start = async () => {
 
     const articles = await query<LeclercArticle>(
       db,
-      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 500}`
+      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 50000}`
     );
 
     await Promise.all(
       articles.map(async (article, i) => {
-        await new Promise((r) => setTimeout(r, i * 10));
+        await new Promise((r) => setTimeout(r, i * 50));
         const searchTerms = `${article.LIBELLE_LIGNE_1} ${
           article.LIBELLE_LIGNE_2
             ? article.LIBELLE_LIGNE_2.substr(
@@ -159,8 +159,8 @@ const start = async () => {
         const offProducts = (await searchQuery.json()).products as any[];
 
         const leclercElems = [
-          ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
-          ...article.LIBELLE_LIGNE_2.split(" ").map((a) => a.trim()),
+          ...(article.LIBELLE_LIGNE_1?.split(" ").map((a) => a.trim()) ?? []),
+          ...(article.LIBELLE_LIGNE_2?.split(" ").map((a) => a.trim()) ?? []),
         ].map((e) => (e ? e.toLocaleLowerCase() : e));
 
         let bestProduct = null;
