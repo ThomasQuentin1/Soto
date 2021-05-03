@@ -165,7 +165,8 @@ export const cartResolvers: Resolvers = {
       return true;
     },
     confirmCart: async (_obj, _args, context, _info) => {
-      // Add confirmed order date
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
 
       const maxCartId = (
         await usersQuery("SELECT cartId FROM users")
