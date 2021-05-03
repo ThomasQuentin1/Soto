@@ -123,7 +123,7 @@ const start = async () => {
 
     const articles = await query<LeclercArticle>(
       db,
-      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 500}`
+      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 50000}`
     );
 
     await Promise.all(
@@ -159,8 +159,8 @@ const start = async () => {
         const offProducts = (await searchQuery.json()).products as any[];
 
         const leclercElems = [
-          ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
-          ...article.LIBELLE_LIGNE_2.split(" ").map((a) => a.trim()),
+          ...(article.LIBELLE_LIGNE_1?.split(" ").map((a) => a.trim()) ?? []),
+          ...(article.LIBELLE_LIGNE_2?.split(" ").map((a) => a.trim()) ?? []),
         ].map((e) => (e ? e.toLocaleLowerCase() : e));
 
         let bestProduct = null;
@@ -287,7 +287,6 @@ const createProduct = async (
   product: any
 ): Promise<Article> => {
   let nutrimentsTab: string[] = [];
-  console.log("PRODUCT");
   fillNutrimentsTab(nutrimentsTab, product);
 
   const nutriscore = product.nutriscore_grade;

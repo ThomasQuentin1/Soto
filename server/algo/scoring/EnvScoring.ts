@@ -42,7 +42,7 @@ export default class EnvScoring extends AScoring {
     }
 
     if (ret > 100) ret = 100;
-    return ret;
+    return Math.round(ret);
   }
 
   public getDescription(product: import("../../dbSchema").DbProduct): string {

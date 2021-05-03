@@ -53,7 +53,7 @@ export const productResolvers: Resolvers = {
       const data = (
         await usersQuery<DbProduct>(
           `SELECT * FROM products${
-            context.user?.shopId ?? 3
+            shop.id
           } WHERE (name LIKE ? OR keywords LIKE ?) ${sqlWhereObligations(
             obligations
           )}`,
