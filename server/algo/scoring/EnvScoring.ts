@@ -11,9 +11,19 @@ export default class EnvScoring extends AScoring {
   public getScore(product: import("../../dbSchema").DbProduct): number {
     const scores = [50];
     let scoresCount = 1;
-    console.log("GET SCORE");
+    const labels = product.labels.split("|");
+    const findLabelsEcoEmballage = labels.find(
+      (e) => e === "fr:eco-emballages"
+    );
 
-    if (!product.packaging) return 50;
+    if (!product.packaging) {
+      if (!product.ecoscore) {
+        if (findLabelsEcoEmballage) return 80;
+        return 50;
+      }
+      if (findLabelsEcoEmballage) return +product.ecoscore * 1.1;
+      return +product.ecoscore;
+    }
 
     this.getTags(product.packaging.split("|"), EnvironmentTags).forEach((p) => {
       scores.push(p.score);
@@ -27,9 +37,7 @@ export default class EnvScoring extends AScoring {
 
     if (product.ecoscore) ret = (+product.ecoscore + ret) / 2;
 
-    const labels = product.labels.split("|");
-
-    if (labels.find((e) => e === "fr:eco-emballages")) {
+    if (findLabelsEcoEmballage) {
       ret *= 1.1;
     }
 
