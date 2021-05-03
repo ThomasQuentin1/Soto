@@ -6,8 +6,7 @@ export default class HealthScoring extends AScoring {
     const scores = [80];
     let scoresCount = 2;
 
-    if (!product.ingredients)
-      return 50;
+    if (!product.ingredients) return 50;
     this.getTags(product.ingredients.split("|"), HealthTags).forEach((p) => {
       scores.push(p.score);
       scoresCount++;
@@ -32,11 +31,28 @@ export default class HealthScoring extends AScoring {
       default:
         scoresCount -= 1;
     }
-    return (
+    let finalScore =
       scores.reduce((acc, curr) => {
         return acc + curr;
-      }, 0) / scoresCount
-    );
+      }, 0) / scoresCount;
+
+    const nutriment = product.nutriments.split("|");
+    let fat = 0;
+    let sugar = 0;
+    try {
+      fat = +nutriment.find((n) => n.startsWith("fat_100g"))?.split(":")[1]!;
+    } catch {}
+    try {
+      sugar = +nutriment
+        .find((n) => n.startsWith("sugars_100g"))
+        ?.split(":")[1]!;
+    } catch {}
+
+    finalScore -= (isNaN(fat) ? 0 : fat) / 5;
+    finalScore -= (isNaN(sugar) ? 0 : sugar) / 5;
+
+    if (finalScore < 0) finalScore = 0;
+    return Math.round(finalScore);
   }
 
   public getDescription(product: import("../../dbSchema").DbProduct): string {

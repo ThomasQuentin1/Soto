@@ -128,7 +128,7 @@ const start = async () => {
 
     await Promise.all(
       articles.map(async (article, i) => {
-        await new Promise((r) => setTimeout(r, i * 50));
+        await new Promise((r) => setTimeout(r, i * 10));
         const searchTerms = `${article.LIBELLE_LIGNE_1} ${
           article.LIBELLE_LIGNE_2
             ? article.LIBELLE_LIGNE_2.substr(
@@ -287,7 +287,6 @@ const createProduct = async (
   product: any
 ): Promise<Article> => {
   let nutrimentsTab: string[] = [];
-  console.log("PRODUCT");
   fillNutrimentsTab(nutrimentsTab, product);
 
   const nutriscore = product.nutriscore_grade;
