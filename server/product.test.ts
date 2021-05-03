@@ -22,7 +22,11 @@ describe("Account", () => {
   });
 
   it("should search the product", async () => {
-    await Query("searchProducts", { query: "Tartines" }, token);
+    await Query(
+      "searchProducts",
+      { query: "Tartines", shopIdOverride: 1 },
+      token
+    );
   });
 
   it("should set the shop", async () => {
