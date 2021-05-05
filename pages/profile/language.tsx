@@ -65,7 +65,7 @@ const Language = () => {
                                 <div className={"flexDirCol"}>
                                     {lngFullName.map((lang, index) => {
                                         return (
-                                            <div className={"cell flexDirCol"}>
+                                            <div className={"cell flexDirCol"} id={"global" + index}>
                                                 <a className={"pad5 dFlex"} onClick={() => {
                                                     changeLang(lang)
                                                 }}>

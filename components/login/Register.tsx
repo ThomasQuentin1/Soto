@@ -91,15 +91,17 @@ const Register = (props: Props) => {
                 if (isEmailValid) {
                     setEmailError("")
                 } else {
+                    console.log("email problem")
                     setEmailError(t("label.helperText.emailInvalid"))
+                    resolve(false)
                 }
                 if (password === cPassword) {
                     setPasswordError("")
                 } else {
                     setPasswordError(t("label.helperText.passwordsDifferent"))
+                    resolve(false)
                 }
-
-                resolve(emailError === "" && passwordError === "")
+                resolve(true)
             })
         })
     }

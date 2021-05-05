@@ -42,7 +42,7 @@ const Header = ({isConnected}: HeaderProps) => {
                 {loading || (!loading && !data) ? (
                     <p style={{marginRight: "10px"}}/>
                 ) : (
-                    <p style={{marginRight: "10px"}}>{data!.account.email}</p>
+                    <p className={"alignCenter"} style={{marginRight: "10px"}}>{data!.account.email}</p>
                 )}
                 <a href="profile" className={"profile-icon"}>
                     <FontAwesomeIcon style={{height: '60px', width: '60px'}} icon={faUser}/>

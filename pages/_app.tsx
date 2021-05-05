@@ -4,10 +4,6 @@ import React from "react";
 import {ToastContainer} from "react-toastify";
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 
-// export const link = createHttpLink({
-//     uri: 'http://localhost:3000'
-// })
-
 export const clientLocal = new ApolloClient({
     cache: new InMemoryCache(),
     uri: 'http://localhost:3000/api/graphql'
@@ -21,7 +17,6 @@ export const clientProd = new ApolloClient({
 
 // @ts-ignore
 function MyApp({ Component, pageProps }: AppProps)  {
-    console.log(process.env.NODE_ENV)
     return (
         <>
             <ApolloProvider client={process.env.NODE_ENV == "development" ? clientLocal : clientProd}>

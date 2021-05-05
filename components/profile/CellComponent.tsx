@@ -17,7 +17,7 @@ const CellComponent = (props: Props) => {
         <>
             <div className={"cell"}>
                 <a className={'flexWidthFull padding1020'} style={{alignItems: "center"}} onClick={() => {
-                    console.log(router.pathname + "/" + props.path)
+                    // console.log(router.pathname + "/" + props.path)
                     Router.push(router.pathname + "/" + props.path).then(() => {})
                 }}>
                     <div style={{display: "flex", width: "40%", alignItems: "center"}}>
