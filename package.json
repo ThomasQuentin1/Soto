@@ -6,24 +6,27 @@
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
     "generate": "graphql-codegen --config codegen.yml",
-    "test": "jest",
-    "drive-fetch": "ts-node scripts/drive-fetch.ts",
-    "db-setup": "ts-node scripts/db-setup.ts",
-    "all-notif": "ts-node scripts/sendNotificationToAllCustomer.ts",
-    "one-notif": "ts-node scripts/sendNotificationToOneCustomer.ts"
+    "test": "export TEST=TRUE && jest ",
+    "drive-fetch": "ts-node --project tsconfig.server.json scripts/drive-fetch.ts",
+    "db-setup": "ts-node --project tsconfig.server.json scripts/db-setup.ts",
+    "all-notif": "ts-node --project tsconfig.server.json scripts/sendNotificationToAllCustomer.ts",
+    "one-notif": "ts-node --project tsconfig.server.json cripts/sendNotificationToOneCustomer.ts",
+    "generate-translation-types": "ts-node --project tsconfig.server.json scripts/generate-translation-types.ts",
+    "setup-test-db" : "export TEST=TRUE && ts-node --project tsconfig.server.json scripts/db-setup.ts && ts-node --project tsconfig.server.json scripts/drive-fetch.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.2.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "@graphql-codegen/typescript-react-apollo": "^2.2.1",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.2",
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "apollo-server-env": "^2.4.5",
     "apollo-server-micro": "^2.11.0",
     "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
     "graphql-tag": "^2.11.0",
     "i18next": "^19.4.5",
     "i18next-xhr-backend": "^3.2.2",
@@ -62,7 +65,7 @@
     "js-sha256": "^0.9.0",
     "nodemon": "^1.19.0",
     "react-test-renderer": "^16.13.1",
-    "ts-node": "^8.9.1",
+    "ts-node": "^9.1.1",
     "typescript": "^3.4.5"
   }
 }

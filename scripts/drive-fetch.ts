@@ -7,6 +7,9 @@ const sqlite = require("sqlite3").verbose();
 const mysql = require("mysql");
 import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
+import { IsNoGluten } from "../server/algo/scoring/NoGluten";
+import { IsVegan } from "../server/algo/scoring/Vegan";
+import { getPool } from "../server/query";
 
 const EnvScorer = new EnvScoring();
 const HealthScorer = new HealthScoring();
@@ -57,12 +60,14 @@ interface Article {
   name: string;
   brand: string;
   leclercId: string;
+  photo: string;
   priceUnit: string;
   priceMass: string;
   ingredients: string[];
   packaging: string[];
   allergens: string[];
   nutriments: string[];
+  labels: string[];
   nutriscore: string;
   scoreHealth: number;
   scoreEnvironment: number;
@@ -86,12 +91,7 @@ const sqlquery = async <T>(con: any, query: string, values?: string[]) => {
 
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
-    const con = mysql.createConnection({
-      host: "51.11.241.109",
-      user: "soto",
-      password: "s0t0lefeu!",
-      database: "users",
-    });
+    const con = mysql.createConnection(getPool());
     con.connect((err: any) => {
       if (err) reject(err);
       console.log("Connected to SQL");
@@ -100,112 +100,155 @@ const sqlconnect = async () => {
   });
 };
 
+const clear = (str: string) => {
+  if (!str) return "";
+  return str.replace(/œ/g, "oe").replace(/[^\x00-\xFF]/g, "");
+};
+
 const start = async () => {
   const sql = await sqlconnect();
-  const db = new sqlite.Database("catalogue.db", (err: any) => {
-    if (err) console.error(_err);
-  });
+  for (let _i_ = 1; _i_ < 5; _i_++) {
+    const db = new sqlite.Database(
+      `./server/drive-data/drive${_i_}.ashz`,
+      (err: any) => {
+        if (err) console.error(err);
+      }
+    );
 
-  const tableNameQuery = await query<{ name: string }>(
-    db,
-    "SELECT name FROM sqlite_master where type='table' AND name LIKE '%_ARTICLES'"
-  );
-  const tableName = tableNameQuery[0].name;
+    const tableNameQuery = await query<{ name: string }>(
+      db,
+      "SELECT name FROM sqlite_master where type='table' AND name LIKE '%_ARTICLES'"
+    );
+    const tableName = tableNameQuery[0].name;
 
-  const articles = await query<LeclercArticle>(
-    db,
-    `SELECT * FROM ${tableName} LIMIT 50 OFFSET 110`
-  );
+    const articles = await query<LeclercArticle>(
+      db,
+      `SELECT * FROM ${tableName} LIMIT ${process.env.TEST ? 50 : 50000}`
+    );
 
-  await Promise.all(
-    articles.map(async (article) => {
-      const searchTerms =
-        `${article.LIBELLE_LIGNE_1} ${article.LIBELLE_LIGNE_2.substr(
-          0,
-          article.LIBELLE_LIGNE_2.indexOf("-")
-        )}`?.toLocaleLowerCase() ?? "";
+    await Promise.all(
+      articles.map(async (article, i) => {
+        await new Promise((r) => setTimeout(r, i * 50));
+        const searchTerms = `${article.LIBELLE_LIGNE_1} ${
+          article.LIBELLE_LIGNE_2
+            ? article.LIBELLE_LIGNE_2.substr(
+                0,
+                article.LIBELLE_LIGNE_2.indexOf("-")
+              )
+            : ""
+        }`.toLocaleLowerCase();
 
-      const searchQuery = await fetch(
-        `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
-          searchTerms
-        )}&search_simple=1&action=process&json=true`
-      );
-      const offProducts = (await searchQuery.json()).products as any[];
+        let searchQuery = undefined;
+        while (!searchQuery) {
+          try {
+            searchQuery = await fetch(
+              `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
+                searchTerms
+              )}&search_simple=1&action=process&json=true`
+            );
+          } catch {
+            console.log(
+              "Retrying fetch : " +
+                `https://fr.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURI(
+                  searchTerms
+                )}&search_simple=1&action=process&json=true`
+            );
+            await new Promise((r) => setTimeout(r, 5000));
+          }
+        }
+        const offProducts = (await searchQuery.json()).products as any[];
 
-      const leclercElems = [
-        ...article.LIBELLE_LIGNE_1.split(" ").map((a) => a.trim()),
-        ...article.LIBELLE_LIGNE_2.split(" ").map((a) => a.trim()),
-      ].map((e) => (e ? e.toLocaleLowerCase() : e));
-
-      let bestProduct = null;
-      let bestMatchScore = 0;
-
-      offProducts.forEach((product: any) => {
-        if (!product) return;
-        const offElems: string[] = [
-          ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
-          product.quantity || product.nutrition_data_prepared_per,
-          ...(product.brands_tags || []),
+        const leclercElems = [
+          ...(article.LIBELLE_LIGNE_1?.split(" ").map((a) => a.trim()) ?? []),
+          ...(article.LIBELLE_LIGNE_2?.split(" ").map((a) => a.trim()) ?? []),
         ].map((e) => (e ? e.toLocaleLowerCase() : e));
 
-        const matches = offElems.filter((le) =>
-          leclercElems.find(
-            (oe) => le && oe && (le.includes(oe) || oe.includes(le))
-          )
-        );
-        var uniquematches = matches.filter((elem, index, self) => {
-          return index === self.indexOf(elem);
+        let bestProduct = null;
+        let bestMatchScore = 0;
+
+        offProducts.forEach((product: any) => {
+          if (!product || !product.product_name_fr) return;
+          const offElems: string[] = [
+            ...product.product_name_fr.split(" ").map((a: string) => a.trim()),
+            product.quantity || product.nutrition_data_prepared_per,
+            ...(product.brands_tags || []),
+          ].map((e) => (e ? e.toLocaleLowerCase() : e));
+
+          const matches = offElems.filter((le) =>
+            leclercElems.find(
+              (oe) => le && oe && (le.includes(oe) || oe.includes(le))
+            )
+          );
+          var uniquematches = matches.filter((elem, index, self) => {
+            return index === self.indexOf(elem);
+          });
+          const score = uniquematches.length;
+
+          if (score > bestMatchScore) {
+            bestMatchScore = score;
+            bestProduct = product;
+          }
         });
-        const score = uniquematches.length;
 
-        if (score > bestMatchScore) {
-          bestMatchScore = score;
-          bestProduct = product;
+        if (bestProduct == null) console.log("Product not found");
+        else {
+          const product = await createProduct(article, bestProduct);
+          let serialized = {
+            ...product,
+            brand: clear(product.brand),
+            ingredients: clear((product.ingredients || []).join("|")),
+            labels: clear((product.labels || []).join("|")),
+            packaging: clear((product.packaging || []).join("|")),
+            allergens: clear(product.allergens.toString()),
+            nutriments: clear(product.nutriments.join("|")),
+            keywords: clear((product.keywords || []).join("|")),
+          };
+          // console.log(serialized)
+
+          if (!serialized.ingredients || serialized.ingredients.length === 0) {
+            console.log("no ingredients");
+            return;
+          }
+          serialized.scoreEnvironment = EnvScorer.getScore(
+            serialized
+          ).toString();
+          serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
+
+          serialized.vegan = IsVegan(serialized);
+          serialized.noGluten = IsNoGluten(serialized);
+
+          console.log(
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
+          );
+
+          await sqlquery(
+            sql,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords, vegan, noGluten, labels) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+              clear(serialized.name),
+              serialized.leclercId,
+              serialized.photo,
+              clear(serialized.brand),
+              serialized.priceUnit,
+              serialized.priceMass,
+              clear(serialized.ingredients),
+              clear(serialized.packaging),
+              clear(serialized.allergens),
+              clear(serialized.nutriments),
+              serialized.nutriscore,
+              serialized.scoreHealth,
+              serialized.scoreEnvironment,
+              clear(serialized.quantity),
+              clear(serialized.keywords),
+              serialized.vegan,
+              serialized.noGluten,
+              serialized.labels,
+            ]
+          );
         }
-      });
-
-      if (bestProduct == null) console.log("Product not found");
-      else {
-        const product = await createProduct(article, bestProduct);
-        let serialized = {
-          ...product,
-          ingredients: product.ingredients.join("|"),
-          packaging: product.packaging.join("|"),
-          allergens: product.allergens.toString(),
-          nutriments: product.nutriments.join("|"),
-          keywords: product.keywords.join("|"),
-        };
-
-        serialized.scoreEnvironment = EnvScorer.getScore(serialized).toString();
-        serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
-
-        console.log(
-          `Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
-        );
-
-        await sqlquery(
-          sql,
-          "INSERT INTO products3 (name, leclercId, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-          [
-            serialized.name,
-            serialized.leclercId,
-            serialized.brand,
-            serialized.priceUnit,
-            serialized.priceMass,
-            serialized.ingredients,
-            serialized.packaging,
-            serialized.allergens,
-            serialized.nutriments,
-            serialized.nutriscore,
-            serialized.scoreHealth,
-            serialized.scoreEnvironment,
-            serialized.quantity,
-            serialized.keywords,
-          ]
-        );
-      }
-    })
-  );
+      })
+    );
+  }
 };
 
 const tab = ["a", "b", "c", "d", "e"];
@@ -258,6 +301,7 @@ const createProduct = async (
   const quantity = extractQuantity(leclerc.LIBELLE_LIGNE_2);
   const princeMass = leclerc.PRIX_UNITAIRE;
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
+  const ecoScore = product?.ecoscore_data?.score ?? 0;
 
   const ret: Article = {
     allergens: allergens_tags,
@@ -272,12 +316,21 @@ const createProduct = async (
     priceUnit: priceUnit,
     keywords,
     leclercId: leclerc.ID_PRODUIT_WEB,
+    photo: leclerc.ID_PHOTO_DETAIL,
+    labels: product.labels_tags ?? [],
+    ecoscore: ecoScore,
   };
   return ret;
 };
 
 start()
-  .then(() => console.log("Ok"))
-  .catch((ex) => console.warn(ex));
+  .then(() => {
+    console.log("Ok");
+    process.exit(0);
+  })
+  .catch((ex) => {
+    console.warn(ex);
+    process.exit(1);
+  });
 
 // export default start;

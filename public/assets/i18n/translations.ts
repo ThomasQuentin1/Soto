@@ -78,6 +78,10 @@ const resources = {
 
         "label.general.cancel" : "Cancel",
         "label.general.validate" : "Validate",
+        "error.notloggedin" : "Please login",
+        "error.invalidcredentails": "Invalid email or password",
+        "error.emailalreadyinuse": "Email already in use",
+        "error.badparams": "Bad parameters",
       }
     },
     fr: {
@@ -160,6 +164,10 @@ const resources = {
         "label.general.validate" : "Valider",
 
 
+        "error.notloggedin" : "Veillez vous connecter",
+        "error.invalidcredentails": "Email ou mot de passe invalides",
+        "error.emailalreadyinuse": "Email déjà utilisé",
+        "error.badparams": "Mauvais paramètres",
       }
     }
 };
