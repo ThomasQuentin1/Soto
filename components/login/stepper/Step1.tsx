@@ -15,7 +15,7 @@ const useStyles = makeStyles(createStyles({
 
 interface Props {
     setEmail: (s: string) => void;
-    setUsername: (s: string) => void;
+    // setUsername: (s: string) => void;
     setPassword: (s: string) => void;
     setCPassword: (s: string) => void;
 
@@ -27,7 +27,7 @@ const Step1 = (props: Props) => {
     const classes = useStyles();
 
     const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
+    // const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
 
@@ -58,18 +58,18 @@ const Step1 = (props: Props) => {
             error={props.emailError != ""}
             helperText={props.emailError}
         />
-        <TextField
-            color="secondary"
-            required
-            className={classes.textField}
-            id="nameRegister"
-            label={lng == 'fr' ? 'Nom complet' : 'Full name'}
-            value={username}
-            onChange={(sender: any) => {
-                setUsername(sender.target.value);
-                props.setUsername(sender.target.value);
-            }}
-        />
+        {/*<TextField*/}
+        {/*    color="secondary"*/}
+        {/*    required*/}
+        {/*    className={classes.textField}*/}
+        {/*    id="nameRegister"*/}
+        {/*    label={lng == 'fr' ? 'Nom complet' : 'Full name'}*/}
+        {/*    value={username}*/}
+        {/*    onChange={(sender: any) => {*/}
+        {/*        setUsername(sender.target.value);*/}
+        {/*        props.setUsername(sender.target.value);*/}
+        {/*    }}*/}
+        {/*/>*/}
         <TextField
             color="secondary"
             required

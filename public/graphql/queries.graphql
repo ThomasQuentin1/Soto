@@ -7,6 +7,23 @@ query Account {
   }
 }
 
+query Criterions {
+  criterions {
+    activated
+    id
+    name
+    position
+  }
+}
+
+query Obligations {
+  obligations {
+    activated
+    id
+    name
+  }
+}
+
 query searchProduct($query: String!) {
   searchProducts(query: $query) {
     name

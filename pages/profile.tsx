@@ -16,9 +16,6 @@ const ProfilePage = () => {
     const [ t, i18n ] = useTranslation();
     const {error, data, loading, refetch} = useAccountQuery()
 
-    // const router = useRouter()
-    // console.log(router.pathname)
-
     let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng');

@@ -82,7 +82,6 @@ const Login = (props: Props) => {
                         style={{ marginTop: "20px", marginBottom: "20px"}}
                         onClick={() =>  {
                             handleButtonClick();
-                            console.log(sha256(password))
                             login().then(r => {
                                 if (r.errors)
                                     notifyError(r.errors[0].message)

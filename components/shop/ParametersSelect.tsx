@@ -3,17 +3,17 @@ import Button from '@material-ui/core/Button';
 import { useTranslation } from "react-i18next"
 import DragList, {CriteriaData} from './DragList';
 import ObligationCheckboxList, { CheckBoxData } from './ObligationCheckboxList';
-import {criteriaBaseData, obligationsBaseData} from "../../public/values";
-import {Account, useSetCriterionsMutation, useSetObligationsMutation} from "../../typing";
+import {
+    useCriterionsQuery, useObligationsQuery,
+    useSetCriterionsMutation,
+    useSetObligationsMutation
+} from "../../typing";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 // import {Fade} from "@material-ui/core";
 import {Transition} from "react-transition-group";
 // import {ReactCSSTransitionGroup} from 'react-transition-group';
 
 interface Props {
-    shop: boolean
-
-    account: Account
     validate: boolean
     setValidate: (items: boolean) => void
 }
@@ -41,7 +41,7 @@ const transitionStyles = {
 const ParametersSelect = (props: Props) => {
     const [t] = useTranslation();
     const [isFirstCall, called] = useState(true)
-    const [element, setElement] = useState<toPrint>(toPrint.EMPTY)
+    const [element, setElement] = useState<toPrint>(toPrint.CRITERIA)
     const [newElement, setNewElement] = useState<toPrint>(toPrint.EMPTY)
     const [isTransitioning, setTransitioning] = useState(false)
     const [launch, setLaunch] = useState(false)
@@ -50,6 +50,10 @@ const ParametersSelect = (props: Props) => {
     // To store criteria and obligations values
     const [criteria, setCriteria] = useState<CriteriaData[]>([]);
     const [obligations, setObligations] = useState<CheckBoxData[]>([]);
+    // Criteria and obligations queries
+    const {data: criteriaData, loading: criteriaLoading} = useCriterionsQuery();
+    const {data: obligationsData, loading: obligationsLoading} = useObligationsQuery();
+
     // Obligation saving mutation
     const [obligationsMutation] = useSetObligationsMutation({
         variables: {
@@ -91,6 +95,8 @@ const ParametersSelect = (props: Props) => {
         if (isFirstCall) {
             setLaunch(true)
             called(false)
+            setNewElement(toPrint.CRITERIA)
+            setTransitioning(true)
         } else {
             if (newElement === toPrint.EMPTY) {
                 setLaunch(false)
@@ -98,7 +104,6 @@ const ParametersSelect = (props: Props) => {
                 setLaunch(true)
         }
         setElement(newElement)
-        // exit(false)
         setTransitioning(false)
     }
 
@@ -107,9 +112,9 @@ const ParametersSelect = (props: Props) => {
 
     const returnButtonToggle = () => {
         if (element === toPrint.CRITERIA) {
-            return(<DragList criteriaData={props.shop ? criteria : criteriaBaseData} setCriteria={setCriteria}/>);
+            return(<DragList criteriaData={criteria} setCriteria={setCriteria}/>);
         } else if (element === toPrint.OBLIGATIONS) {
-            return(<ObligationCheckboxList data={props.shop ? obligations : obligationsBaseData}/>);
+            return(<ObligationCheckboxList data={obligations}/>);
         } else {
             return(<></>) // Display nothing
         }
@@ -118,8 +123,8 @@ const ParametersSelect = (props: Props) => {
 
     const loadCriteriaValues = () => {
         let list: CriteriaData[] = []
-        props.account.criterions.forEach(function(item: any) {
-            list.push({id: item.id, position: item.position, name: item.name.fr, activated: item.activated})
+        criteriaData.criterions.map((item) => {
+            list.push({id: item.id, position: item.position, name: item.name, activated: item.activated})
         })
         let finalList = list.sort((n1, n2) => {
             if (n1.position > n2.position) {
@@ -132,20 +137,20 @@ const ParametersSelect = (props: Props) => {
 
     const loadObligationValues = () => {
         let list: CheckBoxData[] = []
-        props.account.obligations.forEach(function(item: any) {
-            list.push({id: item.id, label: item.name.fr, checked: item.activated})
+        obligationsData.obligations.forEach(function(item: any) {
+            list.push({id: item.id, label: item.name, checked: item.activated})
         })
         setObligations(list)
     }
 
-    if (criteria.length == 0 || obligations.length == 0) {
+    if (!criteriaLoading && !obligationsLoading && criteria.length == 0 && obligations.length == 0) {
         loadCriteriaValues()
         loadObligationValues()
     }
 
     if (criteria.length != 0 && obligations.length != 0) {
         return (
-            <div style={{height: "150px"}}>
+            <div style={{minHeight: "150px"}}>
                 <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
                     <Button color='secondary' variant={element === toPrint.CRITERIA ? "outlined" : undefined} onClick={() => {
                         if (element === toPrint.CRITERIA) {

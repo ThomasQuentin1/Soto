@@ -46,8 +46,7 @@ const DeleteAccount = () => {
     };
 
     return (
-        // <div style={{display: "flex", justifyContent: "center"}}>
-            <div>
+        <div>
             <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
                 {lng == 'fr' ? 'Supprimer compte' : 'Delete Account'}
             </Button>
@@ -78,7 +77,6 @@ const DeleteAccount = () => {
                     </Button>
                     <Button color="secondary" disabled={password === ""} autoFocus onClick={() => {
                         handleClose;
-                        console.log(sha256(password))
                         deleteAccount().then(r => {
                             if (r.errors)
                                 notifyError(r.errors[0].message)
@@ -88,14 +86,6 @@ const DeleteAccount = () => {
                                 Router.push("/")
                             }
                         })
-                        // deleteAccount().then(function(value) {
-                        //     if (value[0]) {
-                        //         console.log(value[1])
-                        //         Router.push("/")
-                        //     }
-                        //     else
-                        //         console.log(value[1])
-                        // })
                     }}>
                         Yes
                     </Button>

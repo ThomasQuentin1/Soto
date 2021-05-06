@@ -1,5 +1,6 @@
 
 import React from "react"
+import ParametersSelect from "../../shop/ParametersSelect";
 // import ParametersSelect from "../../shop/ParametersSelect";
 // import {CheckBoxData} from "../../shop/ObligationCheckboxList";
 // import {CriteriaData} from "../../shop/DragList";
@@ -10,7 +11,12 @@ import React from "react"
     setObligations: (items: CheckBoxData[]) => void;
 }*/
 
-const Step2 = () => {
+interface Props {
+    validate: boolean
+    setValidate: (items: boolean) => void
+}
+
+const Step2 = (props: Props) => {
     // let lng : string | null = 'fr';
     // if (typeof window !== 'undefined') {
     //     lng = localStorage.getItem('lng');
@@ -86,6 +92,7 @@ const Step2 = () => {
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 {/*<ParametersSelect shop={false} setCriteria={props.setCriteria} setObligations={props.setObligations}/>*/}
                 {/*<ParametersSelect shop={false}/>*/}
+                <ParametersSelect validate={props.validate} setValidate={props.setValidate}/>
             </div>
         </div>
 

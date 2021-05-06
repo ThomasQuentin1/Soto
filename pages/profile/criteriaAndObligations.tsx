@@ -8,16 +8,15 @@ import {useDarkMode} from "../../components/settings/useDarkMode";
 import {useTranslation} from "react-i18next";
 import Footer from "../../components/global/Footer";
 import ParametersSelect from "../../components/shop/ParametersSelect";
-import {useAccountQuery} from "../../typing";
+// import {useCriterionsQuery, useObligationsQuery} from "../../typing";
 
 const CriteriaAndObligations = () => {
     const [t] = useTranslation();
     const [theme] = useDarkMode();
     const router = useRouter();
-    const {data, loading} = useAccountQuery()
     const [validate, setValidate] = useState(false)
 
-    if (!loading) {
+    // if (!criteriaLoading && !obligationsLoading) {
         return (
             <>
                 <title>{t("label.criteriaAndObligations")}</title>
@@ -35,7 +34,7 @@ const CriteriaAndObligations = () => {
                         <Paper variant={"outlined"} className='halfWidth centered body'
                                style={{width: "30%", margin: "50px auto", padding: "20px"}}>
                             <div>
-                                <ParametersSelect shop={true} account={data.account} validate={validate} setValidate={setValidate}/>
+                                <ParametersSelect validate={validate} setValidate={setValidate}/>
                                 <div className={"dFlex"}
                                      style={{justifyContent: "flex-end", marginTop: "20px"}}>
                                     <Button color="primary" onClick={() => {
@@ -59,18 +58,18 @@ const CriteriaAndObligations = () => {
                 </DarkModeParent>
             </>
         )
-    } else {
-        return (
-            <>
-                <DarkModeParent theme={theme}>
-                    <Header isConnected={true}/>
-                    <div>
-                        <Footer/>
-                    </div>
-                </DarkModeParent>
-            </>
-        )
-    }
+    // } else {
+    //     return (
+    //         <>
+    //             <DarkModeParent theme={theme}>
+    //                 <Header isConnected={true}/>
+    //                 <div>
+    //                     <Footer/>
+    //                 </div>
+    //             </DarkModeParent>
+    //         </>
+    //     )
+    // }
 
 }
 

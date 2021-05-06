@@ -47,15 +47,24 @@ const DragList = (props: Props) => {
                     {children}
                 </ul>
             }
-            renderItem={({ value, props }) =>
+            renderItem={({ value, props, index }) =>
                 <li
                     {...props}
                     style={{
                         ...props.style,
+                        listStyleType: "none",
                     }}
                     className="criteria_drag_list"
                 >
-                    {t(value.name)}
+                    <div className="dFlex" style={{alignItems: "center"}}>
+                        <div>
+                            {index! + 1}.
+                        </div>
+                        <div className="criteria_drag_list_elem flexWidthFull">
+                            {t(value.name)}
+                        </div>
+                    </div>
+
                 </li>
             }
         />

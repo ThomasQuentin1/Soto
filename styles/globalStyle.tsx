@@ -124,10 +124,17 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .criteria_drag_list {
+    //padding: 8px;
+    //margin: 8px;
+    list-style-type: none;
+    color: ${({ theme }) => theme.text};
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .criteria_drag_list_elem {
     padding: 8px;
     margin: 8px;
     border: 1px solid ${({ theme }) => theme.border.color};
-    list-style-type: none;
     color: ${({ theme }) => theme.text};
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
