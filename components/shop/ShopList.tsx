@@ -8,7 +8,7 @@ const ShopList = ({basket, setBasket} : ShopListProps) => {
         <Grid justify={"center"} container style={{alignItems: 'flex-start'}}>
             {basket && basket.length != 0 && basket.map((item, index) => {
                 return (
-                    <ShopItem key={index} index={index} countableProduct={item} basket={basket} setBasket={setBasket}/>
+                    <ShopItem key={index} index={index} product={item} basket={basket} setBasket={setBasket}/>
                 ); 
             })}
         </Grid>

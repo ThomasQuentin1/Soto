@@ -34,10 +34,10 @@ mutation setShop($shopId: Int!) {
   setShop(shopId: $shopId)
 }
 
-mutation AddToCart($id: String!) {
-  addToCart(productId: $id)
+mutation AddToCart($productId: String!) {
+  addToCart(productId: $productId)
 }
 
-mutation RemoveFromCart($id: String!) {
-  removeFromCart(productId: $id)
+mutation RemoveFromCart($productId: String!) {
+  removeFromCart(productId: $productId)
 }

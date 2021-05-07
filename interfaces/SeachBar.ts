@@ -1,6 +1,6 @@
-import CountableProduct from 'interfaces/CountableProduct';
+import { Product } from "typing";
 
 export default interface SearchBarProps {
-    basket: CountableProduct[];
-    setBasket: React.Dispatch<React.SetStateAction<CountableProduct[]>>;
+    basket: Product[];
+    setBasket: React.Dispatch<React.SetStateAction<Product[]>>;
   }

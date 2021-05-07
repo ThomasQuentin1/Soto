@@ -36,8 +36,8 @@ export type QuerySearchProductsArgs = {
   query: Scalars['String'];
   obligationsOverride?: Maybe<Array<ObligationInput>>;
   criterionsOverride?: Maybe<Array<CriterionInput>>;
-  shopIdOverride?: Maybe<Scalars["Int"]>;
-  limit?: Maybe<Scalars["Int"]>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
 };
 
 export type Mutation = {
@@ -703,8 +703,8 @@ export type SetShopMutationHookResult = ReturnType<typeof useSetShopMutation>;
 export type SetShopMutationResult = Apollo.MutationResult<SetShopMutation>;
 export type SetShopMutationOptions = Apollo.BaseMutationOptions<SetShopMutation, SetShopMutationVariables>;
 export const AddToCartDocument = gql`
-    mutation AddToCart($id: String!) {
-  addToCart(productId: $id)
+    mutation AddToCart($productId: String!) {
+  addToCart(productId: $productId)
 }
     `;
 export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>;
@@ -722,7 +722,7 @@ export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, Add
  * @example
  * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      productId: // value for 'productId'
  *   },
  * });
  */
@@ -734,8 +734,8 @@ export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation
 export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
 export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
 export const RemoveFromCartDocument = gql`
-    mutation RemoveFromCart($id: String!) {
-  removeFromCart(productId: $id)
+    mutation RemoveFromCart($productId: String!) {
+  removeFromCart(productId: $productId)
 }
     `;
 export type RemoveFromCartMutationFn = Apollo.MutationFunction<RemoveFromCartMutation, RemoveFromCartMutationVariables>;
@@ -753,7 +753,7 @@ export type RemoveFromCartMutationFn = Apollo.MutationFunction<RemoveFromCartMut
  * @example
  * const [removeFromCartMutation, { data, loading, error }] = useRemoveFromCartMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      productId: // value for 'productId'
  *   },
  * });
  */
@@ -963,6 +963,7 @@ export const CartDocument = gql`
     query Cart {
   cart {
     products {
+      id
       name
       brand
       priceUnit
@@ -974,8 +975,11 @@ export const CartDocument = gql`
       nutriscore
       scoreHealth
       scoreEnvironment
-      itemQuantity
+      finalScore
       packagingQuantity
+      itemQuantity
+      photo
+      url
     }
     dateCreated
     dateLastEdit

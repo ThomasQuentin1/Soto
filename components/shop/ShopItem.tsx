@@ -7,8 +7,7 @@ import { Button, Typography, Tooltip } from '@material-ui/core';
 import Zoom from '@material-ui/core/Zoom';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
-import CountableProduct from 'interfaces/CountableProduct';
-import { useRemoveFromCartMutation } from 'typing';
+import { useRemoveFromCartMutation, Product, useAddToCartMutation } from 'typing';
 
 const color = {
     dark_red: "#ff0000",
@@ -23,22 +22,22 @@ const color = {
     dark_green_alpha: "#00ff0088",
 };
 
-const reduceQuantity = (quantity: number, basket: CountableProduct[], setBasket: any, index: number) => {
-    let newBasket: CountableProduct[] = [];
+// const reduceQuantity = (quantity: number, basket: Product[], setBasket: any, index: number) => {
+//     let newBasket: Product[] = [];
+//     basket.map((item) => newBasket.push(item));
+//     newBasket[index].itemQuantity = quantity - 1;
+//     setBasket(newBasket);
+// }
+
+const increaseQuantity = (quantity: number, basket: Product[], setBasket: any, index: number) => {
+    let newBasket: Product[] = [];
     basket.map((item) => newBasket.push(item));
-    newBasket[index].quantity = quantity - 1;
+    newBasket[index].itemQuantity = quantity + 1;
     setBasket(newBasket);
 }
 
-const increaseQuantity = (quantity: number, basket: CountableProduct[], setBasket: any, index: number) => {
-    let newBasket: CountableProduct[] = [];
-    basket.map((item) => newBasket.push(item));
-    newBasket[index].quantity = quantity + 1;
-    setBasket(newBasket);
-}
-
-const removeFromBasket = (basket: CountableProduct[], setBasket: any, index: number) => {
-    let newBasket: CountableProduct[] = [];
+const removeFromBasket = (basket: Product[], setBasket: any, index: number) => {
+    let newBasket: Product[] = [];
     basket.map((item, indexOldBasket) => {
         if (indexOldBasket !== index)
             newBasket.push(item)
@@ -46,20 +45,20 @@ const removeFromBasket = (basket: CountableProduct[], setBasket: any, index: num
     setBasket(newBasket);
 }
 
-const returnRemoveOrReduceButton = (countableProduct: CountableProduct, basket: CountableProduct[], setBasket: any, index: number, RemoveFromCartMutation: any) => {
-    if (countableProduct.quantity === 1) {
+const returnRemoveOrReduceButton = (product: Product, basket: Product[], setBasket: any, index: number, RemoveFromCartMutation: any) => {
+    if (product.itemQuantity === 1) {
         return (
             <Button
                 color="secondary"
                 onClick={() => {
                     RemoveFromCartMutation().then((r) => {
-                        if (r.error) {
-                            console.log(r.error[0].message);
+                        if (r.errors) {
+                            console.log(r.errors);
                         } else {
-                            console.log('Item remove from cart')
+                            console.log('Item removed from cart')
                         }
                     });
-                    removeFromBasket(basket, setBasket, index)
+                    // removeFromBasket(basket, setBasket, index)
                 }
                 }
                 style={{borderRadius: "24px", fontSize: '23px', height: '25px', width: '25px'}}><DeleteIcon fontSize={"small"}></DeleteIcon>
@@ -68,49 +67,62 @@ const returnRemoveOrReduceButton = (countableProduct: CountableProduct, basket: 
         return (
             <Button 
                 color="secondary" 
-                onClick={() => reduceQuantity(countableProduct.quantity, basket, setBasket, index)}
+                onClick={() => RemoveFromCartMutation().then((r) => {
+                    if (r.errors) {
+                        console.log(r.errors);
+                    } else {
+                        console.log('Item removed from cart')
+                    }
+                })}
                 style={{borderRadius: "24px", fontSize: '23px', height: '25px', width: '25px'}}>-
             </Button>);
     }
 }
 
-const ShopItem = ({countableProduct, basket, setBasket, index} : ShopItemProps) => {
+const ShopItem = ({product, basket, setBasket, index} : ShopItemProps) => {
 
-    // Mutation to remove this item from the cart
-const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { id: 1 /*countableProduct.product.id */}, errorPolicy: 'all'})
+    console.log(product)
+    const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
+    const [AddToCartMutation] = useAddToCartMutation({variables: {productId: product.id}, errorPolicy: 'all'})
 
     let scoreColorAlpha : string = color.red_alpha; // red
     let scoreColor : string = color.red;
 
     const [isToggled, SetIsToggled] = useState<boolean>(false);
 
-    if (Number(countableProduct.product.scoreHealth) >= 40) {
+    if (Number(product.scoreHealth) >= 40) {
         scoreColorAlpha = color.orange_alpha; // orange
         scoreColor = color.orange;
     }
-    if (Number(countableProduct.product.scoreHealth) >= 75) {
+    if (Number(product.scoreHealth) >= 75) {
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(countableProduct, basket, setBasket, index, RemoveFromCartMutation);
+    const removeOrReduceButton = returnRemoveOrReduceButton(product, basket, setBasket, index, RemoveFromCartMutation);
     return (
         <>
-        {countableProduct && !isToggled &&
+        {product && !isToggled &&
             <Grid
             item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
                 {/** This is the bar that show the score of the product */}
                 <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
-                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.scoreHealth}%</Typography>
-                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.scoreHealth}%`}}/>
+                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{product.scoreHealth}%</Typography>
+                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${product.scoreHealth}%`}}/>
                 </div>
-                <Container style={{marginBottom: '5px', marginTop: '10px'}}>{countableProduct.product.name}</Container>
-                <Container>{Number(countableProduct.product.priceUnit).toFixed(2)}€</Container>
+                <Container style={{marginBottom: '5px', marginTop: '10px'}}>{product.name}</Container>
+                <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
                     {removeOrReduceButton}
-                    <p>{countableProduct.quantity}</p>
+                    <p>{product.itemQuantity}</p>
                     <Button color="secondary"
-                        onClick={() => increaseQuantity(countableProduct.quantity, basket, setBasket, index)}
+                        onClick={() => AddToCartMutation().then((r) => {
+                            if (r.errors) {
+                                console.log(r.errors[0].message);
+                            } else {
+                                console.log('You added 1 more ' + product.name + ' id :' + product.id)
+                            }
+                        })}
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
@@ -121,28 +133,28 @@ const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { id: 1 /
                 </Box>
             </Grid>
         }
-        {countableProduct && isToggled &&
+        {product && isToggled &&
             <Grid
             item style={{textAlign: 'center', margin: '50px', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderColor:scoreColorAlpha}} className="item_shop">
                 <div style={{backgroundColor:scoreColorAlpha, height:'20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', position:'relative'}}>
-                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{countableProduct.product.scoreHealth}%</Typography>
-                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${countableProduct.product.scoreHealth}%`}}/>
+                    <Typography style={{position:'absolute', left: '8px', color:'black', fontWeight:'bold'}}>{product.scoreHealth}%</Typography>
+                    <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${product.scoreHealth}%`}}/>
                 </div>
-                <Container style={{marginBottom: '5px', marginTop: '10px'}}>{countableProduct.product.name}</Container>
-                <Container>{Number(countableProduct.product.priceUnit).toFixed(2)}€</Container>
+                <Container style={{marginBottom: '5px', marginTop: '10px'}}>{product.name}</Container>
+                <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
                     {removeOrReduceButton}
-                    <p>{countableProduct.quantity}</p>
+                    <p>{product.itemQuantity}</p>
                     <Button color="secondary"
-                        onClick={() => increaseQuantity(countableProduct.quantity, basket, setBasket, index)}
+                        onClick={() => AddToCartMutation()}
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
-                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {countableProduct.product.scoreHealth}</Typography>
-                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {countableProduct.product.brand}</Typography>
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {product.scoreHealth}</Typography>
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {product.brand}</Typography>
                 <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
-                <Typography align="left">Ingrédients : {countableProduct.product.ingredients}</Typography>
+                <Typography align="left">Ingrédients : {product.ingredients}</Typography>
                 </Container>
                 <Box style={{display:'flex', justifyContent: 'flex-end'}}>
                     <Tooltip TransitionComponent={Zoom} title={"Voir plus d'informations"}>

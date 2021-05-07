@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import '../i18n';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
 import Grid from "@material-ui/core/Grid";
-import CountableProduct from "interfaces/CountableProduct";
 import PriceBanner from "components/shop/PriceBanner";
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
@@ -13,17 +12,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
-import { Product, useCartQuery } from 'typing';
-import CoutableProduct from "interfaces/CountableProduct";
-
-const ReturnAsCountable = (products: Product[]) => {
-  let coutableProducts : CoutableProduct[] = [];
-  products.map((product) => {
-    const toPush : CoutableProduct = {product: product, quantity: 1}
-    coutableProducts.push(toPush);
-  });
-  return coutableProducts;
-}
+import { Product, useCartLazyQuery } from 'typing';
 
 const ShopPage = () => {
   const [theme] = useDarkMode();
@@ -38,11 +27,20 @@ const ShopPage = () => {
   const [t] = useTranslation();
 
   // get the current cart of 
-  const {data, loading} = useCartQuery();
-  const [basket, setBasket] = useState<CountableProduct[]>([]);
-
-  if (!loading && data && basket != [] && data.products) {
-    setBasket(ReturnAsCountable(data.products))
+  const [cartQuery, {called, data, error}] = useCartLazyQuery();
+  const [basket, setBasket] = useState<Product[]>([]);
+  const [isBasketUpToDate, setIsBasketUpToDate] = useState(false);
+  if (called == false) {
+    cartQuery();
+  }
+  
+  if (data && data.cart && !isBasketUpToDate) {
+    setIsBasketUpToDate(!isBasketUpToDate);
+    console.log(data)
+    setBasket(data.cart.products)
+    console.log(basket)
+  } else if (error) {
+    console.log(error.message);
   }
 
   const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
