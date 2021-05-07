@@ -48,7 +48,7 @@ const MapComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, 
 
     }
     
-    const [SetShop] = useSetShopMutation({ variables: {id: id}, errorPolicy: 'all'})
+    const [SetShop] = useSetShopMutation({ variables: {shopId: id}, errorPolicy: 'all'})
     return (
         <div>
             {isToggled && 
@@ -58,13 +58,15 @@ const MapComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, 
                     <Typography color="secondary" variant="subtitle1">{name}</Typography>
                     <Typography color="secondary" variant="subtitle2">{city}</Typography>
                     <Button color="secondary" style={{border:'1px solid', marginTop:'15px'}}
-                    onClick={() => SetShop().then((err) => {
-                        if (err.errors) {
-                            console.log(err.errors[0].message);
-                        } else {
-                            isShopSetted(!shopSetted)}
-                        }
-                        )}><Typography>Choisir ce drive</Typography></Button>
+                    onClick={() => { 
+                        console.log(id);
+                        SetShop().then((err) => {
+                          if (err.errors) {
+                              console.log(err.errors[0].message);
+                          } else {
+                              isShopSetted(!shopSetted)}
+                          }
+                        )}}><Typography>Choisir ce drive</Typography></Button>
                 </CardContent>
             </Card>}
             {!isToggled &&
