@@ -13,7 +13,7 @@ import {gql} from "@apollo/client/core";
 import {makeStyles} from "@material-ui/styles";
 import {useMutation} from "@apollo/client";
 import {sha256} from "js-sha256";
-import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
+import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie";
 
 const useStyles = makeStyles(createStyles({
@@ -46,8 +46,7 @@ const DeleteAccount = () => {
     };
 
     return (
-        // <div style={{display: "flex", justifyContent: "center"}}>
-            <div>
+        <div>
             <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
                 {lng == 'fr' ? 'Supprimer compte' : 'Delete Account'}
             </Button>
@@ -78,24 +77,15 @@ const DeleteAccount = () => {
                     </Button>
                     <Button color="secondary" disabled={password === ""} autoFocus onClick={() => {
                         handleClose;
-                        console.log(sha256(password))
                         deleteAccount().then(r => {
                             if (r.errors)
-                                loginError(r.errors[0].message)
+                                notifyError(r.errors[0].message)
                             else {
-                                loginSuccess("Logged out")
+                                notifySuccess("Logged out")
                                 Cookies.remove("token")
                                 Router.push("/")
                             }
                         })
-                        // deleteAccount().then(function(value) {
-                        //     if (value[0]) {
-                        //         console.log(value[1])
-                        //         Router.push("/")
-                        //     }
-                        //     else
-                        //         console.log(value[1])
-                        // })
                     }}>
                         Yes
                     </Button>

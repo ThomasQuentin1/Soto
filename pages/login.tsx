@@ -3,6 +3,7 @@ import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "components/global/Header";
+import Footer from "../components/global/Footer";
 
 
 const LoginPage = () => {
@@ -24,7 +25,7 @@ const LoginPage = () => {
                 <div>
                     <LoginController/>
                 </div>
-                
+                <Footer/>
             </DarkModeParent>
         </div>
     );

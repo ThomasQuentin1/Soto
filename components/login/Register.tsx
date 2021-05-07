@@ -1,25 +1,14 @@
-import {
-    Button,
-    Divider,
-    Step,
-    StepLabel,
-    Stepper,
-    Typography
-} from "@material-ui/core";
+import {Button, Divider, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
 import React, {useState} from "react";
 import {sha256} from "js-sha256";
 import Step1 from "./stepper/Step1";
 import Step2 from "./stepper/Step2";
-import Router from "next/router";
-// import {useMutation} from "@apollo/client";
-// import {gql} from "@apollo/client/core";
-import {loginError, loginSuccess} from "../../public/notifications/notificationsFunctions";
+import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
-import {useRegisterMutation, useSetCriterionsMutation, useSetObligationsMutation} from "../../typing";
-import { CheckBoxData } from "components/shop/ObligationCheckboxList";
-import {CriteriaData} from "../shop/DragList";
+import {useRegisterMutation} from "../../typing";
+import {useTranslation} from "react-i18next";
+import Router from "next/router";
 
-// import {CriteriaInput} from "interfaces/Settings"
 
 interface Props {
     setDisplayRegister: (b: boolean) => void;
@@ -29,46 +18,85 @@ function getSteps() {
     return [
         'Informations personnelles',
         'Préférences et obligations',
-        // 'Sélectionner votre drive'
     ];
 }
 
 const Register = (props: Props) => {
+    const [emailError, setEmailError] = useState("")
+    const [passwordError, setPasswordError] = useState("")
     const [email, setEmail] = useState("")
-    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [cPassword, setCPassword] = useState("")
     const [activeStep, setActiveStep] = React.useState(0);
-    const [obligations] = React.useState<CheckBoxData[]>([]);
-    const [criteria] = React.useState<CriteriaData[]>([]);
     const steps = getSteps();
-    let lng : string | null = 'fr';
+    const [t] = useTranslation()
+
+    let lng: string | null = 'fr';
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng');
     }
-    const [register] = useRegisterMutation({ variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
-    const [obligationsMutation] = useSetObligationsMutation({variables: {
-            obligations: obligations.filter(item => item.checked).map(function (item) {
-                return {id: item.id}
-            })}})
-    const [criteriaMutation] = useSetCriterionsMutation({variables: {
-            criterias: criteria.map(function(item, index) {
-                return {id: item.id, position: index + 1}
-            })}})
+
+    const [register] = useRegisterMutation({variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
+    const [validate, setValidate] = useState(false)
+
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return <Step1 setEmail={setEmail} setUsername={setUsername} setPassword={setPassword} setCPassword={setCPassword}/>;
+                return <Step1 setEmail={setEmail} setPassword={setPassword}
+                              setCPassword={setCPassword} emailError={emailError} passwordError={passwordError}/>;
             case 1:
-                // return <Step2 setCriteria={setCriteria} setObligations={setObligations}/>;
-                return <Step2/>;
+                return <Step2 validate={validate} setValidate={setValidate}/>;
             default:
                 return 'Unknown step';
         }
     }
 
+    function checkEmail() {
+        return new Promise<boolean>((resolve) => {
+            const regexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            resolve(regexp.test(email))
+        })
+    }
+
+    function checkRegisterValues() {
+        return new Promise<boolean>((resolve) => {
+            checkEmail().then(isEmailValid => {
+                if (isEmailValid) {
+                    setEmailError("")
+                } else {
+                    setEmailError(t("label.helperText.emailInvalid"))
+                    resolve(false)
+                }
+                if (password === cPassword) {
+                    setPasswordError("")
+                } else {
+                    setPasswordError(t("label.helperText.passwordsDifferent"))
+                    resolve(false)
+                }
+                resolve(true)
+            })
+        })
+    }
+
     const handleNext = () => {
-        setActiveStep(activeStep + 1);
+        if (activeStep === 0) {
+            checkRegisterValues().then(r => {
+                if (r) {
+                    register().then(r => {
+                        if (r.errors) {
+                            notifyError(t(r.errors[0].message))
+                        } else {
+                            Cookies.set("token", r.data.register, {expires: 7})
+                            setActiveStep(activeStep + 1);
+                            setEmailError("")
+                            notifySuccess("Registered")
+                        }
+                    });
+                }
+            })
+        } else {
+            setActiveStep(activeStep + 1);
+        }
     };
 
     const handleBack = () => {
@@ -78,32 +106,12 @@ const Register = (props: Props) => {
     const handleFinish = () => {
         if (password !== cPassword)
             return;
-        register().then(r => {
-            if (r.errors) {
-                loginError(r.errors[0].message)
-            } else {
-                Cookies.set("token", r.data.register, {expires: 7})
-                criteria.map(function(item) {console.log({id: item.id, position: item.position})})
-                obligations.filter(item => item.checked).map(function (item) {console.log({id: item.id})})
-                criteriaMutation().then(r2 => {
-                    obligationsMutation().then(r3 => {
-                        if (!r2) {
-                            loginError("Criteria saving failed")
-                        } else if (!r3) {
-                            loginError("Obligations saving failed")
-                        } else {
-                            loginSuccess("Logged in as " + username)
-                            Router.push("/")
-                        }
-                    })
-                })
-            }
-        });
-
+        setValidate(true)
+        Router.push("/").then(() => {})
     }
 
     return (
-        <div style={{ width: "auto", margin: "20px"}}>
+        <div style={{width: "auto", margin: "20px"}}>
             <div
                 style={{
                     display: "flex",
@@ -111,7 +119,8 @@ const Register = (props: Props) => {
                     justifyContent: "space-between"
                 }}
             >
-                <Typography variant="h6" gutterBottom style={{marginBottom: "20px", color: "grey", display: "flex", justifyContent: "center"}}>
+                <Typography variant="h6" gutterBottom
+                            style={{marginBottom: "20px", color: "grey", display: "flex", justifyContent: "center"}}>
                     {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
                 </Typography>
                 <Stepper activeStep={activeStep} color="secondary">
@@ -129,11 +138,13 @@ const Register = (props: Props) => {
             {getStepContent(activeStep)}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
                 <Button disabled={activeStep === 0} color="secondary" onClick={() => handleBack()}>
+                    {/*<Button disabled={activeStep === 0} color="secondary" onClick={() => }>*/}
                     {lng == 'fr' ? 'Retour' : 'Back'}
                 </Button>
                 {activeStep === steps.length - 1 ?
                     <div>
                         <Button variant="contained" color="secondary" onClick={() => handleFinish()}>
+                            {/*<Button variant="contained" color="secondary" onClick={() => setValidate(true)}>*/}
                             {lng == 'fr' ? 'Finir' : 'Finish'}
                         </Button>
                     </div> :
@@ -149,7 +160,7 @@ const Register = (props: Props) => {
             }}>
                 <Button
                     color="secondary"
-                    style={{ marginTop: "20px", fontSize: "12px"}}
+                    style={{marginTop: "20px", fontSize: "12px"}}
                     onClick={() => props.setDisplayRegister(false)}
                 >
                     {lng == 'fr' ? 'Vous avez déja un compte ? Connectez vous' : 'You already have an account ? Sign in'}

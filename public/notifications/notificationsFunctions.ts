@@ -1,8 +1,8 @@
 import {toast} from "react-toastify";
 
-export const loginSuccess = (msg: String) => {
+export const notifySuccess = (msg: String) => {
     toast.success(msg)
 };
-export const loginError = (msg: String) => {
+export const notifyError = (msg: String) => {
     toast.error(msg)
 };

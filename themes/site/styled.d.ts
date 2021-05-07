@@ -11,6 +11,7 @@ declare module 'styled-components' {
     footer: string,
     text: string,
     toggleBorder: string,
+    hover: string,
     gradient: string,
     disabled: string,
     border: {

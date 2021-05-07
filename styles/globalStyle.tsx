@@ -22,8 +22,27 @@ const GlobalStyles = createGlobalStyle`
     height: 100vh;
     margin: 0;
     padding: 0;
-    font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    //font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     transition: all 0.25s linear;
+  }
+  
+  .halfWidth {
+    width: 50%
+  }
+  
+  .flexAlignJustifyCentered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
+  
+  .centered {
+    display: flex;
+    flex-direction: column;
+    margin: 10px auto;
   }
 
   #example-features {
@@ -74,7 +93,8 @@ const GlobalStyles = createGlobalStyle`
   }
   
   a:hover {
-    text-decoration: underline;
+    cursor: pointer;
+    //text-decoration: underline;
   }
   
   .footer-link {
@@ -104,10 +124,17 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .criteria_drag_list {
+    //padding: 8px;
+    //margin: 8px;
+    list-style-type: none;
+    color: ${({ theme }) => theme.text};
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .criteria_drag_list_elem {
     padding: 8px;
     margin: 8px;
     border: 1px solid ${({ theme }) => theme.border.color};
-    list-style-type: none;
     color: ${({ theme }) => theme.text};
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
@@ -139,6 +166,86 @@ const GlobalStyles = createGlobalStyle`
   .icons {
     color: ${({theme}) => theme.text}
   }
+  
+  .flexWidthFull {
+    display: flex;
+    width: 100%;
+  }
+  
+  .padding1020 {
+    padding: 10px 20px;
+  }
+  
+  .cell {
+    //margin: 10px;
+    display: flex;
+  }
+  
+  .cellDivider {
+    border-top: 1px solid;
+    //width: 99%
+  }
+  
+  .cell :hover {
+    cursor: pointer;
+    background: ${({ theme }) => theme.hover};
+  }
+  
+  .cellTitle {
+    font-size: 1rem;
+  }
+  
+  .cellValue {
+    font-size: 0.875rem;
+    color: #5f6368;
+  }
+  
+  .MuiPaper-root {
+    color: inherit !important;
+    background: inherit !important;
+  }
+  
+  .MuiTypography-root {
+    align-self: center;
+  }
+
+  .marginBottom50px {
+    margin-bottom: 50px !important;
+  }
+  .marginB20px {
+    margin-bottom: 20px !important;
+  }
+  .marginV10H0px {
+    margin: 10px 0px !important;
+  }
+  
+  .padRight10 {
+    padding-right: 10px;
+  }
+  .pad5 {
+    padding: 5px;
+  }
+  
+  .dFlex {
+    display: flex;
+  }
+
+  .flexDirCol {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .flexDirRow {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .alignCenter {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  
   `;
 
 export default GlobalStyles;

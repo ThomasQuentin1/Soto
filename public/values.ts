@@ -18,3 +18,16 @@ export const criteriaBaseData: CriteriaData[] = [
     // {name: 'criteria.nutritional_value', activated: false, id: 4, position: 4},
     // {name: 'criteria.product_proximity', activated: false, id: 5, position: 5},
 ]
+
+export interface lngShortLong {
+    shortName: string;
+    key: string;
+    location: string;
+}
+
+export const lngFullName: lngShortLong[] = [
+    {shortName: "fr", key: "language.french", location: "language.location.fr"},
+    {shortName: "en", key: "language.english", location: "language.location.us"},
+    {shortName: "en", key: "language.english", location: "language.location.uk"},
+]
+

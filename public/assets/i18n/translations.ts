@@ -15,7 +15,10 @@ const resources = {
         "privacyPolicy" : "Privacy policy",
         "conditionsOfUse" : "Conditions of use",
         "contactUs" : "Contact us",
-        "settings.personalInfos" : "Your personal information",
+        "settings.personalInfos" : "Personal info",
+        "settings.personalization" : "Personalization",
+        "language" : "language",
+        "email.label" : "Email",
         "password.label" : "Password",
         "newPassword.label" : "New password",
         "confirmNewPassword.label" : "Confirm new password",
@@ -39,6 +42,42 @@ const resources = {
         "shop.banner.savedListButton.label" : "My lists saved",
         "shop.totalPrice.label" : "Total price :",
         "shop.payButton.label" : "Pay",
+
+        "title.profile" : "Profile",
+
+        // Labels de la page profile/email
+        "label.email" : "Email address",
+        "label.changeEmail" : "Change your email address",
+        "label.helperText.emailInvalid" : "Email entered is invalid",
+
+        // Labels de la page profile/password
+        "label.password" : "Password",
+        "label.changePassword" : "Change your password",
+        "label.helperText.passwordsDifferent" : "Passwords are different",
+
+        // Labels de la page profile/language
+        "label.language" : "Language",
+        "label.usedLanguage" : "Used Language",
+
+        // Labels de la page profile/accessibility
+        "label.accessibility" : "Accessibility",
+        "label.lightTheme" : "Light theme",
+        "label.darkTheme" : "Dark theme",
+        "label.changeTheme" : "Choose your theme",
+        "label.themeSelection.helperText" : "If this field is activated, the dark theme will be applied. Otherwise it will be the light one",
+
+        // Labels de la page profile/criteriaAndObligations
+        "label.criteriaAndObligations" : "Criteria and Obligations",
+        "description.criteriaAndObligations" : "Change your selection of criteria and obligations",
+
+        "language.french" : "Français",
+        "language.location.fr" : "France",
+        "language.english" : "English",
+        "language.location.us" : "United States",
+        "language.location.uk" : "United Kingdom",
+
+        "label.general.cancel" : "Cancel",
+        "label.general.validate" : "Validate",
         "error.notloggedin" : "Please login",
         "error.invalidcredentails": "Invalid email or password",
         "error.emailalreadyinuse": "Email already in use",
@@ -62,6 +101,9 @@ const resources = {
         "conditionsOfUse" : "Conditions d'utilisations",
         "contactUs" : "Nous contacter",
         "settings.personalInfos" : "Vos informations personnelles",
+        "settings.personalization" : "Personnalisation",
+        "language" : "Langue",
+        "email.label" : "Adresse e-mail",
         "password.label" : "Mot de passe",
         "newPassword.label" : "Nouveau mot de passe",
         "confirmNewPassword.label" : "Confirmer le nouveau mot de passe",
@@ -85,6 +127,43 @@ const resources = {
         "shop.banner.savedListButton.label" : "Mes listes sauvegardées",
         "shop.totalPrice.label" : "Prix total :",
         "shop.payButton.label" : "Payer",
+
+        "title.profile" : "Profil",
+
+        // Labels de la page profile/email
+        "label.emailPage" : "Adresses e-mail",
+        "label.changeEmail" : "Changer son adresse e-mail",
+        "label.helperText.emailInvalid" : "L'adresse e-mail n'est pas conforme",
+
+        // Labels de la page profile/password
+        "label.password" : "Mot de passe",
+        "label.changePassword" : "Changer son mot de passe",
+        "label.helperText.passwordsDifferent" : "Les mots de passe sont différents",
+
+        // Labels de la page profile/language
+        "label.language" : "Langue",
+        "label.usedLanguage" : "Langue utilisée",
+
+        // Labels de la page profile/accessibility
+        "label.accessibility" : "Accessibilité",
+        "label.lightTheme" : "Thème clair",
+        "label.darkTheme" : "Thème sombre",
+        "label.changeTheme" : "Choisir son thème",
+        "label.themeSelection.helperText" : "Si ce champ est activé, le thème sombre sera appliqué. Sinon ce sera le thème clair",
+
+        "label.criteriaAndObligations" : "Critères et obligations",
+        "description.criteriaAndObligations" : "Changer sa sélection de critères et d'obligations",
+
+        "language.french" : "Français",
+        "language.location.fr" : "France",
+        "language.english" : "English",
+        "language.location.us" : "United States",
+        "language.location.uk" : "United Kingdom",
+
+        "label.general.cancel" : "Annuler",
+        "label.general.validate" : "Valider",
+
+
         "error.notloggedin" : "Veillez vous connecter",
         "error.invalidcredentails": "Email ou mot de passe invalides",
         "error.emailalreadyinuse": "Email déjà utilisé",
@@ -92,5 +171,5 @@ const resources = {
       }
     }
 };
-    
+
 export default resources;

@@ -11,6 +11,7 @@ const muiDarkTheme = createMuiTheme({
         secondary: '#FFFFFF',
         primary: '#ffffff',
       },
+
       secondary: {
         main: '#ff6768',
         contrastText: '#fff'

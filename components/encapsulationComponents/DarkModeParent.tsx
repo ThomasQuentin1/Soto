@@ -1,5 +1,5 @@
 import React from "react";
-import NoSsr from "@material-ui/core/NoSsr";
+// import NoSsr from "@material-ui/core/NoSsr";
 import {
   ThemeProvider as ThemeProviderMui,
   Theme,
@@ -39,14 +39,14 @@ const DarkModeParent = (props: DarkModeParentInterface) => {
   siteThemeMode = realTheme === "light" ? lightTheme : darkTheme;
 
   return (
-    <NoSsr>
+    // <NoSsr>
       <ThemeProviderMainStyle theme={siteThemeMode}>
         <GlobalStyles />
         <ThemeProviderMui<Theme> theme={muiThemeMode}>
           {props.children}
         </ThemeProviderMui>
       </ThemeProviderMainStyle>
-    </NoSsr>
+    // </NoSsr>
   );
 };
 

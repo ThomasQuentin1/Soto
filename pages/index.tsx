@@ -1,11 +1,12 @@
 import React from 'react';
-import { Typography, Grid, Button } from '@material-ui/core';
+import {Typography, Grid, Button, ThemeProvider} from '@material-ui/core';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
 import '../i18n'
+import muiLightTheme from "../themes/mui/mainLightTheme";
 
-export default () => {
+const Index = () => {
     const [theme] = useDarkMode();
     const usedTheme: string = theme.toString();
     let lng : string | null = 'fr';
@@ -28,7 +29,7 @@ export default () => {
                 </a>
             </div>
             <Grid container style={{marginTop: '40px'}} justify={'center'}>
-                <Grid container xs={2} justify={'center'}><Typography style={{borderBottom:'4px solid white', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Le projet</Typography></Grid>
+                <Grid item xs={2}><Typography style={{borderBottom:'4px solid #3586e2', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Le projet</Typography></Grid>
                 <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
                     <Grid item xs={6}>
                         <Typography align={'center'} style={{fontSize:'18px'}}>
@@ -41,45 +42,51 @@ export default () => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container xs={12} style={{marginTop:'20px', justifyContent:'center'}}>
+                <Grid container style={{marginTop:'20px', justifyContent:'center'}}>
                     <Grid item>
-                        <Button color="secondary" style={{border:'1px solid'}} href={'shop'}>Commencer les courses !</Button>
+                        <ThemeProvider theme={muiLightTheme}>
+                            <Button color="primary" style={{border:'1px solid'}} href={'shop'}>Commencer les courses !</Button>
+                        </ThemeProvider>
                     </Grid>
                 </Grid>
-                {/*<Grid style={{marginTop:'40px'}} item xs={12} justify={'center'}>*/}
-                    <Grid item xs={2} style={{marginTop:'40px'}} justify={'center'}><Typography style={{borderBottom:'4px solid white', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Notre équipe</Typography></Grid>
-                    <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
-                        <Grid item xs={8}>
-                            <Typography align={'center'} style={{fontSize:'18px'}}>
-                                Développeur Front end
-                            </Typography>
-                            <div style={{display: "flex", justifyContent: "center"}}>
-                                <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/arnaud.jpg"}/>
-                                <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/nicolas.jpg"}/>
-                            </div>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography align={'center'} style={{fontSize:'18px'}}>
-                                Développeur Back end
-                            </Typography>
-                            <div style={{display: "flex", justifyContent: "center"}}>
-                                <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/tom.jpg"}/>
-                                <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/quentin.jpg"}/>
-
-                            </div>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <Typography align={'center'} style={{fontSize:'18px'}}>
-                                Développeur mobile
-                            </Typography>
-                            <div style={{display: "flex", justifyContent: "center"}}>
-                                <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/loup.jpg"}/>
-                                <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/pq.jpg"}/>
-                            </div>
-                        </Grid>
-
+                <Grid item xs={2} style={{marginTop:'40px'}}>
+                    <Typography style={{borderBottom:'4px solid #3586e2', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>
+                        Notre équipe
+                    </Typography>
+                </Grid>
+                <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
+                    <Grid item xs={8}>
+                        <Typography align={'center'} style={{fontSize:'18px'}}>
+                            Développeur Front end
+                        </Typography>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/arnaud.jpg"}/>
+                            <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/nicolas.jpg"}/>
+                        </div>
                     </Grid>
-                {/*</Grid>*/}
+                    <Grid item xs={8}>
+                        <Typography align={'center'} style={{fontSize:'18px'}}>
+                            Développeur Back end
+                        </Typography>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/tom.jpg"}/>
+                            <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/quentin.jpg"}/>
+
+                        </div>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <Typography align={'center'} style={{fontSize:'18px'}}>
+                            Développeur mobile
+                        </Typography>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/loup.jpg"}/>
+                            <img style={{width: "175px", height: "200px", margin: "5px"}} src={"images/team/pq.jpg"}/>
+                        </div>
+                    </Grid>
+
+                </Grid>
             </Grid>
         </DarkModeParent>);
 }
+
+export default Index;

@@ -15,16 +15,19 @@ const useStyles = makeStyles(createStyles({
 
 interface Props {
     setEmail: (s: string) => void;
-    setUsername: (s: string) => void;
+    // setUsername: (s: string) => void;
     setPassword: (s: string) => void;
     setCPassword: (s: string) => void;
+
+    emailError: string;
+    passwordError: string
 }
 
 const Step1 = (props: Props) => {
     const classes = useStyles();
 
     const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
+    // const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [cPassword, setCPassword] = useState("");
 
@@ -52,19 +55,21 @@ const Step1 = (props: Props) => {
                 setEmail(sender.target.value);
                 props.setEmail(sender.target.value)
             }}
+            error={props.emailError != ""}
+            helperText={props.emailError}
         />
-        <TextField
-            color="secondary"
-            required
-            className={classes.textField}
-            id="nameRegister"
-            label={lng == 'fr' ? 'Nom complet' : 'Full name'}
-            value={username}
-            onChange={(sender: any) => {
-                setUsername(sender.target.value);
-                props.setUsername(sender.target.value);
-            }}
-        />
+        {/*<TextField*/}
+        {/*    color="secondary"*/}
+        {/*    required*/}
+        {/*    className={classes.textField}*/}
+        {/*    id="nameRegister"*/}
+        {/*    label={lng == 'fr' ? 'Nom complet' : 'Full name'}*/}
+        {/*    value={username}*/}
+        {/*    onChange={(sender: any) => {*/}
+        {/*        setUsername(sender.target.value);*/}
+        {/*        props.setUsername(sender.target.value);*/}
+        {/*    }}*/}
+        {/*/>*/}
         <TextField
             color="secondary"
             required
@@ -77,6 +82,8 @@ const Step1 = (props: Props) => {
                 setPassword(sender.target.value);
                 props.setPassword(sender.target.value);
             }}
+            error={props.passwordError != ""}
+            helperText={props.passwordError}
         />
         <TextField
             color="secondary"
@@ -90,6 +97,8 @@ const Step1 = (props: Props) => {
                 setCPassword(sender.target.value);
                 props.setCPassword(sender.target.value);
             }}
+            error={props.passwordError != ""}
+            helperText={props.passwordError}
         />
     </div>
     )
