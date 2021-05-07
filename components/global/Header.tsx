@@ -31,7 +31,7 @@ const Header = () => {
         </div>
         } */}
         <div style={{marginLeft:'auto', display:'flex', justifyContent:'center', flexDirection:'row', alignItems:'center'}}>
-            {!loading && data &&
+            {!loading && data && data.account.currentShop &&
             <div style={{display:'flex', justifyContent:'center'}}> 
                 <Typography variant="subtitle1">{data.account.currentShop.name}</Typography>
                 <Typography variant="subtitle2" style={{marginLeft:'40px'}}>{data.account.email}</Typography>

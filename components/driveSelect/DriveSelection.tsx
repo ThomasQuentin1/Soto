@@ -12,6 +12,7 @@ interface shopList {
     shopList : shopInfo[];
 
 }
+
 interface shopInfo {
     name: string;
     city: string;
@@ -42,9 +43,37 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
             }
         });
     }
+
+    // this array is used to know which shop is select, to link the map and the list
+    const [toggleArray, setToggleArray] = useState<boolean[]>([]);
+
+    const ResetAllSelected = () => {
+        let newArray : boolean[] = [];
+        filteredShopList.forEach(() => {
+            newArray.push(false);
+        });
+        setToggleArray(newArray);
+    }
+
+    const ChangeMyValueCallback = (index: number) =>
+    {
+        console.log("changing value");
+        let newArray : boolean[] = [];
+        filteredShopList.forEach(() => {
+            newArray.push(false);
+        });
+        if (newArray[index] != null || newArray[index] != undefined) {
+            newArray[index] = true;
+        } else {
+            console.error("Trying to select a drive that doesn't exist");
+        }
+        setToggleArray(newArray);
+    }
+
     return (
         <Grid container justify={'flex-start'}>
-            <Grid container xs={9} style={{ height: '80vh'}}>
+            {/**Map on the left */}
+            <Grid item xs={9} style={{ height: '80vh'}}>
                 <GoogleMapReact
                     defaultCenter={defaultSettings.center}
                     defaultZoom={defaultSettings.zoom}
@@ -53,16 +82,21 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
                             return (
                             <MapComponent
                                 key={index}
+                                index={index}
                                 lat={shopInfo.lat}
                                 lng={shopInfo.long}
                                 name={shopInfo.name}
                                 city={shopInfo.city}
                                 id={shopInfo.id}
+                                isToggled={toggleArray[index]}
+                                ChangeMyValueCallback={ChangeMyValueCallback}
+                                ResetAllSelected={ResetAllSelected}
                             />);
                         })}
                 </GoogleMapReact>
             </Grid>
-            <Grid xs={3} style={{paddingLeft:'10px', maxHeight: '90vh', overflow:'auto'}}>
+            {/**List on the right */}
+            <Grid item xs={3} style={{paddingLeft:'10px', maxHeight: '90vh', overflow:'auto'}}>
                 <Grid container justify={"center"} style={{paddingBottom:"30px"}}>
                     <Input onChange={(event: any) => {
                         setInput(event.target.value)
@@ -74,9 +108,13 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
                         return (
                             <ListComponent
                                 key={index}
+                                index={index}
                                 name={shopInfo.name}
                                 city={shopInfo.city}
                                 id={shopInfo.id}
+                                isToggled={toggleArray[index]}
+                                ChangeMyValueCallback={ChangeMyValueCallback}
+                                ResetAllSelected={ResetAllSelected}
                             />);
                     })}
                 </Grid>
