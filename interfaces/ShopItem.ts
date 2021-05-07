@@ -6,6 +6,7 @@ interface ShopItemProps {
     basket: Product[];
     setBasket: any;
     index: number;
+    cartQuery: any;
 }
 
 export default ShopItemProps;

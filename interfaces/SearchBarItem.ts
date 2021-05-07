@@ -5,4 +5,5 @@ export default interface SearchBarItemProps {
     basket: Product[];
     setBasket: any;
     setOpen: any;
+    cartQuery: any;
 }

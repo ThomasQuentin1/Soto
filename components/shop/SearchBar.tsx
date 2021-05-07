@@ -52,12 +52,12 @@ const handleClickAway = (setOpen: any) => {
 //   return data.currentShop.id;
 // }
 
-const SearchBar = ({ basket, setBasket }: SearchBarProps) => {
+const SearchBar = ({ basket, setBasket, cartQuery }: SearchBarProps) => {
   const [t] = useTranslation();
   const [input, setInput] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
-  const [searchProduct, { called, loading, data, error }] = useSearchProductLazyQuery({
+  const [searchProduct, { loading, data, error }] = useSearchProductLazyQuery({
     variables: {
       query: input
     },
@@ -120,6 +120,7 @@ const SearchBar = ({ basket, setBasket }: SearchBarProps) => {
                     basket={basket}
                     setBasket={setBasket}
                     setOpen={setOpen}
+                    cartQuery={cartQuery}
                   />
                 </Grid>
               );

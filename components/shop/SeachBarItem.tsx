@@ -19,7 +19,7 @@ const AddToBasket = (product: Product, basket: Product[], setBasket: any) => {
     setBasket(newBasket);
 }
 
-const SearchBarItem = ({product, basket, setBasket, setOpen} : SearchBarItemProps) => {
+const SearchBarItem = ({product, basket, setBasket, setOpen, cartQuery} : SearchBarItemProps) => {
     let scoreColor : string = "red";
     // uncomment when we get id of the product from the backend
     const [AddToCartMutation] = useAddToCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
@@ -37,6 +37,7 @@ const SearchBarItem = ({product, basket, setBasket, setOpen} : SearchBarItemProp
                         if (r.errors) {
                             console.log(r.errors);
                         } else {
+                            cartQuery();
                             console.log('Item added to cart')
                         }
                     });

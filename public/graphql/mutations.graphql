@@ -41,3 +41,7 @@ mutation AddToCart($productId: String!) {
 mutation RemoveFromCart($productId: String!) {
   removeFromCart(productId: $productId)
 }
+
+mutation ClearCart {
+  clearCart
+}

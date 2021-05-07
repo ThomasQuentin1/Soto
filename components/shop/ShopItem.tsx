@@ -45,7 +45,7 @@ const removeFromBasket = (basket: Product[], setBasket: any, index: number) => {
     setBasket(newBasket);
 }
 
-const returnRemoveOrReduceButton = (product: Product, basket: Product[], setBasket: any, index: number, RemoveFromCartMutation: any) => {
+const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQuery: any) => {
     if (product.itemQuantity === 1) {
         return (
             <Button
@@ -55,6 +55,7 @@ const returnRemoveOrReduceButton = (product: Product, basket: Product[], setBask
                         if (r.errors) {
                             console.log(r.errors);
                         } else {
+                            cartQuery();
                             console.log('Item removed from cart')
                         }
                     });
@@ -71,6 +72,7 @@ const returnRemoveOrReduceButton = (product: Product, basket: Product[], setBask
                     if (r.errors) {
                         console.log(r.errors);
                     } else {
+                        cartQuery();
                         console.log('Item removed from cart')
                     }
                 })}
@@ -79,7 +81,7 @@ const returnRemoveOrReduceButton = (product: Product, basket: Product[], setBask
     }
 }
 
-const ShopItem = ({product, basket, setBasket, index} : ShopItemProps) => {
+const ShopItem = ({product, basket, setBasket, index, cartQuery} : ShopItemProps) => {
 
     console.log(product)
     const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
@@ -98,7 +100,7 @@ const ShopItem = ({product, basket, setBasket, index} : ShopItemProps) => {
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(product, basket, setBasket, index, RemoveFromCartMutation);
+    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQuery);
     return (
         <>
         {product && !isToggled &&
@@ -120,6 +122,7 @@ const ShopItem = ({product, basket, setBasket, index} : ShopItemProps) => {
                             if (r.errors) {
                                 console.log(r.errors[0].message);
                             } else {
+                                cartQuery()
                                 console.log('You added 1 more ' + product.name + ' id :' + product.id)
                             }
                         })}
@@ -147,7 +150,14 @@ const ShopItem = ({product, basket, setBasket, index} : ShopItemProps) => {
                     {removeOrReduceButton}
                     <p>{product.itemQuantity}</p>
                     <Button color="secondary"
-                        onClick={() => AddToCartMutation()}
+                        onClick={() => AddToCartMutation().then((r) => {
+                            if (r.errors) {
+                                console.log(r.errors[0].message);
+                            } else {
+                                cartQuery()
+                                console.log('You added 1 more ' + product.name + ' id :' + product.id)
+                            }
+                        })}
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
