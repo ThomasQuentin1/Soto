@@ -57,7 +57,7 @@ const Email = () => {
                             <div
                                 style={{width: "80%"}}>
                                 <TextField
-                                    color="secondary"
+                                    color="primary"
                                     label={t("email.label")}
                                     value={email}
                                     style={{width: "100%"}}

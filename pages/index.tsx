@@ -1,9 +1,10 @@
 import React from 'react';
-import { Typography, Grid, Button } from '@material-ui/core';
+import {Typography, Grid, Button, ThemeProvider} from '@material-ui/core';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
 import '../i18n'
+import muiLightTheme from "../themes/mui/mainLightTheme";
 
 const Index = () => {
     const [theme] = useDarkMode();
@@ -28,7 +29,7 @@ const Index = () => {
                 </a>
             </div>
             <Grid container style={{marginTop: '40px'}} justify={'center'}>
-                <Grid item xs={2} justify={'center'}><Typography style={{borderBottom:'4px solid white', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Le projet</Typography></Grid>
+                <Grid item xs={2}><Typography style={{borderBottom:'4px solid #3586e2', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Le projet</Typography></Grid>
                 <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
                     <Grid item xs={6}>
                         <Typography align={'center'} style={{fontSize:'18px'}}>
@@ -41,13 +42,15 @@ const Index = () => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container xs={12} style={{marginTop:'20px', justifyContent:'center'}}>
+                <Grid container style={{marginTop:'20px', justifyContent:'center'}}>
                     <Grid item>
-                        <Button color="secondary" style={{border:'1px solid'}} href={'shop'}>Commencer les courses !</Button>
+                        <ThemeProvider theme={muiLightTheme}>
+                            <Button color="primary" style={{border:'1px solid'}} href={'shop'}>Commencer les courses !</Button>
+                        </ThemeProvider>
                     </Grid>
                 </Grid>
-                <Grid item xs={2} style={{marginTop:'40px'}} justify={'center'}>
-                    <Typography style={{borderBottom:'4px solid white', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>
+                <Grid item xs={2} style={{marginTop:'40px'}}>
+                    <Typography style={{borderBottom:'4px solid #3586e2', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>
                         Notre équipe
                     </Typography>
                 </Grid>
@@ -82,7 +85,6 @@ const Index = () => {
                     </Grid>
 
                 </Grid>
-                {/*</Grid>*/}
             </Grid>
         </DarkModeParent>);
 }

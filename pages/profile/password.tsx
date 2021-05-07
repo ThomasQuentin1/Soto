@@ -51,7 +51,7 @@ const Password = () => {
                                 className={"flexDirCol"}
                                 style={{width: "80%"}}>
                                 <TextField
-                                    color="secondary"
+                                    color="primary"
                                     label={t('newPassword.label')}
                                     type="password"
                                     value={password}
@@ -61,7 +61,7 @@ const Password = () => {
                                     error={helperText != ""}
                                 />
                                 <TextField
-                                    color="secondary"
+                                    color="primary"
                                     label={t('confirmNewPassword.label')}
                                     type="password"
                                     value={cPassword}
