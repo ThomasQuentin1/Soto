@@ -7,7 +7,7 @@ const LoginController = () => {
     const [displayRegister, setDisplayRegister] = useState(false);
 
     return (
-        <div id="parent-login-form" style={{display: "flex", justifyContent: "center", marginTop: "170px"}}>
+        <div id="parent-login-form" style={{display: "flex", justifyContent: "center", marginTop: "20px"}}>
             <NoSsr>
                 <Card color={'primary'}>
                     {!displayRegister && (

@@ -81,3 +81,12 @@ query Cart {
     price
   }
 }
+
+query Account {
+    account {
+        email,
+        currentShop {
+            name
+        }
+    }
+}
