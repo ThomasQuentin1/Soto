@@ -36,7 +36,7 @@ const Language = () => {
         return (
             <>
                 <DarkModeParent theme={theme}>
-                    <Header isConnected={true}/>
+                    <Header/>
                 </DarkModeParent>
             </>)
     } else {
@@ -44,7 +44,7 @@ const Language = () => {
             <>
                 <title>{t("label.language")}</title>
                 <DarkModeParent theme={theme}>
-                    <Header isConnected={true}/>
+                    <Header/>
                     <div>
                         <div className={"flexAlignJustifyCentered"} style={{margin: "20px 0px"}}>
                             <a style={{margin: "0px 10px"}} onClick={() => {

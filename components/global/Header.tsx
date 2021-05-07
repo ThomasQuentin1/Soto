@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
-import { useDarkMode } from "../../components/settings/useDarkMode";
+import { useDarkMode } from "../settings/useDarkMode";
 import { useAccountQuery } from 'typing';
 import { Typography } from '@material-ui/core';
 
@@ -36,4 +36,4 @@ const Header = () => {
     </div>);
 };
 
-export default Header
+export default Header;
