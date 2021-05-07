@@ -38,50 +38,53 @@ describe("Cart", () => {
     await Query("cart", {}, token);
   });
 
-  // it("should search the old cart", async () => {
-  //   await Mutate("setShop", { shopId: 3 }, token);
-  //   await Mutate("addToCart", { productId: "262" }, token);
-  //   await Mutate("addToCart", { productId: "363" }, token);
-  //   await Mutate("addToCart", { productId: "298" }, token);
+  it("should search the old cart", async () => {
+    await Mutate("setShop", { shopId: 3 }, token);
+    await Mutate("addToCart", { productId: "58" }, token);
+    await Mutate("addToCart", { productId: "74" }, token);
+    await Mutate("addToCart", { productId: "17" }, token);
 
-  //   const initCart = await Query("cart", {}, token);
+    const initCart = await Query("cart", {}, token);
 
-  //   await Mutate("confirmCart", {}, token);
-  //   const oldCarts = await Query("oldCarts", {}, token);
+    await Mutate("confirmCart", {}, token);
+    const oldCarts = await Query("oldCarts", {}, token);
 
-  //   const currentCart = await Query("cart", {}, token);
-  //   expect(currentCart.products.length).toBe(0);
+    const currentCart = await Query("cart", {}, token);
+    expect(currentCart.products.length).toBe(0);
 
-  //   expect(oldCarts.length).toBe(1);
-  //   expect(oldCarts[0]).toEqual(initCart);
-  // });
+    expect(oldCarts.length).toBe(1);
+    expect(oldCarts[0]).toEqual(initCart);
+  });
 
-  // it("should clear a cart", async () => {
-  //   await Mutate("setShop", { shopId: 3 }, token);
-  //   const initCart = await Query("cart", {}, token);
-  //   expect(initCart.products.length).toBe(0);
-  //   expect(initCart.price).toBe(0);
-  //   await Mutate("addToCart", { productId: "262" }, token);
-  //   const oneProductCart = await Query("cart", {}, token);
-  //   expect(oneProductCart.products.length).toBe(1);
-  //   expect(oneProductCart.price).not.toBe(0);
-  //   await Mutate("removeFromCart", { productId: "262" }, token);
-  //   const removedProductCard = await Query("cart", {}, token);
-  //   expect(removedProductCard.products.length).toBe(0);
-  //   expect(removedProductCard.price).toBe(0);
+  it("should clear a cart", async () => {
+    await Mutate("setShop", { shopId: 3 }, token);
+    const initCart = await Query("cart", {}, token);
+    expect(initCart.products.length).toBe(0);
+    expect(initCart.price).toBe(0);
+    await Mutate("addToCart", { productId: "58" }, token);
+    const oneProductCart = await Query("cart", {}, token);
+    expect(oneProductCart.products.length).toBe(1);
+    expect(oneProductCart.price).not.toBe(0);
+    await Mutate("removeFromCart", { productId: "58" }, token);
+    const removedProductCard = await Query("cart", {}, token);
+    expect(removedProductCard.products.length).toBe(0);
+    expect(removedProductCard.price).toBe(0);
 
-  //   await Mutate("addToCart", { productId: "262" }, token);
-  //   await Mutate("addToCart", { productId: "363" }, token);
-  //   await Mutate("addToCart", { productId: "363" }, token);
-  //   const threeProductCart = await Query("cart", {}, token);
-  //   expect(threeProductCart.products.length).toBe(3);
-  //   expect(threeProductCart.price).not.toBe(0);
+    await Mutate("addToCart", { productId: "58" }, token);
+    await Mutate("addToCart", { productId: "74" }, token);
+    await Mutate("addToCart", { productId: "17" }, token);
+    const threeProductCart = await Query("cart", {}, token);
+    expect(threeProductCart.products.find((p) => p.id === "58")).toBeTruthy();
+    expect(threeProductCart.products.find((p) => p.id === "74")).toBeTruthy();
+    expect(threeProductCart.products.find((p) => p.id === "17")).toBeTruthy();
+    expect(threeProductCart.products.length).toBe(3);
+    expect(threeProductCart.price).not.toBe(0);
 
-  //   await Mutate("clearCart", {}, token);
-  //   const clearedProductCard = await Query("cart", {}, token);
-  //   expect(clearedProductCard.products.length).toBe(0);
-  //   expect(clearedProductCard.price).toBe(0);
-  // });
+    await Mutate("clearCart", {}, token);
+    const clearedProductCard = await Query("cart", {}, token);
+    expect(clearedProductCard.products.length).toBe(0);
+    expect(clearedProductCard.price).toBe(0);
+  });
 
   afterAll(() => Mutate("removeAccount", { passwordSHA256: "blbl" }));
 });
