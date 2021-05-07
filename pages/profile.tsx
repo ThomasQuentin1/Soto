@@ -35,7 +35,7 @@ const ProfilePage = () => {
 
     i18n;
 
-    if (!loading) {
+    if (!loading && data) {
         if (error?.message === "please login") {
             Router.push("/login")
             return <></>
