@@ -1,7 +1,7 @@
 import * as mysql from "mysql";
 
 export const getPool = () => {
-  if (process.env && process.env.TEST && process.env.TEST === "TRUE") {
+  if (process.env.TEST) {
     console.log("db test");
     return {
       host: "51.11.241.109",
