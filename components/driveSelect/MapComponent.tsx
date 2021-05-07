@@ -23,17 +23,22 @@ const useStyles = makeStyles({
   });
 
 interface MapComponentProps {
+    index: number;
     name: string;
     city: string;
     lng: number;
     lat: number;
     id: number;
+    isToggled: boolean;
+    ChangeMyValueCallback: any;
+    ResetAllSelected: any;
 }
 
-const MapComponent = ({name, city, id} : MapComponentProps) => {
+// index --> used for the code
+// id --> used for the database
+const MapComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, ResetAllSelected} : MapComponentProps) => {
     const classes = useStyles();
 
-    const [isToggled, setIsToggled] = useState(false);
     const [shopSetted, isShopSetted] = useState(false);
 
     // when the shop is setted, redirect to the index page
@@ -48,7 +53,7 @@ const MapComponent = ({name, city, id} : MapComponentProps) => {
         <div>
             {isToggled && 
             <Card color="secondary" className={classes.root} style={{position:'relative'}}>
-                    <CloseIcon onClick={() => setIsToggled(!isToggled)} style={{color: 'black', position:'absolute', right:'5px', top:'5px'}}/>
+                    <CloseIcon onClick={() => ResetAllSelected()} style={{color: 'black', position:'absolute', right:'5px', top:'5px'}}/>
                 <CardContent color="secondary">
                     <Typography color="secondary" variant="subtitle1">{name}</Typography>
                     <Typography color="secondary" variant="subtitle2">{city}</Typography>
@@ -63,7 +68,7 @@ const MapComponent = ({name, city, id} : MapComponentProps) => {
                 </CardContent>
             </Card>}
             {!isToggled &&
-            <RoomIcon onClick={() => setIsToggled(!isToggled)} color="secondary"/>}
+            <RoomIcon onClick={() => ChangeMyValueCallback(index)} color="secondary"/>}
         </div>);
 }
 

@@ -1,4 +1,4 @@
-import { Typography, Button, Grid } from '@material-ui/core';
+import { Typography, Button, Grid, Box } from '@material-ui/core';
 import React, { useState } from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 // import CloseIcon from '@material-ui/icons/Close';
@@ -22,12 +22,16 @@ import { useSetShopMutation } from 'typing';
 //   });
 
 interface ListComponentProps {
+    index: number;
     name: string;
     city: string;
     id: number;
+    isToggled: boolean;
+    ChangeMyValueCallback: any;
+    ResetAllSelected: any;
 }
 
-const ListComponent = ({name, city, id} : ListComponentProps) => {
+const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, ResetAllSelected} : ListComponentProps) => {
     // const classes = useStyles();
 
     // const [isToggled, setIsToggled] = useState(false);
@@ -41,9 +45,16 @@ const ListComponent = ({name, city, id} : ListComponentProps) => {
     
     const [SetShop] = useSetShopMutation({ variables: {id: id}, errorPolicy: 'all'})
     return (
-        <Grid item>
-            <Typography color="secondary" variant="subtitle1">{name}</Typography>
-            <Typography color="secondary" variant="subtitle2">{city}</Typography>
+        <Grid item onMouseEnter={() => {
+            ResetAllSelected()
+            ChangeMyValueCallback(index)
+        }}>
+            {!isToggled && <Typography color="secondary" variant="subtitle1">{name}</Typography>}
+            {isToggled && <Typography color="secondary" variant="subtitle1"><Box fontWeight="fontWeightBold">{name}</Box></Typography>}
+
+            {!isToggled && <Typography color="secondary" variant="subtitle2">{city}</Typography>}
+            {isToggled && <Typography color="secondary" variant="subtitle2"><Box fontWeight="fontWeightBold">{city}</Box></Typography>}
+            
             <Button color="secondary" size='small' style={{border:'1px solid', marginTop:'15px'}}
             onClick={() => SetShop().then((err) => {
                 if (err.errors) {
@@ -51,7 +62,10 @@ const ListComponent = ({name, city, id} : ListComponentProps) => {
                 } else {
                     isShopSetted(!shopSetted)}
                 }
-                )}><Typography variant='caption'>Choisir ce drive</Typography></Button>
+                )}>
+                {!isToggled && <Typography variant='caption'>Choisir ce drive</Typography>}
+                {isToggled && <Typography variant='caption'><Box fontWeight="fontWeightBold">Choisir ce drive</Box></Typography>}
+            </Button>
         </Grid>
 
             );
