@@ -1,6 +1,8 @@
+import { Typography } from '@material-ui/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDarkMode } from "../../components/settings/useDarkMode";
+import Router from "next/router";
 
 interface FooterProps {
     changeStyle?: boolean;
@@ -24,16 +26,16 @@ const Footer = ({changeStyle}: FooterProps) => {
         <div>
             <ul>
                 <li>
-                    <a className={"footer-link"} href="profile">{t('aboutUs')}</a>
+                    <Typography onClick={() => Router.push("/profile")}>{t('aboutUs')}</Typography>
                 </li>
                 <li>
-                    <a className={"footer-link"} href="contact">{t('contactUs')}</a>
+                    <Typography onClick={() => Router.push("/profile")}>{t('contactUs')}</Typography>
                 </li>
                 <li>
-                    <a className={"footer-link"} href="profile">{t('privacyPolicy')}</a>
+                    <Typography onClick={() => Router.push("/profile")}>{t('privacyPolicy')}</Typography>
                 </li>
                 <li>
-                    <a className={"footer-link"} href="profile">{t('conditionsOfUse')}</a>
+                    <Typography onClick={() => Router.push("/profile")}>{t('conditionsOfUse')}</Typography>
                 </li>
             </ul>
         </div>
