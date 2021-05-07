@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 import { Button } from '@material-ui/core';
 // import {useAccountQuery} from "../../typing";
 
-const SearchWrapper = ({basket, setBasket, cartQuery} : SearchWrapperProps) => {
+const SearchWrapper = ({ cartQuery } : SearchWrapperProps) => {
     // const {data, loading} = useAccountQuery()
     const [t] = useTranslation();
     const [validate, setValidate] = useState(false)
@@ -21,7 +21,7 @@ const SearchWrapper = ({basket, setBasket, cartQuery} : SearchWrapperProps) => {
                             {t("label.general.validate")}
             </Button>
         <div>
-            <SearchBar basket={basket} setBasket={setBasket} cartQuery={cartQuery}/>
+            <SearchBar cartQuery={cartQuery}/>
         </div>
     </div>
     );

@@ -29,21 +29,21 @@ const color = {
 //     setBasket(newBasket);
 // }
 
-const increaseQuantity = (quantity: number, basket: Product[], setBasket: any, index: number) => {
-    let newBasket: Product[] = [];
-    basket.map((item) => newBasket.push(item));
-    newBasket[index].itemQuantity = quantity + 1;
-    setBasket(newBasket);
-}
+// const increaseQuantity = (quantity: number, basket: Product[], setBasket: any, index: number) => {
+//     let newBasket: Product[] = [];
+//     basket.map((item) => newBasket.push(item));
+//     newBasket[index].itemQuantity = quantity + 1;
+//     setBasket(newBasket);
+// }
 
-const removeFromBasket = (basket: Product[], setBasket: any, index: number) => {
-    let newBasket: Product[] = [];
-    basket.map((item, indexOldBasket) => {
-        if (indexOldBasket !== index)
-            newBasket.push(item)
-    });
-    setBasket(newBasket);
-}
+// const removeFromBasket = (basket: Product[], setBasket: any, index: number) => {
+//     let newBasket: Product[] = [];
+//     basket.map((item, indexOldBasket) => {
+//         if (indexOldBasket !== index)
+//             newBasket.push(item)
+//     });
+//     setBasket(newBasket);
+// }
 
 const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQuery: any) => {
     if (product.itemQuantity === 1) {
@@ -81,7 +81,7 @@ const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: an
     }
 }
 
-const ShopItem = ({product, basket, setBasket, index, cartQuery} : ShopItemProps) => {
+const ShopItem = ({product, cartQuery} : ShopItemProps) => {
 
     console.log(product)
     const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})

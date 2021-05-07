@@ -3,23 +3,23 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Typography, CardMedia } from '@material-ui/core';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
-import { Product, useAddToCartMutation } from "typing";
+import { useAddToCartMutation } from "typing";
 
-const getRandomIntInclusive = (min : number, max : number) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min +1)) + min;
-}
+// const getRandomIntInclusive = (min : number, max : number) => {
+//     min = Math.ceil(min);
+//     max = Math.floor(max);
+//     return Math.floor(Math.random() * (max - min +1)) + min;
+// }
 
-const AddToBasket = (product: Product, basket: Product[], setBasket: any) => {
+// const AddToBasket = (product: Product, basket: Product[], setBasket: any) => {
 
-    let newBasket: Product[] = [];
-    basket.map((item) => newBasket.push(item));
-    newBasket.push(product);
-    setBasket(newBasket);
-}
+//     let newBasket: Product[] = [];
+//     basket.map((item) => newBasket.push(item));
+//     newBasket.push(product);
+//     setBasket(newBasket);
+// }
 
-const SearchBarItem = ({product, basket, setBasket, setOpen, cartQuery} : SearchBarItemProps) => {
+const SearchBarItem = ({product, setOpen, cartQuery} : SearchBarItemProps) => {
     let scoreColor : string = "red";
     // uncomment when we get id of the product from the backend
     const [AddToCartMutation] = useAddToCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})

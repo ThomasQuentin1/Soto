@@ -4,13 +4,13 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
-import { Grid, Tooltip, Zoom, Typography, Button } from "@material-ui/core";
+import { Grid, Tooltip, Zoom } from "@material-ui/core";
 import PriceBanner from "components/shop/PriceBanner";
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
-import { Product, useCartLazyQuery, useClearCartMutation } from 'typing';
+import { Product, useCartLazyQuery } from 'typing';
 // import { notifySuccess, notifyError } from "public/notifications/notificationsFunctions";
 
 const ShopPage = () => {
@@ -63,7 +63,7 @@ const ShopPage = () => {
           <Header/>
           <Grid container justify="center" style={{marginTop: '10px'}}>
             <Grid item xs={4}>
-              <SearchWrapper basket={basket} setBasket={setBasket} cartQuery={cartQuery}/>
+              <SearchWrapper cartQuery={cartQuery}/>
             </Grid>
             <Grid item xs={12}>
               <PriceBanner basket={basket}/>
@@ -77,7 +77,7 @@ const ShopPage = () => {
               </Button> */}
             </Grid>
             <Grid item xs={12}>
-              <ShopList basket={basket} setBasket={setBasket} cartQuery={cartQuery}/>
+              <ShopList basket={basket} cartQuery={cartQuery}/>
             </Grid>
           </Grid>
           <Footer changeStyle={isAnyItem}></Footer>

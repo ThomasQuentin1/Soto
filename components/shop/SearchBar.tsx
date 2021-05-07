@@ -52,7 +52,7 @@ const handleClickAway = (setOpen: any) => {
 //   return data.currentShop.id;
 // }
 
-const SearchBar = ({ basket, setBasket, cartQuery }: SearchBarProps) => {
+const SearchBar = ({ cartQuery }: SearchBarProps) => {
   const [t] = useTranslation();
   const [input, setInput] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
@@ -117,8 +117,6 @@ const SearchBar = ({ basket, setBasket, cartQuery }: SearchBarProps) => {
                 <Grid item xs={12} key={index}>
                   <SearchBarItem
                     product={product}
-                    basket={basket}
-                    setBasket={setBasket}
                     setOpen={setOpen}
                     cartQuery={cartQuery}
                   />
