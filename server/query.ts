@@ -19,8 +19,7 @@ export const getPool = () => {
     };
   }
 };
-const algoPool = mysql.
-(getPool());
+const algoPool = mysql.createPool(getPool());
 const usersPool = mysql.createPool(getPool());
 
 export const algoQuery = async <T>(query: string, values?: string[]) => {
@@ -54,8 +53,7 @@ export const endConnection = async () =>
     if (connections != 0) {
       connections -= 1;
       resolve();
-      if (timeout)
-        clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
     } else {
       timeout = setTimeout(() => {
         algoPool?.end();
