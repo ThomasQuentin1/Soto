@@ -6,6 +6,8 @@ import { makeid, Mutate, Query } from "./utils/tests";
 let token: string = "";
 const email = `user${makeid(64)}@test.com`;
 
+jest.setTimeout(30000);
+
 afterAll(() => {
   openConnection();
 });
@@ -24,7 +26,7 @@ describe("Account", () => {
   it("should search the product", async () => {
     await Query(
       "searchProducts",
-      { query: "Tartines", shopIdOverride: 1 },
+      { query: "Tartines", shopIdOverride: 2 },
       token
     );
   });

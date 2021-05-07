@@ -31,6 +31,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
     price: totalPrice,
     products: rawCart.map<Product>((r) => ({
       ...r,
+      id: r.leclercId.toString(),
       allergens: r.allergens?.split("|") ?? [],
       ingredients: r.ingredients?.split("|") ?? [],
       nutriments: r.nutriments?.split("|") ?? [],

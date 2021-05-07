@@ -15,9 +15,9 @@ afterAll(async () => {
 });
 
 describe("Shop list gathering", () => {
-  it("should retrive 4 leclerc in the area", async () => {
+  it("should retrive 3 leclerc in the area", async () => {
     const res = await Query("shopList", {});
-    expect(res.length).toBe(4);
+    expect(res.length).toBe(3);
     expect(res).toMatchSnapshot();
   });
 });
