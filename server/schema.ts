@@ -10,6 +10,7 @@ const schema = gql`
       obligationsOverride: [ObligationInput!]
       criterionsOverride: [CriterionInput!]
       shopIdOverride: Int
+      limit: Int
     ): [Product!]!
     shopList: [Shop!]!
     cart: Cart

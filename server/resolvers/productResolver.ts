@@ -97,7 +97,7 @@ export const productResolvers: Resolvers = {
           )}.aspx`,
         }))
         .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
-      return data;
+      return args.limit ? data.slice(0, args.limit) : data;
     },
     shopList: async (_obj, _args, _context, _info) => {
       return ShopList;
