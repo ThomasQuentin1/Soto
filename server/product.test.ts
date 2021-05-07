@@ -24,7 +24,7 @@ describe("Account", () => {
   it("should search the product", async () => {
     await Query(
       "searchProducts",
-      { query: "Tartines", shopIdOverride: 1 },
+      { query: "Tartines", shopIdOverride: 2 },
       token
     );
   });
