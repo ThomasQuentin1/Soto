@@ -88,7 +88,7 @@ const ProfilePage = () => {
     return (
         <>
             <DarkModeParent theme={tmpTheme}>
-                <Header isConnected={true}/>
+                <Header/>
                 <div>
                     <div style={{position:"absolute", display: "flex", top:"100px", right:"10px"}}>
                         {langs.map((lang, index) => {
@@ -184,6 +184,12 @@ const ProfilePage = () => {
                                     Save changes
                                 </Button>
                             </div>
+                            {/*<div>
+                                <DeleteAccount/>
+                                <Button variant="outlined" color="secondary" onClick={() => {Router.push("/driveSelect")}}>
+                                    {lng == 'fr' ? 'Changer mon drive' : 'Change my drive'}
+                                </Button>
+                            </div>*/}
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ export default () => {
                 </a>
             </div>
             <Grid container style={{marginTop: '40px'}} justify={'center'}>
-                <Grid item xs={2} justify={'center'}><Typography style={{borderBottom:'4px solid white', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Le projet</Typography></Grid>
+                <Grid container xs={2} justify={'center'}><Typography style={{borderBottom:'4px solid white', paddingBottom:'5px'}} align={'center'} paragraph variant={'h4'}>Le projet</Typography></Grid>
                 <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
                     <Grid item xs={6}>
                         <Typography align={'center'} style={{fontSize:'18px'}}>

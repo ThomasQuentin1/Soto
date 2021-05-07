@@ -1,11 +1,12 @@
-import LoginController from "../components/login/LoginController";
+import DriveSelection from "../components/driveSelect/DriveSelection";
 import React from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "components/global/Header";
+import { useShopListQuery } from 'typing';
+import '../i18n';
 
-
-const LoginPage = () => {
+const DriveSelectPage = () => {
     const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     let lng : string | null = 'fr';
@@ -16,18 +17,20 @@ const LoginPage = () => {
       }
     }
 
+    const {data, loading} = useShopListQuery();
       
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
                 <Header/>
                 <div>
-                    <LoginController/>
+                    {!loading &&
+                        <DriveSelection data={data}/>
+                    }
                 </div>
-                
             </DarkModeParent>
         </div>
     );
 }
 
-export default LoginPage;
+export default DriveSelectPage;
