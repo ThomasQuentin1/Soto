@@ -48,6 +48,7 @@ export type QuerySearchProductsArgs = {
   obligationsOverride?: Maybe<Array<ObligationInput>>;
   criterionsOverride?: Maybe<Array<CriterionInput>>;
   shopIdOverride?: Maybe<Scalars["Int"]>;
+  limit?: Maybe<Scalars["Int"]>;
 };
 
 export type Mutation = {
