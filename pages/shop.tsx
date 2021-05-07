@@ -41,7 +41,7 @@ const ShopPage = () => {
   const {data, loading} = useCartQuery();
   const [basket, setBasket] = useState<CountableProduct[]>([]);
 
-  if (!loading && data && basket != []) {
+  if (!loading && data && basket != [] && data.products) {
     setBasket(ReturnAsCountable(data.products))
   }
 

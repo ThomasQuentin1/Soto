@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+// import { useLazyQuery, gql } from "@apollo/client";
 import { Input } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
@@ -8,22 +8,31 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import SearchBarItem from "./SeachBarItem";
 import SearchBarLoadingItem from "./SeachBarLoadingItem";
+import { useSearchProductLazyQuery, useAccountQuery, useObligationsQuery, useCriterionsQuery } from "../../typing";
 
-const GET_PRODUCTS = gql`
-  query LookForProducts($name: String!) {
-    searchProducts(query: $name) {
-      name
-      brand
-      priceUnit
-      priceMass
-      nutriscore
-      scoreHealth
-      scoreEnvironment
-      packagingQuantity
-      itemQuantity
-    }
-  }
-`;
+// const GET_PRODUCTS = gql`
+//   query LookForProducts($name: String!) {
+//     searchProducts(query: $name) {
+//       id
+//       name
+//       brand
+//       priceUnit
+//       priceMass
+//       ingredients
+//       packaging
+//       allergens
+//       nutriments
+//       nutriscore
+//       scoreHealth
+//       scoreEnvironment
+//       finalScore
+//       packagingQuantity
+//       itemQuantity
+//       photo
+//       url
+//     }
+//   }
+// `;
 // this data contains only fields that are requested
 const GetThreeFirstProducts = (data: any) => {
   let countableProductsToReturn: CountableProduct[] = [];
@@ -49,17 +58,47 @@ const handleClickAway = (setOpen: any) => {
   setOpen(false);
 };
 
+const ObligationsQuery = () => {
+  const {loading, data, error} = useObligationsQuery();
+  return data;
+}
+
+const CriterionsQuery = () => {
+  const {loading, data, error} = useCriterionsQuery();
+  return data;
+}
+
+const AccountQuery = () => {
+  const {loading, data, error} = useAccountQuery();
+  return data;
+}
+
 const SearchBar = ({ basket, setBasket }: SearchBarProps) => {
   const [t] = useTranslation();
   const [input, setInput] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
-  const { loading, error, data } = useQuery(GET_PRODUCTS, {
-    variables: { name: input },
+  console.log(input);
+  const [searchProduct, { called, loading, data, error }] = useSearchProductLazyQuery({
+    variables: {
+      query: input
+    },
   });
+ 
+  const dataObligations = ObligationsQuery();
+  const dataCriterions = CriterionsQuery();
+  const dataAccount = AccountQuery();
+  console.log(data);
   if (error) {
+    // console.log(error.message)
+    // console.log(error.graphQLErrors)
+    // console.log(error.extraInfo)
+    // console.log(error.name)
+    // console.log(error.networkError)
+    // console.log(error.stack)
     console.error("There is an error while making the search request");
   }
+  
   let threeFirstProducts: CountableProduct[] = [];
 
   // if there is something in the search bar, display loading thing or products
@@ -75,6 +114,7 @@ const SearchBar = ({ basket, setBasket }: SearchBarProps) => {
       <div style={{ position: "relative" }}>
         <Input
           onChange={(event: any) => {
+            searchProduct();
             setInput(event.target.value);
             setOpen(true);
           }}

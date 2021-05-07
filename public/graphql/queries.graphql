@@ -3,6 +3,12 @@ query Account {
     email
     currentShop {
       name
+      city
+      long
+      lat
+      id
+      server
+      code
     }
   }
 }
@@ -26,6 +32,7 @@ query Obligations {
 
 query searchProduct($query: String!) {
   searchProducts(query: $query) {
+    id
     name
     brand
     priceUnit
@@ -37,8 +44,11 @@ query searchProduct($query: String!) {
     nutriscore
     scoreHealth
     scoreEnvironment
-    itemQuantity
+    finalScore
     packagingQuantity
+    itemQuantity
+    photo
+    url
   }
 }
 
@@ -79,6 +89,14 @@ query Cart {
       id
     }
     price
+  }
+}
+
+query Obligations {
+  obligations {
+    activated
+    id
+    name
   }
 }
 
