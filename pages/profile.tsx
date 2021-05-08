@@ -47,7 +47,7 @@ const ProfilePage = () => {
                         <Header/>
                         <div className='centered' style={{overflowY: "auto"}}>
 
-                            <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
+                            <Paper variant={"outlined"} className='halfWidth centered body profilePaper' style={{width: "30%"}}>
                                 <div>
                                     <Typography variant="h5"
                                                 className={"subTitle marginBottom50px padding1020"}>{t('settings.personalInfos')}</Typography>
@@ -59,7 +59,7 @@ const ProfilePage = () => {
                                 </div>
                             </Paper>
 
-                            <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
+                            <Paper variant={"outlined"} className='halfWidth centered body profilePaper' style={{width: "30%"}}>
                                 <div>
                                     <Typography variant="h5"
                                                 className={"subTitle marginBottom50px padding1020"}>{t('settings.personalization')}</Typography>
@@ -82,9 +82,7 @@ const ProfilePage = () => {
                                 </div>
                             </Paper>
                         </div>
-                        <div style={{marginBottom: "0px", marginTop: "auto"}}>
-                            <Footer/>
-                        </div>
+                        <Footer/>
                     </DarkModeParent>
                 </>
             );

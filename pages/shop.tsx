@@ -70,7 +70,7 @@ const ShopPage = () => {
             </Grid>
             <Grid item xs={12}>
               <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
-                <HelpOutlineIcon style={{color:'grey', marginLeft:'10px', marginTop:'10px'}}></HelpOutlineIcon>
+                <HelpOutlineIcon style={{color:'grey', marginLeft:'10px', marginTop:'10px'}}/>
               </Tooltip>
               {/* <Button onClick={() => clearCartMutation()} color="secondary">
                 <Typography>Clear cart</Typography>
@@ -80,7 +80,7 @@ const ShopPage = () => {
               <ShopList basket={basket} cartQuery={cartQuery}/>
             </Grid>
           </Grid>
-          <Footer changeStyle={isAnyItem}></Footer>
+          <Footer/>
       </DarkModeParent>
   );
 };

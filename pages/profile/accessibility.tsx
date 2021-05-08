@@ -35,7 +35,7 @@ const Accessibility = () => {
                             <div className={"dFlex alignCenter"}>
                                 <div>
                                 <Typography style={{fontSize: "1.5rem"}}>{t("label.changeTheme")}</Typography>
-                                <Typography className={"cellValue"}>{t("label.themeSelection.helperText")}</Typography>
+                                <Typography color="textSecondary" className={"cellValue"}>{t("label.themeSelection.helperText")}</Typography>
                                 </div>
                                 <div style={{marginRight: "0px", marginLeft: "auto"}}>
                                 <Switch

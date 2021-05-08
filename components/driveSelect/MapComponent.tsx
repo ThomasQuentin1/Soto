@@ -51,12 +51,12 @@ const MapComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, 
     return (
         <div>
             {isToggled && 
-            <Card color="secondary" className={classes.root} style={{position:'relative'}}>
+            <Card color="secondary" className={classes.root + " mapCard"} style={{position:'relative'}}>
                     <CloseIcon onClick={() => ResetAllSelected()} style={{color: 'black', position:'absolute', right:'5px', top:'5px'}}/>
                 <CardContent color="secondary">
-                    <Typography color="secondary" variant="subtitle1">{name}</Typography>
-                    <Typography color="secondary" variant="subtitle2">{city}</Typography>
-                    <Button color="secondary" style={{border:'1px solid', marginTop:'15px'}}
+                    <Typography color="primary" variant="subtitle1">{name}</Typography>
+                    <Typography color="primary" variant="subtitle2">{city}</Typography>
+                    <Button color="primary" style={{border:'1px solid', marginTop:'15px'}}
                     onClick={() => { 
                         console.log(id);
                         SetShop().then((err) => {
