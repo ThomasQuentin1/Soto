@@ -13,7 +13,7 @@ export const clientLocal = new ApolloClient({
 
 export const clientProd = new ApolloClient({
     cache: new InMemoryCache(),
-    uri: 'https://soto.app/api/graphql'
+    uri: '/api/graphql'
 })
 
 // @ts-ignore
