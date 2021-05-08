@@ -45,3 +45,7 @@ mutation RemoveFromCart($productId: String!) {
 mutation ClearCart {
   clearCart
 }
+
+mutation ConfirmCart {
+  confirmCart
+}
