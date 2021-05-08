@@ -44,7 +44,7 @@ const Step1 = (props: Props) => {
         marginLeft: "10%"
     }}>
         <TextField
-            color="secondary"
+            color="primary"
             required
             className={classes.textField}
             id="emailRegister"
@@ -58,20 +58,8 @@ const Step1 = (props: Props) => {
             error={props.emailError != ""}
             helperText={props.emailError}
         />
-        {/*<TextField*/}
-        {/*    color="secondary"*/}
-        {/*    required*/}
-        {/*    className={classes.textField}*/}
-        {/*    id="nameRegister"*/}
-        {/*    label={lng == 'fr' ? 'Nom complet' : 'Full name'}*/}
-        {/*    value={username}*/}
-        {/*    onChange={(sender: any) => {*/}
-        {/*        setUsername(sender.target.value);*/}
-        {/*        props.setUsername(sender.target.value);*/}
-        {/*    }}*/}
-        {/*/>*/}
         <TextField
-            color="secondary"
+            color="primary"
             required
             className={classes.textField}
             id="standard-password-input"
@@ -86,7 +74,7 @@ const Step1 = (props: Props) => {
             helperText={props.passwordError}
         />
         <TextField
-            color="secondary"
+            color="primary"
             required
             className={classes.textField}
             id="standard-confirm-password-input"

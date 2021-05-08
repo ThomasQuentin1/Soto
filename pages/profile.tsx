@@ -35,57 +35,69 @@ const ProfilePage = () => {
 
     i18n;
 
-    if (!loading && data) {
-        if (error?.message === "please login") {
+    if (!loading) {
+        if (error?.message === "error.notloggedin") {
             Router.push("/login")
-            return <></>
         }
-        return (
-            <>
-                <title>{t("title.profile")}</title>
-                <DarkModeParent theme={tmpTheme}>
-                    <Header/>
-                    <div className='centered' style={{overflowY: "auto"}}>
+        else if (data) {
+            return (
+                <>
+                    <title>{t("title.profile")}</title>
+                    <DarkModeParent theme={tmpTheme}>
+                        <Header/>
+                        <div className='centered' style={{overflowY: "auto"}}>
 
-                        <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
-                            <div>
-                                <Typography variant="h5" className={"subTitle marginBottom50px padding1020"}>{t('settings.personalInfos')}</Typography>
-                                <CellComponent label={t("email.label").toUpperCase()} value={data.account.email} path={"email"}/>
-                                <div className={'cellDivider'}/>
-                                <CellComponent label={t("password.label").toUpperCase()} value={"••••••••"} path={"password"}/>
-                            </div>
-                        </Paper>
+                            <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
+                                <div>
+                                    <Typography variant="h5"
+                                                className={"subTitle marginBottom50px padding1020"}>{t('settings.personalInfos')}</Typography>
+                                    <CellComponent label={t("email.label").toUpperCase()} value={data.account.email}
+                                                   path={"profile/email"}/>
+                                    <div className={'cellDivider'}/>
+                                    <CellComponent label={t("password.label").toUpperCase()} value={"••••••••"}
+                                                   path={"profile/password"}/>
+                                </div>
+                            </Paper>
 
-                        <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
-                            <div>
-                                <Typography variant="h5" className={"subTitle marginBottom50px padding1020"}>{t('settings.personalization')}</Typography>
-                                <CellComponent label={t("language").toUpperCase()} value={t(lngFullName.find((item) => {return item.shortName === localStorage.getItem('lng')})?.key!) } path={"language"} iconName={"language"}/>
-                                <div className={'cellDivider'}/>
-                                <CellComponent label={t("label.accessibility").toUpperCase()} value={tmpTheme === "light" ? t("label.lightTheme") : t("label.darkTheme")} path={"accessibility"} iconName={"accessibility"}/>
-                                <div className={'cellDivider'}/>
-                                <CellComponent label={t("label.criteriaAndObligations").toUpperCase()} value={t("description.criteriaAndObligations")} path={"criteriaAndObligations"} iconName={"cart"}/>
-                            </div>
-                        </Paper>
-                    </div>
-                    <div style={{marginBottom: "0px", marginTop: "auto"}}>
-                        <Footer/>
-                    </div>
-                </DarkModeParent>
-            </>
-        );
-    } else {
-        return (
-            <>
-                <DarkModeParent theme={tmpTheme}>
-                    <Header/>
-                    <div>
-                        <Footer/>
-                    </div>
-                </DarkModeParent>
-            </>
-        )
+                            <Paper variant={"outlined"} className='halfWidth centered body' style={{width: "30%"}}>
+                                <div>
+                                    <Typography variant="h5"
+                                                className={"subTitle marginBottom50px padding1020"}>{t('settings.personalization')}</Typography>
+                                    <CellComponent label={t("language").toUpperCase()}
+                                                   value={t(lngFullName.find((item) => {
+                                                       return item.shortName === localStorage.getItem('lng')
+                                                   })?.key!)} path={"profile/language"} iconName={"language"}/>
+                                    <div className={'cellDivider'}/>
+                                    <CellComponent label={t("label.accessibility").toUpperCase()}
+                                                   value={tmpTheme === "light" ? t("label.lightTheme") : t("label.darkTheme")}
+                                                   path={"profile/accessibility"} iconName={"accessibility"}/>
+                                    <div className={'cellDivider'}/>
+                                    <CellComponent label={t("label.criteriaAndObligations").toUpperCase()}
+                                                   value={t("description.criteriaAndObligations")}
+                                                   path={"profile/criteriaAndObligations"} iconName={"cart"}/>
+                                    <div className={'cellDivider'}/>
+                                    <CellComponent label={t("label.driveSelection").toUpperCase()}
+                                                   value={data.account.currentShop ? data.account.currentShop.name : t("description.driveSelection")}
+                                                   path={"driveSelect"} iconName={"store"}/>
+                                </div>
+                            </Paper>
+                        </div>
+                        <div style={{marginBottom: "0px", marginTop: "auto"}}>
+                            <Footer/>
+                        </div>
+                    </DarkModeParent>
+                </>
+            );
+        }
     }
-
+    return (
+        <>
+            <DarkModeParent theme={tmpTheme}>
+                <Header/>
+                <Footer/>
+            </DarkModeParent>
+        </>
+    )
 };
 
 export default ProfilePage;

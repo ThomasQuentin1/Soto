@@ -1,6 +1,6 @@
 import React from "react";
-import {AccessibilityNew, ArrowForwardIosRounded, Language, ShoppingCart} from "@material-ui/icons";
-import Router, {useRouter} from "next/router";
+import {AccessibilityNew, ArrowForwardIosRounded, Language, ShoppingCart, Storefront} from "@material-ui/icons";
+import Router from "next/router";
 
 
 interface Props {
@@ -11,18 +11,17 @@ interface Props {
 }
 
 const CellComponent = (props: Props) => {
-    const router = useRouter()
-
     return (
         <>
             <div className={"cell"}>
                 <a className={'flexWidthFull padding1020'} style={{alignItems: "center"}} onClick={() => {
-                    Router.push(router.pathname + "/" + props.path).then(() => {})
+                    Router.push(props.path).then(() => {})
                 }}>
                     <div style={{display: "flex", width: "40%", alignItems: "center"}}>
                         <i className={"padRight10"} hidden={props.iconName != "accessibility"}><AccessibilityNew/></i>
                         <i className={"padRight10"} hidden={props.iconName != "language"}><Language/></i>
                         <i className={"padRight10"} hidden={props.iconName != "cart"}><ShoppingCart/></i>
+                        <i className={"padRight10"} hidden={props.iconName != "store"}><Storefront/></i>
                         <p className={"cellTitle"}>{props.label}</p>
                     </div>
                     <p className={"cellValue"} style={{width: "50%"}}>{props.value}</p>
