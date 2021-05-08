@@ -3,7 +3,8 @@ import { Product } from "typing";
 interface ShopItemProps {
     key: number;
     product : Product;
-    cartQuery: any;
+    cartQueryRefetch: any;
+    setIsBasketUpToDate: any;
 }
 
 export default ShopItemProps;

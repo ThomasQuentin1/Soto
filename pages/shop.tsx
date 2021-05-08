@@ -37,16 +37,21 @@ const ShopPage = () => {
   //   notifySuccess("Cart cleared successfully")
   // }
 
-  const [cartQuery, {called, data, error}] = useCartLazyQuery();
+  const [cartQuery, {called, loading, data, error, refetch}] = useCartLazyQuery();
   const [basket, setBasket] = useState<Product[]>([]);
   const [isBasketUpToDate, setIsBasketUpToDate] = useState(false);
+
+  if (loading && isBasketUpToDate) {
+    console.log("setting basket uptodate false")
+    setIsBasketUpToDate(false);
+  }
   if (called == false) {
     cartQuery();
   }
   
-  if (data && data.cart && !isBasketUpToDate) {
-    setIsBasketUpToDate(!isBasketUpToDate);
-    console.log(data)
+  if (data && data.cart && !isBasketUpToDate && !loading) {
+    console.log("setting basket uptodate true")
+    setIsBasketUpToDate(true);
     setBasket(data.cart.products)
     console.log(basket)
   } else if (error) {
@@ -63,7 +68,7 @@ const ShopPage = () => {
           <Header/>
           <Grid container justify="center" style={{marginTop: '10px'}}>
             <Grid item xs={4}>
-              <SearchWrapper cartQuery={cartQuery}/>
+              <SearchWrapper cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
             <Grid item xs={12}>
               <PriceBanner basket={basket}/>
@@ -77,7 +82,7 @@ const ShopPage = () => {
               </Button> */}
             </Grid>
             <Grid item xs={12}>
-              <ShopList basket={basket} cartQuery={cartQuery}/>
+              <ShopList basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
           </Grid>
           <Footer/>

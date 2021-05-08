@@ -1,3 +1,4 @@
 export default interface SearchBarProps {
-    cartQuery: any;
+    cartQueryRefetch: any;
+    setIsBasketUpToDate: any;
   }

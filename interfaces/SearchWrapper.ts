@@ -1,3 +1,4 @@
 export default interface SearchWrapperProps {
-    cartQuery: any;
+    cartQueryRefetch: any;
+    setIsBasketUpToDate: any;
   }
