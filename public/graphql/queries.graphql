@@ -96,6 +96,40 @@ query Cart {
   }
 }
 
+query OldCarts {
+  oldCarts {
+    products {
+      id
+      name
+      brand
+      priceUnit
+      priceMass
+      ingredients
+      packaging
+      allergens
+      nutriments
+      nutriscore
+      scoreHealth
+      scoreEnvironment
+      finalScore
+      packagingQuantity
+      itemQuantity
+      photo
+      url
+    }
+    dateCreated
+    dateLastEdit
+    shop {
+      name
+      city
+      long
+      lat
+      id
+    }
+    price
+  }
+}
+
 query Obligations {
   obligations {
     activated

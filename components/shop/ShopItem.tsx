@@ -45,7 +45,7 @@ const color = {
 //     setBasket(newBasket);
 // }
 
-const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any) => {
+const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any, setIsBasketUpToDate: any) => {
     if (product.itemQuantity === 1) {
         return (
             <Button
@@ -55,7 +55,9 @@ const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: an
                         if (r.errors) {
                             console.log(r.errors);
                         } else {
-                            cartQueryRefetch()
+                            cartQueryRefetch().then(() => {
+                                setIsBasketUpToDate(false);
+                            })
                             console.log('Item removed from cart')
                         }
                     });
@@ -72,7 +74,9 @@ const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: an
                     if (r.errors) {
                         console.log(r.errors);
                     } else {
-                        cartQueryRefetch();
+                        cartQueryRefetch().then(() => {
+                            setIsBasketUpToDate(false);
+                        })
                         console.log('Item removed from cart')
                     }
                 })}
@@ -99,7 +103,7 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate } : ShopItemPr
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQueryRefetch);
+    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQueryRefetch, setIsBasketUpToDate);
     return (
         <>
         {product && !isToggled &&

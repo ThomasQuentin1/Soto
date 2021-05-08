@@ -793,6 +793,36 @@ export function useClearCartMutation(baseOptions?: Apollo.MutationHookOptions<Cl
 export type ClearCartMutationHookResult = ReturnType<typeof useClearCartMutation>;
 export type ClearCartMutationResult = Apollo.MutationResult<ClearCartMutation>;
 export type ClearCartMutationOptions = Apollo.BaseMutationOptions<ClearCartMutation, ClearCartMutationVariables>;
+export const ConfirmCartDocument = gql`
+    mutation ConfirmCart {
+  confirmCart
+}
+    `;
+export type ConfirmCartMutationFn = Apollo.MutationFunction<ConfirmCartMutation, ConfirmCartMutationVariables>;
+
+/**
+ * __useConfirmCartMutation__
+ *
+ * To run a mutation, you first call `useConfirmCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useConfirmCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [confirmCartMutation, { data, loading, error }] = useConfirmCartMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useConfirmCartMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmCartMutation, ConfirmCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ConfirmCartMutation, ConfirmCartMutationVariables>(ConfirmCartDocument, options);
+      }
+export type ConfirmCartMutationHookResult = ReturnType<typeof useConfirmCartMutation>;
+export type ConfirmCartMutationResult = Apollo.MutationResult<ConfirmCartMutation>;
+export type ConfirmCartMutationOptions = Apollo.BaseMutationOptions<ConfirmCartMutation, ConfirmCartMutationVariables>;
 export const AccountDocument = gql`
     query Account {
   account {
@@ -1060,3 +1090,65 @@ export function useCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartQ
 export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
 export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>;
 export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>;
+export const OldCartsDocument = gql`
+    query OldCarts {
+  oldCarts {
+    products {
+      id
+      name
+      brand
+      priceUnit
+      priceMass
+      ingredients
+      packaging
+      allergens
+      nutriments
+      nutriscore
+      scoreHealth
+      scoreEnvironment
+      finalScore
+      packagingQuantity
+      itemQuantity
+      photo
+      url
+    }
+    dateCreated
+    dateLastEdit
+    shop {
+      name
+      city
+      long
+      lat
+      id
+    }
+    price
+  }
+}
+    `;
+
+/**
+ * __useOldCartsQuery__
+ *
+ * To run a query within a React component, call `useOldCartsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOldCartsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOldCartsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOldCartsQuery(baseOptions?: Apollo.QueryHookOptions<OldCartsQuery, OldCartsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OldCartsQuery, OldCartsQueryVariables>(OldCartsDocument, options);
+      }
+export function useOldCartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OldCartsQuery, OldCartsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OldCartsQuery, OldCartsQueryVariables>(OldCartsDocument, options);
+        }
+export type OldCartsQueryHookResult = ReturnType<typeof useOldCartsQuery>;
+export type OldCartsLazyQueryHookResult = ReturnType<typeof useOldCartsLazyQuery>;
+export type OldCartsQueryResult = Apollo.QueryResult<OldCartsQuery, OldCartsQueryVariables>;

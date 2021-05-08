@@ -48,7 +48,8 @@
     "react-router": "^5.2.0",
     "react-toastify": "^6.0.8",
     "sqlite3": "^4.2.0",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "use-animate-presence": "^0.5.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.13.1",

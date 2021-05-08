@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import '../i18n';
+import React, { useState, useEffect } from "react";
+import '../i18n'
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
@@ -9,9 +9,20 @@ import PriceBanner from "components/shop/PriceBanner";
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
+import HistoryShortCut from 'components/history/HistoryShortCut';
 import Footer from 'components/global/Footer';
-import { Product, useCartLazyQuery } from 'typing';
-// import { notifySuccess, notifyError } from "public/notifications/notificationsFunctions";
+import { Product, useCartLazyQuery, useAddToCartMutation, useOldCartsQuery ,Cart } from 'typing';
+
+const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, cartQueryRefetch: any, addToCartMutation: any) => {
+
+    oldCart.products.map((item) => {
+      for (let i = 0; i < item.itemQuantity!; i++) {
+        addToCartMutation(item.id);
+        console.log("Adding from history")
+      }
+    });
+    cartQueryRefetch();
+}
 
 const ShopPage = () => {
   const [theme] = useDarkMode();
@@ -24,6 +35,8 @@ const ShopPage = () => {
     }
   }
   const [t] = useTranslation();
+
+  const [loadHistory, setLoadHistory] = useState(false);
 
   // const [clearCartMutation, { loading:clearCartLoading, error:errorClearCart, called:clearCartCalled }] = useClearCartMutation({
   //   variables: {
@@ -42,15 +55,14 @@ const ShopPage = () => {
   const [isBasketUpToDate, setIsBasketUpToDate] = useState(false);
 
   if (loading && isBasketUpToDate) {
-    console.log("setting basket uptodate false")
     setIsBasketUpToDate(false);
   }
   if (called == false) {
+    console.log("called")
     cartQuery();
   }
   
   if (data && data.cart && !isBasketUpToDate && !loading) {
-    console.log("setting basket uptodate true")
     setIsBasketUpToDate(true);
     setBasket(data.cart.products)
     console.log(basket)
@@ -61,6 +73,45 @@ const ShopPage = () => {
   const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
   if (basket.length != 0 && !isAnyItem) {
     setIsAnyItem(true);
+  }
+
+  let oldCart : undefined | Cart = undefined;
+
+  useEffect(() => {
+    if (window != null && window != undefined && sessionStorage.getItem('cart')) {
+      let jsonString : any = sessionStorage.getItem('cart');
+      oldCart = JSON.parse(jsonString);
+      console.log(oldCart)
+      setLoadHistory(true);
+      sessionStorage.removeItem('cart');
+    }
+  }, []);
+  
+  const [addToCartMutation, {}] = useAddToCartMutation({
+    variables: {
+       productId: "1"
+    },
+  });
+
+  if (loadHistory && oldCart != undefined) {
+    AddToBasketFromHistory(oldCart!/*, basket*/, refetch, addToCartMutation);
+    setLoadHistory(false);
+  }
+
+  const { data: oldCartsData, loading: oldCartsLoading, error: oldCartsError } = useOldCartsQuery({
+    variables: {
+    },
+  });
+
+
+  const [cartHistory, setCartHistory] = useState<Cart[]>();
+
+  if (oldCartsError) {
+    console.log(oldCartsError)
+  } else if (oldCartsData && !oldCartsLoading && !cartHistory) {
+    if (oldCartsData.oldCarts) {
+      setCartHistory(oldCartsData.oldCarts)
+    }
   }
   
   return (
@@ -85,7 +136,11 @@ const ShopPage = () => {
               <ShopList basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
           </Grid>
-          <Footer/>
+          {cartHistory && 
+            <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} cartQueryRefetch={refetch}/>
+          }
+          {/* <Footer></Footer> */}
+          <Footer changeStyle={isAnyItem}></Footer>
       </DarkModeParent>
   );
 };
