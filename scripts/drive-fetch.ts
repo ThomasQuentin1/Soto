@@ -107,7 +107,7 @@ const clear = (str: string) => {
 
 const start = async () => {
   const sql = await sqlconnect();
-  for (let _i_ = 1; _i_ < 5; _i_++) {
+  for (let _i_ = 2; _i_ < 5; _i_++) {
     const db = new sqlite.Database(
       `./server/drive-data/drive${_i_}.ashz`,
       (err: any) => {
@@ -190,8 +190,7 @@ const start = async () => {
           }
         });
 
-        if (bestProduct == null) console.log("Product not found");
-        else {
+        if (bestProduct != null) {
           const product = await createProduct(article, bestProduct);
           let serialized = {
             ...product,
@@ -206,7 +205,6 @@ const start = async () => {
           // console.log(serialized)
 
           if (!serialized.ingredients || serialized.ingredients.length === 0) {
-            console.log("no ingredients");
             return;
           }
           serialized.scoreEnvironment = EnvScorer.getScore(
@@ -276,11 +274,16 @@ const fillNutrimentsTab = (nutrimentsTab: string[], product: any) => {
 
 const quantityIdentifier = ["g", "ml", "L", "kg", "cl", "m", "pièce"];
 const extractQuantity = (str: string): string => {
-  let ret: string = `${str.match(/\d+/)![0]}:`;
-  quantityIdentifier.forEach((e) => {
-    if (str.search(e) !== -1) ret += `${e}`;
-  });
-  return ret;
+  try {
+    let ret: string = `${str.match(/\d+/)![0]}:`;
+    quantityIdentifier.forEach((e) => {
+      if (str.search(e) !== -1) ret += `${e}`;
+    });
+    return ret;
+  } catch (ex) {
+    console.warn("Error parsing quantity : " + str + " ERROR : " + ex);
+    return "Unknown";
+  }
 };
 const createProduct = async (
   leclerc: LeclercArticle,
