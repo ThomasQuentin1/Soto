@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -36,8 +35,8 @@ export type QuerySearchProductsArgs = {
   query: Scalars['String'];
   obligationsOverride?: Maybe<Array<ObligationInput>>;
   criterionsOverride?: Maybe<Array<CriterionInput>>;
-  shopIdOverride?: Maybe<Scalars["Int"]>;
-  limit?: Maybe<Scalars["Int"]>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
 };
 
 export type Mutation = {
@@ -703,8 +702,8 @@ export type SetShopMutationHookResult = ReturnType<typeof useSetShopMutation>;
 export type SetShopMutationResult = Apollo.MutationResult<SetShopMutation>;
 export type SetShopMutationOptions = Apollo.BaseMutationOptions<SetShopMutation, SetShopMutationVariables>;
 export const AddToCartDocument = gql`
-    mutation AddToCart($id: String!) {
-  addToCart(productId: $id)
+    mutation AddToCart($productId: String!) {
+  addToCart(productId: $productId)
 }
     `;
 export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>;
@@ -722,7 +721,7 @@ export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, Add
  * @example
  * const [addToCartMutation, { data, loading, error }] = useAddToCartMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      productId: // value for 'productId'
  *   },
  * });
  */
@@ -734,8 +733,8 @@ export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation
 export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
 export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
 export const RemoveFromCartDocument = gql`
-    mutation RemoveFromCart($id: String!) {
-  removeFromCart(productId: $id)
+    mutation RemoveFromCart($productId: String!) {
+  removeFromCart(productId: $productId)
 }
     `;
 export type RemoveFromCartMutationFn = Apollo.MutationFunction<RemoveFromCartMutation, RemoveFromCartMutationVariables>;
@@ -753,7 +752,7 @@ export type RemoveFromCartMutationFn = Apollo.MutationFunction<RemoveFromCartMut
  * @example
  * const [removeFromCartMutation, { data, loading, error }] = useRemoveFromCartMutation({
  *   variables: {
- *      id: // value for 'id'
+ *      productId: // value for 'productId'
  *   },
  * });
  */
@@ -764,12 +763,48 @@ export function useRemoveFromCartMutation(baseOptions?: Apollo.MutationHookOptio
 export type RemoveFromCartMutationHookResult = ReturnType<typeof useRemoveFromCartMutation>;
 export type RemoveFromCartMutationResult = Apollo.MutationResult<RemoveFromCartMutation>;
 export type RemoveFromCartMutationOptions = Apollo.BaseMutationOptions<RemoveFromCartMutation, RemoveFromCartMutationVariables>;
+export const ClearCartDocument = gql`
+    mutation ClearCart {
+  clearCart
+}
+    `;
+export type ClearCartMutationFn = Apollo.MutationFunction<ClearCartMutation, ClearCartMutationVariables>;
+
+/**
+ * __useClearCartMutation__
+ *
+ * To run a mutation, you first call `useClearCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [clearCartMutation, { data, loading, error }] = useClearCartMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useClearCartMutation(baseOptions?: Apollo.MutationHookOptions<ClearCartMutation, ClearCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ClearCartMutation, ClearCartMutationVariables>(ClearCartDocument, options);
+      }
+export type ClearCartMutationHookResult = ReturnType<typeof useClearCartMutation>;
+export type ClearCartMutationResult = Apollo.MutationResult<ClearCartMutation>;
+export type ClearCartMutationOptions = Apollo.BaseMutationOptions<ClearCartMutation, ClearCartMutationVariables>;
 export const AccountDocument = gql`
     query Account {
   account {
     email
     currentShop {
       name
+      city
+      long
+      lat
+      id
+      server
+      code
     }
   }
 }
@@ -877,6 +912,7 @@ export type ObligationsQueryResult = Apollo.QueryResult<ObligationsQuery, Obliga
 export const SearchProductDocument = gql`
     query searchProduct($query: String!) {
   searchProducts(query: $query) {
+    id
     name
     brand
     priceUnit
@@ -888,8 +924,11 @@ export const SearchProductDocument = gql`
     nutriscore
     scoreHealth
     scoreEnvironment
-    itemQuantity
+    finalScore
     packagingQuantity
+    itemQuantity
+    photo
+    url
   }
 }
     `;
@@ -963,6 +1002,7 @@ export const CartDocument = gql`
     query Cart {
   cart {
     products {
+      id
       name
       brand
       priceUnit
@@ -974,8 +1014,11 @@ export const CartDocument = gql`
       nutriscore
       scoreHealth
       scoreEnvironment
-      itemQuantity
+      finalScore
       packagingQuantity
+      itemQuantity
+      photo
+      url
     }
     dateCreated
     dateLastEdit

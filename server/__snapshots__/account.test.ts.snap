@@ -1,16 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Shop list gathering should retrive 4 leclerc in the area 1`] = `
+exports[`Shop list gathering should retrive 3 leclerc in the area 1`] = `
 Array [
-  Object {
-    "city": "Erstein",
-    "code": "056701",
-    "id": 1,
-    "lat": 48.425563,
-    "long": 7.638703,
-    "name": "E.Leclerc Drive Erstein",
-    "server": "fd12",
-  },
   Object {
     "city": "Strasbourg",
     "code": "086702",

@@ -4,26 +4,14 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
-import Grid from "@material-ui/core/Grid";
-import CountableProduct from "interfaces/CountableProduct";
+import { Grid, Tooltip, Zoom } from "@material-ui/core";
 import PriceBanner from "components/shop/PriceBanner";
-import Tooltip from '@material-ui/core/Tooltip';
-import Zoom from '@material-ui/core/Zoom';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
-import { Product, useCartQuery } from 'typing';
-import CoutableProduct from "interfaces/CountableProduct";
-
-const ReturnAsCountable = (products: Product[]) => {
-  let coutableProducts : CoutableProduct[] = [];
-  products.map((product) => {
-    const toPush : CoutableProduct = {product: product, quantity: 1}
-    coutableProducts.push(toPush);
-  });
-  return coutableProducts;
-}
+import { Product, useCartLazyQuery } from 'typing';
+// import { notifySuccess, notifyError } from "public/notifications/notificationsFunctions";
 
 const ShopPage = () => {
   const [theme] = useDarkMode();
@@ -37,12 +25,32 @@ const ShopPage = () => {
   }
   const [t] = useTranslation();
 
-  // get the current cart of 
-  const {data, loading} = useCartQuery();
-  const [basket, setBasket] = useState<CountableProduct[]>([]);
+  // const [clearCartMutation, { loading:clearCartLoading, error:errorClearCart, called:clearCartCalled }] = useClearCartMutation({
+  //   variables: {
+  //   },
+  // });
+  
+  // if (errorClearCart) {
+  //   notifyError("Failed to clear cart")
+  //   console.error(errorClearCart.message)
+  // } else if (!clearCartLoading && clearCartCalled) {
+  //   notifySuccess("Cart cleared successfully")
+  // }
 
-  if (!loading && data && basket != []) {
-    setBasket(ReturnAsCountable(data.products))
+  const [cartQuery, {called, data, error}] = useCartLazyQuery();
+  const [basket, setBasket] = useState<Product[]>([]);
+  const [isBasketUpToDate, setIsBasketUpToDate] = useState(false);
+  if (called == false) {
+    cartQuery();
+  }
+  
+  if (data && data.cart && !isBasketUpToDate) {
+    setIsBasketUpToDate(!isBasketUpToDate);
+    console.log(data)
+    setBasket(data.cart.products)
+    console.log(basket)
+  } else if (error) {
+    console.log(error.message);
   }
 
   const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
@@ -55,7 +63,7 @@ const ShopPage = () => {
           <Header/>
           <Grid container justify="center" style={{marginTop: '10px'}}>
             <Grid item xs={4}>
-              <SearchWrapper basket={basket} setBasket={setBasket}/>
+              <SearchWrapper cartQuery={cartQuery}/>
             </Grid>
             <Grid item xs={12}>
               <PriceBanner basket={basket}/>
@@ -64,9 +72,12 @@ const ShopPage = () => {
               <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
                 <HelpOutlineIcon style={{color:'grey', marginLeft:'10px', marginTop:'10px'}}></HelpOutlineIcon>
               </Tooltip>
+              {/* <Button onClick={() => clearCartMutation()} color="secondary">
+                <Typography>Clear cart</Typography>
+              </Button> */}
             </Grid>
             <Grid item xs={12}>
-              <ShopList basket={basket} setBasket={setBasket}/>
+              <ShopList basket={basket} cartQuery={cartQuery}/>
             </Grid>
           </Grid>
           <Footer changeStyle={isAnyItem}></Footer>

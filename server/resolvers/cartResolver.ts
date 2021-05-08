@@ -31,6 +31,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
     price: totalPrice,
     products: rawCart.map<Product>((r) => ({
       ...r,
+      id: r.leclercId.toString(),
       allergens: r.allergens?.split("|") ?? [],
       ingredients: r.ingredients?.split("|") ?? [],
       nutriments: r.nutriments?.split("|") ?? [],
@@ -72,10 +73,9 @@ export const cartResolvers: Resolvers = {
       if (!context.user)
         throw new AuthenticationError(ErrMsg("error.notloggedin"));
 
-      if (!context.user?.shopId)
-        throw new UserInputError(ErrMsg("error.badparams"));
-
       const shop = ShopList.find((s) => s.id == context.user.shopId);
+
+      if (!shop) throw new UserInputError(ErrMsg("error.badparams"));
 
       const rawCart = await usersQuery<any>(
         `SELECT * FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.leclercId WHERE carts.id = ?`,

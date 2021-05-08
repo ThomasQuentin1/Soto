@@ -4,18 +4,19 @@ import {Button, Typography} from '@material-ui/core';
 import { useTranslation } from "react-i18next"
 import Container from '@material-ui/core/Container';
 import PriceBannerProps from 'interfaces/PriceBanner';
-import CountableProduct from 'interfaces/CountableProduct';
+import { Product } from 'typing';
 
-const calculateTotalPrice = (basket: CountableProduct[]) => {
+const calculateTotalPrice = (basket: Product[]) => {
     let totalPrice : number = 0;
 
     if (basket) {
-        basket.map((item) => {
-            totalPrice += Number(item.product.priceUnit) * item.quantity;
+        basket.map((product) => {
+            totalPrice += Number(product.priceUnit) * product.itemQuantity!;
         });
     }
     return totalPrice;
 }
+
 const PriceBanner = ({basket} : PriceBannerProps) => {
     const totalPrice = calculateTotalPrice(basket);
     const [t] = useTranslation();

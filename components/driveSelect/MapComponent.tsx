@@ -44,7 +44,6 @@ const MapComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, 
     // when the shop is setted, redirect to the index page
     if (shopSetted) {
       // here redirect to the index
-      console.log("shop setted");
 
     }
     
@@ -64,7 +63,8 @@ const MapComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, 
                           if (err.errors) {
                               console.log(err.errors[0].message);
                           } else {
-                              isShopSetted(!shopSetted)}
+                            console.log("shop setted");
+                            isShopSetted(!shopSetted)}
                           }
                         )}}><Typography>Choisir ce drive</Typography></Button>
                 </CardContent>

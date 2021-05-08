@@ -1,8 +1,7 @@
-import CountableProduct from 'interfaces/CountableProduct';
+import { Product } from "typing";
 
 export default interface SearchBarItemProps {
-    countableProduct : CountableProduct;
-    basket: CountableProduct[];
-    setBasket: any;
+    product : Product;
     setOpen: any;
+    cartQuery: any;
 }
