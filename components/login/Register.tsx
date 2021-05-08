@@ -5,10 +5,9 @@ import Step1 from "./stepper/Step1";
 import Step2 from "./stepper/Step2";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
-import {useRegisterMutation} from "../../typing";
+import {useCriterionsQuery, useRegisterMutation} from "../../typing";
 import {useTranslation} from "react-i18next";
 import Router from "next/router";
-
 
 interface Props {
     setDisplayRegister: (b: boolean) => void;
@@ -31,13 +30,14 @@ const Register = (props: Props) => {
     const steps = getSteps();
     const [t] = useTranslation()
 
+    const {data: criteriaData} = useCriterionsQuery();
+
     let lng: string | null = 'fr';
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng');
     }
 
     const [register] = useRegisterMutation({variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
-    const [validate, setValidate] = useState(false)
 
     const getStepContent = (step: number) => {
         switch (step) {
@@ -45,7 +45,7 @@ const Register = (props: Props) => {
                 return <Step1 setEmail={setEmail} setPassword={setPassword}
                               setCPassword={setCPassword} emailError={emailError} passwordError={passwordError}/>;
             case 1:
-                return <Step2 validate={validate} setValidate={setValidate}/>;
+                return <Step2 criteria={criteriaData.criterions}/>;
             default:
                 return 'Unknown step';
         }
@@ -94,6 +94,7 @@ const Register = (props: Props) => {
                     });
                 }
             })
+            // setActiveStep(activeStep + 1);
         } else {
             setActiveStep(activeStep + 1);
         }
@@ -106,7 +107,6 @@ const Register = (props: Props) => {
     const handleFinish = () => {
         if (password !== cPassword)
             return;
-        setValidate(true)
         Router.push("/").then(() => {})
     }
 
@@ -123,13 +123,13 @@ const Register = (props: Props) => {
                             style={{marginBottom: "20px", color: "grey", display: "flex", justifyContent: "center"}}>
                     {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
                 </Typography>
-                <Stepper activeStep={activeStep} color="secondary">
+                <Stepper activeStep={activeStep} color="primary">
                     {steps.map((label) => {
                         const stepProps: { completed?: boolean } = {};
                         const labelProps: { optional?: React.ReactNode } = {};
                         return (
-                            <Step key={label} {...stepProps} color="secondary">
-                                <StepLabel {...labelProps} color="secondary">{label}</StepLabel>
+                            <Step key={label} {...stepProps} color="primary">
+                                <StepLabel {...labelProps} color="primary">{label}</StepLabel>
                             </Step>
                         );
                     })}
@@ -137,18 +137,16 @@ const Register = (props: Props) => {
             </div>
             {getStepContent(activeStep)}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
-                <Button disabled={activeStep === 0} color="secondary" onClick={() => handleBack()}>
-                    {/*<Button disabled={activeStep === 0} color="secondary" onClick={() => }>*/}
+                <Button disabled={activeStep === 0} color="primary" onClick={() => handleBack()}>
                     {lng == 'fr' ? 'Retour' : 'Back'}
                 </Button>
                 {activeStep === steps.length - 1 ?
                     <div>
-                        <Button variant="contained" color="secondary" onClick={() => handleFinish()}>
-                            {/*<Button variant="contained" color="secondary" onClick={() => setValidate(true)}>*/}
+                        <Button variant="contained" color="primary" onClick={() => handleFinish()}>
                             {lng == 'fr' ? 'Finir' : 'Finish'}
                         </Button>
                     </div> :
-                    <Button variant="contained" color="secondary" onClick={() => handleNext()}>
+                    <Button variant="contained" color="primary" onClick={() => handleNext()}>
                         {lng == 'fr' ? 'Suivant' : 'Next'}
                     </Button>}
             </div>
@@ -159,7 +157,7 @@ const Register = (props: Props) => {
                 justifyContent: "space-between"
             }}>
                 <Button
-                    color="secondary"
+                    color="primary"
                     style={{marginTop: "20px", fontSize: "12px"}}
                     onClick={() => props.setDisplayRegister(false)}
                 >

@@ -3,20 +3,8 @@ import Button from '@material-ui/core/Button';
 import { useTranslation } from "react-i18next"
 import DragList, {CriteriaData} from './DragList';
 import ObligationCheckboxList, { CheckBoxData } from './ObligationCheckboxList';
-import {
-    useCriterionsQuery, useObligationsQuery,
-    useSetCriterionsMutation,
-    useSetObligationsMutation
-} from "../../typing";
-import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
-// import {Fade} from "@material-ui/core";
+import {useCriterionsQuery, useObligationsQuery} from "../../typing";
 import {Transition} from "react-transition-group";
-// import {ReactCSSTransitionGroup} from 'react-transition-group';
-
-interface Props {
-    validate: boolean
-    setValidate: (items: boolean) => void
-}
 
 enum toPrint {
     CRITERIA,
@@ -38,15 +26,13 @@ const transitionStyles = {
     exited:  { opacity: 0 },
 };
 
-const ParametersSelect = (props: Props) => {
+const ParametersSelect = () => {
     const [t] = useTranslation();
     const [isFirstCall, called] = useState(true)
     const [element, setElement] = useState<toPrint>(toPrint.CRITERIA)
     const [newElement, setNewElement] = useState<toPrint>(toPrint.EMPTY)
     const [isTransitioning, setTransitioning] = useState(false)
     const [launch, setLaunch] = useState(false)
-    // To avoid multiple save calls
-    const [validationProcessing, setValidation] = useState(false)
     // To store criteria and obligations values
     const [criteria, setCriteria] = useState<CriteriaData[]>([]);
     const [obligations, setObligations] = useState<CheckBoxData[]>([]);
@@ -54,42 +40,6 @@ const ParametersSelect = (props: Props) => {
     const {data: criteriaData, loading: criteriaLoading} = useCriterionsQuery();
     const {data: obligationsData, loading: obligationsLoading} = useObligationsQuery();
 
-    // Obligation saving mutation
-    const [obligationsMutation] = useSetObligationsMutation({
-        variables: {
-            obligations: obligations.filter(item => item.checked).map(function (item) {
-                return {id: item.id}
-            })
-        }
-    })
-    // Criteria saving mutation
-    const [criteriaMutation] = useSetCriterionsMutation({
-        variables: {
-            criterias: criteria.map(function (item, index) {
-                return {id: item.id, position: index + 1}
-            })
-        }
-    })
-
-    // Save criteria and obligations values
-    if (props.validate && !validationProcessing) {
-        setValidation(true)
-        criteriaMutation().then(r2 => {
-            obligationsMutation().then(r3 => {
-                if (!r2) {
-                    notifyError("Criteria saving failed")
-                } else if (!r3) {
-                    notifyError("Obligations saving failed")
-                } else {
-                    notifySuccess("Criteria and obligations save successfully")
-                }
-                props.setValidate(false)
-                setValidation(false)
-            })
-        })
-    }
-
-    // To show the wanted information
     // To change to have transitions working
     const changeElementValue = () => {
         if (isFirstCall) {
@@ -112,7 +62,7 @@ const ParametersSelect = (props: Props) => {
 
     const returnButtonToggle = () => {
         if (element === toPrint.CRITERIA) {
-            return(<DragList criteriaData={criteria} setCriteria={setCriteria}/>);
+            return(<DragList criteriaData={criteria}/>);
         } else if (element === toPrint.OBLIGATIONS) {
             return(<ObligationCheckboxList data={obligations}/>);
         } else {

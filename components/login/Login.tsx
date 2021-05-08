@@ -58,7 +58,7 @@ const Login = (props: Props) => {
                 </Typography>
                 {loading && <CircularProgress size={48} className={classes.buttonProgress}/>}
                 <TextField
-                    color="secondary"
+                    color="primary"
                     className={classes.textField}
                     id="standard-basic"
                     label="E-mail"
@@ -67,7 +67,7 @@ const Login = (props: Props) => {
                     onChange={(sender: any) => setEmail(sender.target.value)}
                 />
                 <TextField
-                    color="secondary"
+                    color="primary"
                     className={classes.textField}
                     id="standard-password-input"
                     type="password"
@@ -77,7 +77,7 @@ const Login = (props: Props) => {
                 />
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <Button
-                        color="secondary"
+                        color="primary"
                         disabled={!formValid}
                         style={{ marginTop: "20px", marginBottom: "20px"}}
                         onClick={() =>  {
@@ -99,7 +99,7 @@ const Login = (props: Props) => {
                 <Divider variant={"middle"}/>
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <Button
-                        color="secondary"
+                        color="primary"
                         style={{ marginTop: "20px", fontSize: "12px"}}
                         onClick={() => props.setDisplayRegister(true)}
                     >

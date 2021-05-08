@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { List, arrayMove } from 'react-movable';
 import {useTranslation} from "react-i18next";
+import {useSetCriterionsMutation} from "../../typing";
+import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 // import { Transition } from 'react-transition-group';
 
 export interface CriteriaData {
@@ -12,7 +14,6 @@ export interface CriteriaData {
 
 interface Props {
     criteriaData: CriteriaData[];
-    setCriteria: (items: CriteriaData[]) => void
 }
 
 const DragList = (props: Props) => {
@@ -20,21 +21,29 @@ const DragList = (props: Props) => {
 
     const [items, setItems] = useState(props.criteriaData);
 
-    useEffect(() => {
-        items.forEach((elem, index) => {
-            elem.position = index + 1
-        })
-        props.setCriteria(items)
-
-    }, [items])
-
-
+    const [criteriaMutation] = useSetCriterionsMutation({
+        variables: {
+            criterias: items.map(function (item, index) {
+                return {id: item.id, position: index + 1}
+            })
+        }
+    })
     return (
         <List
             lockVertically={true}
             values={items}
             onChange={({ oldIndex, newIndex }) => {
                 setItems(arrayMove(items, oldIndex, newIndex))
+                items.forEach((elem, index) => {
+                    elem.position = index + 1
+                })
+                criteriaMutation().then(res => {
+                    if (!res) {
+                        notifyError("Criteria saving failed")
+                    } else {
+                        notifySuccess("New Criterias are now saved")
+                    }
+                })
             }}
             renderList={({ children, props }) =>
                 <ul

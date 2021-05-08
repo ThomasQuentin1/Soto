@@ -70,6 +70,9 @@ const resources = {
         "label.criteriaAndObligations" : "Criteria and Obligations",
         "description.criteriaAndObligations" : "Change your selection of criteria and obligations",
 
+        "label.driveSelection" : "Change your drive",
+        "description.driveSelection" : "Choose your drive",
+
         "language.french" : "Français",
         "language.location.fr" : "France",
         "language.english" : "English",
@@ -153,6 +156,9 @@ const resources = {
 
         "label.criteriaAndObligations" : "Critères et obligations",
         "description.criteriaAndObligations" : "Changer sa sélection de critères et d'obligations",
+
+        "label.driveSelection" : "Changer de drive",
+        "description.driveSelection" : "Choisir son drive",
 
         "language.french" : "Français",
         "language.location.fr" : "France",
