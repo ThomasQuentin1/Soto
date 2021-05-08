@@ -1,6 +1,6 @@
-import CountableProduct from 'interfaces/CountableProduct';
+import { Product } from "typing";
 
 export default interface ShopListProps {
-    basket : CountableProduct[];
-    setBasket : any;
+    basket : Product[];
+    cartQuery: any;
 }

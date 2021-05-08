@@ -3,6 +3,12 @@ query Account {
     email
     currentShop {
       name
+      city
+      long
+      lat
+      id
+      server
+      code
     }
   }
 }
@@ -26,6 +32,7 @@ query Obligations {
 
 query searchProduct($query: String!) {
   searchProducts(query: $query) {
+    id
     name
     brand
     priceUnit
@@ -37,8 +44,11 @@ query searchProduct($query: String!) {
     nutriscore
     scoreHealth
     scoreEnvironment
-    itemQuantity
+    finalScore
     packagingQuantity
+    itemQuantity
+    photo
+    url
   }
 }
 
@@ -55,6 +65,7 @@ query shopList {
 query Cart {
   cart {
     products {
+      id
       name
       brand
       priceUnit
@@ -66,8 +77,11 @@ query Cart {
       nutriscore
       scoreHealth
       scoreEnvironment
-      itemQuantity
+      finalScore
       packagingQuantity
+      itemQuantity
+      photo
+      url
     }
     dateCreated
     dateLastEdit
@@ -82,11 +96,10 @@ query Cart {
   }
 }
 
-query Account {
-    account {
-        email,
-        currentShop {
-            name
-        }
-    }
+query Obligations {
+  obligations {
+    activated
+    id
+    name
+  }
 }

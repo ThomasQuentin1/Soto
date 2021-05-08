@@ -1,11 +1,9 @@
-import CountableProduct from 'interfaces/CountableProduct';
+import { Product } from "typing";
 
 interface ShopItemProps {
     key: number;
-    countableProduct : CountableProduct;
-    basket: CountableProduct[];
-    setBasket: any;
-    index: number;
+    product : Product;
+    cartQuery: any;
 }
 
 export default ShopItemProps;

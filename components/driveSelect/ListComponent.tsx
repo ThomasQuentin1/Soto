@@ -39,11 +39,10 @@ const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback,
 
     // when the shop is setted, redirect to the index page
     if (shopSetted) {
-        console.log("shop setted");
       // here redirect to the index
     }
     
-    const [SetShop] = useSetShopMutation({ variables: {id: id}, errorPolicy: 'all'})
+    const [SetShop] = useSetShopMutation({ variables: {shopId: id}, errorPolicy: 'all'})
     return (
         <Grid item onMouseEnter={() => {
             ResetAllSelected()
@@ -60,6 +59,7 @@ const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback,
                 if (err.errors) {
                     console.log(err.errors[0].message);
                 } else {
+                    console.log("shop setted");
                     isShopSetted(!shopSetted)}
                 }
                 )}>
