@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ParametersSelect from "components/shop/ParametersSelect";
 import SearchBar from "components/shop/SearchBar";
+import { useTranslation } from "react-i18next"
 import SearchWrapperProps from "interfaces/SearchWrapper";
 
 const SearchWrapper = ({ cartQueryRefetch, setIsBasketUpToDate } : SearchWrapperProps) => {
@@ -8,7 +9,6 @@ const SearchWrapper = ({ cartQueryRefetch, setIsBasketUpToDate } : SearchWrapper
     const [t] = useTranslation();
     const [validate, setValidate] = useState(false)
 
-    // if (!loading) {
     return (
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <ParametersSelect/>
