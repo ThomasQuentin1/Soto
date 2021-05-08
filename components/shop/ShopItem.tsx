@@ -45,7 +45,7 @@ const color = {
 //     setBasket(newBasket);
 // }
 
-const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any, setIsBasketUpToDate: any) => {
+const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any) => {
     if (product.itemQuantity === 1) {
         return (
             <Button
@@ -99,7 +99,7 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate } : ShopItemPr
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQueryRefetch, setIsBasketUpToDate);
+    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQueryRefetch);
     return (
         <>
         {product && !isToggled &&

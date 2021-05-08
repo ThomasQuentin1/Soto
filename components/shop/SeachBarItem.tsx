@@ -19,7 +19,7 @@ import { useAddToCartMutation } from "typing";
 //     setBasket(newBasket);
 // }
 
-const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate } : SearchBarItemProps) => {
+const SearchBarItem = ({product, setOpen, cartQueryRefetch } : SearchBarItemProps) => {
     let scoreColor : string = "red";
     // uncomment when we get id of the product from the backend
     const [AddToCartMutation] = useAddToCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
