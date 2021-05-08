@@ -7,6 +7,7 @@ const muiLightTheme = createMuiTheme({
     palette: {
         text: {
             primary: '#000000',
+            secondary: '#5f6368',
         },
         primary: {
             main: '#3586e2',
@@ -15,6 +16,9 @@ const muiLightTheme = createMuiTheme({
             main: '#fff',
             contrastText: '#3586e2',
         },
+        background: {
+            paper: '#edf7fa',
+        }
 
     },
 });

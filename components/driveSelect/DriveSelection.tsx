@@ -101,7 +101,7 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
                     <Input onChange={(event: any) => {
                         setInput(event.target.value)
                     }}
-                    color='secondary' placeholder={"Search"}/>
+                    color='primary' placeholder={"Search"}/>
                 </Grid>
                 <Grid container justify="flex-start" direction="column" spacing={5}>
                     {data && filteredShopList.map((shopInfo, index) => {

@@ -7,6 +7,7 @@ import Router from "next/router";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie";
 import {useLoginMutation} from "../../typing";
+import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles(createStyles({
         buttonProgress: {
@@ -31,6 +32,7 @@ const Login = (props: Props) => {
     const timer = React.useRef<any>();
     const formValid = (email != "" && password != "")
     const [login] = useLoginMutation({ variables: {email: email, password: sha256(password)}, errorPolicy: 'all', ignoreResults: false})
+    const [t] = useTranslation()
 
     const handleButtonClick = () => {
         if (!loading) {
@@ -84,7 +86,7 @@ const Login = (props: Props) => {
                             handleButtonClick();
                             login().then(r => {
                                 if (r.errors)
-                                    notifyError(r.errors[0].message)
+                                    notifyError(t(r.errors[0].message))
                                 else {
                                     notifySuccess("Logged in")
                                     Cookies.set("token", r.data.login, {expires: 7})

@@ -37,8 +37,6 @@ const GlobalStyles = createGlobalStyle`
     justify-content: center;
   }
   
-  
-  
   .centered {
     display: flex;
     flex-direction: column;
@@ -66,7 +64,7 @@ const GlobalStyles = createGlobalStyle`
   .roundLogo {
       width: 100px;
       height: 100px;
-      src: 
+      //src: 
   }
 
   .header-div {
@@ -171,9 +169,13 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     width: 100%;
   }
-  
+
   .padding1020 {
     padding: 10px 20px;
+  }
+  
+  .padding20 {
+    padding: 20px;
   }
   
   .cell {
@@ -197,12 +199,11 @@ const GlobalStyles = createGlobalStyle`
   
   .cellValue {
     font-size: 0.875rem;
-    color: #5f6368;
   }
   
   .MuiPaper-root {
     color: inherit !important;
-    background: inherit !important;
+    //background: inherit !important;
   }
   
   .MuiTypography-root {
@@ -244,6 +245,15 @@ const GlobalStyles = createGlobalStyle`
     align-content: center;
     align-items: center;
     align-self: center;
+  }
+
+  .mapCard {
+    background: ${({ theme }) => theme.body} !important;
+  }
+  
+  .flexSpaceBetween {
+    display: flex;
+    justify-content: space-between;
   }
   
   `;

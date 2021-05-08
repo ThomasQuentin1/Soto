@@ -8,8 +8,8 @@ const muiDarkTheme = createMuiTheme({
 
     palette: {
       text: {
-        secondary: '#FFFFFF',
         primary: '#ffffff',
+        secondary: '#95989C',
       },
 
       secondary: {
