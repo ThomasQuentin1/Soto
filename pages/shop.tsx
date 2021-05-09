@@ -85,7 +85,9 @@ const ShopPage = () => {
       setLoadHistory(true);
       sessionStorage.removeItem('cart');
     }
+
   }, []);
+
   
   const [addToCartMutation, {}] = useAddToCartMutation({
     variables: {
@@ -122,7 +124,7 @@ const ShopPage = () => {
               <SearchWrapper cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
             <Grid item xs={12}>
-              <PriceBanner basket={basket}/>
+              <PriceBanner basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
             <Grid item xs={12}>
               <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>

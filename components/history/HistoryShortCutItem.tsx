@@ -47,7 +47,7 @@ const HistoryShortCutItem = ({cart, cartQueryRefetch} : HistoryShortCutItemProps
     const totalOfProducts = GetTotalOfProducts(cart.products);
 
     //create mutation with default parameter
-    const [addToCartMutation, {}] = useAddToCartMutation({
+    const [addToCartMutation] = useAddToCartMutation({
         variables: {
            productId: '1'
         },
