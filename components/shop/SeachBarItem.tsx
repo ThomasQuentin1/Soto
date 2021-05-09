@@ -19,7 +19,7 @@ import { useAddToCartMutation } from "typing";
 //     setBasket(newBasket);
 // }
 
-const SearchBarItem = ({product, setOpen, cartQuery} : SearchBarItemProps) => {
+const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate } : SearchBarItemProps) => {
     let scoreColor : string = "red";
     // uncomment when we get id of the product from the backend
     const [AddToCartMutation] = useAddToCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
@@ -37,7 +37,9 @@ const SearchBarItem = ({product, setOpen, cartQuery} : SearchBarItemProps) => {
                         if (r.errors) {
                             console.log(r.errors);
                         } else {
-                            cartQuery();
+                            cartQueryRefetch().then(() => {
+                                setIsBasketUpToDate(false);
+                            })
                             console.log('Item added to cart')
                         }
                     });

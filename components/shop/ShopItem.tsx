@@ -45,7 +45,7 @@ const color = {
 //     setBasket(newBasket);
 // }
 
-const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQuery: any) => {
+const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any, setIsBasketUpToDate: any) => {
     if (product.itemQuantity === 1) {
         return (
             <Button
@@ -55,7 +55,9 @@ const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: an
                         if (r.errors) {
                             console.log(r.errors);
                         } else {
-                            cartQuery();
+                            cartQueryRefetch().then(() => {
+                                setIsBasketUpToDate(false);
+                            })
                             console.log('Item removed from cart')
                         }
                     });
@@ -72,7 +74,9 @@ const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: an
                     if (r.errors) {
                         console.log(r.errors);
                     } else {
-                        cartQuery();
+                        cartQueryRefetch().then(() => {
+                            setIsBasketUpToDate(false);
+                        })
                         console.log('Item removed from cart')
                     }
                 })}
@@ -81,9 +85,8 @@ const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: an
     }
 }
 
-const ShopItem = ({product, cartQuery} : ShopItemProps) => {
+const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate } : ShopItemProps) => {
 
-    console.log(product)
     const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
     const [AddToCartMutation] = useAddToCartMutation({variables: {productId: product.id}, errorPolicy: 'all'})
 
@@ -100,7 +103,7 @@ const ShopItem = ({product, cartQuery} : ShopItemProps) => {
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQuery);
+    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQueryRefetch, setIsBasketUpToDate);
     return (
         <>
         {product && !isToggled &&
@@ -122,7 +125,9 @@ const ShopItem = ({product, cartQuery} : ShopItemProps) => {
                             if (r.errors) {
                                 console.log(r.errors[0].message);
                             } else {
-                                cartQuery()
+                                cartQueryRefetch().then(() => {
+                                    setIsBasketUpToDate(false);
+                                })
                                 console.log('You added 1 more ' + product.name + ' id :' + product.id)
                             }
                         })}
@@ -154,14 +159,16 @@ const ShopItem = ({product, cartQuery} : ShopItemProps) => {
                             if (r.errors) {
                                 console.log(r.errors[0].message);
                             } else {
-                                cartQuery()
+                                cartQueryRefetch().then(() => {
+                                    setIsBasketUpToDate(false);
+                                })
                                 console.log('You added 1 more ' + product.name + ' id :' + product.id)
                             }
                         })}
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
-                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {product.scoreHealth}</Typography>
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score : {product.scoreHealth}</Typography>
                 <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {product.brand}</Typography>
                 <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
                 <Typography align="left">Ingrédients : {product.ingredients}</Typography>

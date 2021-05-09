@@ -147,6 +147,8 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.secondaryColor}
   }
 
+  /* SHOP */
+
   .item_shop {
     border: 1px solid ${({ theme }) => theme.border.color};
     background-color: ${({ theme }) => theme.secondaryColor};
@@ -256,6 +258,50 @@ const GlobalStyles = createGlobalStyle`
     justify-content: space-between;
   }
   
+  /* END SHOP */
+
+  /* HISTORY */
+  
+  .history_short_cut_list {
+    border: 1px solid ${({ theme }) => theme.border.color};
+    border-radius: 10px;
+    background-color: ${({ theme }) => theme.secondaryColor};
+    opacity : 0.9;
+  }
+
+  .history_short_cut_item {
+    border-bottom: 1xp solid ${({ theme }) => theme.border.color};
+  }
+
+  .history_item {
+    border: 1px solid ${({ theme }) => theme.border.color};
+    transition: all 1s linear;
+    border-radius: 10px;
+    background-color: ${({ theme }) => theme.secondaryColor};
+    margin-bottom: 10px;
+    margin-left: 10px;
+    padding-top: 10px;
+  }
+  
+  .grid_short_cut_toggled_position {
+    width: 100px;
+  }
+
+  .grid_short_cut_not_toggled_position {
+    width: 0px;
+  }
+  
+  /* END HISTORY */
+
+  .rightclass {
+    left: 100vw;
+    width: 0px;
+  }
+
+  .leftclass {
+    width: 50px;
+    left: 200px;
+  }
   `;
 
 export default GlobalStyles;
