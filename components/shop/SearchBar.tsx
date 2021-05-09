@@ -1,5 +1,5 @@
 // import { useLazyQuery, gql } from "@apollo/client";
-import { Input } from "@material-ui/core";
+import {Divider, Input, Paper} from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
 import SearchBarProps from "interfaces/SeachBar";
@@ -108,23 +108,29 @@ const SearchBar = ({ cartQueryRefetch, setIsBasketUpToDate }: SearchBarProps) =>
             </Grid>
           </Grid>
         )}
-        <Grid container style={{ position: "absolute", zIndex: 100 }}>
+        <Paper elevation={3} variant="outlined" style={{ position: "absolute", zIndex: 100, width: "100%" }}>
           {!loading &&
             open &&
             threeFirstProducts.length != 0 &&
             threeFirstProducts.sort((a, b) => b.scoreHealth! - a.scoreHealth!).map((product, index) => {
               return (
-                <Grid item xs={12} key={index}>
+                // <Grid item xs={12} key={index}>
+                  <>
                   <SearchBarItem
                     product={product}
                     setOpen={setOpen}
                     cartQueryRefetch={cartQueryRefetch}
                     setIsBasketUpToDate={setIsBasketUpToDate}
                   />
-                </Grid>
+                  {
+                    index < 2 ? <Divider/> : <></>
+                  }
+                  </>
+
+                // </Grid>
               );
             })}
-        </Grid>
+        </Paper>
       </div>
     </ClickAwayListener>
   );

@@ -9,7 +9,7 @@ import CheckIcon from '@material-ui/icons/Check';
 
 const calculateTotalPrice = (basket: Product[]) => {
     let totalPrice : number = 0;
-      
+
     if (basket) {
         basket.map((product) => {
             totalPrice += Number(product.priceUnit) * product.itemQuantity!;
@@ -47,7 +47,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
             productId: "1"
         },
     });
-    
+
     const [confirmCartMutation] = useConfirmCartMutation({
         variables: {
         },
@@ -61,22 +61,22 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
         }
     }
     return (
-    <Container style={{display: 'flex', flexDirection:'row', width: '100%', alignItems: 'center', justifyContent:'center', alignContent: 'center', marginTop:'20px', padding: '10px'}} maxWidth={false} className='price_banner'>
-        <Typography
-            variant="h6"
-            color="secondary"
-            style={{marginRight:'20px !important'}}
-        >Mon panier</Typography>
-        <ShoppingBasketIcon fontSize='large' color="secondary" style={{marginRight: 'auto'}} className='icons'/>
-        <Grid item>
-            <Grid container>
-                {/** Button Add list to basket and its menu item */}
-                <Button color="secondary" variant="outlined" onClick={(e) => {
+        <Container style={{display: 'flex', flexDirection:'row', width: '100%', alignItems: 'center', justifyContent:'center', alignContent: 'center', marginTop:'20px', padding: '10px'}} maxWidth={false} className='price_banner'>
+            <Typography
+                variant="h6"
+                color="secondary"
+                style={{marginRight: "20px"}}
+            >Mon panier</Typography>
+            <ShoppingBasketIcon fontSize='large' color="secondary" style={{marginRight: 'auto'}} className='icons'/>
+            <Grid item>
+                <Grid container>
+                    {/** Button Add list to basket and its menu item */}
+                    <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorEl(e.currentTarget)
-                    }}>
-                    Listes sauvegardées
-                </Button>
-                {listFavObject != undefined && listFavObject.length != 0 && 
+                    }} style={{marginRight: "10px"}}>
+                        Listes sauvegardées
+                    </Button>
+                    {listFavObject != undefined && listFavObject.length != 0 &&
                     <Menu
                         id="simple-menu"
                         color="secondary"
@@ -84,7 +84,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                         keepMounted
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
-                        >
+                    >
                         {listFavObject != undefined && listFavObject!.map((element, index) =>
                             <MenuItem key={index} onClick={() => {
                                 handleClose()
@@ -107,64 +107,64 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                             </MenuItem>
                         )}
                     </Menu>
-                }
-                {/** Button + and its dropdown input */}
-                <Button color="secondary" variant="outlined" onClick={(e) => {
+                    }
+                    {/** Button + and its dropdown input */}
+                    <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorElAddList(e.currentTarget);
                     }}>
-                    +
-                </Button>
-                <Menu
+                        +
+                    </Button>
+                    <Menu
                         id="add-menu"
                         color="secondary"
                         anchorEl={anchorElAddList}
                         keepMounted
                         open={Boolean(anchorElAddList)}
                         onClose={handleCloseAddList}
-                        >
+                    >
                         <MenuItem>
-                            <TextField id="standard-basic" label="Standard" value={listName} onChange={(sender: any) => setListName(sender.target.value)}/>
+                            <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)}/>
                             <CheckIcon onClick={() => {
                                 const oldListsFav = localStorage.getItem('listFav')
-                                
+
                                 setNewListFav(true);
                                 if (oldListsFav) {
-                                    const listFav : FavoredListObject[] = JSON.parse(oldListsFav!);
-                                    let object : FavoredListObject =  {name: listName, products: basket}
+                                    const listFav: FavoredListObject[] = JSON.parse(oldListsFav!);
+                                    let object: FavoredListObject = {name: listName, products: basket}
                                     listFav.push(object);
                                     localStorage.setItem('listFav', JSON.stringify(listFav));
                                 } else {
-                                    let objects : FavoredListObject[] =  [{name: listName, products: basket}]
+                                    let objects: FavoredListObject[] = [{name: listName, products: basket}]
                                     localStorage.setItem('listFav', JSON.stringify(objects));
                                 }
                                 setListName("");
                                 handleCloseAddList();
-                            }}></CheckIcon>
+                            }}/>
                         </MenuItem>
                     </Menu>
 
+                </Grid>
             </Grid>
-        </Grid>
-        <Typography
-            variant="h6"
-            color="secondary"
-            style={{marginLeft:'auto'}}
-        >Prix total : {totalPrice.toFixed(2)}€</Typography>
-        <Button color='secondary' variant="outlined" 
-        onClick={() => {
-            confirmCartMutation().then((r) => {
-                if (r.errors) {
-                    console.log(r.errors[0].message)
-                    notifyError("Erreur dans le payement du panier")
-                } else {
-                    notifySuccess("Panier payé avec succès")
-                    console.log("cart confirmed")
+            <Typography
+                variant="h6"
+                color="secondary"
+                style={{marginLeft:'auto'}}
+            >Prix total : {totalPrice.toFixed(2)}€</Typography>
+            <Button color='secondary' variant="outlined"
+                    onClick={() => {
+                        confirmCartMutation().then((r) => {
+                            if (r.errors) {
+                                console.log(r.errors[0].message)
+                                notifyError("Erreur dans le payement du panier")
+                            } else {
+                                notifySuccess("Panier payé avec succès")
+                                console.log("cart confirmed")
 
-                }
-            })
-        }}
-        style={{marginLeft: '20px', fontSize:'17px'}}>{t('shop.payButton.label')}</Button>
-    </Container>)
+                            }
+                        })
+                    }}
+                    style={{marginLeft: '20px', fontSize:'17px'}}>{t('shop.payButton.label')}</Button>
+        </Container>)
 };
 
 export default PriceBanner;
