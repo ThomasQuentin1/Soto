@@ -42,7 +42,7 @@ const AddOldCartToCurrentCart = (oldCart: Cart/*, basket: Product[], setBasket: 
 
 const HistoryShortCutItem = ({cart, cartQueryRefetch} : HistoryShortCutItemProps) => {
     const [isDetailsToggled, setIsDetailsToggled] = useState(false);
-    const formatedDate = cart.dateLastEdit;
+    const formatedDate = cart.dateLastEdit.substring(0, 10);
     // const formatedDate = GetFormatedDate(cart.dateLastEdit);
     const totalOfProducts = GetTotalOfProducts(cart.products);
 

@@ -25,7 +25,7 @@ const Header = () => {
 
     return (
     <div className='header-div' style={{zIndex: 1000,left: '0px', top: '0px', width:'100%', height: '80px', position:'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px', color: "secondaryColor"}}>
-       <CardMedia onClick={() => Router.push("/login")}
+       <CardMedia onClick={() => Router.push("/")}
             style={{left: '20px', marginLeft: "10px", height: '60px', width: '60px', marginRight: '10px', cursor: "pointer"}}
             image={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
           className={"roundLogo"}

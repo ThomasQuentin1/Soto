@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import Container from '@material-ui/core/Container';
 import PriceBannerProps from 'interfaces/PriceBanner';
 import { Product, useConfirmCartMutation } from 'typing';
+import { notifySuccess, notifyError } from "../../public/notifications/notificationsFunctions";
 
 const calculateTotalPrice = (basket: Product[]) => {
     let totalPrice : number = 0;
@@ -45,8 +46,11 @@ const PriceBanner = ({basket} : PriceBannerProps) => {
             confirmCartMutation().then((r) => {
                 if (r.errors) {
                     console.log(r.errors[0].message)
+                    notifyError("Erreur dans le payement du panier")
                 } else {
+                    notifySuccess("Panier payé avec succès")
                     console.log("cart confirmed")
+
                 }
             })
         }}

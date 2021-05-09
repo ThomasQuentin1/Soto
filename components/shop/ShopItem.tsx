@@ -159,14 +159,16 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate } : ShopItemPr
                             if (r.errors) {
                                 console.log(r.errors[0].message);
                             } else {
-                                cartQueryRefetch()
+                                cartQueryRefetch().then(() => {
+                                    setIsBasketUpToDate(false);
+                                })
                                 console.log('You added 1 more ' + product.name + ' id :' + product.id)
                             }
                         })}
                         style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
-                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score par rapport à vos critères : {product.scoreHealth}</Typography>
+                <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score : {product.scoreHealth}</Typography>
                 <Typography style={{marginBottom:'10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque : {product.brand}</Typography>
                 <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
                 <Typography align="left">Ingrédients : {product.ingredients}</Typography>

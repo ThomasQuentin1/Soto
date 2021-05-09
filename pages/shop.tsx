@@ -140,7 +140,7 @@ const ShopPage = () => {
             <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} cartQueryRefetch={refetch}/>
           }
           {/* <Footer></Footer> */}
-          <Footer changeStyle={isAnyItem}></Footer>
+          <Footer></Footer>
       </DarkModeParent>
   );
 };

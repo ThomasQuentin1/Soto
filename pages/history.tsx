@@ -6,6 +6,7 @@ import HistoryList from 'components/history/HistoryList';
 import { Grid, Button, Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useOldCartsQuery } from 'typing';
+import Router from "next/router";
 import 'i18n';
 
 const HistoryPage = () => {
@@ -27,7 +28,7 @@ const HistoryPage = () => {
                 <Header/>
                     <Grid container direction='column'>
                         <Grid item xs={4}>
-                            <Button color='secondary' href='/shop' style={{marginLeft:'10px', marginTop:'10px'}}>
+                            <Button color='primary' onClick={() => Router.back()} style={{marginLeft:'10px', marginTop:'10px'}}>
                                 <ArrowBackIcon/>
                                 <Typography variant='caption'>Retourner faire ses courses</Typography>
                             </Button>
