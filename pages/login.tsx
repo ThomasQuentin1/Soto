@@ -22,7 +22,7 @@ const LoginPage = () => {
         <div>
             <DarkModeParent theme={tmpTheme}>
                 <Header/>
-                <div>
+                <div style={{height: "80%"}}>
                     <LoginController/>
                 </div>
                 <Footer/>

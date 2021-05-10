@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 // import CloseIcon from '@material-ui/icons/Close';
 import { useSetShopMutation } from 'typing';
+import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
+import {useTranslation} from "react-i18next";
 
 // const useStyles = makeStyles({
 //     root: {
@@ -36,6 +38,7 @@ const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback,
 
     // const [isToggled, setIsToggled] = useState(false);
     const [shopSetted, isShopSetted] = useState(false);
+    const [t] = useTranslation();
 
     // when the shop is setted, redirect to the index page
     if (shopSetted) {
@@ -57,9 +60,9 @@ const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback,
             <Button color="primary" size='small' style={{border:'1px solid', marginTop:'15px'}}
             onClick={() => SetShop().then((err) => {
                 if (err.errors) {
-                    console.log(err.errors[0].message);
+                    notifyError(t(err.errors[0].message))
                 } else {
-                    console.log("shop setted");
+                    notifySuccess("Drive sélectionné")
                     isShopSetted(!shopSetted)}
                 }
                 )}>

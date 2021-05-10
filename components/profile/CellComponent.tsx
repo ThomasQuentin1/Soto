@@ -18,7 +18,7 @@ const CellComponent = (props: Props) => {
                 <a className={'flexWidthFull padding20'} style={{alignItems: "center"}} onClick={() => {
                     Router.push(props.path).then(() => {})
                 }}>
-                    <div style={{display: "flex", width: "40%", alignItems: "center"}}>
+                    <div style={{display: "flex", width: "40%", alignItems: "center", marginRight: "10px"}}>
                         <i className={"padRight10"} hidden={props.iconName != "accessibility"}><AccessibilityNew/></i>
                         <i className={"padRight10"} hidden={props.iconName != "language"}><Language/></i>
                         <i className={"padRight10"} hidden={props.iconName != "cart"}><ShoppingCart/></i>
