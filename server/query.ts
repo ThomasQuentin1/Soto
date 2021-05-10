@@ -1,6 +1,6 @@
 import * as mysql from "mysql";
 
-export const getPool = () => {
+export const getPool = (): mysql.PoolConfig => {
   if (process.env.TEST) {
     console.log("db test");
     return {
@@ -8,6 +8,7 @@ export const getPool = () => {
       user: "soto",
       password: "s0t0lefeu!",
       database: "algo",
+      connectionLimit: 5,
     };
   } else {
     console.log("db prod");
@@ -16,6 +17,7 @@ export const getPool = () => {
       user: "soto",
       password: "s0t0lefeu!",
       database: "users",
+      connectionLimit: 5,
     };
   }
 };
