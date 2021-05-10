@@ -8,6 +8,7 @@ import Cookies from "js-cookie"
 import {useCriterionsQuery, useRegisterMutation} from "../../typing";
 import {useTranslation} from "react-i18next";
 import Router from "next/router";
+import Step3 from "./stepper/Step3";
 
 interface Props {
     setDisplayRegister: (b: boolean) => void;
@@ -17,6 +18,7 @@ function getSteps() {
     return [
         'Informations personnelles',
         'Préférences et obligations',
+        'Sélection du drive'
     ];
 }
 
@@ -46,6 +48,8 @@ const Register = (props: Props) => {
                               setCPassword={setCPassword} emailError={emailError} passwordError={passwordError}/>;
             case 1:
                 return <Step2 criteria={criteriaData.criterions}/>;
+            case 2:
+                return <Step3/>
             default:
                 return 'Unknown step';
         }

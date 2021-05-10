@@ -85,7 +85,9 @@ const ShopPage = () => {
       setLoadHistory(true);
       sessionStorage.removeItem('cart');
     }
+
   }, []);
+
   
   const [addToCartMutation, {}] = useAddToCartMutation({
     variables: {
@@ -117,12 +119,12 @@ const ShopPage = () => {
   return (
       <DarkModeParent theme={tmpTheme}>
           <Header/>
-          <Grid container justify="center" style={{marginTop: '10px'}}>
+          <Grid container justify="center" style={{marginTop: '10px', height: "80%"}}>
             <Grid item xs={4}>
               <SearchWrapper cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
             <Grid item xs={12}>
-              <PriceBanner basket={basket}/>
+              <PriceBanner basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
             <Grid item xs={12}>
               <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
@@ -139,8 +141,7 @@ const ShopPage = () => {
           {cartHistory && 
             <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} cartQueryRefetch={refetch}/>
           }
-          {/* <Footer></Footer> */}
-          <Footer></Footer>
+          <Footer/>
       </DarkModeParent>
   );
 };

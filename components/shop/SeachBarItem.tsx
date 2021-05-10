@@ -31,7 +31,7 @@ const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate 
         scoreColor = "green";
     }
     return (
-        <Grid container style={{display:'flex', flexDirection:'row'}} className="item_search_bar" onClick={() => {
+        <Grid container style={{display:'flex', flexDirection:'row', cursor: "pointer"}} className="item_search_bar" onClick={() => {
                     // add in local
                     AddToCartMutation().then((r) => {
                         if (r.errors) {

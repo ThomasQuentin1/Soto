@@ -45,7 +45,7 @@ const ProfilePage = () => {
                     <title>{t("title.profile")}</title>
                     <DarkModeParent theme={tmpTheme}>
                         <Header/>
-                        <div className='centered' style={{overflowY: "auto"}}>
+                        <div className='centered' style={{overflowY: "auto", height: "80%"}}>
 
                             <Paper variant={"outlined"} className='halfWidth centered body profilePaper' style={{width: "30%"}}>
                                 <div>
