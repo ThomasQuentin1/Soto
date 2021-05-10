@@ -119,7 +119,7 @@ const ShopPage = () => {
   return (
       <DarkModeParent theme={tmpTheme}>
           <Header/>
-          <Grid container justify="center" style={{marginTop: '10px'}}>
+          <Grid container justify="center" style={{marginTop: '10px', height: "80%"}}>
             <Grid item xs={4}>
               <SearchWrapper cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
             </Grid>
@@ -141,8 +141,7 @@ const ShopPage = () => {
           {cartHistory && 
             <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} cartQueryRefetch={refetch}/>
           }
-          {/* <Footer></Footer> */}
-          <Footer></Footer>
+          <Footer/>
       </DarkModeParent>
   );
 };

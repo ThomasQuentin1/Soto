@@ -45,7 +45,7 @@ const Language = () => {
                 <title>{t("label.language")}</title>
                 <DarkModeParent theme={theme}>
                     <Header/>
-                    <div>
+                    <div style={{height: "80%"}}>
                         <div className={"flexAlignJustifyCentered"} style={{margin: "20px 0px"}}>
                             <a style={{margin: "0px 10px"}} onClick={() => {
                                 router.back()
@@ -93,9 +93,7 @@ const Language = () => {
                             </div>
                         </Paper>
                     </div>
-                    <div style={{position: "absolute", bottom: '0px', left: '0px', width: '100%'}}>
-                        <Footer/>
-                    </div>
+                    <Footer/>
                 </DarkModeParent>
             </>
         )

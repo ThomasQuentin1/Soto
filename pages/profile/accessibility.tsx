@@ -20,7 +20,7 @@ const Accessibility = () => {
             <title>{t("label.accessibility")}</title>
             <DarkModeParent theme={theme}>
                 <Header/>
-                <div>
+                <div style={{height: "80%"}}>
                     <div className={"flexAlignJustifyCentered"} style={{margin: "20px 0px"}}>
                         <a style={{margin: "0px 10px"}} onClick={() => {
                             router.back()
@@ -34,22 +34,20 @@ const Accessibility = () => {
                         <div>
                             <div className={"dFlex alignCenter"}>
                                 <div>
-                                <Typography style={{fontSize: "1.5rem"}}>{t("label.changeTheme")}</Typography>
-                                <Typography color="textSecondary" className={"cellValue"}>{t("label.themeSelection.helperText")}</Typography>
+                                    <Typography style={{fontSize: "1.5rem"}}>{t("label.changeTheme")}</Typography>
+                                    <Typography color="textSecondary" className={"cellValue"}>{t("label.themeSelection.helperText")}</Typography>
                                 </div>
                                 <div style={{marginRight: "0px", marginLeft: "auto"}}>
-                                <Switch
-                                    checked={theme === "dark"}
-                                    onChange={setTheme}
-                                />
+                                    <Switch
+                                        checked={theme === "dark"}
+                                        onChange={setTheme}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </Paper>
                 </div>
-                <div style={{position:"absolute", bottom:'0px', left:'0px', width:'100%'}}>
-                    <Footer/>
-                </div>
+                <Footer/>
             </DarkModeParent>
         </>
     )
