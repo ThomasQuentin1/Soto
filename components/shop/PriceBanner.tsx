@@ -158,6 +158,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                                 notifyError("Erreur dans le payement du panier")
                             } else {
                                 notifySuccess("Panier payé avec succès")
+                                cartQueryRefetch().then(() => setIsBasketUpToDate(false));
                                 console.log("cart confirmed")
 
                             }

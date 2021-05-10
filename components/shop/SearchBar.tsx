@@ -117,6 +117,7 @@ const SearchBar = ({ cartQueryRefetch, setIsBasketUpToDate }: SearchBarProps) =>
                 // <Grid item xs={12} key={index}>
                   <>
                   <SearchBarItem
+                    key={index}
                     product={product}
                     setOpen={setOpen}
                     cartQueryRefetch={cartQueryRefetch}
