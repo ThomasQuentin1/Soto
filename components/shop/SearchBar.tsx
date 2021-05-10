@@ -115,7 +115,7 @@ const SearchBar = ({ cartQueryRefetch, setIsBasketUpToDate }: SearchBarProps) =>
             threeFirstProducts.sort((a, b) => b.scoreHealth! - a.scoreHealth!).map((product, index) => {
               return (
                 // <Grid item xs={12} key={index}>
-                  <>
+                  <div key={index}>
                   <SearchBarItem
                     key={index}
                     product={product}
@@ -126,7 +126,7 @@ const SearchBar = ({ cartQueryRefetch, setIsBasketUpToDate }: SearchBarProps) =>
                   {
                     index < 2 ? <Divider/> : <></>
                   }
-                  </>
+                  </div>
 
                 // </Grid>
               );
