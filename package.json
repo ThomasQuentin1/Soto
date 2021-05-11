@@ -12,7 +12,7 @@
     "all-notif": "ts-node --project tsconfig.server.json scripts/sendNotificationToAllCustomer.ts",
     "one-notif": "ts-node --project tsconfig.server.json cripts/sendNotificationToOneCustomer.ts",
     "generate-translation-types": "ts-node --project tsconfig.server.json scripts/generate-translation-types.ts",
-    "setup-test-db" : "cross-env TEST=TRUE ts-node --project tsconfig.server.json scripts/db-setup.ts && cross-env TEST=TRUE ts-node --project tsconfig.server.json scripts/drive-fetch.ts"
+    "setup-test-db": "cross-env TEST=TRUE ts-node --project tsconfig.server.json scripts/db-setup.ts && cross-env TEST=TRUE ts-node --project tsconfig.server.json scripts/drive-fetch.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.2.2",
@@ -46,6 +46,7 @@
     "react-list-drag-and-drop": "^0.9.2",
     "react-movable": "^2.5.1",
     "react-router": "^5.2.0",
+    "react-text-mask": "^5.4.3",
     "react-toastify": "^6.0.8",
     "sqlite3": "^4.2.0",
     "styled-components": "^5.1.0",

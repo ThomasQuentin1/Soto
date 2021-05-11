@@ -7,6 +7,7 @@ import { Product, useConfirmCartMutation, useAddToCartMutation } from 'typing';
 import { notifySuccess, notifyError } from "../../public/notifications/notificationsFunctions";
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Router from "next/router";
 
 const calculateTotalPrice = (basket: Product[]) => {
     let totalPrice : number = 0;
@@ -188,10 +189,9 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                                 console.log(r.errors[0].message)
                                 notifyError("Erreur dans le payement du panier")
                             } else {
-                                notifySuccess("Panier payé avec succès")
+                                notifySuccess("Panier confirmé avec succès")
                                 cartQueryRefetch().then(() => setIsBasketUpToDate(false));
-                                console.log("cart confirmed")
-
+                                Router.push("payment").then(() => {});
                             }
                         })
                     }}
