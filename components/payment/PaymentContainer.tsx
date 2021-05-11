@@ -77,14 +77,14 @@ const PaymentContainer = ({cart, loading} : PaymentContainerProps) => {
                             <Button
                                 disabled
                                 variant="contained"
-                                color="secondary"
+                                color="primary"
                             >
                                 Next
                             </Button>
                             : 
                             <Button
                                 variant="contained"
-                                color="secondary"
+                                color="primary"
                                 onClick={() => {
                                     if (activeStep === steps.length - 1) {
                                         paymentValidation("Commande validée et payée")

@@ -183,7 +183,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                             error
                             label="Numéro de carte"
                             autoFocus={true}
-                            color="secondary"
+                            color="primary"
                             value={cardValues.textmask}
                             onChange={(event: any) => handleChange(event, setCardValues, cardValues)}
                             name="textmask"
@@ -208,7 +208,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                             required
                             label="Numéro de carte"
                             autoFocus={true}
-                            color="secondary"
+                            color="primary"
                             value={cardValues.textmask}
                             onChange={(event: any) => handleChange(event, setCardValues, cardValues)}
                             name="textmask"
@@ -252,7 +252,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                         setNameHolderTextFieldIsEmpty(false);
                     }
                 }}
-                onChange={(event: any) => handleChangeText(event, setUserName)} label="Titulaire de la carte" margin="dense" color="secondary" type="text" helperText="Champ requis"></TextField>
+                onChange={(event: any) => handleChangeText(event, setUserName)} label="Titulaire de la carte" margin="dense" color="primary" type="text" helperText="Champ requis"></TextField>
                 : 
                 <TextField required InputLabelProps={{ shrink: true }} value={userName} onBlur={() => {
                     if (userName.length === 0) {
@@ -264,7 +264,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                         setNameHolderTextFieldIsEmpty(false);
                     }
                 }}
-                onChange={(event: any) => handleChangeText(event, setUserName)} label="Titulaire de la carte" margin="dense" color="secondary" type="text"></TextField>}
+                onChange={(event: any) => handleChangeText(event, setUserName)} label="Titulaire de la carte" margin="dense" color="primary" type="text"></TextField>}
                 
             </Grid>
             <Grid item xs={3}>
@@ -274,7 +274,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                     error
                     required
                     label="Date d'expiration"
-                    color="secondary"
+                    color="primary"
                     placeholder="MM/YY"
                     value={expirationDateValues.textmask}
                     onChange={(event: any) => handleChange(event, setExpirationDateValues, expirationDateValues)}
@@ -299,7 +299,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                      <TextField
                     required
                     label="Date d'expiration"
-                    color="secondary"
+                    color="primary"
                     placeholder="MM/YY"
                     value={expirationDateValues.textmask}
                     onChange={(event: any) => handleChange(event, setExpirationDateValues, expirationDateValues)}
@@ -330,7 +330,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                     <TextField
                     error
                     label="Cryptogramme"
-                    color="secondary"
+                    color="primary"
                     value={cryptogramValues.textmask}
                     onChange={(event: any) => handleChange(event, setCryptogramValues, cryptogramValues)}
                     name="textmask"
@@ -353,7 +353,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                     :
                     <TextField
                     label="Cryptogramme"
-                    color="secondary"
+                    color="primary"
                     value={cryptogramValues.textmask}
                     onChange={(event: any) => handleChange(event, setCryptogramValues, cryptogramValues)}
                     name="textmask"
@@ -386,7 +386,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                                 <TextField
                                 error
                                 label="Code postal"
-                                color="secondary"
+                                color="primary"
                                 value={zipCodeValues.textmask}
                                 onChange={(event: any) => handleChange(event, setZipCodeValues, zipCodeValues)}
                                 name="textmask"
@@ -409,7 +409,7 @@ const PaymentInformation = ({cart, loading, cardValues, setCardValues, expiratio
                                 :
                                 <TextField
                                 label="Code postal"
-                                color="secondary"
+                                color="primary"
                                 value={zipCodeValues.textmask}
                                 onChange={(event: any) => handleChange(event, setZipCodeValues, zipCodeValues)}
                                 name="textmask"
