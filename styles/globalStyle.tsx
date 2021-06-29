@@ -26,17 +26,17 @@ const GlobalStyles = createGlobalStyle`
     font-family: Arial, Helvetica, sans-serif;
     transition: all 0.25s linear;
   }
-  
+
   .halfWidth {
     width: 50%
   }
-  
+
   .flexAlignJustifyCentered {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   .centered {
     display: flex;
     flex-direction: column;
@@ -62,9 +62,9 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .roundLogo {
-      width: 100px;
-      height: 100px;
-      //src: 
+    width: 100px;
+    height: 100px;
+    //src: 
   }
 
   .header-div {
@@ -85,35 +85,35 @@ const GlobalStyles = createGlobalStyle`
   a:link {
     text-decoration: none;
   }
-  
+
   a:visited {
     text-decoration: none;
   }
-  
+
   a:hover {
     cursor: pointer;
     //text-decoration: underline;
   }
-  
+
   .footer-link {
     color: ${({ theme }) => theme.text};
     text-decoration: none;
   }
-  
+
   .flagLogo {
     width: 50px;
     height: 50px;
     margin: 10px;
   }
-  
+
   .textField {
     margin: 10px !important;
   }
-  
+
   .MuiTypography-h5 {
     margin: 10px 0px !important;
   }
-  
+
 
   .header_bar {
     width: 100%;
@@ -128,7 +128,7 @@ const GlobalStyles = createGlobalStyle`
     color: ${({ theme }) => theme.text};
     font-family: Arial, Helvetica, sans-serif;
   }
-  
+
   .criteria_drag_list_elem {
     padding: 8px;
     margin: 8px;
@@ -166,7 +166,7 @@ const GlobalStyles = createGlobalStyle`
   .icons {
     color: ${({theme}) => theme.text}
   }
-  
+
   .flexWidthFull {
     display: flex;
     width: 100%;
@@ -175,39 +175,39 @@ const GlobalStyles = createGlobalStyle`
   .padding1020 {
     padding: 10px 20px;
   }
-  
+
   .padding20 {
     padding: 20px;
   }
-  
+
   .cell {
     //margin: 10px;
     display: flex;
   }
-  
+
   .cellDivider {
     border-top: 1px solid;
     //width: 99%
   }
-  
+
   .cell :hover {
     cursor: pointer;
     background: ${({ theme }) => theme.hover};
   }
-  
+
   .cellTitle {
     font-size: 1rem;
   }
-  
+
   .cellValue {
     font-size: 0.875rem;
   }
-  
+
   .MuiPaper-root {
     color: inherit !important;
     //background: inherit !important;
   }
-  
+
   .MuiTypography-root {
     align-self: center;
   }
@@ -221,14 +221,14 @@ const GlobalStyles = createGlobalStyle`
   .marginV10H0px {
     margin: 10px 0px !important;
   }
-  
+
   .padRight10 {
     padding-right: 10px;
   }
   .pad5 {
     padding: 5px;
   }
-  
+
   .dFlex {
     display: flex;
   }
@@ -237,12 +237,12 @@ const GlobalStyles = createGlobalStyle`
     display: flex;
     flex-direction: column;
   }
-  
+
   .flexDirRow {
     display: flex;
     flex-direction: row;
   }
-  
+
   .alignCenter {
     align-content: center;
     align-items: center;
@@ -252,25 +252,27 @@ const GlobalStyles = createGlobalStyle`
   .mapCard {
     background: ${({ theme }) => theme.body} !important;
   }
-  
+
   .flexSpaceBetween {
     display: flex;
     justify-content: space-between;
   }
-  
+
+  .flexSpaceEvenly {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
   /* END SHOP */
 
   /* HISTORY */
-  
-  .history_short_cut_list {
+
+  .history_short_cut_item {
     border: 1px solid ${({ theme }) => theme.border.color};
     border-radius: 10px;
     background-color: ${({ theme }) => theme.secondaryColor};
     opacity : 0.9;
-  }
-
-  .history_short_cut_item {
-    border-bottom: 1xp solid ${({ theme }) => theme.border.color};
+    padding: 5px;
   }
 
   .history_item {
@@ -278,11 +280,11 @@ const GlobalStyles = createGlobalStyle`
     transition: all 1s linear;
     border-radius: 10px;
     background-color: ${({ theme }) => theme.secondaryColor};
-    margin-bottom: 10px;
-    margin-left: 10px;
-    padding-top: 10px;
+    //margin-bottom: 10px;
+    //margin-left: 10px;
+    //padding-top: 10px;
   }
-  
+
   .grid_short_cut_toggled_position {
     width: 100px;
   }
@@ -290,7 +292,7 @@ const GlobalStyles = createGlobalStyle`
   .grid_short_cut_not_toggled_position {
     width: 0px;
   }
-  
+
   /* END HISTORY */
 
   .rightclass {
@@ -302,6 +304,45 @@ const GlobalStyles = createGlobalStyle`
     width: 50px;
     left: 200px;
   }
-  `;
+`;
+
+export const color = {
+  dark_red: "#ff0000",
+  red: "#ff6821",
+  orange: "#ffb300",
+  green: "#bbff29",
+  dark_green: "#00ff00",
+  dark_red_alpha: "#ff000088",
+  red_alpha: "#ff682188",
+  orange_alpha: "#ffb30088",
+  green_alpha: "#bbff2988",
+  dark_green_alpha: "#00ff0088",
+};
+
+export function selectColor(score: number, alpha: boolean) {
+  if (score < 20) {
+    if (alpha)
+      return color.dark_red_alpha
+    return color.dark_red
+  }
+  if (score < 40) {
+    if (alpha)
+      return color.red_alpha
+    return color.red
+  }
+  if (score < 60) {
+    if (alpha)
+      return color.orange_alpha
+    return color.orange
+  }
+  if (score < 80) {
+    if (alpha)
+      return color.green_alpha
+    return color.green
+  }
+  if (alpha)
+    return color.dark_green_alpha
+  return color.dark_green
+}
 
 export default GlobalStyles;

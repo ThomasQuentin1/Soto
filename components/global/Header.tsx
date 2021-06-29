@@ -23,6 +23,9 @@ const Header = () => {
         setAnchorEl(null);
     };
 
+    if (!loading && data === undefined && Router.route != "/" && Router.route != "/login")
+        Router.push("/login").then(() => {})
+
     return (
     <div className='header-div' style={{zIndex: 1000,left: '0px', top: '0px', width:'100%', height: '80px', position:'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px', color: "secondaryColor"}}>
        <CardMedia onClick={() => Router.push("/shop")}
