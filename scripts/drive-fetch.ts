@@ -8,11 +8,13 @@ const mysql = require("mysql");
 import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
 import { IsNoGluten } from "../server/algo/scoring/NoGluten";
+import PriceScoring from "../server/algo/scoring/PriceScoring";
 import { IsVegan } from "../server/algo/scoring/Vegan";
 import { getPool } from "../server/query";
 
 const EnvScorer = new EnvScoring();
 const HealthScorer = new HealthScoring();
+const PriceScorer = new PriceScoring();
 
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
@@ -207,21 +209,21 @@ const start = async () => {
           if (!serialized.ingredients || serialized.ingredients.length === 0) {
             return;
           }
-          serialized.scoreEnvironment = EnvScorer.getScore(
-            serialized
-          ).toString();
+          serialized.scoreEnvironment =
+            EnvScorer.getScore(serialized).toString();
           serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
+          serialized.scorePrice = PriceScorer.getScore(serialized).toString();
 
           serialized.vegan = IsVegan(serialized);
           serialized.noGluten = IsNoGluten(serialized);
 
           console.log(
-            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice}`
           );
 
           await sqlquery(
             sql,
-            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords, vegan, noGluten, labels) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, priceScore, quantity, keywords, vegan, noGluten, labels) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               clear(serialized.name),
               serialized.leclercId,
@@ -236,6 +238,7 @@ const start = async () => {
               serialized.nutriscore,
               serialized.scoreHealth,
               serialized.scoreEnvironment,
+              serialized.scorePrice,
               clear(serialized.quantity),
               clear(serialized.keywords),
               serialized.vegan,

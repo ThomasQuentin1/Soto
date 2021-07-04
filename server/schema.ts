@@ -92,6 +92,7 @@ const schema = gql`
     nutriments: [String]
     nutriscore: String
     scoreHealth: Int
+    scorePrice: Int
     scoreEnvironment: Int
     finalScore: Int
     packagingQuantity: String

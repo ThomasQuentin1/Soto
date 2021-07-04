@@ -82,6 +82,7 @@ export const productResolvers: Resolvers = {
           packaging: r.packaging?.split("|") ?? [],
           scoreEnvironment: r.environmentScore,
           scoreHealth: r.healthscore,
+          scorePrice: r.priceScore,
           photo: `https://${
             shop!.server
           }-photos.leclercdrive.fr/image.ashx?id=${

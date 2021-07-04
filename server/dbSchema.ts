@@ -13,6 +13,7 @@ export interface DbProduct {
   nutriscore: string;
   healthscore: number;
   environmentScore: number;
+  priceScore: number;
   quantity: string;
   keywords: string;
   origin?: string;
