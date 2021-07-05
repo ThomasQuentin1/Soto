@@ -12,7 +12,7 @@ interface HistoryShortCutItemProps {
     cart: Cart;
     basket?: Product[];
     setBasket?: any;
-    cartQueryRefetch: any;
+    cartQueryRefetch?: any;
 }
 
 const GetTotalOfProducts = (products: Product[]) => {
@@ -32,7 +32,7 @@ const AddOldCartToCurrentCart = (oldCart: Cart/*, basket: Product[], setBasket: 
     cartQueryRefetch();
 }
 
-const HistoryShortCutItem = ({cart, cartQueryRefetch}: HistoryShortCutItemProps) => {
+const HistoryShortCutItem = ({cart} : HistoryShortCutItemProps) => {
     const [t] = useTranslation()
     const [isDetailsToggled, setIsDetailsToggled] = useState(false);
     const date = new Date(cart.dateLastEdit);

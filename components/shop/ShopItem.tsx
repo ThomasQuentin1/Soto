@@ -50,53 +50,29 @@ const firstLetterCap = (str: string) => {
     return str.charAt(0).toUpperCase() + str.substr(1, str.length)
 }
 
-const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any, setIsBasketUpToDate: any) => {
+
+const returnRemoveOrReduceButton = (product: Product, RemoveFromCart: any, basket: Product[], setBasket: any) => {
     if (product.itemQuantity === 1) {
         return (
             <Button
                 color="secondary"
-                onClick={() => {
-                    RemoveFromCartMutation().then((r) => {
-                        if (r.errors) {
-                            console.log(r.errors);
-                        } else {
-                            cartQueryRefetch().then(() => {
-                                setIsBasketUpToDate(false);
-                            })
-                            console.log('Item removed from cart')
-                        }
-                    });
-                }
-                }
-                style={{borderRadius: "24px", fontSize: '23px', height: '25px', width: '25px'}}>
-                <DeleteIcon fontSize={"small"}/>
+                onClick={() => RemoveFromCart(product, basket, setBasket)}
+                style={{borderRadius: "24px", fontSize: '23px', height: '25px', width: '25px'}}><DeleteIcon fontSize={"small"}></DeleteIcon>
             </Button>);
     } else {
         return (
-            <Button
-                color="secondary"
-                onClick={() => RemoveFromCartMutation().then((r) => {
-                    if (r.errors) {
-                        console.log(r.errors);
-                    } else {
-                        cartQueryRefetch().then(() => {
-                            setIsBasketUpToDate(false);
-                        })
-                        console.log('Item removed from cart')
-                    }
-                })}
+            <Button 
+                color="secondary" 
+                onClick={() => RemoveFromCart(product, basket, setBasket)}
                 style={{borderRadius: "24px", fontSize: '23px', height: '25px', width: '25px'}}>-
             </Button>);
     }
 }
 
-const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProps) => {
+const ShopItem = ({product, AddToCart, basket, setBasket, RemoveFromCart} : ShopItemProps) => {
 
-    const [RemoveFromCartMutation] = useRemoveFromCartMutation({variables: {productId: product.id}, errorPolicy: 'all'})
-    const [AddToCartMutation] = useAddToCartMutation({variables: {productId: product.id}, errorPolicy: 'all'})
-
-    let scoreColorAlpha: string = color.red_alpha; // red
-    let scoreColor: string = color.red;
+    let scoreColorAlpha : string = color.red_alpha; // red
+    let scoreColor : string = color.red;
 
     const [isToggled, SetIsToggled] = useState<boolean>(false);
 
@@ -108,7 +84,7 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
         scoreColorAlpha = color.green_alpha; // green
         scoreColor = color.green;
     }
-    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCartMutation, cartQueryRefetch, setIsBasketUpToDate);
+    const removeOrReduceButton = returnRemoveOrReduceButton(product, RemoveFromCart, basket, setBasket);
     return (
         <>
             {product && !isToggled &&
@@ -156,17 +132,8 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
                     {removeOrReduceButton}
                     <p>{product.itemQuantity}</p>
                     <Button color="secondary"
-                            onClick={() => AddToCartMutation().then((r) => {
-                                if (r.errors) {
-                                    console.log(r.errors[0].message);
-                                } else {
-                                    cartQueryRefetch().then(() => {
-                                        setIsBasketUpToDate(false);
-                                    })
-                                    console.log('You added 1 more ' + product.name + ' id :' + product.id)
-                                }
-                            })}
-                            style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
+                        onClick={() => AddToCart(product, basket, setBasket)}
+                        style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
                 <Box style={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -224,17 +191,8 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
                     {removeOrReduceButton}
                     <p>{product.itemQuantity}</p>
                     <Button color="secondary"
-                            onClick={() => AddToCartMutation().then((r) => {
-                                if (r.errors) {
-                                    console.log(r.errors[0].message);
-                                } else {
-                                    cartQueryRefetch().then(() => {
-                                        setIsBasketUpToDate(false);
-                                    })
-                                    console.log('You added 1 more ' + product.name + ' id :' + product.id)
-                                }
-                            })}
-                            style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
+                        onClick={() => AddToCart(product, basket, setBasket)}
+                        style={{borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px'}}>+
                     </Button>
                 </Box>
                 <Typography style={{marginBottom: '10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score

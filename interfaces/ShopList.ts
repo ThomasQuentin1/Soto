@@ -1,7 +1,10 @@
 import { Product } from "typing";
 
 export default interface ShopListProps {
+    AddToCart: any;
     basket : Product[];
-    cartQueryRefetch: any;
-    setIsBasketUpToDate: any;
+    setBasket: any;
+    RemoveFromCart: any;
+    cartQueryRefetch?: any;
+    setIsBasketUpToDate?: any;
 }

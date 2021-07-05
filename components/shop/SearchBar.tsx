@@ -1,9 +1,8 @@
 import {Button, Divider, Input, InputAdornment, Paper} from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
-import SearchBarProps from "interfaces/SeachBar";
-import React, {useState} from "react";
-import {useTranslation} from "react-i18next";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import SearchBarItem from "./SeachBarItem";
 import SearchBarLoadingItem from "./SeachBarLoadingItem";
 import {useSearchProductLazyQuery, Product} from "../../typing";
@@ -23,10 +22,16 @@ const GetSelectedNbProducts = (data: any, itemsNb: number) => {
     return productsToReturn;
 };
 
-const SearchBar = ({cartQueryRefetch, setIsBasketUpToDate}: SearchBarProps) => {
-    const [t] = useTranslation();
-    const [input, setInput] = useState<string>("");
-    const [open, setOpen] = useState<boolean>(false);
+interface SearchBarProps {
+    AddToCart: any;
+    basket: Product[];
+    setBasket:any;
+}
+
+const SearchBar = ({AddToCart, basket, setBasket} : SearchBarProps) => {
+  const [t] = useTranslation();
+  const [input, setInput] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
     const [itemsToPrint, setItemsToPrint] = useState(3)
 
     const [searchProduct, {loading, data, error}] = useSearchProductLazyQuery({
@@ -43,7 +48,6 @@ const SearchBar = ({cartQueryRefetch, setIsBasketUpToDate}: SearchBarProps) => {
     const showMoreItems = () => {
         setItemsToPrint(itemsToPrint + 3)
     }
-
     if (error) {
         console.log(error);
         console.error("There is an error while making the search request");
@@ -80,7 +84,6 @@ const SearchBar = ({cartQueryRefetch, setIsBasketUpToDate}: SearchBarProps) => {
                         }
                     />
                 </div>
-
                 {loading && input != "" && open && (
                     <Grid container style={{position: "absolute"}}>
                         <Grid item xs={12}>
@@ -105,8 +108,9 @@ const SearchBar = ({cartQueryRefetch, setIsBasketUpToDate}: SearchBarProps) => {
                                             key={index}
                                             product={product}
                                             setOpen={setOpen}
-                                            cartQueryRefetch={cartQueryRefetch}
-                                            setIsBasketUpToDate={setIsBasketUpToDate}
+                                                                AddToCart={AddToCart}
+                    basket={basket}
+                    setBasket={setBasket}
                                         />
                                         {
                                             index < 2 ? <Divider/> : <></>
