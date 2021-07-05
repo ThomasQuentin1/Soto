@@ -17,4 +17,14 @@ export const Obligations: ObligationInternal[] = [
     fieldDB: "noGluten",
     name: "obligation.gluten_free",
   },
+  {
+    id: 3,
+    fieldDB: "bio",
+    name: "obligation.bio",
+  },
+  {
+    id: 4,
+    fieldDB: "peanutFree",
+    name: "obligation.peanut_free",
+  },
 ];

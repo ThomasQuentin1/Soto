@@ -24,6 +24,7 @@ export type TranslationEnum =
   | "obligation.vegan"
   | "obligation.peanut_free"
   | "obligation.lactose_free"
+  | "obligation.bio"
   | "obligation.halal"
   | "obligation.kosher"
   | "obligation.gluten_free"
