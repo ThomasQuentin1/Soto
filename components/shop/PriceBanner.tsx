@@ -20,12 +20,23 @@ const calculateTotalPrice = (basket: Product[]) => {
     return totalPrice;
 }
 
+const SendAllProductToOnlineCart = (basket: Product[], AddToCartMutation: any) => {
+    basket.map((item) => {
+        if (item.itemQuantity != null || item.itemQuantity != undefined) {
+            for (let i = 0; i < item.itemQuantity; i++) {
+                AddToCartMutation({variables: {productId: item.id}});
+            }
+        }
+    });
+
+}
+
 export interface FavoredListObject {
     name: string;
     products: Product[];
 }
 
-const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBannerProps) => {
+const PriceBanner = ({basket} : PriceBannerProps) => {
     const totalPrice = calculateTotalPrice(basket);
     const [t] = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -92,25 +103,21 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                                 handleClose()
 
                             }}>
-                                <Typography onClick={() => {
-                                    element.products.map((product) => {
-                                        console.log(product.id)
-                                        for (let i = 0; i < product.itemQuantity!; i++) {
-                                            addToCartMutation({variables: {productId: product.id}}).then((r) => {
-                                                if (r.errors) {
-                                                    console.error("Error while adding product " + product.name + " ; " + product.id)
-                                                    console.error(r.errors[0].message)
-                                                }
-                                            });
-                                        }
-                                    })
-                                    setTimeout(() => {
-                                        if (cartQueryRefetch)
-                                            cartQueryRefetch().then(() => setIsBasketUpToDate(false));
-                                    }, 2000)
-                                }}>{element.name}</Typography>
-                                <DeleteForeverIcon onClick={() => {
-                                    const listFav = localStorage.getItem('listFav')
+                            <Typography onClick={() => {
+                                element.products.map((product) => {
+                                    console.log(product.id)
+                                    for (let i = 0; i < product.itemQuantity!; i++) {
+                                        addToCartMutation({variables: {productId: product.id}}).then((r) => {
+                                            if (r.errors) {
+                                                console.error("Error while adding product " + product.name + " ; " + product.id)
+                                                console.error(r.errors[0].message)
+                                            }
+                                        });
+                                    }
+                                })
+                            }}>{element.name}</Typography>
+                            <DeleteForeverIcon onClick={() => {
+                                const listFav = localStorage.getItem('listFav')
 
                                     // delete the selected list by comparing with the name
                                     if (listFav != null) {
@@ -184,12 +191,12 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
             >Prix total : {totalPrice.toFixed(2)}€</Typography>
             <Button color='secondary' variant="outlined"
                     onClick={() => {
+                        SendAllProductToOnlineCart(basket, addToCartMutation);
                         confirmCartMutation().then((r) => {
                             if (r.errors) {
                                 notifyError("Erreur dans le payement du panier")
                             } else {
                                 notifySuccess("Panier confirmé avec succès")
-                                cartQueryRefetch().then(() => setIsBasketUpToDate(false));
                                 // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
                             }
                         })

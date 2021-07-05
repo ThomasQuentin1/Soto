@@ -11,9 +11,9 @@ import {useTranslation} from "react-i18next"
 import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
 import Footer from 'components/global/Footer';
-import {Product, useCartLazyQuery, useAddToCartMutation, useOldCartsQuery, Cart} from 'typing';
+import { Product, useAddToCartMutation, useOldCartsQuery ,Cart } from 'typing';
 
-const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, cartQueryRefetch: any, addToCartMutation: any) => {
+const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, addToCartMutation: any) => { //TODO with new basket system
 
     oldCart.products.map((item) => {
         for (let i = 0; i < item.itemQuantity!; i++) {
@@ -21,13 +21,56 @@ const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, cartQueryR
             console.log("Adding from history")
         }
     });
-    cartQueryRefetch();
 }
+
+const RemoveFromBasketAndSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
+    let newBasket : Product[] = [];
+
+    basket.map((item) => {
+        if (item.id === product.id) {
+            let tmpItem = Object.assign({}, item);
+            if (tmpItem.itemQuantity != null || tmpItem.itemQuantity != undefined) {
+                tmpItem.itemQuantity -= 1;
+                if (tmpItem.itemQuantity > 0) {
+                    newBasket.push(tmpItem);
+                }
+            }
+        } else {
+            newBasket.push(item);
+        }
+    });
+    setBasket(newBasket);
+    sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+};
+
+const AddToBasketAndSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
+    let newBasket : Product[] = [];
+    let modifiedItsQuantity = false;
+
+    basket.map((item) => {
+        if (product.id === item.id) {
+            let tmpItem = Object.assign({}, item);
+            if (tmpItem.itemQuantity != null || tmpItem.itemQuantity != undefined) {
+                tmpItem.itemQuantity += 1;
+                newBasket.push(tmpItem);
+                modifiedItsQuantity = true;
+            } else {
+                console.error("The item has no item.itemQuantity");
+            }
+        } else {
+            newBasket.push(item);
+        }
+    });
+    if (!modifiedItsQuantity)
+        newBasket.push(product);
+    setBasket(newBasket);
+    sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+};
 
 const ShopPage = () => {
     const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
-    let lng: string | null = 'fr';
+    let lng : string | null = 'fr';
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng');
         if (lng == null) {
@@ -35,47 +78,32 @@ const ShopPage = () => {
         }
     }
     const [t] = useTranslation();
-
     const [loadHistory, setLoadHistory] = useState(false);
-
-    // const [clearCartMutation, { loading:clearCartLoading, error:errorClearCart, called:clearCartCalled }] = useClearCartMutation({
-    //   variables: {
-    //   },
-    // });
-
-    // if (errorClearCart) {
-    //   notifyError("Failed to clear cart")
-    //   console.error(errorClearCart.message)
-    // } else if (!clearCartLoading && clearCartCalled) {
-    //   notifySuccess("Cart cleared successfully")
-    // }
-
-    const [cartQuery, {called, loading, data, error, refetch}] = useCartLazyQuery();
     const [basket, setBasket] = useState<Product[]>([]);
-    const [isBasketUpToDate, setIsBasketUpToDate] = useState(false);
-
-    if (loading && isBasketUpToDate) {
-        setIsBasketUpToDate(false);
-    }
-    if (called == false) {
-        console.log("called")
-        cartQuery();
-    }
-
-    if (data && data.cart && !isBasketUpToDate && !loading) {
-        setIsBasketUpToDate(true);
-        setBasket(data.cart.products)
-        console.log(basket)
-    } else if (error) {
-        console.log(error.message);
-    }
-
     const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
-    if (basket.length != 0 && !isAnyItem) {
-        setIsAnyItem(true);
+        if (basket.length != 0 && !isAnyItem) {
+            setIsAnyItem(true);
     }
 
-    let oldCart: undefined | Cart = undefined;
+    let oldCart : undefined | Cart = undefined;
+    
+    useEffect(() => {
+    if (window != null && window != undefined) {
+        if (sessionStorage.getItem('cart')) {
+            let jsonString : any = sessionStorage.getItem('cart');
+            oldCart = JSON.parse(jsonString);
+            console.log(oldCart)
+            setLoadHistory(true);
+            sessionStorage.removeItem('cart');
+        }
+        if (sessionStorage.getItem('currentCart')) {
+            let jsonString : any = sessionStorage.getItem('currentCart');
+            let currentCart : any = JSON.parse(jsonString);
+            setBasket(currentCart);
+            sessionStorage.removeItem('currentCart');
+        }
+    }
+  }, []);
 
     useEffect(() => {
         if (window != null && sessionStorage.getItem('cart')) {
@@ -86,7 +114,10 @@ const ShopPage = () => {
             sessionStorage.removeItem('cart');
         }
 
-    }, []);
+  if (loadHistory && oldCart != undefined) {
+    AddToBasketFromHistory(oldCart!/*, basket*/, addToCartMutation);
+    setLoadHistory(false);
+  }
 
 
     const [addToCartMutation, {}] = useAddToCartMutation({
@@ -114,36 +145,37 @@ const ShopPage = () => {
             setCartHistory(oldCartsData.oldCarts)
         }
     }
-
-    return (
-        <DarkModeParent theme={tmpTheme}>
-            <Header/>
-            <Grid container justify="center" style={{marginTop: '10px', maxHeight: "80vh"}}>
-                <Grid item xs={4}>
-                    <SearchWrapper cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
-                </Grid>
-                <Grid item xs={12}>
-                    <PriceBanner basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
-                </Grid>
-                <Grid item xs={12}>
-                    <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
-                        <HelpOutlineIcon style={{color: 'grey', marginLeft: '10px', marginTop: '10px'}}/>
-                    </Tooltip>
-                    {/* <Button onClick={() => clearCartMutation()} color="secondary">
+  }
+  
+  return (
+      <DarkModeParent theme={tmpTheme}>
+          <Header/>
+          <Grid container justify="center" style={{marginTop: '10px', height: "80vh"}}>
+            <Grid item xs={4}>
+              <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket}/>
+            </Grid>
+            <Grid item xs={12}>
+              <PriceBanner basket={basket}/>
+            </Grid>
+            <Grid item xs={12}>
+              <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
+                <HelpOutlineIcon style={{color:'grey', marginLeft:'10px', marginTop:'10px'}}/>
+              </Tooltip>
+              {/* <Button onClick={() => clearCartMutation()} color="secondary">
                 <Typography>Clear cart</Typography>
               </Button> */}
                 </Grid>
-                <Grid item xs={12} style={{overflowY: "auto", maxHeight: "60vh"}}>
-                    <ShopList basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
-                </Grid>
             </Grid>
-            {cartHistory &&
-            <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket}
-                             cartQueryRefetch={refetch}/>
-            }
-            <Footer/>
-        </DarkModeParent>
-    );
+            <Grid item xs={12} style={{overflowY: "auto", maxHeight: "60vh"}}>
+              <ShopList AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} RemoveFromCart={RemoveFromBasketAndSessionStorage}/>
+            </Grid>
+          </Grid>
+          {cartHistory && 
+            <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket}/>
+          }
+          <Footer/>
+      </DarkModeParent>
+  );
 };
 
 export default ShopPage;

@@ -11,10 +11,10 @@ export interface HistoryListProps {
     cartHistory: Cart[];
     basket: Product[];
     setBasket: any;
-    cartQueryRefetch: any;
+    cartQueryRefetch?: any;
 }
 
-const HistoryShortCut = ({cartHistory, basket, setBasket, cartQueryRefetch}: HistoryListProps) => {
+const HistoryShortCut = ({cartHistory, basket, setBasket}: HistoryListProps ) => {
 
     const [isToggled, setIsToggled] = useState(true);
 
@@ -46,12 +46,10 @@ const HistoryShortCut = ({cartHistory, basket, setBasket, cartQueryRefetch}: His
                             {cartHistory.map((cart, index) => {
                                     return (
                                         <Paper key={index} style={{marginBottom: "5px", width: "100%"}}>
-                                            <HistoryShortCutItem cart={cart} basket={basket} setBasket={setBasket}
-                                                                 cartQueryRefetch={cartQueryRefetch}/>
+                                            <HistoryShortCutItem cart={cart} basket={basket} setBasket={setBasket}/>
                                         </Paper>);
                                 }
                             )
-                            }
                         </div>
                         }
                     </Grid>
