@@ -14,11 +14,12 @@ export interface DbProduct {
   healthscore: number;
   environmentScore: number;
   priceScore: number;
+  proximityScore: number;
   quantity: string;
   keywords: string;
   origin?: string;
   labels: string;
-  ecoscore: string;
+  ecoscore: number;
 }
 
 export interface DbUser {

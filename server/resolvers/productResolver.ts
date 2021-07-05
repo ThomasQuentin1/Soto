@@ -83,6 +83,7 @@ export const productResolvers: Resolvers = {
           scoreEnvironment: r.environmentScore,
           scoreHealth: r.healthscore,
           scorePrice: r.priceScore,
+          scoreProximity: r.proximityScore,
           photo: `https://${
             shop!.server
           }-photos.leclercdrive.fr/image.ashx?id=${
