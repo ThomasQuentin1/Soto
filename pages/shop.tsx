@@ -12,6 +12,7 @@ import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
 import Footer from 'components/global/Footer';
 import { Product, useAddToCartMutation, useOldCartsQuery ,Cart } from 'typing';
+import { List } from 'pages/lists';
 
 const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, addToCartMutation: any) => { //TODO with new basket system
 
@@ -67,6 +68,36 @@ const AddToBasketAndSessionStorage = (product: Product, basket: Product[], setBa
     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
 };
 
+const AddFromFavList = (listToAdd: List, basket: Product[], setBasket: any) => {
+    let newBasket : Product[] = [];
+    basket.map((item) => {
+        let quantity = 0;
+        // if there is the same id in the listToAdd, just add its quantity to cbefore adding to basket
+        listToAdd.products.map((itemToAdd) => {
+            if (item.id == itemToAdd.id) {
+                if (itemToAdd.itemQuantity != undefined)
+                    quantity = itemToAdd.itemQuantity;
+            }
+        })
+        let newItem = Object.assign({}, item);
+        if (newItem.itemQuantity != undefined)
+            newItem.itemQuantity += quantity;
+        newBasket.push(newItem);
+    });
+    listToAdd.products.map((item) => {
+        let alreadyFoundInBasket = false;
+        basket.map((basketItem) => {
+            if (item.id === basketItem.id)
+            alreadyFoundInBasket = true;
+        });
+        if (!alreadyFoundInBasket)
+            newBasket.push(item);
+    });
+
+    setBasket(newBasket);
+    sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+}
+
 const ShopPage = () => {
     const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
@@ -89,6 +120,8 @@ const ShopPage = () => {
     
     useEffect(() => {
     if (window != null && window != undefined) {
+        let tmpBasket : Product[] = [];
+
         if (sessionStorage.getItem('cart')) {
             let jsonString : any = sessionStorage.getItem('cart');
             oldCart = JSON.parse(jsonString);
@@ -99,8 +132,19 @@ const ShopPage = () => {
         if (sessionStorage.getItem('currentCart')) {
             let jsonString : any = sessionStorage.getItem('currentCart');
             let currentCart : any = JSON.parse(jsonString);
+            tmpBasket = currentCart;
+            console.log(currentCart);
             setBasket(currentCart);
             sessionStorage.removeItem('currentCart');
+        }
+        if (localStorage.getItem('listfavToAdd')) {
+            let jsonString : any = localStorage.getItem('listfavToAdd');
+            let favlist : List = JSON.parse(jsonString);
+            localStorage.removeItem('listfavToAdd');
+            if (basket.length === 0)
+                AddFromFavList(favlist, tmpBasket, setBasket);
+            else
+                AddFromFavList(favlist, basket, setBasket);
         }
     }
   }, []);
