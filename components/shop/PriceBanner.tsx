@@ -84,10 +84,8 @@ const PriceBanner = ({basket} : PriceBannerProps) => {
             <Grid item>
                 <Grid container>
                     {/** Button Add list to basket and its menu item */}
-                    <Button color="secondary" variant="outlined" onClick={(e) => {
-                        setAnchorEl(e.currentTarget)
-                    }} style={{marginRight: "10px"}}>
-                        Listes sauvegardées
+                    <Button color="secondary" variant="outlined" onClick={() => Router.push('lists')} style={{marginRight: "10px"}}>
+                        Mes listes
                     </Button>
                     {listFavObject != undefined && listFavObject.length != 0 &&
                     <Menu
@@ -148,11 +146,11 @@ const PriceBanner = ({basket} : PriceBannerProps) => {
                     </Menu>
                     }
                     {/** Button + and its dropdown input */}
-                    <Button color="secondary" variant="outlined" onClick={(e) => {
+                    {/* <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorElAddList(e.currentTarget);
                     }}>
                         +
-                    </Button>
+                    </Button> */}
                     <Menu
                         id="add-menu"
                         color="secondary"
@@ -165,7 +163,6 @@ const PriceBanner = ({basket} : PriceBannerProps) => {
                             <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)}/>
                             <CheckIcon onClick={() => {
                                 const oldListsFav = localStorage.getItem('listFav')
-
                                 setNewListFav(true);
                                 if (oldListsFav) {
                                     const listFav: FavoredListObject[] = JSON.parse(oldListsFav!);

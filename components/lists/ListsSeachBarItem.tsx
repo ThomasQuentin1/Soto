@@ -2,23 +2,21 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Typography, CardMedia } from '@material-ui/core';
-import SearchBarItemProps from 'interfaces/SearchBarItem';
+import { Product } from "typing";
+import { List } from "pages/lists";
 
-// const getRandomIntInclusive = (min : number, max : number) => {
-//     min = Math.ceil(min);
-//     max = Math.floor(max);
-//     return Math.floor(Math.random() * (max - min +1)) + min;
-// }
+interface ListsSearchBarItemProps {
+    product : Product;
+    setOpen: any;
+    AddToCart: any;
+    lists: List[];
+    activeList: string;
+    setBasket:any;
+    cartQueryRefetch?: any;
+    setIsBasketUpToDate?: any;
+}
 
-// const AddToBasket = (product: Product, basket: Product[], setBasket: any) => {
-
-//     let newBasket: Product[] = [];
-//     basket.map((item) => newBasket.push(item));
-//     newBasket.push(product);
-//     setBasket(newBasket);
-// }
-
-const ListsSearchBarItem = ({product, setOpen, AddToCart, basket, setBasket} : SearchBarItemProps) => {
+const SearchBarItem = ({product, setOpen, AddToCart, lists, setBasket, activeList} : ListsSearchBarItemProps) => {
     let scoreColor : string = "red";
     
     if (product.scoreHealth! >= 40) {
@@ -29,16 +27,18 @@ const ListsSearchBarItem = ({product, setOpen, AddToCart, basket, setBasket} : S
     }
     return (
         <Grid container style={{display:'flex', flexDirection:'row', cursor: "pointer"}} className="item_search_bar" onClick={() => {
-                    let tmpProduct = Object.assign({}, product);
-                    tmpProduct.itemQuantity = 1;
-                    AddToCart(tmpProduct, basket, setBasket);
-                    setOpen(false);
+                    if (activeList != "0") {
+                        let tmpProduct = Object.assign({}, product);
+                        tmpProduct.itemQuantity = 1;
+                        AddToCart(tmpProduct, lists, setBasket, activeList);
+                        setOpen(false);
+                    }
                 }
             }>
             <Grid item xs={4}>
                 <CardMedia
-                    style={{width:'100%', height:'100%', aspectRatio: "auto 350/350"}}
-                    image={product.photo ?? "error"}>
+                    style={{width:'100%', height:'100%'}}
+                    image={product.photo}>
                 </CardMedia>
             </Grid>
             <Grid
@@ -57,4 +57,4 @@ const ListsSearchBarItem = ({product, setOpen, AddToCart, basket, setBasket} : S
     );
 }
 
-export default ListsSearchBarItem
+export default SearchBarItem
