@@ -5,7 +5,7 @@ import { getPool } from "../server/query";
 const mysql = require("mysql");
 
 const insertProduct =
-  "(id INT AUTO_INCREMENT primary key NOT NULL, leclercId VARCHAR(64), photo INT, name VARCHAR(1024), brand VARCHAR(128), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(4096), packaging VARCHAR(4096), allergens VARCHAR(4096), nutriments VARCHAR(4096), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, quantity VARCHAR(16), keywords VARCHAR(4096), vegan BOOLEAN, noGluten BOOLEAN, labels VARCHAR(4096))";
+  "(id INT AUTO_INCREMENT primary key NOT NULL, leclercId VARCHAR(64), photo INT, name VARCHAR(1024), brand VARCHAR(128), priceUnit INT, priceMass VARCHAR(64), ingredients VARCHAR(4096), packaging VARCHAR(4096), allergens VARCHAR(4096), nutriments VARCHAR(4096), nutriscore VARCHAR(2), healthscore INT, environmentScore INT, priceScore INT, proximityScore INT, quantity VARCHAR(16), keywords VARCHAR(4096), vegan BOOLEAN, noGluten BOOLEAN, labels VARCHAR(4096), bio BOOLEAN, peanutFree BOOLEAN)";
 const sqlconnect = async () => {
   return new Promise<any>((resolve, reject) => {
     const con = mysql.createConnection(getPool());

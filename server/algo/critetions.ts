@@ -17,4 +17,14 @@ export const Criterions: CriterionInternal[] = [
     fieldDB: "environmentScore",
     name: "criteria.environmental_impact",
   },
+  {
+    id: 3,
+    fieldDB: "priceScore",
+    name: "criteria.price",
+  },
+  {
+    id: 4,
+    fieldDB: "proximityScore",
+    name: "criteria.product_proximity",
+  },
 ];

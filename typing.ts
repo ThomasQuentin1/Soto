@@ -176,7 +176,9 @@ export type Product = {
   nutriments?: Maybe<Array<Maybe<Scalars['String']>>>;
   nutriscore?: Maybe<Scalars['String']>;
   scoreHealth?: Maybe<Scalars['Int']>;
+  scorePrice?: Maybe<Scalars['Int']>;
   scoreEnvironment?: Maybe<Scalars['Int']>;
+  scoreProximity?: Maybe<Scalars['Int']>;
   finalScore?: Maybe<Scalars['Int']>;
   packagingQuantity?: Maybe<Scalars['String']>;
   itemQuantity?: Maybe<Scalars['Int']>;
@@ -386,7 +388,9 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   nutriments?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
   nutriscore?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scorePrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreProximity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
@@ -1120,6 +1124,8 @@ export const OldCartsDocument = gql`
       long
       lat
       id
+      server
+      code
     }
     price
   }
