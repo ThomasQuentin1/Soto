@@ -23,8 +23,9 @@ const HistoryShortCut = ({cartHistory, basket, setBasket, cartQueryRefetch}: His
         <div>
             <Grid container justify='flex-end' style={{position: 'fixed', top: '90px', right: '0px', width: 'auto'}}>
                 <Grid item style={{position: 'relative', justifyContent: 'flex-end'}}>
-                    <Grid style={{marginBottom: "10px"}} className="flexSpaceBetween" container justify={isToggled ? 'flex-end' : 'flex-start'}>
-                        <Button color='primary' onClick={() => {
+                    <Grid style={{marginBottom: "10px"}} className="flexSpaceBetween" container
+                          justify={isToggled ? 'flex-end' : 'flex-start'}>
+                        <Button color='secondary' onClick={() => {
                             setIsToggled(!isToggled);
                         }}>{isToggled ? <FirstPageIcon style={{position: 'absolute', left: "-15px", top: '3px'}}/> :
                             <LastPageIcon style={{position: 'absolute', left: "85px", top: '3px'}}/>}
@@ -33,7 +34,7 @@ const HistoryShortCut = ({cartHistory, basket, setBasket, cartQueryRefetch}: His
                             </Typography>
                         </Button>
                         {!isToggled &&
-                        <Button style={{marginLeft: '65px'}} variant={"outlined"} color='primary' href='/history'>
+                        <Button style={{marginLeft: '65px'}} variant={"outlined"} color='secondary' href='/history'>
                             <Typography
                                 variant='caption'>{t("label.fullHistory")}
                             </Typography>
@@ -41,16 +42,6 @@ const HistoryShortCut = ({cartHistory, basket, setBasket, cartQueryRefetch}: His
                     </Grid>
                     <Grid>
                         {!isToggled &&
-                        // <Grid container direction={'column'} spacing={2}>
-                        //     {cartHistory.map((cart, index) => {
-                        //         return (
-                        //             <Grid item key={index}>
-                        //                 <HistoryShortCutItem cart={cart} basket={basket} setBasket={setBasket}
-                        //                                      cartQueryRefetch={cartQueryRefetch}/>
-                        //             </Grid>);
-                        //     })}
-                        // </Grid>
-                        // <Grid container direction={'column'} spacing={2}>
                         <div>
                             {cartHistory.map((cart, index) => {
                                     return (
@@ -62,7 +53,6 @@ const HistoryShortCut = ({cartHistory, basket, setBasket, cartQueryRefetch}: His
                             )
                             }
                         </div>
-                            // </Grid>
                         }
                     </Grid>
                 </Grid>

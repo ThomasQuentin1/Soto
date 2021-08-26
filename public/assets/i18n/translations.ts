@@ -43,6 +43,8 @@ const resources = {
         "shop.totalPrice.label" : "Total price :",
         "shop.payButton.label" : "Pay",
 
+        "label.showMore": "Show more",
+
         // Months
         "label.january.short" : "Jan.",
         "label.february.short" : "Feb.",
@@ -150,6 +152,8 @@ const resources = {
         "shop.banner.savedListButton.label" : "Mes listes sauvegardées",
         "shop.totalPrice.label" : "Prix total :",
         "shop.payButton.label" : "Payer",
+
+        "label.showMore": "Afficher plus",
 
         // Months
         "label.january.short" : "janv.",

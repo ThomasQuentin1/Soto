@@ -7,7 +7,7 @@ import { Product, useConfirmCartMutation, useAddToCartMutation } from 'typing';
 import { notifySuccess, notifyError } from "../../public/notifications/notificationsFunctions";
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Router from "next/router";
+// import Router from "next/router";
 
 const calculateTotalPrice = (basket: Product[]) => {
     let totalPrice : number = 0;
@@ -87,55 +87,55 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        {listFavObject != undefined && listFavObject!.map((element, index) =>
+                        {listFavObject!.map((element, index) =>
                             <MenuItem key={index} onClick={() => {
                                 handleClose()
 
                             }}>
-                            <Typography onClick={() => {
-                                element.products.map((product) => {
-                                    console.log(product.id)
-                                    for (let i = 0; i < product.itemQuantity!; i++) {
-                                        addToCartMutation({variables: {productId: product.id}}).then((r) => {
-                                            if (r.errors) {
-                                                console.error("Error while adding product " + product.name + " ; " + product.id)
-                                                console.error(r.errors[0].message)
-                                            }
-                                        });
-                                    }
-                                })
-                                setTimeout(() => {
-                                    if (cartQueryRefetch)
-                                        cartQueryRefetch().then(() => setIsBasketUpToDate(false));
-                                }, 2000)
-                            }}>{element.name}</Typography>
-                            <DeleteForeverIcon onClick={() => {
-                                const listFav = localStorage.getItem('listFav')
-
-                                // delete the selected list by comparing with the name
-                                if (listFav != null) {
-                                    const listFavParser: FavoredListObject[] = JSON.parse(listFav!);
-                                    let newListFav : FavoredListObject[] | undefined = undefined;
-
-                                    listFavParser.map((item) => {
-                                        if (item.name != element.name) {
-                                            if (newListFav == undefined) {
-                                                newListFav = [item]
-                                            } else {
-                                                newListFav!.push(item);
-                                            }
+                                <Typography onClick={() => {
+                                    element.products.map((product) => {
+                                        console.log(product.id)
+                                        for (let i = 0; i < product.itemQuantity!; i++) {
+                                            addToCartMutation({variables: {productId: product.id}}).then((r) => {
+                                                if (r.errors) {
+                                                    console.error("Error while adding product " + product.name + " ; " + product.id)
+                                                    console.error(r.errors[0].message)
+                                                }
+                                            });
                                         }
                                     })
-                                    // if we delete the last list, delete the local storage variable instead of pushing undefined
-                                    if (newListFav == undefined) {
-                                        if (localStorage.getItem('listFav')) {
-                                            localStorage.removeItem('listFav');
+                                    setTimeout(() => {
+                                        if (cartQueryRefetch)
+                                            cartQueryRefetch().then(() => setIsBasketUpToDate(false));
+                                    }, 2000)
+                                }}>{element.name}</Typography>
+                                <DeleteForeverIcon onClick={() => {
+                                    const listFav = localStorage.getItem('listFav')
+
+                                    // delete the selected list by comparing with the name
+                                    if (listFav != null) {
+                                        const listFavParser: FavoredListObject[] = JSON.parse(listFav!);
+                                        let newListFav: FavoredListObject[] | undefined = undefined;
+
+                                        listFavParser.map((item) => {
+                                            if (item.name != element.name) {
+                                                if (newListFav == undefined) {
+                                                    newListFav = [item]
+                                                } else {
+                                                    newListFav!.push(item);
+                                                }
+                                            }
+                                        })
+                                        // if we delete the last list, delete the local storage variable instead of pushing undefined
+                                        if (newListFav == undefined) {
+                                            if (localStorage.getItem('listFav')) {
+                                                localStorage.removeItem('listFav');
+                                            }
+                                        } else {
+                                            localStorage.setItem('listFav', JSON.stringify(newListFav));
                                         }
-                                    } else {
-                                        localStorage.setItem('listFav', JSON.stringify(newListFav));
                                     }
-                                }
-                            }}/>
+                                }}/>
                             </MenuItem>
                         )}
                     </Menu>
@@ -186,12 +186,11 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                     onClick={() => {
                         confirmCartMutation().then((r) => {
                             if (r.errors) {
-                                console.log(r.errors[0].message)
                                 notifyError("Erreur dans le payement du panier")
                             } else {
                                 notifySuccess("Panier confirmé avec succès")
                                 cartQueryRefetch().then(() => setIsBasketUpToDate(false));
-                                Router.push("payment").then(() => {});
+                                // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
                             }
                         })
                     }}

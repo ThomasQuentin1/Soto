@@ -78,7 +78,7 @@ const ShopPage = () => {
     let oldCart: undefined | Cart = undefined;
 
     useEffect(() => {
-        if (window != null && window != undefined && sessionStorage.getItem('cart')) {
+        if (window != null && sessionStorage.getItem('cart')) {
             let jsonString: any = sessionStorage.getItem('cart');
             oldCart = JSON.parse(jsonString);
             console.log(oldCart)
@@ -118,7 +118,7 @@ const ShopPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header/>
-            <Grid container justify="center" style={{marginTop: '10px', height: "80%"}}>
+            <Grid container justify="center" style={{marginTop: '10px', maxHeight: "80vh"}}>
                 <Grid item xs={4}>
                     <SearchWrapper cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
                 </Grid>
@@ -133,7 +133,7 @@ const ShopPage = () => {
                 <Typography>Clear cart</Typography>
               </Button> */}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} style={{overflowY: "auto", maxHeight: "60vh"}}>
                     <ShopList basket={basket} cartQueryRefetch={refetch} setIsBasketUpToDate={setIsBasketUpToDate}/>
                 </Grid>
             </Grid>

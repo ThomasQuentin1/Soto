@@ -144,20 +144,23 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .price_banner {
-    background-color: ${({ theme }) => theme.secondaryColor}
+    background-color: ${({ theme }) => theme.secondary.background};
+    border: 1.5px solid ${({ theme }) => theme.border.color};
+    border-left-width: 0;
+    border-right-width: 0;
   }
 
   /* SHOP */
 
   .item_shop {
     border: 1px solid ${({ theme }) => theme.border.color};
-    background-color: ${({ theme }) => theme.secondaryColor};
+    background-color: ${({ theme }) => theme.secondary.background};
     border-radius: 10px;
   }
 
   .item_search_bar {
     border: 1px solid ${({ theme }) => theme.border.color};
-    background-color: ${({ theme }) => theme.secondaryColor};
+    background-color: ${({ theme }) => theme.secondary.background};
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -270,7 +273,7 @@ const GlobalStyles = createGlobalStyle`
   .history_short_cut_item {
     border: 1px solid ${({ theme }) => theme.border.color};
     border-radius: 10px;
-    background-color: ${({ theme }) => theme.secondaryColor};
+    background-color: ${({ theme }) => theme.secondary.background};
     opacity : 0.9;
     padding: 5px;
   }
@@ -279,7 +282,7 @@ const GlobalStyles = createGlobalStyle`
     border: 1px solid ${({ theme }) => theme.border.color};
     transition: all 1s linear;
     border-radius: 10px;
-    background-color: ${({ theme }) => theme.secondaryColor};
+    background-color: ${({ theme }) => theme.secondary.background};
     //margin-bottom: 10px;
     //margin-left: 10px;
     //padding-top: 10px;
@@ -304,6 +307,13 @@ const GlobalStyles = createGlobalStyle`
     width: 50px;
     left: 200px;
   }
+  
+  // Material-UI classes overload
+  
+  .MuiStepIcon-active{
+    color: ${({ theme }) => theme.secondary.main} !important
+  }
+  
 `;
 
 export const color = {

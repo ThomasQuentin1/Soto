@@ -46,6 +46,10 @@ import {color} from "../../styles/globalStyle";
 //     setBasket(newBasket);
 // }
 
+const firstLetterCap = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.substr(1, str.length)
+}
+
 const returnRemoveOrReduceButton = (product: Product, RemoveFromCartMutation: any, cartQueryRefetch: any, setIsBasketUpToDate: any) => {
     if (product.itemQuantity === 1) {
         return (
@@ -109,6 +113,7 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
         <>
             {product && !isToggled &&
             <Grid
+                xs={6} sm={4} md={3} lg={3} xl={2}
                 item style={{
                 textAlign: 'center',
                 margin: '50px',
@@ -170,13 +175,14 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
                             color: 'grey',
                             marginLeft: '10px',
                             marginTop: '10px'
-                        }}></ArrowRightAltIcon>
+                        }}/>
                     </Tooltip>
                 </Box>
             </Grid>
             }
             {product && isToggled &&
             <Grid
+                xs={6} sm={4} md={3} lg={3} xl={2}
                 item style={{
                 textAlign: 'center',
                 margin: '50px',
@@ -232,11 +238,26 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
                     </Button>
                 </Box>
                 <Typography style={{marginBottom: '10px', marginLeft: '10px', marginRight: '10px'}} align="left">Score
-                    : {product.scoreHealth}</Typography>
+                    : {product.scoreHealth}
+                </Typography>
                 <Typography style={{marginBottom: '10px', marginLeft: '10px', marginRight: '10px'}} align="left">Marque
-                    : {product.brand}</Typography>
-                <Container style={{marginLeft: '10px', paddingLeft: '0px', marginRight: '10px'}} maxWidth="xs">
-                    <Typography align="left">Ingrédients : {product.ingredients}</Typography>
+                    : {product.brand!.split(',')[0]}
+                </Typography>
+                <Container style={{marginLeft: '10px', padding: '0px', marginRight: '10px'}} maxWidth="xs">
+                    <div className="flexDirRow">
+                        <Typography align="left" style={{whiteSpace: "nowrap", alignSelf: "baseline"}}>
+                            Ingrédients :
+                        </Typography>
+                        <div className="flexDirCol" style={{marginLeft: "10px"}}>
+                            {product.ingredients?.map((ingredient, index) => {
+                                return (
+                                    <Typography align="left" key={product.id + index} style={{alignSelf: "start"}}>
+                                        {firstLetterCap(ingredient!.split('-').join(' '))}
+                                    </Typography>
+                                )
+                            })}
+                        </div>
+                    </div>
                 </Container>
                 <Box style={{display: 'flex', justifyContent: 'flex-end'}}>
                     <Tooltip TransitionComponent={Zoom} title={"Voir plus d'informations"}>
@@ -244,7 +265,7 @@ const ShopItem = ({product, cartQueryRefetch, setIsBasketUpToDate}: ShopItemProp
                             color: 'grey',
                             marginLeft: '10px',
                             marginTop: '10px'
-                        }}></ArrowRightAltIcon>
+                        }}/>
                     </Tooltip>
                 </Box>
             </Grid>

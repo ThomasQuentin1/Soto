@@ -28,7 +28,7 @@ const HistoryPage = () => {
                 <Header/>
                     <Grid container direction='column'>
                         <Grid item xs={4}>
-                            <Button color='primary' onClick={() => Router.back()} style={{marginLeft:'10px', marginTop:'10px'}}>
+                            <Button color='secondary' onClick={() => Router.back()} style={{marginLeft:'10px', marginTop:'10px'}}>
                                 <ArrowBackIcon/>
                                 <Typography variant='caption'>Retourner faire ses courses</Typography>
                             </Button>

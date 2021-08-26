@@ -44,7 +44,7 @@ const Step1 = (props: Props) => {
         marginLeft: "10%"
     }}>
         <TextField
-            color="primary"
+            color="secondary"
             required
             className={classes.textField}
             id="emailRegister"
@@ -59,7 +59,7 @@ const Step1 = (props: Props) => {
             helperText={props.emailError}
         />
         <TextField
-            color="primary"
+            color="secondary"
             required
             className={classes.textField}
             id="standard-password-input"
@@ -74,7 +74,7 @@ const Step1 = (props: Props) => {
             helperText={props.passwordError}
         />
         <TextField
-            color="primary"
+            color="secondary"
             required
             className={classes.textField}
             id="standard-confirm-password-input"

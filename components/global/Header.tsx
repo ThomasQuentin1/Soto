@@ -27,7 +27,7 @@ const Header = () => {
         Router.push("/login").then(() => {})
 
     return (
-    <div className='header-div' style={{zIndex: 1000,left: '0px', top: '0px', width:'100%', height: '80px', position:'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px', color: "secondaryColor"}}>
+    <div className='header-div' style={{zIndex: 1000,left: '0px', top: '0px', width:'100%', height: '80px', position:'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px'}}>
        <CardMedia onClick={() => Router.push("/shop")}
             style={{left: '20px', marginLeft: "10px", height: '60px', width: '60px', marginRight: '10px', cursor: "pointer"}}
             image={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
