@@ -106,7 +106,7 @@ const schema = gql`
     finalScore: Int
     packagingQuantity: String
     itemQuantity: Int
-    photo: String!
+    photo: String
     url: String!
   }
 `;

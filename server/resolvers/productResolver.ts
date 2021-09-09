@@ -84,11 +84,7 @@ export const productResolvers: Resolvers = {
           scoreHealth: r.healthscore,
           scorePrice: r.priceScore,
           scoreProximity: r.proximityScore,
-          photo: `https://${
-            shop!.server
-          }-photos.leclercdrive.fr/image.ashx?id=${
-            r.photo
-          }&use=d&cat=p&typeid=i&width=300`,
+          photo: r.photo,
           url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
             shop!.code
           }-${shop?.name
@@ -109,7 +105,7 @@ export const productResolvers: Resolvers = {
     setShop: async (_obj, args, context, _info) => {
       if (!context.user)
         throw new AuthenticationError(ErrMsg("error.notloggedin"));
-      if (args.shopId == 0 || args.shopId == 1 || args.shopId > 4)
+      if (args.shopId == 0 || args.shopId > 4)
         throw new UserInputError(ErrMsg("error.badparams"));
 
       const maxCartId = (

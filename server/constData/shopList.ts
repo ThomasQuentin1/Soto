@@ -1,15 +1,15 @@
 import { Shop } from "typing";
 
 export const ShopList: Shop[] = [
-  // {
-  //   name: "E.Leclerc Drive Erstein",
-  //   city: "Erstein",
-  //   lat: 48.425563,
-  //   long: 7.638703,
-  //   id: 1,
-  //   server: "fd12",
-  //   code: "056701",
-  // },
+  {
+    name: "E.Leclerc Drive Erstein",
+    city: "Erstein",
+    lat: 48.425563,
+    long: 7.638703,
+    id: 1,
+    server: "fd12",
+    code: "056701",
+  },
   {
     name: "E.Leclerc Drive Strasbourg - Neuhof",
     city: "Strasbourg",
