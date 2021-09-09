@@ -30,6 +30,9 @@ const schema = gql`
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
     addToCart(productId: String!): Boolean!
+    addMultipleToCart(products: [AddToCartInput!]!) : Boolean!
+    removeMultipleToCart(products: [AddToCartInput!]!) : Boolean!
+
     removeFromCart(productId: String!): Boolean!
     confirmCart: Boolean!
     clearCart: Boolean!
@@ -41,6 +44,11 @@ const schema = gql`
     dateLastEdit: Date!
     shop: Shop!
     price: Float!
+  }
+
+  input  AddToCartInput {
+    productId: String!
+    quantity: Int!
   }
 
   type Shop {

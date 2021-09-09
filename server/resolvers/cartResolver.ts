@@ -116,6 +116,29 @@ export const cartResolvers: Resolvers = {
     },
   },
   Mutation: {
+    addMultipleToCart: async (_obj, args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      const { cartId, id, shopId } = context.user;
+      if (!cartId || !id || !shopId)
+        throw new UserInputError(ErrMsg("error.badparams"));
+      if (!args.products) throw new UserInputError(ErrMsg("error.badparams"));
+      args.products.map(async (product) => {
+      const leclercProductQuery = await usersQuery(
+        `SELECT id FROM products${context.user.shopId} WHERE leclercId = ?`,
+        [String(product.productId)]
+      );
+      if (leclercProductQuery.length !== 1)
+        throw new UserInputError(ErrMsg("error.badparams"));
+        Array.from({length: product.quantity}).forEach(async () =>{
+          await usersQuery(
+            "INSERT INTO carts ( id, userId, productId, driveId) VALUES (?, ?, ?, ?)",
+            [cartId, id, product.productId, shopId]
+          );
+        })
+    })
+      return true;
+    },
     addToCart: async (_obj, args, context, _info) => {
       if (!context.user)
         throw new AuthenticationError(ErrMsg("error.notloggedin"));
@@ -137,6 +160,25 @@ export const cartResolvers: Resolvers = {
       );
       return true;
     },
+
+    removeMultipleToCart: async (_obj, args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      const { cartId, id: userId, shopId } = context.user;
+      if (!cartId || !userId || !shopId)
+        throw new UserInputError(ErrMsg("error.badparams"));
+      if (!args.products) throw new UserInputError(ErrMsg("error.badparams"));
+      args.products.forEach(async (e) => {
+        Array.from({length: e.quantity}).forEach(async () =>{
+          await usersQuery(
+            "DELETE FROM carts WHERE id = ? AND userId = ? AND productId = ? AND driveId = ? LIMIT 1",
+            [cartId, userId, e.productId, shopId]
+          );
+        })
+      })
+      return true;
+    },
+
     removeFromCart: async (_obj, args, context, _info) => {
       if (!context.user)
         throw new AuthenticationError(ErrMsg("error.notloggedin"));

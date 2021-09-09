@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -51,6 +50,8 @@ export type Mutation = {
   changeEmail: Scalars['Boolean'];
   setShop: Scalars['Boolean'];
   addToCart: Scalars['Boolean'];
+  addMultipleToCart: Scalars['Boolean'];
+  removeMultipleToCart: Scalars['Boolean'];
   removeFromCart: Scalars['Boolean'];
   confirmCart: Scalars['Boolean'];
   clearCart: Scalars['Boolean'];
@@ -109,6 +110,16 @@ export type MutationAddToCartArgs = {
 };
 
 
+export type MutationAddMultipleToCartArgs = {
+  products: Array<AddToCartInput>;
+};
+
+
+export type MutationRemoveMultipleToCartArgs = {
+  products: Array<AddToCartInput>;
+};
+
+
 export type MutationRemoveFromCartArgs = {
   productId: Scalars['String'];
 };
@@ -120,6 +131,11 @@ export type Cart = {
   dateLastEdit: Scalars['Date'];
   shop: Shop;
   price: Scalars['Float'];
+};
+
+export type AddToCartInput = {
+  productId: Scalars['String'];
+  quantity: Scalars['Int'];
 };
 
 export type Shop = {
@@ -273,6 +289,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   Cart: ResolverTypeWrapper<Cart>,
   Float: ResolverTypeWrapper<Scalars['Float']>,
+  AddToCartInput: AddToCartInput,
   Shop: ResolverTypeWrapper<Shop>,
   Account: ResolverTypeWrapper<Account>,
   Criterion: ResolverTypeWrapper<Criterion>,
@@ -294,6 +311,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'],
   Cart: Cart,
   Float: Scalars['Float'],
+  AddToCartInput: AddToCartInput,
   Shop: Shop,
   Account: Account,
   Criterion: Criterion,
@@ -330,6 +348,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
   setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
   addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
+  addMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddMultipleToCartArgs, 'products'>>,
+  removeMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveMultipleToCartArgs, 'products'>>,
   removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
   confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
