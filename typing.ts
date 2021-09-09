@@ -199,7 +199,7 @@ export type Product = {
   finalScore?: Maybe<Scalars['Int']>;
   packagingQuantity?: Maybe<Scalars['String']>;
   itemQuantity?: Maybe<Scalars['Int']>;
-  photo: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
 
@@ -415,7 +415,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  photo?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
