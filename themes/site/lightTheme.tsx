@@ -3,7 +3,10 @@ const lightTheme = {
     header: '#edf7fa',
     footer: '#edf7fa',
     firstColor: '#edf7fa',
-    secondaryColor: "#3586e2",
+    secondary: {
+        main: "#fff",
+        background: "#dde5ed"
+    },
     thirdColor: "#ffb677",
     text: '#363537',
     disabled: '#263859',

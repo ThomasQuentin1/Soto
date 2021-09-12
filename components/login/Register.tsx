@@ -127,13 +127,13 @@ const Register = (props: Props) => {
                             style={{marginBottom: "20px", color: "grey", display: "flex", justifyContent: "center"}}>
                     {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
                 </Typography>
-                <Stepper activeStep={activeStep} color="primary">
+                <Stepper activeStep={activeStep} color="secondary">
                     {steps.map((label) => {
                         const stepProps: { completed?: boolean } = {};
                         const labelProps: { optional?: React.ReactNode } = {};
                         return (
-                            <Step key={label} {...stepProps} color="primary">
-                                <StepLabel {...labelProps} color="primary">{label}</StepLabel>
+                            <Step key={label} {...stepProps} color="secondary">
+                                <StepLabel {...labelProps} color="secondary">{label}</StepLabel>
                             </Step>
                         );
                     })}
@@ -141,16 +141,16 @@ const Register = (props: Props) => {
             </div>
             {getStepContent(activeStep)}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
-                <Button disabled={activeStep === 0} color="primary" onClick={() => handleBack()}>
+                <Button disabled={activeStep === 0} color="secondary" onClick={() => handleBack()}>
                     {lng == 'fr' ? 'Retour' : 'Back'}
                 </Button>
                 {activeStep === steps.length - 1 ?
                     <div>
-                        <Button variant="contained" color="primary" onClick={() => handleFinish()}>
+                        <Button variant="contained" color="secondary" onClick={() => handleFinish()}>
                             {lng == 'fr' ? 'Finir' : 'Finish'}
                         </Button>
                     </div> :
-                    <Button variant="contained" color="primary" onClick={() => handleNext()}>
+                    <Button variant="contained" color="secondary" onClick={() => handleNext()}>
                         {lng == 'fr' ? 'Suivant' : 'Next'}
                     </Button>}
             </div>
@@ -161,7 +161,7 @@ const Register = (props: Props) => {
                 justifyContent: "space-between"
             }}>
                 <Button
-                    color="primary"
+                    color="secondary"
                     style={{marginTop: "20px", fontSize: "12px"}}
                     onClick={() => props.setDisplayRegister(false)}
                 >

@@ -102,7 +102,7 @@ const ParametersSelect = () => {
         return (
             <div style={{minHeight: "150px"}}>
                 <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                    <Button color='primary' variant={element === toPrint.CRITERIA ? "outlined" : undefined} onClick={() => {
+                    <Button color='secondary' variant={element === toPrint.CRITERIA ? "outlined" : undefined} onClick={() => {
                         if (element === toPrint.CRITERIA) {
                             setNewElement(toPrint.EMPTY)
                             setTransitioning(true)
@@ -113,7 +113,7 @@ const ParametersSelect = () => {
                     }}>
                         {t('button.criteria.label')}
                     </Button>
-                    <Button color='primary' variant={element === toPrint.OBLIGATIONS ? "outlined" : undefined} onClick={() => {
+                    <Button color='secondary' variant={element === toPrint.OBLIGATIONS ? "outlined" : undefined} onClick={() => {
                         if (element === toPrint.OBLIGATIONS) {
                             setNewElement(toPrint.EMPTY)
                             setTransitioning(true)

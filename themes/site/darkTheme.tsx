@@ -3,7 +3,10 @@ const darkTheme = {
     header: '#17223b',
     footer: '#17223b',
     firstColor: '#17223b',
-    secondaryColor: "#263859",
+    secondary: {
+        main: "#ff6768",
+        background: "#263859"
+    },
     thirdColor: "#000000",
     text: '#FAFAFA',
     disabled: '#263859',
