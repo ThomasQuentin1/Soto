@@ -53,7 +53,7 @@ const HistoryShortCutItem = ({cart, cartQueryRefetch}: HistoryShortCutItemProps)
             <Grid container style={{paddingLeft: '10px'}}>
                 <Grid item xs={12} style={{marginBottom: '5px'}}>
                     <Typography>{formatedDate}</Typography>
-                    <Typography>Total de produits : {totalOfProducts}</Typography>
+                    <Typography>{t("label.products_number")} {totalOfProducts}</Typography>
 
                 </Grid>
                 {/* When details are displayed */}
@@ -73,20 +73,20 @@ const HistoryShortCutItem = ({cart, cartQueryRefetch}: HistoryShortCutItemProps)
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
                                 <>
-                                    Plus
+                                    {t("label.showMore")}
                                     <ExpandMoreIcon/>
                                 </>
                                 }
                                 {isDetailsToggled &&
                                 <>
-                                    Moins
+                                    {t("label.showLess")}
                                     <ExpandLessIcon/>
                                 </>
                                 }
                             </Button>
                             <Button color='secondary'
                                     onClick={() => AddOldCartToCurrentCart(cart, addToCartMutation, cartQueryRefetch)}>
-                                Ajouter au panier
+                                {t("label.addToCart")}
                             </Button>
                         </Grid>
                     </Grid>

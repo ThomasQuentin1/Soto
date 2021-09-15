@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import DarkModeParent from "components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "components/settings/useDarkMode";
 import Header from 'components/global/Header';
@@ -8,6 +8,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useOldCartsQuery } from 'typing';
 import Router from "next/router";
 import 'i18n';
+import {useTranslation} from "react-i18next";
 
 const HistoryPage = () => {
     const [theme] = useDarkMode();
@@ -16,6 +17,15 @@ const HistoryPage = () => {
         variables: {
         },
     });
+    const [t, i18n] = useTranslation();
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('lng') === null) {
+            localStorage.setItem('lng', 'fr');
+        }
+        useEffect(() => {
+            i18n.changeLanguage(localStorage.getItem('lng') as string)
+        }, []);
+    }
 
     if (data && !loading) {
         console.log(data)
@@ -30,17 +40,16 @@ const HistoryPage = () => {
                         <Grid item xs={4}>
                             <Button color='secondary' onClick={() => Router.back()} style={{marginLeft:'10px', marginTop:'10px'}}>
                                 <ArrowBackIcon/>
-                                <Typography variant='caption'>Retourner faire ses courses</Typography>
+                                <Typography variant='caption'>{t("label.continue_shopping")}</Typography>
                             </Button>
                         </Grid>
                         <Grid container direction='column'>
                             {data && 
-                                <HistoryList cartHistory={data.oldCarts}/>
+                                <HistoryList cartHistory={data.oldCarts} t={t}/>
                             }
                             {!data && <Typography>Loading</Typography>}
                         </Grid>
                     </Grid>
-                {/* <Footer/> */}
             </DarkModeParent>
         </div>
     );

@@ -25,16 +25,16 @@ const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, cartQueryR
 }
 
 const ShopPage = () => {
+    const [t, i18n] = useTranslation();
     const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
-    let lng: string | null = 'fr';
     if (typeof window !== 'undefined') {
-        lng = localStorage.getItem('lng');
-        if (lng == null) {
+        if (localStorage.getItem('lng') == null)
             localStorage.setItem('lng', 'fr');
-        }
+        useEffect(() => {
+            i18n.changeLanguage(localStorage.getItem('lng') as string)
+        }, []);
     }
-    const [t] = useTranslation();
 
     const [loadHistory, setLoadHistory] = useState(false);
 
@@ -57,7 +57,7 @@ const ShopPage = () => {
     if (loading && isBasketUpToDate) {
         setIsBasketUpToDate(false);
     }
-    if (called == false) {
+    if (!called) {
         console.log("called")
         cartQuery();
     }

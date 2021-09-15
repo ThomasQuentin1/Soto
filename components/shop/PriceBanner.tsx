@@ -68,7 +68,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                 variant="h6"
                 color="secondary"
                 style={{marginRight: "20px"}}
-            >Mon panier</Typography>
+            >{t("label.cart")}</Typography>
             <ShoppingBasketIcon fontSize='large' color="secondary" style={{marginRight: 'auto'}} className='icons'/>
             <Grid item>
                 <Grid container>
@@ -76,7 +76,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                     <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorEl(e.currentTarget)
                     }} style={{marginRight: "10px"}}>
-                        Listes sauvegardées
+                        {t("label.saved_list")}
                     </Button>
                     {listFavObject != undefined && listFavObject.length != 0 &&
                     <Menu
@@ -181,7 +181,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                 variant="h6"
                 color="secondary"
                 style={{marginLeft:'auto'}}
-            >Prix total : {totalPrice.toFixed(2)}€</Typography>
+            >{t("label.total")} {totalPrice.toFixed(2)}€</Typography>
             <Button color='secondary' variant="outlined"
                     onClick={() => {
                         confirmCartMutation().then((r) => {

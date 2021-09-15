@@ -29,5 +29,6 @@ export const lngFullName: lngShortLong[] = [
     {shortName: "fr", key: "language.french", location: "language.location.fr"},
     {shortName: "en", key: "language.english", location: "language.location.us"},
     {shortName: "en", key: "language.english", location: "language.location.uk"},
+    // {shortName: "test", key: "language.test", location: "language.location.test"}, // To test translations
 ]
 
