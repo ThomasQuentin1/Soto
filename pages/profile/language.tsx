@@ -2,14 +2,14 @@ import React from "react";
 import Header from "../../components/global/Header";
 import DarkModeParent from "../../components/encapsulationComponents/DarkModeParent";
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
-import {useRouter} from "next/router";
-import {Divider, Paper, Typography} from "@material-ui/core";
-import {useDarkMode} from "../../components/settings/useDarkMode";
-import {useTranslation} from "react-i18next";
+import { useRouter } from "next/router";
+import { Divider, Paper, Typography } from "@material-ui/core";
+import { useDarkMode } from "../../components/settings/useDarkMode";
+import { useTranslation } from "react-i18next";
 import '../../i18n'
-import {lngFullName, lngShortLong} from "../../public/values";
+import { lngFullName, lngShortLong } from "../../public/values";
 import Footer from "../../components/global/Footer";
-import {CheckCircleSharp} from "@material-ui/icons";
+import { CheckCircleSharp } from "@material-ui/icons";
 
 
 const Language = () => {
@@ -30,13 +30,13 @@ const Language = () => {
         localStorage.setItem('lngLocation', lang.location)
     }
 
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
 
     if (actualLang === "" && actualLocation === "") {
         return (
             <>
                 <DarkModeParent theme={theme}>
-                    <Header/>
+                    <Header {...{ theme, SetTheme }} />
                 </DarkModeParent>
             </>)
     } else {
@@ -44,19 +44,19 @@ const Language = () => {
             <>
                 <title>{t("label.language")}</title>
                 <DarkModeParent theme={theme}>
-                    <Header/>
-                    <div style={{height: "80%"}}>
-                        <div className={"flexAlignJustifyCentered"} style={{margin: "20px 0px"}}>
-                            <a style={{margin: "0px 10px"}} onClick={() => {
+                    <Header  {...{ theme, SetTheme }} />
+                    <div style={{ height: "80%" }}>
+                        <div className={"flexAlignJustifyCentered"} style={{ margin: "20px 0px" }}>
+                            <a style={{ margin: "0px 10px" }} onClick={() => {
                                 router.back()
                             }}>
-                                <ArrowBackRoundedIcon style={{fontSize: "3rem"}}/>
+                                <ArrowBackRoundedIcon style={{ fontSize: "3rem" }} />
                             </a>
-                            <Typography variant={"h4"} style={{margin: "0px 10px"}}>{t("label.language")}</Typography>
+                            <Typography variant={"h4"} style={{ margin: "0px 10px" }}>{t("label.language")}</Typography>
                         </div>
                         <Paper variant={"outlined"} className='halfWidth centered body'
-                               style={{width: "30%", margin: "50px auto", padding: "20px"}}>
-                            <div style={{margin: "10px 0px"}}>
+                            style={{ width: "30%", margin: "50px auto", padding: "20px" }}>
+                            <div style={{ margin: "10px 0px" }}>
                                 <Typography variant={"h5"}>
                                     {t("label.usedLanguage")}
                                 </Typography>
@@ -81,11 +81,11 @@ const Language = () => {
                                                             marginRight: "0px",
                                                             marginLeft: "auto"
                                                         }}>
-                                                        <CheckCircleSharp/>
+                                                        <CheckCircleSharp />
                                                     </div>
                                                 </a>
                                                 <Divider className={"marginV10H0px"}
-                                                         hidden={index === lngFullName.length - 1}/>
+                                                    hidden={index === lngFullName.length - 1} />
                                             </div>
                                         )
                                     })}
@@ -93,7 +93,7 @@ const Language = () => {
                             </div>
                         </Paper>
                     </div>
-                    <Footer/>
+                    <Footer />
                 </DarkModeParent>
             </>
         )

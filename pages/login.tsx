@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
 
 const LoginPage = () => {
     const [t, i18n] = useTranslation();
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('lng') === null) {
@@ -23,9 +23,10 @@ const LoginPage = () => {
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
-                <Header/>
+                <Header {...{ theme, SetTheme }} />
                 <div style={{height: "80%"}}>
                     <LoginController t={t}/>
+
                 </div>
                 {/*<Footer/>*/}
             </DarkModeParent>

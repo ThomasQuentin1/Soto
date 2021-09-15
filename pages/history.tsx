@@ -11,7 +11,7 @@ import 'i18n';
 import {useTranslation} from "react-i18next";
 
 const HistoryPage = () => {
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     const { data, loading, error } = useOldCartsQuery({
         variables: {
@@ -35,7 +35,14 @@ const HistoryPage = () => {
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
-                <Header/>
+                <Header {...{ theme, SetTheme }} />
+                <Grid container direction='column'>
+                    <Grid item xs={4}>
+                        <Button color='secondary' onClick={() => Router.back()} style={{ marginLeft: '10px', marginTop: '10px' }}>
+                            <ArrowBackIcon />
+                            <Typography variant='caption'>Retourner faire ses courses</Typography>
+                        </Button>
+                    </Grid>
                     <Grid container direction='column'>
                         <Grid item xs={4}>
                             <Button color='secondary' onClick={() => Router.back()} style={{marginLeft:'10px', marginTop:'10px'}}>
