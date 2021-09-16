@@ -11,7 +11,6 @@ export interface HistoryListProps {
     cartHistory: Cart[];
     basket: Product[];
     setBasket: any;
-    cartQueryRefetch?: any;
 }
 
 const HistoryShortCut = ({ cartHistory, basket, setBasket }: HistoryListProps) => {

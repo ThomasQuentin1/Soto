@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 
 const Index = () => {
     const [t, i18n] = useTranslation();
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const usedTheme: string = theme.toString();
     let lng : string = 'fr';
     if (typeof window !== 'undefined') {
@@ -27,13 +27,13 @@ const Index = () => {
 
     return (
         <DarkModeParent theme={usedTheme}>
-            <Header/>
-            <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
-                <a style={{marginRight: "5px"}} href={"https://apps.apple.com/us/app/discord-talk-chat-hang-out/id985746746"}>
-                    <img style={{height: "50px"}} src={"images/common/Download_on_the_App_Store_Badge_FR_RGB_blk_100517.svg"}/>
+            <Header  {...{ theme, SetTheme }} />
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                <a style={{ marginRight: "5px" }} href={"https://apps.apple.com/us/app/discord-talk-chat-hang-out/id985746746"}>
+                    <img style={{ height: "50px" }} src={"images/common/Download_on_the_App_Store_Badge_FR_RGB_blk_100517.svg"} />
                 </a>
-                <a style={{marginLeft: "5px"}} href={"https://play.google.com/store/apps/details?id=com.discord"}>
-                    <img style={{height: "50px"}} src={"images/common/google-play-badge.png"}/>
+                <a style={{ marginLeft: "5px" }} href={"https://play.google.com/store/apps/details?id=com.discord"}>
+                    <img style={{ height: "50px" }} src={"images/common/google-play-badge.png"} />
                 </a>
             </div>
             <Grid container style={{marginTop: '40px'}} justify={'center'}>
@@ -45,7 +45,7 @@ const Index = () => {
                         <Typography align={'center'} style={{fontSize:'18px'}}>{t('label.project.l3')}</Typography>
                     </Grid>
                 </Grid>
-                <Grid container style={{marginTop:'20px', justifyContent:'center'}}>
+                <Grid container style={{ marginTop: '20px', justifyContent: 'center' }}>
                     <Grid item>
                         <ThemeProvider theme={muiLightTheme}>
                             <Button color="primary" style={{border:'1px solid'}} href={'shop'}>{t('label.startShopping')}</Button>

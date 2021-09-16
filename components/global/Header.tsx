@@ -1,50 +1,67 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
-import { useDarkMode } from "../settings/useDarkMode";
 import { useAccountQuery } from 'typing';
-import {Typography, CardMedia, Menu, MenuItem} from '@material-ui/core';
+import { Typography, CardMedia, Card, Grid, Link, Divider, Switch } from '@material-ui/core';
 import Router from "next/router";
-import Cookies from "js-cookie";
 
-const Header = () => {
-    const [ t ] = useTranslation();
-    const [theme] = useDarkMode();
+interface Props {
+    theme: any;
+    SetTheme: any;
+}
+
+const Header = ({ theme, SetTheme }: Props) => {
+    const [t] = useTranslation();
     const tmpTheme: string = theme.toString();
-    const {data, loading} = useAccountQuery();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-    const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const { data, loading } = useAccountQuery();
+    const [isProfileCardOpen, SetOpenProfileCard] = useState<boolean>(false);
 
     if (!loading && data === undefined && Router.route != "/" && Router.route != "/login")
-        Router.push("/login").then(() => {})
+        Router.push("/login").then(() => { })
 
     return (
-    <div className='header-div' style={{zIndex: 1000,left: '0px', top: '0px', width:'100%', height: '80px', position:'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px'}}>
-       <CardMedia onClick={() => Router.push("/shop")}
-            style={{left: '20px', marginLeft: "10px", height: '60px', width: '60px', marginRight: '10px', cursor: "pointer"}}
-            image={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
-          className={"roundLogo"}
-          />
-        <h2>{t('baseline')}</h2>
-        <div style={{marginLeft:'auto', display:'flex', justifyContent:'center', flexDirection:'row', alignItems:'center'}}>
-            {!loading && data && data.account.currentShop &&
-            <div style={{display:'flex', justifyContent:'center'}}> 
-                <Typography variant="subtitle1">{data.account.currentShop.name}</Typography>
-                <Typography variant="subtitle2" style={{marginLeft:'40px'}}>{data.account.email}</Typography>
-            </div>
-            }
-            <div className={"profile-icon"} onClick={handleClick} style={{cursor: "pointer"}}>
-                <FontAwesomeIcon style={{height: '60px', width: '60px'}} icon={faUser}/>
-            </div>
-            <Menu
+        <div className='header-div' style={{ zIndex: 1000, left: '0px', top: '0px', width: '100%', height: '80px', position: 'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px' }}>
+            <CardMedia onClick={() => Router.push("/shop")}
+                style={{ left: '20px', marginLeft: "10px", height: '60px', width: '60px', marginRight: '10px', cursor: "pointer" }}
+                image={`/images/${tmpTheme}/soto_round_logo_${tmpTheme}.png`}
+                className={"roundLogo"}
+            />
+            <h2>{t('baseline')}</h2>
+            <div style={{ marginLeft: 'auto', display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
+                {!loading && data && data.account.currentShop &&
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    </div>
+                }
+                <div className={"profile-icon"} onClick={() => SetOpenProfileCard(!isProfileCardOpen)} style={{ cursor: "pointer" }}>
+                    <FontAwesomeIcon style={{ height: '60px', width: '60px' }} icon={faUser} />
+                </div>
+                {isProfileCardOpen &&
+                    <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px" }}>
+                        <Grid container direction="column">
+                            <Grid container direction="column">
+                                <Typography style={{ marginBottom: "5px" }}>{data.account.email}</Typography>
+                                <Link href="#" onClick={() => Router.push("/profile").then(() => { })} color="secondary">Paramètres</Link>
+                            </Grid>
+                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider divider" />
+                        </Grid>
+                        <Grid container direction="column">
+                            <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
+                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
+                        </Grid>
+                        <Grid container justify="center" alignItems="center">
+                            <Grid item xs={8}>
+                                <Typography style={{ fontSize: "1rem" }}>{t("label.changeTheme")}</Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <Switch
+                                    checked={theme === "dark"}
+                                    onChange={SetTheme}
+                                />
+                            </Grid>
+                        </Grid>
+                    </Card>}
+                {/* <Menu
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
@@ -59,9 +76,9 @@ const Header = () => {
                     Cookies.remove("token")
                     Router.push("/login").then(() => {})
                 }}>Logout</MenuItem>
-            </Menu>
-        </div>
-    </div>);
+            </Menu> */}
+            </div>
+        </div >);
 };
 
 export default Header;

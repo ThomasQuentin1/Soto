@@ -72,6 +72,10 @@ const GlobalStyles = createGlobalStyle`
     border-bottom : solid 2px ${({ theme }) => theme.border.color};
   }
 
+  .header-menu-divider {
+    background-color: ${({ theme }) => theme.border.color};
+  }
+
   .footer {
     background: ${({ theme }) => theme.footer};
     border-top : solid 2px ${({ theme }) => theme.border.color};
@@ -173,7 +177,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .icons {
-    color: ${({theme}) => theme.text}
+    color: ${({ theme }) => theme.text}
   }
 
   .flexWidthFull {
@@ -334,42 +338,42 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export const color = {
-  dark_red: "#ff0000",
-  red: "#ff6821",
-  orange: "#ffb300",
-  green: "#bbff29",
-  dark_green: "#00ff00",
-  dark_red_alpha: "#ff000088",
-  red_alpha: "#ff682188",
-  orange_alpha: "#ffb30088",
-  green_alpha: "#bbff2988",
-  dark_green_alpha: "#00ff0088",
+    dark_red: "#ff0000",
+    red: "#ff6821",
+    orange: "#ffb300",
+    green: "#bbff29",
+    dark_green: "#00ff00",
+    dark_red_alpha: "#ff000088",
+    red_alpha: "#ff682188",
+    orange_alpha: "#ffb30088",
+    green_alpha: "#bbff2988",
+    dark_green_alpha: "#00ff0088",
 };
 
 export function selectColor(score: number, alpha: boolean) {
-  if (score < 20) {
+    if (score < 20) {
+        if (alpha)
+            return color.dark_red_alpha
+        return color.dark_red
+    }
+    if (score < 40) {
+        if (alpha)
+            return color.red_alpha
+        return color.red
+    }
+    if (score < 60) {
+        if (alpha)
+            return color.orange_alpha
+        return color.orange
+    }
+    if (score < 80) {
+        if (alpha)
+            return color.green_alpha
+        return color.green
+    }
     if (alpha)
-      return color.dark_red_alpha
-    return color.dark_red
-  }
-  if (score < 40) {
-    if (alpha)
-      return color.red_alpha
-    return color.red
-  }
-  if (score < 60) {
-    if (alpha)
-      return color.orange_alpha
-    return color.orange
-  }
-  if (score < 80) {
-    if (alpha)
-      return color.green_alpha
-    return color.green
-  }
-  if (alpha)
-    return color.dark_green_alpha
-  return color.dark_green
+        return color.dark_green_alpha
+    return color.dark_green
 }
 
 export default GlobalStyles;

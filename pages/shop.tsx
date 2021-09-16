@@ -100,7 +100,7 @@ const AddFromFavList = (listToAdd: List, basket: Product[], setBasket: any) => {
 
 const ShopPage = () => {
     const [t, i18n] = useTranslation();
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     if (typeof window !== 'undefined') {
         if (localStorage.getItem('lng') == null)
@@ -187,7 +187,7 @@ const ShopPage = () => {
 
     return (
         <DarkModeParent theme={tmpTheme}>
-            <Header />
+            <Header  {...{ theme, SetTheme }} />
             <Grid container justify="center" style={{ marginTop: '10px'}}>
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />

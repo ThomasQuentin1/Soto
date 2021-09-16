@@ -118,7 +118,7 @@ const DeleteList = (lists: List[], setBasket: any, listId: string) => {
 }
 
 const ListsPage = () => {
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     let lng: string | null = 'fr';
     if (typeof window !== 'undefined') {
@@ -175,7 +175,7 @@ const ListsPage = () => {
 
     return (
         <DarkModeParent theme={tmpTheme}>
-            <Header />
+            <Header {...{ theme, SetTheme }} />
             <Grid container justify="center" style={{ marginTop: '10px', height: "80%" }}>
                 <Grid item xs={4}>
                     <ListsSearchWrapper AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists} CreateList={CreateList} activeList={activeList} />

@@ -2,12 +2,11 @@ import { Product } from "typing";
 
 interface ShopItemProps {
     key: number;
-    product : Product;
+    product: Product;
     AddToCart: any;
     RemoveFromCart: any;
-    basket : Product[];
+    basket: Product[];
     setBasket: any;
-    cartQueryRefetch?: any;
     setIsBasketUpToDate?: any;
 }
 
