@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
-import { useDarkMode } from "../settings/useDarkMode";
 import { useAccountQuery } from 'typing';
 import { Typography, CardMedia, Card, Grid, Link, Divider, Switch } from '@material-ui/core';
 import Router from "next/router";
-import Cookies from "js-cookie";
 
 interface Props {
     theme: any;
@@ -45,11 +43,11 @@ const Header = ({ theme, SetTheme }: Props) => {
                                 <Typography style={{ marginBottom: "5px" }}>{data.account.email}</Typography>
                                 <Link href="#" onClick={() => Router.push("/profile").then(() => { })} color="secondary">Paramètres</Link>
                             </Grid>
-                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider" />
+                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider divider" />
                         </Grid>
                         <Grid container direction="column">
                             <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
-                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider" />
+                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
                         </Grid>
                         <Grid container justify="center" alignItems="center">
                             <Grid item xs={8}>

@@ -14,7 +14,7 @@ import { selectColor } from "../styles/globalStyle";
 
 const CheckListPage = () => {
     const [t, i18n] = useTranslation();
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
     const [favList, updateFavList] = useState<FavoredListObject[]>([]);
     const [listIndex, setListIndex] = useState(0)
@@ -71,7 +71,7 @@ const CheckListPage = () => {
         return (
             <>
                 <DarkModeParent theme={tmpTheme}>
-                    <Header />
+                    <Header {...{ theme, SetTheme }} />
                     <div className="flexJustifiedCenter" style={{ marginTop: "150px" }}>
                         <Paper className="paperStyle " elevation={3}>
                             <div className="flexJustifiedCenter">
@@ -143,7 +143,7 @@ const CheckListPage = () => {
     return (
         <>
             <DarkModeParent theme={tmpTheme}>
-                <Header />
+                <Header {...{ theme, SetTheme }} />
                 <Footer />
             </DarkModeParent>
         </>

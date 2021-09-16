@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import DarkModeParent from "components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "components/settings/useDarkMode";
 import Header from 'components/global/Header';
@@ -8,7 +8,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useOldCartsQuery } from 'typing';
 import Router from "next/router";
 import 'i18n';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const HistoryPage = () => {
     const [theme, SetTheme] = useDarkMode();
@@ -45,18 +45,19 @@ const HistoryPage = () => {
                     </Grid>
                     <Grid container direction='column'>
                         <Grid item xs={4}>
-                            <Button color='secondary' onClick={() => Router.back()} style={{marginLeft:'10px', marginTop:'10px'}}>
-                                <ArrowBackIcon/>
+                            <Button color='secondary' onClick={() => Router.back()} style={{ marginLeft: '10px', marginTop: '10px' }}>
+                                <ArrowBackIcon />
                                 <Typography variant='caption'>{t("label.continue_shopping")}</Typography>
                             </Button>
                         </Grid>
                         <Grid container direction='column'>
-                            {data && 
-                                <HistoryList cartHistory={data.oldCarts} t={t}/>
+                            {data &&
+                                <HistoryList cartHistory={data.oldCarts} t={t} />
                             }
                             {!data && <Typography>Loading</Typography>}
                         </Grid>
                     </Grid>
+                </Grid>
             </DarkModeParent>
         </div>
     );
