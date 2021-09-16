@@ -59,6 +59,17 @@ const schema = gql`
     id: Int!
     server: String!
     code: String!
+    list: [ProductList!]
+  }
+
+  type ProductList {
+    name: String!
+    products: [ProductListEntry!]!
+  }
+  
+  type ProductListEntry {
+    name: String!
+    id: String!
   }
 
   type Account {

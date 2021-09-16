@@ -1,4 +1,5 @@
-//@ts-nocheck
+// @ts-nocheck
+
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -148,6 +149,19 @@ export type Shop = {
   id: Scalars['Int'];
   server: Scalars['String'];
   code: Scalars['String'];
+  list?: Maybe<Array<ProductList>>;
+};
+
+export type ProductList = {
+  __typename?: 'ProductList';
+  name: Scalars['String'];
+  products: Array<ProductListEntry>;
+};
+
+export type ProductListEntry = {
+  __typename?: 'ProductListEntry';
+  name: Scalars['String'];
+  id: Scalars['String'];
 };
 
 export type Account = {
@@ -292,6 +306,8 @@ export type ResolversTypes = {
   Float: ResolverTypeWrapper<Scalars['Float']>,
   AddToCartInput: AddToCartInput,
   Shop: ResolverTypeWrapper<Shop>,
+  ProductList: ResolverTypeWrapper<ProductList>,
+  ProductListEntry: ResolverTypeWrapper<ProductListEntry>,
   Account: ResolverTypeWrapper<Account>,
   Criterion: ResolverTypeWrapper<Criterion>,
   Obligation: ResolverTypeWrapper<Obligation>,
@@ -314,6 +330,8 @@ export type ResolversParentTypes = {
   Float: Scalars['Float'],
   AddToCartInput: AddToCartInput,
   Shop: Shop,
+  ProductList: ProductList,
+  ProductListEntry: ProductListEntry,
   Account: Account,
   Criterion: Criterion,
   Obligation: Obligation,
@@ -373,6 +391,19 @@ export type ShopResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   server?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  list?: Resolver<Maybe<Array<ResolversTypes['ProductList']>>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ProductListResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductList'] = ResolversParentTypes['ProductList']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  products?: Resolver<Array<ResolversTypes['ProductListEntry']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ProductListEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductListEntry'] = ResolversParentTypes['ProductListEntry']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -430,6 +461,8 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>,
   Cart?: CartResolvers<ContextType>,
   Shop?: ShopResolvers<ContextType>,
+  ProductList?: ProductListResolvers<ContextType>,
+  ProductListEntry?: ProductListEntryResolvers<ContextType>,
   Account?: AccountResolvers<ContextType>,
   Criterion?: CriterionResolvers<ContextType>,
   Obligation?: ObligationResolvers<ContextType>,
