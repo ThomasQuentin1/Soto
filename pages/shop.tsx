@@ -99,16 +99,17 @@ const AddFromFavList = (listToAdd: List, basket: Product[], setBasket: any) => {
 }
 
 const ShopPage = () => {
+    const [t, i18n] = useTranslation();
     const [theme] = useDarkMode();
     const tmpTheme: string = theme.toString();
-    let lng: string | null = 'fr';
     if (typeof window !== 'undefined') {
-        lng = localStorage.getItem('lng');
-        if (lng == null) {
+        if (localStorage.getItem('lng') == null)
             localStorage.setItem('lng', 'fr');
-        }
+        useEffect(() => {
+            i18n.changeLanguage(localStorage.getItem('lng') as string).then()
+        }, []);
     }
-    const [t] = useTranslation();
+
     const [loadHistory, setLoadHistory] = useState(false);
     const [basket, setBasket] = useState<Product[]>([]);
     const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
@@ -119,7 +120,7 @@ const ShopPage = () => {
     let oldCart: undefined | Cart = undefined;
 
     useEffect(() => {
-        if (window != null && window != undefined) {
+        if (window != null) {
             let tmpBasket: Product[] = [];
 
             if (sessionStorage.getItem('cart')) {
@@ -170,17 +171,9 @@ const ShopPage = () => {
         setLoadHistory(false);
     }
 
-
-
-    // if (loadHistory && oldCart != undefined) {
-    //     AddToBasketFromHistory(oldCart!/*, basket*/, refetch, addToCartMutation);
-    //     setLoadHistory(false);
-    // }
-
     const { data: oldCartsData, loading: oldCartsLoading, error: oldCartsError } = useOldCartsQuery({
         variables: {},
     });
-
 
     const [cartHistory, setCartHistory] = useState<Cart[]>();
 
@@ -195,7 +188,7 @@ const ShopPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header />
-            <Grid container justify="center" style={{ marginTop: '10px', height: "80vh" }}>
+            <Grid container justify="center" style={{ marginTop: '10px'}}>
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />
                 </Grid>

@@ -78,14 +78,14 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
             <Typography
                 variant="h6"
                 color="secondary"
-                style={{ marginRight: "20px" }}
-            >Mon panier</Typography>
-            <ShoppingBasketIcon fontSize='large' color="secondary" style={{ marginRight: 'auto' }} className='icons' />
+                style={{marginRight: "20px"}}
+            >{t("label.cart")}</Typography>
+            <ShoppingBasketIcon fontSize='large' color="secondary" style={{marginRight: 'auto'}} className='icons'/>
             <Grid item>
                 <Grid container>
                     {/** Button Add list to basket and its menu item */}
                     <Button color="secondary" variant="outlined" onClick={() => Router.push('lists')} style={{ marginRight: "10px" }}>
-                        Mes listes
+                        {t("label.saved_list")}
                     </Button>
                     {listFavObject != undefined && listFavObject.length != 0 &&
                         <Menu
@@ -160,7 +160,7 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
                         onClose={handleCloseAddList}
                     >
                         <MenuItem>
-                            <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)} />
+                            <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)}/>
                             <CheckIcon onClick={() => {
                                 const oldListsFav = localStorage.getItem('listFav')
                                 setNewListFav(true);
@@ -185,7 +185,7 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
                 variant="h6"
                 color="secondary"
                 style={{ marginLeft: 'auto' }}
-            >Prix total : {totalPrice.toFixed(2)}€</Typography>
+            >{t("label.total")} {totalPrice.toFixed(2)}€</Typography>
             <Button color='secondary' variant="outlined"
                 onClick={() => {
                     SendAllProductToOnlineCart(basket, addToCartMutation);

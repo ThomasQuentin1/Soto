@@ -6,19 +6,20 @@ import Step2 from "./stepper/Step2";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
 import {useCriterionsQuery, useRegisterMutation} from "../../typing";
-import {useTranslation} from "react-i18next";
 import Router from "next/router";
 import Step3 from "./stepper/Step3";
+import {TFunction} from "i18next";
 
 interface Props {
     setDisplayRegister: (b: boolean) => void;
+    t: TFunction
 }
 
-function getSteps() {
+function getSteps(t: TFunction) {
     return [
-        'Informations personnelles',
-        'Préférences et obligations',
-        'Sélection du drive'
+        t("label.login.step1.title"),
+        t("label.login.step2.title"),
+        t("label.login.step3.title")
     ];
 }
 
@@ -29,23 +30,17 @@ const Register = (props: Props) => {
     const [password, setPassword] = useState("")
     const [cPassword, setCPassword] = useState("")
     const [activeStep, setActiveStep] = React.useState(0);
-    const steps = getSteps();
-    const [t] = useTranslation()
+    const steps = getSteps(props.t);
 
     const {data: criteriaData} = useCriterionsQuery();
-
-    let lng: string | null = 'fr';
-    if (typeof window !== 'undefined') {
-        lng = localStorage.getItem('lng');
-    }
 
     const [register] = useRegisterMutation({variables: {email: email, password: sha256(password)}, errorPolicy: 'all'})
 
     const getStepContent = (step: number) => {
         switch (step) {
             case 0:
-                return <Step1 setEmail={setEmail} setPassword={setPassword}
-                              setCPassword={setCPassword} emailError={emailError} passwordError={passwordError}/>;
+                return <Step1 setEmail={setEmail} setPassword={setPassword} t={props.t} setCPassword={setCPassword}
+                              emailError={emailError} passwordError={passwordError}/>;
             case 1:
                 return <Step2 criteria={criteriaData.criterions}/>;
             case 2:
@@ -68,13 +63,13 @@ const Register = (props: Props) => {
                 if (isEmailValid) {
                     setEmailError("")
                 } else {
-                    setEmailError(t("label.helperText.emailInvalid"))
+                    setEmailError(props.t("label.helperText.emailInvalid"))
                     resolve(false)
                 }
                 if (password === cPassword) {
                     setPasswordError("")
                 } else {
-                    setPasswordError(t("label.helperText.passwordsDifferent"))
+                    setPasswordError(props.t("label.helperText.passwordsDifferent"))
                     resolve(false)
                 }
                 resolve(true)
@@ -88,12 +83,12 @@ const Register = (props: Props) => {
                 if (r) {
                     register().then(r => {
                         if (r.errors) {
-                            notifyError(t(r.errors[0].message))
+                            notifyError(props.t(r.errors[0].message))
                         } else {
                             Cookies.set("token", r.data.register, {expires: 7})
                             setActiveStep(activeStep + 1);
                             setEmailError("")
-                            notifySuccess("Registered")
+                            notifySuccess(props.t("notification.label.registered"))
                         }
                     });
                 }
@@ -111,7 +106,8 @@ const Register = (props: Props) => {
     const handleFinish = () => {
         if (password !== cPassword)
             return;
-        Router.push("/").then(() => {})
+        Router.push("/").then(() => {
+        })
     }
 
     return (
@@ -125,7 +121,7 @@ const Register = (props: Props) => {
             >
                 <Typography variant="h6" gutterBottom
                             style={{marginBottom: "20px", color: "grey", display: "flex", justifyContent: "center"}}>
-                    {lng == 'fr' ? 'Inscivez-vous à un compte' : 'Sign in'}
+                    {props.t("label.login.signUp")}
                 </Typography>
                 <Stepper activeStep={activeStep} color="secondary">
                     {steps.map((label) => {
@@ -142,16 +138,16 @@ const Register = (props: Props) => {
             {getStepContent(activeStep)}
             <div style={{display: "flex", justifyContent: "center", marginTop: "20px", marginBottom: "20px"}}>
                 <Button disabled={activeStep === 0} color="secondary" onClick={() => handleBack()}>
-                    {lng == 'fr' ? 'Retour' : 'Back'}
+                    {props.t("label.general.back")}
                 </Button>
                 {activeStep === steps.length - 1 ?
                     <div>
                         <Button variant="contained" color="secondary" onClick={() => handleFinish()}>
-                            {lng == 'fr' ? 'Finir' : 'Finish'}
+                            {props.t("label.general.finish")}
                         </Button>
                     </div> :
                     <Button variant="contained" color="secondary" onClick={() => handleNext()}>
-                        {lng == 'fr' ? 'Suivant' : 'Next'}
+                        {props.t("label.general.next")}
                     </Button>}
             </div>
             <Divider variant={"middle"} style={{marginTop: "20px"}}/>
@@ -165,7 +161,7 @@ const Register = (props: Props) => {
                     style={{marginTop: "20px", fontSize: "12px"}}
                     onClick={() => props.setDisplayRegister(false)}
                 >
-                    {lng == 'fr' ? 'Vous avez déja un compte ? Connectez vous' : 'You already have an account ? Sign in'}
+                    {props.t("label.login.registerToLogin")}
                 </Button>
             </div>
         </div>

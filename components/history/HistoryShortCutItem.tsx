@@ -52,7 +52,7 @@ const HistoryShortCutItem = ({ cart }: HistoryShortCutItemProps) => {
             <Grid container style={{ paddingLeft: '10px' }}>
                 <Grid item xs={12} style={{ marginBottom: '5px' }}>
                     <Typography>{formatedDate}</Typography>
-                    <Typography>Total de produits : {totalOfProducts}</Typography>
+                    <Typography>{t("label.products_number")} {totalOfProducts}</Typography>
 
                 </Grid>
                 {/* When details are displayed */}
@@ -71,21 +71,21 @@ const HistoryShortCutItem = ({ cart }: HistoryShortCutItemProps) => {
                         <Grid container justify='space-between'>
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
-                                    <>
-                                        Plus
-                                        <ExpandMoreIcon />
-                                    </>
+                                <>
+                                    {t("label.showMore")}
+                                    <ExpandMoreIcon/>
+                                </>
                                 }
                                 {isDetailsToggled &&
-                                    <>
-                                        Moins
-                                        <ExpandLessIcon />
-                                    </>
+                                <>
+                                    {t("label.showLess")}
+                                    <ExpandLessIcon/>
+                                </>
                                 }
                             </Button>
                             <Button color='secondary'
-                                onClick={() => AddOldCartToCurrentCart(cart, addToCartMutation)}>
-                                Ajouter au panier
+                                    onClick={() => AddOldCartToCurrentCart(cart, addToCartMutation)}>
+                                {t("label.addToCart")}
                             </Button>
                         </Grid>
                     </Grid>
