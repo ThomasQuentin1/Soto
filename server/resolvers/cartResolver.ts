@@ -3,8 +3,12 @@ import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Cart, Product, Resolvers, Shop } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
+import { getFinalScore } from "./productResolver";
+import { Criterions } from "server/algo/critetions";
 
-const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
+const NanToNullAndRound = (nbr: number) => isNaN(nbr) ? null : Math.round(nbr);
+
+const createCartFromRawData = async (shop: Shop, rawCart: any[], criterions?: any[]) => {
   let totalPrice = 0;
 
   await Promise.all(
@@ -48,6 +52,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
         r.leclercId
       }-${r.name.replace(/ /g, "-")}.aspx`,
       itemQuantity: 1,
+      finalScore: criterions ? NanToNullAndRound(getFinalScore(criterions, r)) : null
     })),
     shop: ShopList[0],
   };
@@ -64,6 +69,12 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[]) => {
     return acc;
   }, []);
 
+  cart.score = cart.products.length ? Math.round(cart.products.reduce((total, product) => {
+    return total + (product.finalScore ?? 0);
+  }, 0) / cart.products.length) : null;
+
+  console.log(cart.score);
+
   return cart;
 };
 
@@ -77,6 +88,21 @@ export const cartResolvers: Resolvers = {
 
       if (!shop) throw new UserInputError(ErrMsg("error.badparams"));
 
+      const criterions: any[] = (
+        (await usersQuery<{ id: number; position: number }>(
+          "SELECT * FROM criterions WHERE userId = ?",
+          [context.user?.id ?? -1]
+        ))
+      ).map((e, _i, arr) => {
+        return {
+          position: e!.position,
+          coeff: arr.length + 1 - e!.position,
+          ...Criterions.find((i) => i.id === e!.id),
+        };
+      });
+
+       
+
       const rawCart = await usersQuery<any>(
         `SELECT * FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.leclercId WHERE carts.id = ?`,
         [context.user.cartId]
@@ -84,11 +110,24 @@ export const cartResolvers: Resolvers = {
 
       if (!rawCart) throw new UserInputError(ErrMsg("error.badparams"));
 
-      return await createCartFromRawData(shop!, rawCart);
+      return await createCartFromRawData(shop!, rawCart, criterions);
     },
     oldCarts: async (_obj, _args, context, _info) => {
       if (!context.user)
         throw new AuthenticationError(ErrMsg("error.notloggedin"));
+
+        const criterions: any[] = (
+          (await usersQuery<{ id: number; position: number }>(
+            "SELECT * FROM criterions WHERE userId = ?",
+            [context.user?.id ?? -1]
+          ))
+        ).map((e, _i, arr) => {
+          return {
+            position: e!.position,
+            coeff: arr.length + 1 - e!.position,
+            ...Criterions.find((i) => i.id === e!.id),
+          };
+        });
 
       const rawAllCarts = await usersQuery<any>(
         `SELECT carts.id as cartId, carts.*, products${context.user.shopId}.* FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.leclercId WHERE carts.userId = ?`,
@@ -109,7 +148,8 @@ export const cartResolvers: Resolvers = {
         userCarts.map((c) => {
           return createCartFromRawData(
             ShopList.find((s) => s.id == c[0].driveId)!,
-            c
+            c,
+            criterions
           );
         })
       );

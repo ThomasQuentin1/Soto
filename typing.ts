@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -133,6 +131,7 @@ export type Cart = {
   dateLastEdit: Scalars['Date'];
   shop: Shop;
   price: Scalars['Float'];
+  score?: Maybe<Scalars['Int']>;
 };
 
 export type AddToCartInput = {
@@ -380,6 +379,7 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
   dateLastEdit?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
   shop?: Resolver<ResolversTypes['Shop'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  score?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 

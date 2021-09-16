@@ -44,6 +44,7 @@ const schema = gql`
     dateLastEdit: Date!
     shop: Shop!
     price: Float!
+    score: Int
   }
 
   input  AddToCartInput {
