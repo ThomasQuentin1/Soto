@@ -46,7 +46,6 @@ const CheckListPage = () => {
     };
 
     const handleChangeChecked = (indexToChange: number) => {
-
         let tmpList: boolean[] = [];
         checkedList.map((elem, index) => {
             if (indexToChange === index) {
@@ -67,8 +66,6 @@ const CheckListPage = () => {
         })
         setCheckedList(tmpList)
     }
-
-    console.log(checkedList)
 
     if (favList) {
         return (
@@ -102,7 +99,6 @@ const CheckListPage = () => {
                                                     // sm={11} md={11} lg={11} xl={11}
                                                     style={{ padding: "10px 50px" }}
                                                 >
-                                                    {console.log(checkedList)}
                                                     <div className="dFlex alignCenter" style={{ margin: "0px 20px" }}>
                                                         <Checkbox color="secondary" onChange={() => {
                                                             handleChangeChecked(index)
@@ -123,7 +119,9 @@ const CheckListPage = () => {
                                                         <div>
                                                             <Typography>{elem.name}</Typography>
                                                             <Typography>{t("label.quantity")} {elem.itemQuantity}</Typography>
-                                                            <Typography>{t("label.price")} {Number(elem.priceUnit).toFixed(2)} €</Typography>
+                                                            <Typography>
+                                                                {t("label.price")} {Number(elem.priceUnit).toFixed(2)} €
+                                                            </Typography>
                                                         </div>
                                                         <div className="dFlex">
                                                             <Typography>{t("label.score.final")} {elem.scoreHealth}</Typography>
