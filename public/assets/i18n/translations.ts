@@ -43,6 +43,28 @@ const resources = {
         "shop.totalPrice.label" : "Total price :",
         "shop.payButton.label" : "Pay",
 
+        "label.showMore": "Show more",
+
+        // Months
+        "label.january.short" : "Jan.",
+        "label.february.short" : "Feb.",
+        "label.march.short" : "Mar.",
+        "label.april.short" : "Apr.",
+        "label.may.short" : "May",
+        "label.june.short" : "Jun.",
+        "label.july.short" : "Jul.",
+        "label.august.short" : "Aug.",
+        "label.september.short" : "Sep.",
+        "label.october.short" : "Oct.",
+        "label.november.short" : "Nov.",
+        "label.december.short" : "Dec.",
+
+        "label.history" : "History",
+        "label.fullHistory" : "Full history",
+
+        "label.boughtOn" : "Bought on the ",
+        "label.at" : "at",
+
         "title.profile" : "Profile",
 
         // Labels de la page profile/email
@@ -130,6 +152,28 @@ const resources = {
         "shop.banner.savedListButton.label" : "Mes listes sauvegardées",
         "shop.totalPrice.label" : "Prix total :",
         "shop.payButton.label" : "Payer",
+
+        "label.showMore": "Afficher plus",
+
+        // Months
+        "label.january.short" : "janv.",
+        "label.february.short" : "févr.",
+        "label.march.short" : "mars",
+        "label.april.short" : "avr.",
+        "label.may.short" : "mai",
+        "label.june.short" : "juin",
+        "label.july.short" : "juill.",
+        "label.august.short" : "août.",
+        "label.september.short" : "sept",
+        "label.october.short" : "oct.",
+        "label.november.short" : "nov.",
+        "label.december.short" : "déc.",
+
+        "label.history" : "Historique",
+        "label.fullHistory" : "Historique complet",
+
+        "label.boughtOn" : "Achat fait le ",
+        "label.at" : "à",
 
         "title.profile" : "Profil",
 

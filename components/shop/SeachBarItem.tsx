@@ -57,7 +57,7 @@ const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate 
             }>
             <Grid item xs={4}>
                 <CardMedia
-                    style={{width:'100%', height:'100%'}}
+                    style={{width:'100%', height:'100%', aspectRatio: "auto 350/350"}}
                     image={product.photo ?? "error"}>
                 </CardMedia>
             </Grid>

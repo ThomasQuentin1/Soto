@@ -14,7 +14,7 @@ const HistoryList = ({cartHistory}: HistoryListProps ) => {
             <Grid container justify='flex-start' style={{paddingLeft:'25px'}}>
                 <Typography variant='h5'>Historique de vos courses</Typography>
             </Grid>
-            <Grid container justify={"center"} direction={'column'}>
+            <Grid container justify={"center"} alignItems={"center"} direction={'column'} spacing={1}>
                 {cartHistory && cartHistory.map((cart, index) => 
                     <HistoryItem cart={cart} key={index}/>
                 )}

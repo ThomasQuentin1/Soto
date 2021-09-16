@@ -51,13 +51,13 @@ const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback,
             ResetAllSelected()
             ChangeMyValueCallback(index)
         }}>
-            {!isToggled && <Typography color="primary" variant="subtitle1">{name}</Typography>}
-            {isToggled && <Typography color="primary" variant="subtitle1"><Box fontWeight="fontWeightBold">{name}</Box></Typography>}
+            {!isToggled && <Typography color="secondary" variant="subtitle1">{name}</Typography>}
+            {isToggled && <Typography color="secondary" variant="subtitle1"><Box fontWeight="fontWeightBold">{name}</Box></Typography>}
 
-            {!isToggled && <Typography color="primary" variant="subtitle2">{city}</Typography>}
-            {isToggled && <Typography color="primary" variant="subtitle2"><Box fontWeight="fontWeightBold">{city}</Box></Typography>}
+            {!isToggled && <Typography color="secondary" variant="subtitle2">{city}</Typography>}
+            {isToggled && <Typography color="secondary" variant="subtitle2"><Box fontWeight="fontWeightBold">{city}</Box></Typography>}
             
-            <Button color="primary" size='small' style={{border:'1px solid', marginTop:'15px'}}
+            <Button color="secondary" size='small' style={{border:'1px solid', marginTop:'15px'}}
             onClick={() => SetShop().then((err) => {
                 if (err.errors) {
                     notifyError(t(err.errors[0].message))
