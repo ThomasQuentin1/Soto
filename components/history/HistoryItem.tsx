@@ -9,6 +9,7 @@ import {useTranslation} from "react-i18next";
 import {CardMedia} from "@material-ui/core";
 import {FiberManualRecord} from "@material-ui/icons";
 import {selectColor} from "../../styles/globalStyle";
+import {TFunction} from "i18next";
 
 export const months = [
     'label.january.short',
@@ -26,6 +27,7 @@ export const months = [
 
 interface HistoryItemProps {
     cart: Cart;
+    t: TFunction
 }
 
 const GetTotalOfProducts = (products: Product[]) => {
@@ -42,34 +44,34 @@ function getHoursAndMinutes(date: Date) {
     return hours + ":" + minutes
 }
 
-const HistoryItem = ({cart}: HistoryItemProps) => {
+const HistoryItem = (props: HistoryItemProps) => {
     const [t] = useTranslation()
     const [isDetailsToggled, setIsDetailsToggled] = useState(false);
-    const totalOfProducts = GetTotalOfProducts(cart.products);
+    const totalOfProducts = GetTotalOfProducts(props.cart.products);
 
     function formatDate(date: Date) {
         return (t("label.boughtOn") + date.getDate() + ' ' + t(months[date.getMonth()]) + " " + date.getFullYear()
             + " " + t("label.at") + " " + getHoursAndMinutes(date));
     }
 
-    const formatedDate = formatDate(new Date(cart.dateCreated));
-    if (!cart)
+    const formatedDate = formatDate(new Date(props.cart.dateCreated));
+    if (!props.cart)
         return <p>Invalid cart</p>;
     return (
         <Grid item xs={12} md={9}>
             <Grid container style={{padding: '10px 20px'}} className="history_item">
                 <Grid item xs={12} style={{marginBottom: '5px'}} className="flexSpaceBetween">
-                    <Typography variant="h6">{formatedDate} - {cart.shop.name}</Typography>
-                    <Typography variant="h6">Vous avez payé : {cart.price}€</Typography>
+                    <Typography variant="h6">{formatedDate} - {props.cart.shop.name}</Typography>
+                    <Typography variant="h6">{t("label.history.paid")} {props.cart.price}€</Typography>
                 </Grid>
                 <Grid item xs={12}>
-                    <Typography>Total de produits commandés : {totalOfProducts}</Typography>
+                    <Typography>{t("label.history.orderedProducts")} {totalOfProducts}</Typography>
                 </Grid>
                 {isDetailsToggled &&
                 <Grid item xs={12}>
                     <Grid container direction='row' justify='space-evenly' wrap='wrap' style={{paddingTop: '20px'}}
                           spacing={2}>
-                        {cart.products.map((item, index) => {
+                        {props.cart.products.map((item, index) => {
                             return (
                                 <Grid item key={index} xs={12} sm={12} md={12} lg={6} xl={4}
                                       className={"flexSpaceEvenly"}>
@@ -81,10 +83,10 @@ const HistoryItem = ({cart}: HistoryItemProps) => {
                                     </div>
                                     <div>
                                         <Typography>{item.name}</Typography>
-                                        <Typography>Quantité : {item.itemQuantity}</Typography>
-                                        <Typography>Prix : {Number(item.priceUnit).toFixed(2)} €</Typography>
+                                        <Typography>{t("label.quantity")} {item.itemQuantity}</Typography>
+                                        <Typography>{t("label.price")} {Number(item.priceUnit).toFixed(2)} €</Typography>
                                         <div className="dFlex">
-                                            <Typography>Score total : {item.scoreHealth}</Typography>
+                                            <Typography>{t("label.score.final")} {item.scoreHealth}</Typography>
                                             <FiberManualRecord htmlColor={selectColor(Number(item.scoreHealth), false)}/>
                                         </div>
                                     </div>
@@ -99,20 +101,20 @@ const HistoryItem = ({cart}: HistoryItemProps) => {
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
                                 <>
-                                    Plus
+                                    {t("label.showMore")}
                                     <ExpandMoreIcon/>
                                 </>
                                 }
                                 {isDetailsToggled &&
                                 <>
-                                    Moins
+                                    {t("label.showLess")}
                                     <ExpandLessIcon/>
                                 </>
                                 }
                             </Button>
                             <Button color='secondary' onClick={() => {
-                                sessionStorage.setItem('cart', JSON.stringify(cart));
-                            }} href='/shop'>Ajouter au panier</Button>
+                                sessionStorage.setItem('cart', JSON.stringify(props.cart));
+                            }} href='/shop'>{t("label.addToCart")}</Button>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -22,12 +22,23 @@ const calculateTotalPrice = (basket: Product[]) => {
     return totalPrice;
 }
 
+const SendAllProductToOnlineCart = (basket: Product[], AddToCartMutation: any) => {
+    basket.map((item) => {
+        if (item.itemQuantity != null || item.itemQuantity != undefined) {
+            for (let i = 0; i < item.itemQuantity; i++) {
+                AddToCartMutation({ variables: { productId: item.id } });
+            }
+        }
+    });
+
+}
+
 export interface FavoredListObject {
     name: string;
     products: Product[];
 }
 
-const PriceBanner = ({ basket, cartQueryRefetch, setIsBasketUpToDate }: PriceBannerProps) => {
+const PriceBanner = ({ basket }: PriceBannerProps) => {
     const totalPrice = calculateTotalPrice(basket);
     const [t] = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -69,17 +80,15 @@ const PriceBanner = ({ basket, cartQueryRefetch, setIsBasketUpToDate }: PriceBan
             <Typography
                 variant="h6"
                 color="secondary"
-                style={{ marginRight: "20px" }}
-            >Mon panier</Typography>
-            <ShoppingBasketIcon fontSize='large' color="secondary" style={{ marginRight: 'auto' }} className='icons' />
+                style={{marginRight: "20px"}}
+            >{t("label.cart")}</Typography>
+            <ShoppingBasketIcon fontSize='large' color="secondary" style={{marginRight: 'auto'}} className='icons'/>
             <PdfGenerator {...{ basket }} />
             <Grid item>
                 <Grid container>
                     {/** Button Add list to basket and its menu item */}
-                    <Button color="secondary" variant="outlined" onClick={(e) => {
-                        setAnchorEl(e.currentTarget)
-                    }} style={{ marginRight: "10px" }}>
-                        Listes sauvegardées
+                    <Button color="secondary" variant="outlined" onClick={() => Router.push('lists')} style={{ marginRight: "10px" }}>
+                        {t("label.saved_list")}
                     </Button>
                     {listFavObject != undefined && listFavObject.length != 0 &&
                         <Menu
@@ -107,10 +116,6 @@ const PriceBanner = ({ basket, cartQueryRefetch, setIsBasketUpToDate }: PriceBan
                                                 });
                                             }
                                         })
-                                        setTimeout(() => {
-                                            if (cartQueryRefetch)
-                                                cartQueryRefetch().then(() => setIsBasketUpToDate(false));
-                                        }, 2000)
                                     }}>{element.name}</Typography>
                                     <DeleteForeverIcon onClick={() => {
                                         const listFav = localStorage.getItem('listFav')
@@ -144,11 +149,11 @@ const PriceBanner = ({ basket, cartQueryRefetch, setIsBasketUpToDate }: PriceBan
                         </Menu>
                     }
                     {/** Button + and its dropdown input */}
-                    <Button color="secondary" variant="outlined" onClick={(e) => {
+                    {/* <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorElAddList(e.currentTarget);
                     }}>
                         +
-                    </Button>
+                    </Button> */}
                     <Menu
                         id="add-menu"
                         color="secondary"
@@ -161,7 +166,6 @@ const PriceBanner = ({ basket, cartQueryRefetch, setIsBasketUpToDate }: PriceBan
                             <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)} />
                             <CheckIcon onClick={() => {
                                 const oldListsFav = localStorage.getItem('listFav')
-
                                 setNewListFav(true);
                                 if (oldListsFav) {
                                     const listFav: FavoredListObject[] = JSON.parse(oldListsFav!);
@@ -184,15 +188,15 @@ const PriceBanner = ({ basket, cartQueryRefetch, setIsBasketUpToDate }: PriceBan
                 variant="h6"
                 color="secondary"
                 style={{ marginLeft: 'auto' }}
-            >Prix total : {totalPrice.toFixed(2)}€</Typography>
+            >{t("label.total")} {totalPrice.toFixed(2)}€</Typography>
             <Button color='secondary' variant="outlined"
                 onClick={() => {
+                    SendAllProductToOnlineCart(basket, addToCartMutation);
                     confirmCartMutation().then((r) => {
                         if (r.errors) {
                             notifyError("Erreur dans le payement du panier")
                         } else {
                             notifySuccess("Panier confirmé avec succès")
-                            cartQueryRefetch().then(() => setIsBasketUpToDate(false));
                             // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
                         }
                     })
