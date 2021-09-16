@@ -1,16 +1,16 @@
-import {useDarkMode} from "../components/settings/useDarkMode";
-import React, {useCallback, useEffect, useState} from "react";
+import { useDarkMode } from "../components/settings/useDarkMode";
+import React, { useCallback, useEffect, useState } from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import '../i18n'
-import {FavoredListObject} from "../components/shop/PriceBanner";
-import {CardMedia, Checkbox, Divider, MenuItem, Paper, Select, Typography} from "@material-ui/core";
-import {notifyError} from "../public/notifications/notificationsFunctions";
+import { FavoredListObject } from "../components/shop/PriceBanner";
+import { CardMedia, Checkbox, Divider, MenuItem, Paper, Select, Typography } from "@material-ui/core";
+import { notifyError } from "../public/notifications/notificationsFunctions";
 import Grid from "@material-ui/core/Grid";
-import {FiberManualRecord} from "@material-ui/icons";
-import {selectColor} from "../styles/globalStyle";
+import { FiberManualRecord } from "@material-ui/icons";
+import { selectColor } from "../styles/globalStyle";
 
 const CheckListPage = () => {
     const [t, i18n] = useTranslation();
@@ -23,7 +23,8 @@ const CheckListPage = () => {
     if (typeof window !== 'undefined') {
         if (favList.length === 0) {
             const elem = JSON.parse(localStorage.getItem("listFav") as string)
-            if (elem.length === 0) {
+            console.log(elem);
+            if (elem === null || elem.length === 0) {
                 notifyError("")
             }
             else
@@ -35,7 +36,7 @@ const CheckListPage = () => {
             i18n.changeLanguage(localStorage.getItem('lng') as string).then()
         }, []);
     }
-    useCallback(() => {}, [checkedList])
+    useCallback(() => { }, [checkedList])
 
     // useEffect(() => {
     // }, [checkedList]);
@@ -44,9 +45,16 @@ const CheckListPage = () => {
         setListIndex(event.target.value);
     };
 
-    const handleChangeChecked = (index: number) => {
-        let tmpList = checkedList
-        tmpList[index] = !tmpList[index]
+    const handleChangeChecked = (indexToChange: number) => {
+
+        let tmpList: boolean[] = [];
+        checkedList.map((elem, index) => {
+            if (indexToChange === index) {
+                tmpList.push(!elem)
+            } else {
+                tmpList.push(elem)
+            }
+        });
         console.log(tmpList)
         setCheckedList(tmpList);
     };
@@ -66,12 +74,12 @@ const CheckListPage = () => {
         return (
             <>
                 <DarkModeParent theme={tmpTheme}>
-                    <Header/>
-                    <div className="flexJustifiedCenter" style={{marginTop: "150px"}}>
+                    <Header />
+                    <div className="flexJustifiedCenter" style={{ marginTop: "150px" }}>
                         <Paper className="paperStyle " elevation={3}>
                             <div className="flexJustifiedCenter">
                                 <Select className="" color={"secondary"} variant={"outlined"}
-                                        value={listIndex} onChange={handleChange} style={{minWidth: "10vw"}} >
+                                    value={listIndex} onChange={handleChange} style={{ minWidth: "10vw" }} >
                                     {
                                         favList.length > 0 && favList.map((elem, index) => {
                                             return (
@@ -81,10 +89,10 @@ const CheckListPage = () => {
                                     }
                                 </Select>
                             </div>
-                            <Divider className="divider"/>
+                            <Divider className="divider" />
                             <div>
-                                <Grid container direction='row' justify='space-evenly' wrap='wrap' style={{paddingTop: '20px'}}
-                                      spacing={2}>
+                                <Grid container direction='row' justify='space-evenly' wrap='wrap' style={{ paddingTop: '20px' }}
+                                    spacing={2}>
                                     {
                                         favList.length > 0 && favList[listIndex].products.map((elem, index) => {
                                             if (checkedList.length === 0)
@@ -92,19 +100,22 @@ const CheckListPage = () => {
                                             return (
                                                 <Grid item key={index} className={"dFlex"} xs={12}
                                                     // sm={11} md={11} lg={11} xl={11}
-                                                      style={{padding: "10px 50px"}}
+                                                    style={{ padding: "10px 50px" }}
                                                 >
-                                                    <div className="dFlex alignCenter" style={{margin: "0px 20px"}}>
+                                                    {console.log(checkedList)}
+                                                    <div className="dFlex alignCenter" style={{ margin: "0px 20px" }}>
                                                         <Checkbox color="secondary" onChange={() => {
                                                             handleChangeChecked(index)
                                                         }}
-                                                                  checked={checkedList[index]}
+                                                            checked={checkedList[index]}
                                                         />
                                                     </div>
-                                                    <div style={{width: "20vw", height: "20vw", objectFit: "contain",
-                                                        marginRight: "20px"}}>
+                                                    <div style={{
+                                                        width: "20vw", height: "20vw", objectFit: "contain",
+                                                        marginRight: "20px"
+                                                    }}>
                                                         <CardMedia
-                                                            style={{width: '100%', height: '100%'}}
+                                                            style={{ width: '100%', height: '100%' }}
                                                             image={elem.photo}>
                                                         </CardMedia>
                                                     </div>
@@ -116,7 +127,7 @@ const CheckListPage = () => {
                                                         </div>
                                                         <div className="dFlex">
                                                             <Typography>{t("label.score.final")} {elem.scoreHealth}</Typography>
-                                                            <FiberManualRecord htmlColor={selectColor(Number(elem.scoreHealth), false)}/>
+                                                            <FiberManualRecord htmlColor={selectColor(Number(elem.scoreHealth), false)} />
                                                         </div>
                                                     </div>
                                                 </Grid>
@@ -134,8 +145,8 @@ const CheckListPage = () => {
     return (
         <>
             <DarkModeParent theme={tmpTheme}>
-                <Header/>
-                <Footer/>
+                <Header />
+                <Footer />
             </DarkModeParent>
         </>
     )
