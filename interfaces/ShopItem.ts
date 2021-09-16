@@ -3,8 +3,12 @@ import { Product } from "typing";
 interface ShopItemProps {
     key: number;
     product : Product;
-    cartQueryRefetch: any;
-    setIsBasketUpToDate: any;
+    AddToCart: any;
+    RemoveFromCart: any;
+    basket : Product[];
+    setBasket: any;
+    cartQueryRefetch?: any;
+    setIsBasketUpToDate?: any;
 }
 
 export default ShopItemProps;
