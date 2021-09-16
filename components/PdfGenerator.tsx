@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from "react";
 import { Product } from "typing";
 import { Button } from "@material-ui/core";
 import PdfPrinter from "pdfmake";
@@ -31,7 +30,7 @@ const GenerateContent = (basket: Product[]) => {
     document.content.push({ text: "N'achetez que le meilleur", absolutePosition: { x: 250, y: 65 }, style: "headerBaseLine" })
     //End Header
     document.content.push({ text: "Votre liste de course", style: "title", margin: [0, 120, 0, 20] })
-    basket.map((element, index) => {
+    basket.map((element) => {
         list.ul.push([{ text: element.name, margin: [0, 15, 0, 0] }, { text: element.brand, margin: [0, 5, 0, 0] }, { text: "Quantité : " + element.itemQuantity, margin: [0, 5, 0, 0] }]);
     })
     document.content.push(list);
@@ -40,8 +39,6 @@ const GenerateContent = (basket: Product[]) => {
 }
 
 const PdfGenerator = ({ basket }: Props) => {
-    const [t] = useTranslation();
-
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     useEffect(() => {
     }, []);
