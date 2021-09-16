@@ -9,15 +9,15 @@ const ToggleColorMode = ({ theme, toggleTheme }: ToggleColorModeProps) => {
     // i18n;
 
     return (
-        <div style={{display:"flex", flexDirection:"row", alignItems:"center"}}>
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
             <img
                 src={`/images/${theme}/sun.png`}
-                style={{width:"25px", height:"25px"}}
+                style={{ width: "25px", height: "25px" }}
                 // className={"flagLogo"}
                 alt={"lightMode"}
-                // onClick={() => {
-                //     changeLang(lang)}
-                // }
+            // onClick={() => {
+            //     changeLang(lang)}
+            // }
             />
             <Switch
                 checked={!isLight}
@@ -27,12 +27,12 @@ const ToggleColorMode = ({ theme, toggleTheme }: ToggleColorModeProps) => {
             />
             <img
                 src={`/images/${theme}/moon.png`}
-                style={{width:"25px", height:"25px"}}
+                style={{ width: "25px", height: "25px" }}
                 // className={"flagLogo"}
                 alt={"darkMode"}
-                // onClick={() => {
-                //     changeLang(lang)}
-                // }
+            // onClick={() => {
+            //     changeLang(lang)}
+            // }
             />
         </div>
     );
