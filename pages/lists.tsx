@@ -172,7 +172,6 @@ const ListsPage = () => {
             setCartHistory(oldCartsData.oldCarts)
         }
     }
-    console.log("test")
 
     return (
         <DarkModeParent theme={tmpTheme}>
