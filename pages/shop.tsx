@@ -188,7 +188,7 @@ const ShopPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header  {...{ theme, SetTheme }} />
-            <Grid container justify="center" style={{ marginTop: '10px'}}>
+            <Grid container justify="center" style={{ marginTop: '10px', maxHeight: "80vh" }}>
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />
                 </Grid>

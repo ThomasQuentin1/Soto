@@ -7,6 +7,7 @@ import { Product, useConfirmCartMutation, useAddToCartMutation } from 'typing';
 import { notifySuccess, notifyError } from "../../public/notifications/notificationsFunctions";
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import PdfGenerator from "components/PdfGenerator";
 import Router from "next/router";
 
 const calculateTotalPrice = (basket: Product[]) => {
@@ -78,9 +79,10 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
             <Typography
                 variant="h6"
                 color="secondary"
-                style={{marginRight: "20px"}}
+                style={{ marginRight: "20px" }}
             >{t("label.cart")}</Typography>
-            <ShoppingBasketIcon fontSize='large' color="secondary" style={{marginRight: 'auto'}} className='icons'/>
+            <ShoppingBasketIcon fontSize='large' color="secondary" style={{ marginRight: 'auto' }} className='icons' />
+            <PdfGenerator {...{ basket }} />
             <Grid item>
                 <Grid container>
                     {/** Button Add list to basket and its menu item */}
