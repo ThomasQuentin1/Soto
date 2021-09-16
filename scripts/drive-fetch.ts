@@ -1,18 +1,26 @@
 /// @ts-nocheck
 // @ts-ignore
+import {ShopList} from "../server/constData/shopList";
+
 const fs = require("fs");
 // @ts-ignore
 const fetch = require("isomorphic-unfetch");
 const sqlite = require("sqlite3").verbose();
 const mysql = require("mysql");
+import { IsBio } from "../server/algo/scoring/Bio";
 import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
 import { IsNoGluten } from "../server/algo/scoring/NoGluten";
+import { IsPeanutFree } from "../server/algo/scoring/Peanut";
+import PriceScoring from "../server/algo/scoring/PriceScoring";
+import ProximityScoring from "../server/algo/scoring/ProximityScoring";
 import { IsVegan } from "../server/algo/scoring/Vegan";
 import { getPool } from "../server/query";
 
 const EnvScorer = new EnvScoring();
 const HealthScorer = new HealthScoring();
+const PriceScorer = new PriceScoring();
+const ProximityScorer = new ProximityScoring();
 
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
@@ -29,6 +37,8 @@ const query = async <T>(db: any, query: string) =>
       resolve(data);
     });
   });
+
+const OffImageSearchWords = ["image_url", "image_thumb_url", "image_front_url", "image_front_thumb_url", "image_small_url"];
 
 interface LeclercShop {
   CODE_MAGASIN: string;
@@ -71,8 +81,11 @@ interface Article {
   nutriscore: string;
   scoreHealth: number;
   scoreEnvironment: number;
+  bio: boolean;
+  peanutFree: boolean;
   quantity: string;
   keywords: string[];
+  origin: string;
 }
 
 interface LoginRequest {
@@ -105,15 +118,24 @@ const clear = (str: string) => {
   return str.replace(/œ/g, "oe").replace(/[^\x00-\xFF]/g, "");
 };
 
+const createLeclercImage = (shop, product) => `https://${
+    shop!.server
+  }-photos.leclercdrive.fr/image.ashx?id=${
+    product.photo
+  }&use=d&cat=p&typeid=i&width=300`
+
 const start = async () => {
   const sql = await sqlconnect();
-  for (let _i_ = 2; _i_ < 5; _i_++) {
+  for (let _i_ = 1; _i_ < 5; _i_++) {
     const db = new sqlite.Database(
       `./server/drive-data/drive${_i_}.ashz`,
       (err: any) => {
         if (err) console.error(err);
       }
     );
+
+    const shopData = ShopList.find(s => s.id === _i_);
+    console.log("SHOP : " + shopData?.name)
 
     const tableNameQuery = await query<{ name: string }>(
       db,
@@ -192,6 +214,19 @@ const start = async () => {
 
         if (bestProduct != null) {
           const product = await createProduct(article, bestProduct);
+          try {
+            const url = createLeclercImage(shopData, product);
+            const res = await fetch(url);
+            if (!res.ok)
+              throw new Error();
+            product.photo = url;
+          } catch (ex) {
+            const url = OffImageSearchWords.reduce<string>((photurl, curr) => {
+              if (photurl) return photurl;
+              return bestProduct[curr];
+            }, undefined)
+            product.photo = url;
+          }
           let serialized = {
             ...product,
             brand: clear(product.brand),
@@ -202,26 +237,33 @@ const start = async () => {
             nutriments: clear(product.nutriments.join("|")),
             keywords: clear((product.keywords || []).join("|")),
           };
-          // console.log(serialized)
 
           if (!serialized.ingredients || serialized.ingredients.length === 0) {
             return;
           }
-          serialized.scoreEnvironment = EnvScorer.getScore(
-            serialized
-          ).toString();
+          serialized.scoreEnvironment =
+            EnvScorer.getScore(serialized).toString();
           serialized.scoreHealth = HealthScorer.getScore(serialized).toString();
+          serialized.scorePrice = PriceScorer.getScore(serialized).toString();
+          serialized.scoreProximity =
+            ProximityScorer.getScore(serialized).toString();
 
           serialized.vegan = IsVegan(serialized);
           serialized.noGluten = IsNoGluten(serialized);
+          serialized.bio = IsBio(serialized);
+          serialized.peanutFree = IsPeanutFree(serialized);
 
           console.log(
-            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth}`
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
           );
+
+          // console.log(
+          //   `bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
+          // );
 
           await sqlquery(
             sql,
-            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, quantity, keywords, vegan, noGluten, labels) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
             [
               clear(serialized.name),
               serialized.leclercId,
@@ -236,11 +278,15 @@ const start = async () => {
               serialized.nutriscore,
               serialized.scoreHealth,
               serialized.scoreEnvironment,
+              serialized.scoreProximity,
+              serialized.scorePrice,
               clear(serialized.quantity),
               clear(serialized.keywords),
               serialized.vegan,
               serialized.noGluten,
               serialized.labels,
+              serialized.bio,
+              serialized.peanutFree,
             ]
           );
         }
@@ -322,6 +368,7 @@ const createProduct = async (
     photo: leclerc.ID_PHOTO_DETAIL,
     labels: product.labels_tags ?? [],
     ecoscore: ecoScore,
+    origin: leclerc.ORIGINE ?? product.origins ?? null,
   };
   return ret;
 };

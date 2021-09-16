@@ -30,6 +30,9 @@ const schema = gql`
     changeEmail(newEmail: String!): Boolean!
     setShop(shopId: Int!): Boolean!
     addToCart(productId: String!): Boolean!
+    addMultipleToCart(products: [AddToCartInput!]!) : Boolean!
+    removeMultipleToCart(products: [AddToCartInput!]!) : Boolean!
+
     removeFromCart(productId: String!): Boolean!
     confirmCart: Boolean!
     clearCart: Boolean!
@@ -41,6 +44,12 @@ const schema = gql`
     dateLastEdit: Date!
     shop: Shop!
     price: Float!
+    score: Int
+  }
+
+  input  AddToCartInput {
+    productId: String!
+    quantity: Int!
   }
 
   type Shop {
@@ -51,6 +60,17 @@ const schema = gql`
     id: Int!
     server: String!
     code: String!
+    list: [ProductList!]
+  }
+
+  type ProductList {
+    name: String!
+    products: [ProductListEntry!]!
+  }
+  
+  type ProductListEntry {
+    name: String!
+    id: String!
   }
 
   type Account {
@@ -92,11 +112,13 @@ const schema = gql`
     nutriments: [String]
     nutriscore: String
     scoreHealth: Int
+    scorePrice: Int
     scoreEnvironment: Int
+    scoreProximity: Int
     finalScore: Int
     packagingQuantity: String
     itemQuantity: Int
-    photo: String!
+    photo: String
     url: String!
   }
 `;

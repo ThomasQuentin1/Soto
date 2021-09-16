@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -51,6 +52,8 @@ export type Mutation = {
   changeEmail: Scalars['Boolean'];
   setShop: Scalars['Boolean'];
   addToCart: Scalars['Boolean'];
+  addMultipleToCart: Scalars['Boolean'];
+  removeMultipleToCart: Scalars['Boolean'];
   removeFromCart: Scalars['Boolean'];
   confirmCart: Scalars['Boolean'];
   clearCart: Scalars['Boolean'];
@@ -109,6 +112,16 @@ export type MutationAddToCartArgs = {
 };
 
 
+export type MutationAddMultipleToCartArgs = {
+  products: Array<AddToCartInput>;
+};
+
+
+export type MutationRemoveMultipleToCartArgs = {
+  products: Array<AddToCartInput>;
+};
+
+
 export type MutationRemoveFromCartArgs = {
   productId: Scalars['String'];
 };
@@ -120,6 +133,12 @@ export type Cart = {
   dateLastEdit: Scalars['Date'];
   shop: Shop;
   price: Scalars['Float'];
+  score?: Maybe<Scalars['Int']>;
+};
+
+export type AddToCartInput = {
+  productId: Scalars['String'];
+  quantity: Scalars['Int'];
 };
 
 export type Shop = {
@@ -131,6 +150,19 @@ export type Shop = {
   id: Scalars['Int'];
   server: Scalars['String'];
   code: Scalars['String'];
+  list?: Maybe<Array<ProductList>>;
+};
+
+export type ProductList = {
+  __typename?: 'ProductList';
+  name: Scalars['String'];
+  products: Array<ProductListEntry>;
+};
+
+export type ProductListEntry = {
+  __typename?: 'ProductListEntry';
+  name: Scalars['String'];
+  id: Scalars['String'];
 };
 
 export type Account = {
@@ -176,11 +208,13 @@ export type Product = {
   nutriments?: Maybe<Array<Maybe<Scalars['String']>>>;
   nutriscore?: Maybe<Scalars['String']>;
   scoreHealth?: Maybe<Scalars['Int']>;
+  scorePrice?: Maybe<Scalars['Int']>;
   scoreEnvironment?: Maybe<Scalars['Int']>;
+  scoreProximity?: Maybe<Scalars['Int']>;
   finalScore?: Maybe<Scalars['Int']>;
   packagingQuantity?: Maybe<Scalars['String']>;
   itemQuantity?: Maybe<Scalars['Int']>;
-  photo: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
 
@@ -271,7 +305,10 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
   Cart: ResolverTypeWrapper<Cart>,
   Float: ResolverTypeWrapper<Scalars['Float']>,
+  AddToCartInput: AddToCartInput,
   Shop: ResolverTypeWrapper<Shop>,
+  ProductList: ResolverTypeWrapper<ProductList>,
+  ProductListEntry: ResolverTypeWrapper<ProductListEntry>,
   Account: ResolverTypeWrapper<Account>,
   Criterion: ResolverTypeWrapper<Criterion>,
   Obligation: ResolverTypeWrapper<Obligation>,
@@ -292,7 +329,10 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'],
   Cart: Cart,
   Float: Scalars['Float'],
+  AddToCartInput: AddToCartInput,
   Shop: Shop,
+  ProductList: ProductList,
+  ProductListEntry: ProductListEntry,
   Account: Account,
   Criterion: Criterion,
   Obligation: Obligation,
@@ -328,6 +368,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
   setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
   addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
+  addMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddMultipleToCartArgs, 'products'>>,
+  removeMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveMultipleToCartArgs, 'products'>>,
   removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
   confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
@@ -339,6 +381,7 @@ export type CartResolvers<ContextType = any, ParentType extends ResolversParentT
   dateLastEdit?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
   shop?: Resolver<ResolversTypes['Shop'], ParentType, ContextType>,
   price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  score?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -350,6 +393,19 @@ export type ShopResolvers<ContextType = any, ParentType extends ResolversParentT
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   server?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  list?: Resolver<Maybe<Array<ResolversTypes['ProductList']>>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ProductListResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductList'] = ResolversParentTypes['ProductList']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  products?: Resolver<Array<ResolversTypes['ProductListEntry']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ProductListEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductListEntry'] = ResolversParentTypes['ProductListEntry']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -386,11 +442,13 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   nutriments?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
   nutriscore?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scorePrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreProximity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-  photo?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
@@ -405,6 +463,8 @@ export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>,
   Cart?: CartResolvers<ContextType>,
   Shop?: ShopResolvers<ContextType>,
+  ProductList?: ProductListResolvers<ContextType>,
+  ProductListEntry?: ProductListEntryResolvers<ContextType>,
   Account?: AccountResolvers<ContextType>,
   Criterion?: CriterionResolvers<ContextType>,
   Obligation?: ObligationResolvers<ContextType>,
@@ -1120,6 +1180,8 @@ export const OldCartsDocument = gql`
       long
       lat
       id
+      server
+      code
     }
     price
   }

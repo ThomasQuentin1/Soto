@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const muiLightTheme = createMuiTheme({
-    shape : {
+    shape: {
         borderRadius: 10,
     },
     palette: {
@@ -13,14 +13,21 @@ const muiLightTheme = createMuiTheme({
             main: '#3586e2',
         },
         secondary: {
-            main: '#fff',
-            contrastText: '#3586e2',
+            main: '#3586e2',
+            contrastText: '#fff',
         },
         background: {
             paper: '#edf7fa',
         }
 
     },
+    overrides: {
+        MuiDivider: {
+            root: {
+                backgroundColor: "#ffffff"
+            }
+        }
+    }
 });
 
 export default muiLightTheme;

@@ -6,3 +6,7 @@ export const notifySuccess = (msg: String) => {
 export const notifyError = (msg: String) => {
     toast.error(msg)
 };
+
+export const paymentValidation = (msg: String) => {
+    toast.success(msg)
+};

@@ -125,6 +125,8 @@ query OldCarts {
       long
       lat
       id
+      server
+      code
     }
     price
   }

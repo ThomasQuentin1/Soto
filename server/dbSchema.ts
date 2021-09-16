@@ -1,7 +1,7 @@
 export interface DbProduct {
   id: number;
   leclercId: string;
-  photo: number;
+  photo: string;
   name: string;
   brand: string;
   priceUnit: string;
@@ -13,11 +13,13 @@ export interface DbProduct {
   nutriscore: string;
   healthscore: number;
   environmentScore: number;
+  priceScore: number;
+  proximityScore: number;
   quantity: string;
   keywords: string;
   origin?: string;
   labels: string;
-  ecoscore: string;
+  ecoscore: number;
 }
 
 export interface DbUser {
