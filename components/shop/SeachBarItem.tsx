@@ -3,7 +3,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { Typography, CardMedia } from '@material-ui/core';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
-import { useAddToCartMutation } from "typing";
 
 // const getRandomIntInclusive = (min : number, max : number) => {
 //     min = Math.ceil(min);
@@ -19,10 +18,8 @@ import { useAddToCartMutation } from "typing";
 //     setBasket(newBasket);
 // }
 
-const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate } : SearchBarItemProps) => {
+const ListsSearchBarItem = ({product, setOpen, AddToCart, basket, setBasket} : SearchBarItemProps) => {
     let scoreColor : string = "red";
-    // uncomment when we get id of the product from the backend
-    const [AddToCartMutation] = useAddToCartMutation({variables: { productId: product.id}, errorPolicy: 'all'})
     
     if (product.scoreHealth! >= 40) {
         scoreColor = "orange";
@@ -32,33 +29,16 @@ const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate 
     }
     return (
         <Grid container style={{display:'flex', flexDirection:'row', cursor: "pointer"}} className="item_search_bar" onClick={() => {
-                    // add in local
-                    AddToCartMutation().then((r) => {
-                        if (r.errors) {
-                            console.log(r.errors);
-                        } else {
-                            cartQueryRefetch().then(() => {
-                                setIsBasketUpToDate(false);
-                            })
-                            console.log('Item added to cart')
-                        }
-                    });
-                    // AddToBasket(product, basket, setBasket);
-                    // add in server
-                    // AddToCartMutation().then((r) => {
-                    //     if (r.errors) {
-                    //         console.log(r.errors[0].message);
-                    //     } else {
-                    //         console.log('product added to cart')
-                    //     }
-                    // });
+                    let tmpProduct = Object.assign({}, product);
+                    tmpProduct.itemQuantity = 1;
+                    AddToCart(tmpProduct, basket, setBasket);
                     setOpen(false);
                 }
             }>
             <Grid item xs={4}>
                 <CardMedia
                     style={{width:'100%', height:'100%', aspectRatio: "auto 350/350"}}
-                    image={product.photo}>
+                    image={product.photo ?? "error"}>
                 </CardMedia>
             </Grid>
             <Grid
@@ -77,4 +57,4 @@ const SearchBarItem = ({product, setOpen, cartQueryRefetch, setIsBasketUpToDate 
     );
 }
 
-export default SearchBarItem
+export default ListsSearchBarItem

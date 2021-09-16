@@ -78,7 +78,7 @@ const HistoryItem = (props: HistoryItemProps) => {
                                     <div style={{width: "25%", height: "100%"}}>
                                         <CardMedia
                                             style={{width: '100%', height: '100%'}}
-                                            image={item.photo}>
+                                            image={item.photo ?? "error"}>
                                         </CardMedia>
                                     </div>
                                     <div>
