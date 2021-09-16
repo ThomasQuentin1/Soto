@@ -44,6 +44,7 @@ const schema = gql`
     dateLastEdit: Date!
     shop: Shop!
     price: Float!
+    score: Int
   }
 
   input  AddToCartInput {
@@ -59,6 +60,17 @@ const schema = gql`
     id: Int!
     server: String!
     code: String!
+    list: [ProductList!]
+  }
+
+  type ProductList {
+    name: String!
+    products: [ProductListEntry!]!
+  }
+  
+  type ProductListEntry {
+    name: String!
+    id: String!
   }
 
   type Account {
@@ -106,7 +118,7 @@ const schema = gql`
     finalScore: Int
     packagingQuantity: String
     itemQuantity: Int
-    photo: String!
+    photo: String
     url: String!
   }
 `;

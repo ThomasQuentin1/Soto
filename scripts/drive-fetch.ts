@@ -1,5 +1,7 @@
 /// @ts-nocheck
 // @ts-ignore
+import {ShopList} from "../server/constData/shopList";
+
 const fs = require("fs");
 // @ts-ignore
 const fetch = require("isomorphic-unfetch");
@@ -35,6 +37,8 @@ const query = async <T>(db: any, query: string) =>
       resolve(data);
     });
   });
+
+const OffImageSearchWords = ["image_url", "image_thumb_url", "image_front_url", "image_front_thumb_url", "image_small_url"];
 
 interface LeclercShop {
   CODE_MAGASIN: string;
@@ -114,15 +118,24 @@ const clear = (str: string) => {
   return str.replace(/œ/g, "oe").replace(/[^\x00-\xFF]/g, "");
 };
 
+const createLeclercImage = (shop, product) => `https://${
+    shop!.server
+  }-photos.leclercdrive.fr/image.ashx?id=${
+    product.photo
+  }&use=d&cat=p&typeid=i&width=300`
+
 const start = async () => {
   const sql = await sqlconnect();
-  for (let _i_ = 2; _i_ < 5; _i_++) {
+  for (let _i_ = 1; _i_ < 5; _i_++) {
     const db = new sqlite.Database(
       `./server/drive-data/drive${_i_}.ashz`,
       (err: any) => {
         if (err) console.error(err);
       }
     );
+
+    const shopData = ShopList.find(s => s.id === _i_);
+    console.log("SHOP : " + shopData?.name)
 
     const tableNameQuery = await query<{ name: string }>(
       db,
@@ -201,6 +214,19 @@ const start = async () => {
 
         if (bestProduct != null) {
           const product = await createProduct(article, bestProduct);
+          try {
+            const url = createLeclercImage(shopData, product);
+            const res = await fetch(url);
+            if (!res.ok)
+              throw new Error();
+            product.photo = url;
+          } catch (ex) {
+            const url = OffImageSearchWords.reduce<string>((photurl, curr) => {
+              if (photurl) return photurl;
+              return bestProduct[curr];
+            }, undefined)
+            product.photo = url;
+          }
           let serialized = {
             ...product,
             brand: clear(product.brand),
