@@ -4,7 +4,7 @@ import { Cart, Product, Resolvers, Shop } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
 import { getFinalScore } from "./productResolver";
-import { Criterions } from "server/algo/critetions";
+import { Criterions } from "../../server/algo/critetions";
 
 const NanToNullAndRound = (nbr: number) => isNaN(nbr) ? null : Math.round(nbr);
 
