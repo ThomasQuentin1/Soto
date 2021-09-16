@@ -149,6 +149,10 @@ const resources = {
         "error.invalidcredentails": "Invalid email or password",
         "error.emailalreadyinuse": "Email already in use",
         "error.badparams": "Bad parameters",
+
+        // -------------------- ABOVE IS TESTED -------------------- //
+
+        "label.listName" : "List Name",
       }
     },
     fr: {
@@ -300,6 +304,11 @@ const resources = {
         "error.invalidcredentails": "Email ou mot de passe invalides",
         "error.emailalreadyinuse": "Email déjà utilisé",
         "error.badparams": "Mauvais paramètres",
+
+        // -------------------- ABOVE IS TESTED -------------------- //
+
+        "label.listName" : "Nom de la liste",
+        "notification.label.noFavList" : ""
       }
     },
   test: {
@@ -451,6 +460,10 @@ const resources = {
       "error.invalidcredentails": "AAA",
       "error.emailalreadyinuse": "AAA",
       "error.badparams": "AAA",
+
+      // -------------------- ABOVE IS TESTED -------------------- //
+
+      "label.listName" : "AAA",
     }
   }
 };

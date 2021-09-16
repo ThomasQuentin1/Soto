@@ -155,7 +155,7 @@ const PriceBanner = ({basket, cartQueryRefetch, setIsBasketUpToDate} : PriceBann
                         onClose={handleCloseAddList}
                     >
                         <MenuItem>
-                            <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)}/>
+                            <TextField label={t("label.listName")} value={listName} onChange={(sender: any) => setListName(sender.target.value)}/>
                             <CheckIcon onClick={() => {
                                 const oldListsFav = localStorage.getItem('listFav')
 

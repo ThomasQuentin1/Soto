@@ -32,7 +32,7 @@ const ShopPage = () => {
         if (localStorage.getItem('lng') == null)
             localStorage.setItem('lng', 'fr');
         useEffect(() => {
-            i18n.changeLanguage(localStorage.getItem('lng') as string)
+            i18n.changeLanguage(localStorage.getItem('lng') as string).then()
         }, []);
     }
 

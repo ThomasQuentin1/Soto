@@ -149,6 +149,12 @@ const GlobalStyles = createGlobalStyle`
     border-left-width: 0;
     border-right-width: 0;
   }
+  
+  .paperStyle {
+    background-color: ${({ theme }) => theme.secondary.background};
+    width: 75vw;
+    padding: 20px;
+  }
 
   /* SHOP */
 
@@ -266,6 +272,11 @@ const GlobalStyles = createGlobalStyle`
     justify-content: space-evenly;
   }
 
+  .flexJustifiedCenter {
+    display: flex;
+    justify-content: center;
+  }
+
   /* END SHOP */
 
   /* HISTORY */
@@ -308,11 +319,17 @@ const GlobalStyles = createGlobalStyle`
     left: 200px;
   }
   
+  .divider {
+    margin: 20px;
+    background-color: ${({ theme }) => theme.secondary.main};
+  }
+  
   // Material-UI classes overload
   
   .MuiStepIcon-active{
     color: ${({ theme }) => theme.secondary.main} !important
   }
+
   
 `;
 
