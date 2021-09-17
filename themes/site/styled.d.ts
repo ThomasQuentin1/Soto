@@ -20,5 +20,6 @@ declare module 'styled-components' {
     border: {
       color: string,
     }
+    divider: string
   }
 }
