@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'typing';
-import { Typography, CardMedia, Card, Grid, Link, Divider, Switch } from '@material-ui/core';
+import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button } from '@material-ui/core';
 import Router from "next/router";
+import Cookies from "js-cookie";
 
 interface Props {
     theme: any;
@@ -38,15 +39,22 @@ const Header = ({ theme, SetTheme }: Props) => {
                 </div>
                 {isProfileCardOpen &&
                     <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px" }}>
-                        <Grid container direction="column">
+                        {(data && data.account) ?
                             <Grid container direction="column">
-                                <Typography style={{ marginBottom: "5px" }}>{data.account.email}</Typography>
-                                <Link href="#" onClick={() => Router.push("/profile").then(() => { })} color="secondary">Paramètres</Link>
+                                <Grid container direction="column">
+                                    <Typography style={{ marginBottom: "5px" }}>{data.account.email}</Typography>
+                                    <Link href="#" onClick={() => Router.push("/profile").then(() => { })} color="secondary">Paramètres</Link>
+                                </Grid>
+                                <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider divider" />
                             </Grid>
-                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider divider" />
-                        </Grid>
+                            : <Grid container direction="column">
+                                <Button onClick={() => Router.push("/login")}>Se connecter</Button>
+                            </Grid>
+                        }
                         <Grid container direction="column">
-                            <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
+                            {data && data.account &&
+                                <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
+                            }
                             <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
                         </Grid>
                         <Grid container justify="center" alignItems="center">
@@ -59,6 +67,15 @@ const Header = ({ theme, SetTheme }: Props) => {
                                     onChange={SetTheme}
                                 />
                             </Grid>
+                            {data && data !== undefined &&
+                                <Grid>
+                                    <Button color="secondary" onClick={() => {
+                                        Cookies.remove("token")
+                                        Router.push("/login").then(() => { })
+                                    }}>
+                                        Déconnexion
+                                    </Button>
+                                </Grid>}
                         </Grid>
                     </Card>}
                 {/* <Menu
