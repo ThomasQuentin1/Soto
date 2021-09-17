@@ -15,7 +15,8 @@ const darkTheme = {
     gradient: 'linear-gradient(#091236, #1E215D)',
     border : {
         color: '#263859'
-    }
+    },
+    divider: "#ff6768",
 }
 
 export default darkTheme;

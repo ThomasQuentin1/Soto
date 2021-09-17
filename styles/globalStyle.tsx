@@ -325,7 +325,7 @@ const GlobalStyles = createGlobalStyle`
   
   .divider {
     margin: 20px;
-    background-color: ${({ theme }) => theme.secondary.main};
+    background-color: ${({ theme }) => theme.divider};
   }
   
   // Material-UI classes overload
