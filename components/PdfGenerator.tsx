@@ -45,7 +45,6 @@ const PdfGenerator = ({ basket }: Props) => {
 
     const handleClick = () => {
         const docDefinition = GenerateContent(basket);
-        console.log(docDefinition);
         PdfPrinter.createPdf(docDefinition).open();
     }
 
