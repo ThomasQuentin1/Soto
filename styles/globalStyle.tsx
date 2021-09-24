@@ -76,6 +76,13 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.border.color};
   }
 
+  .phantom {
+    display: block;
+    padding: 20px;
+    height: 100px;
+    width: 100%;
+  }
+  
   .footer {
     background: ${({ theme }) => theme.footer};
     border-top : solid 2px ${({ theme }) => theme.border.color};
