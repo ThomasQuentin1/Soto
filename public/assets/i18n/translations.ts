@@ -153,6 +153,16 @@ const resources = {
         // -------------------- ABOVE IS TESTED -------------------- //
 
         "label.listName" : "List Name",
+        "label.milestones" : "Project Milestones",
+        "label.milestones.step1" : "Start of the project",
+        "label.milestones.step2" : "1st version of the website in production",
+        "label.milestones.step3" : "1st functional version of the site",
+        "label.milestones.step4" : "1st beta for the 3 applications",
+        "label.milestones.step5.date" : "January 2022",
+        "label.milestones.step5" : " Presentation of the project to a jury",
+        "label.copyEmail" : "Copy this email",
+        "notification.copyEmail" : "Email copied",
+
       }
     },
     fr: {
@@ -308,7 +318,16 @@ const resources = {
         // -------------------- ABOVE IS TESTED -------------------- //
 
         "label.listName" : "Nom de la liste",
-        "notification.label.noFavList" : ""
+        "notification.noFavList" : "Pas de listes favorites",
+        "label.milestones" : "Étapes du projet",
+        "label.milestones.step1" : "Début du projet",
+        "label.milestones.step2" : "1ère version du site en production",
+        "label.milestones.step3" : "1ère version fonctionnelle du site",
+        "label.milestones.step4" : "1ère bêta pour les 3 applications",
+        "label.milestones.step5.date" : "Janvier 2022",
+        "label.milestones.step5" : "Présentation du projet devant un jury",
+        "label.copyEmail" : "Copier cet email",
+        "notification.copyEmail" : "Email copié",
       }
     },
   test: {
