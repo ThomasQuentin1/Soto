@@ -1,5 +1,5 @@
 const lightTheme = {
-    body: '#edf7fa',
+    body: '#ffffff',
     header: '#edf7fa',
     footer: '#edf7fa',
     firstColor: '#edf7fa',
@@ -14,7 +14,7 @@ const lightTheme = {
     hover: '#E6F0F2',
     gradient: 'linear-gradient(#39598A, #79D7ED)',
     border : {
-        color: '#3586e2'
+        color: 'transparent'
     },
     divider: "#3586e2",
 }

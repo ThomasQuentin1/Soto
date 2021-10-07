@@ -4,9 +4,8 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
-import { Grid, Tooltip, Zoom } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import PriceBanner from "components/shop/PriceBanner";
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
@@ -40,6 +39,19 @@ const RemoveFromBasketAndSessionStorage = (product: Product, basket: Product[], 
             newBasket.push(item);
         }
     });
+    setBasket(newBasket);
+    sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+};
+
+export const AddToBasketAndSessionStorageFromSearchTMP = (products: Product[], basket: Product[], setBasket: any) => {
+    let newBasket: Product[] = [];
+
+    basket.map((item) => {newBasket.push(item);});
+    products.map((product) => {
+        let tmpProduct = Object.assign({}, product);
+        tmpProduct.itemQuantity = 1
+        newBasket.push(tmpProduct);
+    })
     setBasket(newBasket);
     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
 };
@@ -99,6 +111,7 @@ const AddFromFavList = (listToAdd: List, basket: Product[], setBasket: any) => {
 }
 
 const ShopPage = () => {
+    // @ts-ignore
     const [t, i18n] = useTranslation();
     const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
@@ -193,14 +206,6 @@ const ShopPage = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <PriceBanner basket={basket} />
-                </Grid>
-                <Grid item xs={12}>
-                    <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
-                        <HelpOutlineIcon style={{ color: 'grey', marginLeft: '10px', marginTop: '10px' }} />
-                    </Tooltip>
-                    {/* <Button onClick={() => clearCartMutation()} color="secondary">
-                <Typography>Clear cart</Typography>
-              </Button> */}
                 </Grid>
             </Grid>
             <Grid item xs={12} style={{ overflowY: "auto", maxHeight: "60vh" }}>

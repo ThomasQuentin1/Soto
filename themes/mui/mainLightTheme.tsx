@@ -17,7 +17,7 @@ const muiLightTheme = createMuiTheme({
             contrastText: '#fff',
         },
         background: {
-            paper: '#edf7fa',
+            paper: '#fff',
         }
 
     },

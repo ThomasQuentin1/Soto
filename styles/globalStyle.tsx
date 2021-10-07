@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     align-items: center;
-    background: ${({ theme }) => theme.firstColor};
+    background: ${({ theme }) => theme.body};
     color: ${({ theme }) => theme.text};
     display: flex;
     flex-direction: column;
@@ -144,6 +144,7 @@ const GlobalStyles = createGlobalStyle`
     padding: 8px;
     margin: 8px;
     border: 1px solid ${({ theme }) => theme.border.color};
+    background: ${({ theme }) => theme.firstColor};
     color: ${({ theme }) => theme.text};
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;

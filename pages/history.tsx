@@ -37,12 +37,6 @@ const HistoryPage = () => {
             <DarkModeParent theme={tmpTheme}>
                 <Header {...{ theme, SetTheme }} />
                 <Grid container direction='column'>
-                    <Grid item xs={4}>
-                        <Button color='secondary' onClick={() => Router.back()} style={{ marginLeft: '10px', marginTop: '10px' }}>
-                            <ArrowBackIcon />
-                            <Typography variant='caption'>Retourner faire ses courses</Typography>
-                        </Button>
-                    </Grid>
                     <Grid container direction='column'>
                         <Grid item xs={4}>
                             <Button color='secondary' onClick={() => Router.back()} style={{ marginLeft: '10px', marginTop: '10px' }}>
