@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faShoppingBasket, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faShoppingBasket, faChevronDown, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'typing';
 import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button } from '@material-ui/core';
 import Router from "next/router";
 import Cookies from "js-cookie";
+import { DeviceHubOutlined } from '@material-ui/icons';
+import PdfGenerator from 'components/PdfGenerator';
 
 interface Props {
     theme: any;
@@ -19,6 +21,7 @@ const Header = ({ theme, SetTheme }: Props) => {
     const [basket, setBasket] = useState<any>(undefined);
     const [isProfileCardOpen, SetOpenProfileCard] = useState<boolean>(false);
     const [isBasketListOpen, SetBasketListOpen] = useState<boolean>(false);
+    const [profileCardWasOpen, SetProfileCardWasOpen] = useState<boolean>(false);
 
     if (!loading && data === undefined && Router.route != "/" && Router.route != "/login")
         Router.push("/login").then(() => { })
@@ -33,6 +36,27 @@ const Header = ({ theme, SetTheme }: Props) => {
         }
     }, 1000);
 
+    const GetBasketPrice = () => {
+        let price = 0;
+
+        if (basket === undefined) return price;
+        basket.map((item) => {
+            price += item.itemQuantity * Number(item.priceUnit);
+        });
+
+        return price;
+    }
+
+    const GetProductsNumber = () => {
+        let productsNumber = 0;
+
+        if (basket === undefined) return productsNumber;
+        basket.map((item) => {
+            productsNumber += item.itemQuantity;
+        });
+
+        return productsNumber;
+    }
 
     return (
         <div className='header-div' style={{ zIndex: 1000, left: '0px', top: '0px', width: '100%', height: '80px', position: 'sticky', display: 'flex', flexDirection: 'row', alignItems: 'center', marginRight: '10px' }}>
@@ -43,27 +67,46 @@ const Header = ({ theme, SetTheme }: Props) => {
             />
             <h2>{t('baseline')}</h2>
             <div style={{ marginLeft: 'auto', display: 'flex', justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
-                <Grid alignItems="center" justify="center" className={"profile-icon"} onClick={() => {
-                    SetBasketListOpen(!isBasketListOpen)
-                    if (isProfileCardOpen) {
-                        SetOpenProfileCard(false);
-                    }
-                }} style={{ cursor: "pointer" }}>
-                    <FontAwesomeIcon style={{ height: '30px', width: '30px' }} icon={faShoppingBasket} />
-                    <FontAwesomeIcon style={{ height: '20px', width: '20px' }} icon={faChevronDown} />
-                </Grid>
-                <div className={"profile-icon"} onClick={() => {
-                    SetOpenProfileCard(!isProfileCardOpen)
-                    if (isBasketListOpen) {
-                        SetBasketListOpen(false);
-                    }
-                }} style={{ cursor: "pointer" }}>
-                    <FontAwesomeIcon style={{ height: '60px', width: '60px' }} icon={faUser} />
+                <Button
+                    onMouseEnter={() => {
+                        if (isProfileCardOpen) {
+                            SetProfileCardWasOpen(true);
+                            SetOpenProfileCard(false);
+                        }
+                        SetBasketListOpen(true)
+                    }}
+                    onMouseLeave={() => {
+                        if (profileCardWasOpen) {
+                            SetProfileCardWasOpen(false);
+                            SetOpenProfileCard(true);
+                        }
+                        SetBasketListOpen(false)
+                    }}>
+                    <Grid alignItems="center" justify="center" className={"profile-icon"} onClick={() => {
+                        SetBasketListOpen(!isBasketListOpen)
+                        if (isProfileCardOpen) {
+                            SetOpenProfileCard(false);
+                        }
+                    }} style={{ cursor: "pointer" }}>
+                        <Typography>{GetProductsNumber()}</Typography>
+                        <FontAwesomeIcon style={{ height: '30px', width: '30px' }} icon={faShoppingBasket} />
+                    </Grid>
+                </Button>
+                <div className={"profile-icon"}
+                    onClick={() => {
+                        SetOpenProfileCard(!isProfileCardOpen)
+                        if (isBasketListOpen) {
+                            SetBasketListOpen(false);
+                        }
+                    }}
+                    style={{ cursor: "pointer" }}>
+                    <FontAwesomeIcon style={{ height: '45px', width: '45px', cursor: "pointer", marginLeft: "20px" }} icon={faUserCircle} className={"profile-icon"} />
                 </div>
-                {isBasketListOpen && basket !== undefined && <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px" }}>
+                {isBasketListOpen && basket !== undefined && <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px", zIndex: 100 }}>
                     <Grid container>
+                        <Grid item xs={12} style={{ textAlign: "right" }}><Typography style={{ textAlign: "right" }}>Total : {" " + GetBasketPrice() + " "}€</Typography></Grid>
                         {basket.map((item, index) => {
-                            return (<Grid item xs={12}><Typography display="inline">{item.name}</Typography><Typography display="inline" style={{ fontWeight: 600 }}>{" x" + item.itemQuantity}</Typography></Grid>);
+                            return (<Grid key={index} item xs={12}><Typography display="inline">{item.name}</Typography><Typography display="inline" style={{ fontWeight: 600 }}>{" x" + item.itemQuantity}</Typography></Grid>);
                         })}
                     </Grid>
                 </Card>}
@@ -83,7 +126,17 @@ const Header = ({ theme, SetTheme }: Props) => {
                         }
                         <Grid container direction="column">
                             {data && data.account &&
-                                <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
+                                <Grid container justify="center">
+                                    <Grid item xs={12}>
+                                        <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} style={{ textAlign: "center" }}>
+                                        <PdfGenerator {...{ basket }} />
+                                    </Grid>
+                                    <Grid item xs={12} style={{ textAlign: "center" }}>
+                                        <Link href="#" onClick={() => Router.push("/lists").then(() => { })} color="secondary">{t("label.saved_list")}</Link>
+                                    </Grid>
+                                </Grid>
                             }
                             <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
                         </Grid>

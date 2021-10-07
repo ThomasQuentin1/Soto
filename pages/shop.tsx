@@ -204,7 +204,7 @@ const ShopPage = () => {
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <PriceBanner basket={basket} />
                 </Grid>
             </Grid>

@@ -1,4 +1,4 @@
-import {Button, Divider, Input, InputAdornment, Paper} from "@material-ui/core";
+import { Button, Divider, Input, InputAdornment, Paper } from "@material-ui/core";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grid from "@material-ui/core/Grid";
 import React, {useState} from "react";
@@ -35,7 +35,7 @@ const SearchBar = ({AddToCart, basket, setBasket}: SearchBarProps) => {
     const [open, setOpen] = useState<boolean>(false);
     const [itemsToPrint, setItemsToPrint] = useState(3)
 
-    const [searchProduct, {loading, data, error}] = useSearchProductLazyQuery({
+    const [searchProduct, { loading, data, error }] = useSearchProductLazyQuery({
         variables: {
             query: input
         },
@@ -71,7 +71,7 @@ const SearchBar = ({AddToCart, basket, setBasket}: SearchBarProps) => {
 
     return (
         <ClickAwayListener onClickAway={() => handleClickAway()}>
-            <div style={{position: "relative"}}>
+            <div style={{ position: "relative" }}>
                 <div className="dFlex">
                     <Input
                         onChange={(event: any) => {
@@ -93,15 +93,15 @@ const SearchBar = ({AddToCart, basket, setBasket}: SearchBarProps) => {
                     />
                 </div>
                 {loading && input != "" && open && (
-                    <Grid container style={{position: "absolute"}}>
+                    <Grid container style={{ position: "absolute" }}>
                         <Grid item xs={12}>
-                            <SearchBarLoadingItem/>
+                            <SearchBarLoadingItem />
                         </Grid>
                         <Grid item xs={12}>
-                            <SearchBarLoadingItem/>
+                            <SearchBarLoadingItem />
                         </Grid>
                         <Grid item xs={12}>
-                            <SearchBarLoadingItem/>
+                            <SearchBarLoadingItem />
                         </Grid>
                     </Grid>
                 )}

@@ -83,125 +83,126 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
             >{t("label.cart")}</Typography>
             <ShoppingBasketIcon fontSize='large' color="secondary" style={{ marginRight: 'auto' }} className='icons' />
             <PdfGenerator {...{ basket }} />
-            <Grid item>
+            {/**TODO à enlever parce que très très très sale */}
+            {/* <Grid item> 
                 <Grid container>
                     {/** Button Add list to basket and its menu item */}
-                    <Button color="secondary" variant="outlined" onClick={() => Router.push('lists')} style={{ marginRight: "10px" }}>
-                        {t("label.saved_list")}
-                    </Button>
-                    {listFavObject != undefined && listFavObject.length != 0 &&
-                        <Menu
-                            id="simple-menu"
-                            color="secondary"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            {listFavObject!.map((element, index) =>
-                                <MenuItem key={index} onClick={() => {
-                                    handleClose()
+            <Button color="secondary" variant="outlined" onClick={() => Router.push('lists')} style={{ marginRight: "10px" }}>
+                {t("label.saved_list")}
+            </Button>
+            {listFavObject != undefined && listFavObject.length != 0 &&
+                <Menu
+                    id="simple-menu"
+                    color="secondary"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    {listFavObject!.map((element, index) =>
+                        <MenuItem key={index} onClick={() => {
+                            handleClose()
 
-                                }}>
-                                    <Typography onClick={() => {
-                                        element.products.map((product) => {
-                                            console.log(product.id)
-                                            for (let i = 0; i < product.itemQuantity!; i++) {
-                                                addToCartMutation({ variables: { productId: product.id } }).then((r) => {
-                                                    if (r.errors) {
-                                                        console.error("Error while adding product " + product.name + " ; " + product.id)
-                                                        console.error(r.errors[0].message)
-                                                    }
-                                                });
+                        }}>
+                            <Typography onClick={() => {
+                                element.products.map((product) => {
+                                    console.log(product.id)
+                                    for (let i = 0; i < product.itemQuantity!; i++) {
+                                        addToCartMutation({ variables: { productId: product.id } }).then((r) => {
+                                            if (r.errors) {
+                                                console.error("Error while adding product " + product.name + " ; " + product.id)
+                                                console.error(r.errors[0].message)
                                             }
-                                        })
-                                    }}>{element.name}</Typography>
-                                    <DeleteForeverIcon onClick={() => {
-                                        const listFav = localStorage.getItem('listFav')
+                                        });
+                                    }
+                                })
+                            }}>{element.name}</Typography>
+                            <DeleteForeverIcon onClick={() => {
+                                const listFav = localStorage.getItem('listFav')
 
-                                        // delete the selected list by comparing with the name
-                                        if (listFav != null) {
-                                            const listFavParser: FavoredListObject[] = JSON.parse(listFav!);
-                                            let newListFav: FavoredListObject[] | undefined = undefined;
+                                // delete the selected list by comparing with the name
+                                if (listFav != null) {
+                                    const listFavParser: FavoredListObject[] = JSON.parse(listFav!);
+                                    let newListFav: FavoredListObject[] | undefined = undefined;
 
-                                            listFavParser.map((item) => {
-                                                if (item.name != element.name) {
-                                                    if (newListFav == undefined) {
-                                                        newListFav = [item]
-                                                    } else {
-                                                        newListFav!.push(item);
-                                                    }
-                                                }
-                                            })
-                                            // if we delete the last list, delete the local storage variable instead of pushing undefined
+                                    listFavParser.map((item) => {
+                                        if (item.name != element.name) {
                                             if (newListFav == undefined) {
-                                                if (localStorage.getItem('listFav')) {
-                                                    localStorage.removeItem('listFav');
-                                                }
+                                                newListFav = [item]
                                             } else {
-                                                localStorage.setItem('listFav', JSON.stringify(newListFav));
+                                                newListFav!.push(item);
                                             }
                                         }
-                                    }} />
-                                </MenuItem>
-                            )}
-                        </Menu>
-                    }
-                    {/** Button + and its dropdown input */}
-                    {/* <Button color="secondary" variant="outlined" onClick={(e) => {
+                                    })
+                                    // if we delete the last list, delete the local storage variable instead of pushing undefined
+                                    if (newListFav == undefined) {
+                                        if (localStorage.getItem('listFav')) {
+                                            localStorage.removeItem('listFav');
+                                        }
+                                    } else {
+                                        localStorage.setItem('listFav', JSON.stringify(newListFav));
+                                    }
+                                }
+                            }} />
+                        </MenuItem>
+                    )}
+                </Menu>
+            }
+            {/** Button + and its dropdown input */}
+            {/* <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorElAddList(e.currentTarget);
                     }}>
                         +
                     </Button> */}
-                    <Menu
-                        id="add-menu"
-                        color="secondary"
-                        anchorEl={anchorElAddList}
-                        keepMounted
-                        open={Boolean(anchorElAddList)}
-                        onClose={handleCloseAddList}
-                    >
-                        <MenuItem>
-                            <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)} />
-                            <CheckIcon onClick={() => {
-                                const oldListsFav = localStorage.getItem('listFav')
-                                setNewListFav(true);
-                                if (oldListsFav) {
-                                    const listFav: FavoredListObject[] = JSON.parse(oldListsFav!);
-                                    let object: FavoredListObject = { name: listName, products: basket }
-                                    listFav.push(object);
-                                    localStorage.setItem('listFav', JSON.stringify(listFav));
-                                } else {
-                                    let objects: FavoredListObject[] = [{ name: listName, products: basket }]
-                                    localStorage.setItem('listFav', JSON.stringify(objects));
-                                }
-                                setListName("");
-                                handleCloseAddList();
-                            }} />
-                        </MenuItem>
-                    </Menu>
-
-                </Grid>
-            </Grid>
-            <Typography
-                variant="h6"
+            <Menu
+                id="add-menu"
                 color="secondary"
-                style={{ marginLeft: 'auto' }}
-            >{t("label.total")} {totalPrice.toFixed(2)}€</Typography>
-            <Button color='secondary' variant="outlined"
-                onClick={() => {
-                    SendAllProductToOnlineCart(basket, addToCartMutation);
-                    confirmCartMutation().then((r) => {
-                        if (r.errors) {
-                            notifyError("Erreur dans le payement du panier")
+                anchorEl={anchorElAddList}
+                keepMounted
+                open={Boolean(anchorElAddList)}
+                onClose={handleCloseAddList}
+            >
+                <MenuItem>
+                    <TextField label="Nom de la liste" value={listName} onChange={(sender: any) => setListName(sender.target.value)} />
+                    <CheckIcon onClick={() => {
+                        const oldListsFav = localStorage.getItem('listFav')
+                        setNewListFav(true);
+                        if (oldListsFav) {
+                            const listFav: FavoredListObject[] = JSON.parse(oldListsFav!);
+                            let object: FavoredListObject = { name: listName, products: basket }
+                            listFav.push(object);
+                            localStorage.setItem('listFav', JSON.stringify(listFav));
                         } else {
-                            notifySuccess("Panier confirmé avec succès")
-                            // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
+                            let objects: FavoredListObject[] = [{ name: listName, products: basket }]
+                            localStorage.setItem('listFav', JSON.stringify(objects));
                         }
-                    })
-                }}
-                style={{ marginLeft: '20px', fontSize: '17px' }}>{t('shop.payButton.label')}</Button>
-        </Container>)
+                        setListName("");
+                        handleCloseAddList();
+                    }} />
+                </MenuItem>
+            </Menu>
+
+        </Grid>
+            </Grid > * /}
+    < Typography
+variant = "h6"
+color = "secondary"
+style = {{ marginLeft: 'auto' }}
+            > { t("label.total") } { totalPrice.toFixed(2) }€</Typography >
+    <Button color='secondary' variant="outlined"
+        onClick={() => {
+            SendAllProductToOnlineCart(basket, addToCartMutation);
+            confirmCartMutation().then((r) => {
+                if (r.errors) {
+                    notifyError("Erreur dans le payement du panier")
+                } else {
+                    notifySuccess("Panier confirmé avec succès")
+                    // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
+                }
+            })
+        }}
+        style={{ marginLeft: '20px', fontSize: '17px' }}>{t('shop.payButton.label')}</Button>
+        </Container >)
 };
 
 export default PriceBanner;
