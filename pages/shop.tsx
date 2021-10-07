@@ -136,7 +136,6 @@ const ShopPage = () => {
                 tmpBasket = currentCart;
                 console.log(currentCart);
                 setBasket(currentCart);
-                sessionStorage.removeItem('currentCart');
             }
             if (localStorage.getItem('listfavToAdd')) {
                 let jsonString: any = localStorage.getItem('listfavToAdd');
