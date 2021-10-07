@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import { Button, Typography, Container, Menu, MenuItem, Grid, TextField } from '@material-ui/core';
+import { Button, Typography, Container } from '@material-ui/core';
 import { useTranslation } from "react-i18next"
 import PriceBannerProps from 'interfaces/PriceBanner';
 import { Product, useConfirmCartMutation, useAddToCartMutation } from 'typing';
 import { notifySuccess, notifyError } from "../../public/notifications/notificationsFunctions";
-import CheckIcon from '@material-ui/icons/Check';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import PdfGenerator from "components/PdfGenerator";
-import Router from "next/router";
 
 const calculateTotalPrice = (basket: Product[]) => {
     let totalPrice: number = 0;
@@ -40,21 +37,21 @@ export interface FavoredListObject {
 const PriceBanner = ({ basket }: PriceBannerProps) => {
     const totalPrice = calculateTotalPrice(basket);
     const [t] = useTranslation();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [listName, setListName] = useState("");
+    // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    // const [listName, setListName] = useState("");
 
-    const [anchorElAddList, setAnchorElAddList] = React.useState<null | HTMLElement>(null);
+    // const [anchorElAddList, setAnchorElAddList] = React.useState<null | HTMLElement>(null);
 
-    const [newListFav, setNewListFav] = useState(false);
+    const [newListFav] = useState(false);
     newListFav;
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
-    const handleCloseAddList = () => {
-        setAnchorElAddList(null);
-    };
+    // const handleCloseAddList = () => {
+    //     setAnchorElAddList(null);
+    // };
 
     const [addToCartMutation] = useAddToCartMutation({
         variables: {
@@ -67,13 +64,13 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
         },
     });
 
-    let listFavObject: FavoredListObject[] | undefined;
-    if (window != null && localStorage.getItem("listFav")) {
-        const tmpObject = localStorage.getItem("listFav");
-        if (tmpObject) {
-            listFavObject = JSON.parse(tmpObject!);
-        }
-    }
+    // let listFavObject: FavoredListObject[] | undefined;
+    // if (window != null && localStorage.getItem("listFav")) {
+    //     const tmpObject = localStorage.getItem("listFav");
+    //     if (tmpObject) {
+    //         listFavObject = JSON.parse(tmpObject!);
+    //     }
+    // }
     return (
         <Container style={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'center', alignContent: 'center', marginTop: '20px', padding: '10px' }} maxWidth={false} className='price_banner'>
             <Typography

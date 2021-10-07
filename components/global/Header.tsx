@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faShoppingBasket, faChevronDown, faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import { faShoppingBasket, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery } from 'typing';
 import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button } from '@material-ui/core';
 import Router from "next/router";
 import Cookies from "js-cookie";
-import { DeviceHubOutlined } from '@material-ui/icons';
 import PdfGenerator from 'components/PdfGenerator';
 
 interface Props {

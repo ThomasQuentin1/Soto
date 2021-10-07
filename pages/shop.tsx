@@ -5,7 +5,6 @@ import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
 import { Grid } from "@material-ui/core";
-import PriceBanner from "components/shop/PriceBanner";
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
