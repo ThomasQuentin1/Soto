@@ -99,7 +99,7 @@ const Header = ({ theme, SetTheme }: Props) => {
                             SetBasketListOpen(false);
                         }
                     }}
-                    style={{ cursor: "pointer" }}>
+                    style={{ cursor: "pointer", marginRight: "20px  " }}>
                     <FontAwesomeIcon style={{ height: '45px', width: '45px', cursor: "pointer", marginLeft: "20px" }} icon={faUserCircle} className={"profile-icon"} />
                 </div>
                 {isBasketListOpen && basket !== undefined && <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px", zIndex: 100 }}>

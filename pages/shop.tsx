@@ -46,7 +46,7 @@ const RemoveFromBasketAndSessionStorage = (product: Product, basket: Product[], 
 export const AddToBasketAndSessionStorageFromSearchTMP = (products: Product[], basket: Product[], setBasket: any) => {
     let newBasket: Product[] = [];
 
-    basket.map((item) => {newBasket.push(item);});
+    basket.map((item) => { newBasket.push(item); });
     products.map((product) => {
         let tmpProduct = Object.assign({}, product);
         tmpProduct.itemQuantity = 1
@@ -206,7 +206,7 @@ const ShopPage = () => {
                 </Grid>
                 {/* <Grid item xs={12}>
                     <PriceBanner basket={basket} />
-                </Grid>
+    </Grid>*/}
             </Grid>
             <Grid item xs={12} style={{ overflowY: "auto", maxHeight: "60vh" }}>
                 <ShopList AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} RemoveFromCart={RemoveFromBasketAndSessionStorage} />

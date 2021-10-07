@@ -86,7 +86,7 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
             {/**TODO à enlever parce que très très très sale */}
             {/* <Grid item> 
                 <Grid container>
-                    {/** Button Add list to basket and its menu item */}
+                    {/** Button Add list to basket and its menu item 
             <Button color="secondary" variant="outlined" onClick={() => Router.push('lists')} style={{ marginRight: "10px" }}>
                 {t("label.saved_list")}
             </Button>
@@ -148,12 +148,12 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
                     )}
                 </Menu>
             }
-            {/** Button + and its dropdown input */}
+            {/** Button + and its dropdown input 
             {/* <Button color="secondary" variant="outlined" onClick={(e) => {
                         setAnchorElAddList(e.currentTarget);
                     }}>
                         +
-                    </Button> */}
+                    </Button> 
             <Menu
                 id="add-menu"
                 color="secondary"
@@ -183,25 +183,25 @@ const PriceBanner = ({ basket }: PriceBannerProps) => {
             </Menu>
 
         </Grid>
-            </Grid > * /}
-    < Typography
-variant = "h6"
-color = "secondary"
-style = {{ marginLeft: 'auto' }}
-            > { t("label.total") } { totalPrice.toFixed(2) }€</Typography >
-    <Button color='secondary' variant="outlined"
-        onClick={() => {
-            SendAllProductToOnlineCart(basket, addToCartMutation);
-            confirmCartMutation().then((r) => {
-                if (r.errors) {
-                    notifyError("Erreur dans le payement du panier")
-                } else {
-                    notifySuccess("Panier confirmé avec succès")
-                    // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
-                }
-            })
-        }}
-        style={{ marginLeft: '20px', fontSize: '17px' }}>{t('shop.payButton.label')}</Button>
+            </Grid > */}
+            < Typography
+                variant="h6"
+                color="secondary"
+                style={{ marginLeft: 'auto' }}
+            > {t("label.total")} {totalPrice.toFixed(2)}€</Typography >
+            <Button color='secondary' variant="outlined"
+                onClick={() => {
+                    SendAllProductToOnlineCart(basket, addToCartMutation);
+                    confirmCartMutation().then((r) => {
+                        if (r.errors) {
+                            notifyError("Erreur dans le payement du panier")
+                        } else {
+                            notifySuccess("Panier confirmé avec succès")
+                            // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
+                        }
+                    })
+                }}
+                style={{ marginLeft: '20px', fontSize: '17px' }}>{t('shop.payButton.label')}</Button>
         </Container >)
 };
 
