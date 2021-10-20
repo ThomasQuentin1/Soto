@@ -253,6 +253,8 @@ const start = async () => {
           serialized.bio = IsBio(serialized);
           serialized.peanutFree = IsPeanutFree(serialized);
 
+          if (serialized.scoreProximity > 100)
+          serialized.scoreProximity = 100
           console.log(
             `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
           );
