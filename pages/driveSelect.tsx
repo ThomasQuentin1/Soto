@@ -7,25 +7,25 @@ import { useShopListQuery } from 'typing';
 import '../i18n';
 
 const DriveSelectPage = () => {
-    const [theme] = useDarkMode();
+    const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
-    let lng : string | null = 'fr';
+    let lng: string | null = 'fr';
     if (typeof window !== 'undefined') {
-      lng = localStorage.getItem('lng');
-      if (lng == null) {
-        localStorage.setItem('lng', 'fr');
-      }
+        lng = localStorage.getItem('lng');
+        if (lng == null) {
+            localStorage.setItem('lng', 'fr');
+        }
     }
 
-    const {data, loading} = useShopListQuery();
-      
+    const { data, loading } = useShopListQuery();
+
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
-                <Header/>
+                <Header {...{ theme, SetTheme }} />
                 <div>
                     {!loading &&
-                        <DriveSelection data={data}/>
+                        <DriveSelection data={data} />
                     }
                 </div>
             </DarkModeParent>

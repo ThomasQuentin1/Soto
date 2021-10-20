@@ -2,8 +2,13 @@ import Login from './Login'
 import Register from "./Register";
 import React, {useState} from "react";
 import {NoSsr, Paper} from "@material-ui/core";
+import {TFunction} from "i18next";
 
-const LoginController = () => {
+interface Props {
+    t: TFunction
+}
+
+const LoginController = (props: Props) => {
     const [displayRegister, setDisplayRegister] = useState(false);
 
     return (
@@ -11,10 +16,10 @@ const LoginController = () => {
             <NoSsr>
                 <Paper color={'primary'} elevation={3}>
                     {!displayRegister && (
-                        <Login setDisplayRegister={setDisplayRegister} />
+                        <Login setDisplayRegister={setDisplayRegister} t={props.t} />
                     )}
                     {displayRegister && (
-                        <Register setDisplayRegister={setDisplayRegister} />
+                        <Register setDisplayRegister={setDisplayRegister} t={props.t} />
                     )}
                 </Paper>
             </NoSsr>
