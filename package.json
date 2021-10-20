@@ -9,7 +9,6 @@
     "test": "cross-env TEST=TRUE jest ",
     "drive-fetch": "ts-node --project tsconfig.server.json scripts/drive-fetch.ts",
     "test-off": "ts-node --project tsconfig.server.json scripts/testOpenFoodFacts.ts",
-
     "db-setup": "ts-node --project tsconfig.server.json scripts/db-setup.ts",
     "all-notif": "ts-node --project tsconfig.server.json scripts/sendNotificationToAllCustomer.ts",
     "one-notif": "ts-node --project tsconfig.server.json cripts/sendNotificationToOneCustomer.ts",
@@ -40,6 +39,7 @@
     "js-cookies": "^1.0.4",
     "mysql": "^2.18.1",
     "next": "latest",
+    "pdfmake": "^0.2.2",
     "react": "^16.8.4",
     "react-beautiful-dnd": "^13.0.0",
     "react-checkbox-list": "0.0.2",

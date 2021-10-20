@@ -15,7 +15,8 @@ const lightTheme = {
     gradient: 'linear-gradient(#39598A, #79D7ED)',
     border : {
         color: '#3586e2'
-    }
+    },
+    divider: "#3586e2",
 }
 
 export default lightTheme;

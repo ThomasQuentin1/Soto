@@ -18,6 +18,7 @@ const sqlWhereObligations = (obligations: ObligationInternal[]) => {
 export const getFinalScore = (criterions:any[], r: any) => {
   if (criterions.length === 0)
     return 0
+
   const maxtotalscore = criterions.reduce<number>(
     (acc, curr) => acc + 100 * curr.position,
     0
@@ -74,6 +75,7 @@ export const productResolvers: Resolvers = {
           
           if (finalScore >= 100)
             finalScore = 100
+
           return {
             ...r,
             finalScore: isNaN(finalScore) ? null : Math.round(finalScore),
