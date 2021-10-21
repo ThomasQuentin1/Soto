@@ -1,12 +1,43 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
-import { Product, Resolvers } from "../../typing";
+import { Product, Resolvers, Obligation, Shop, Criterion } from "../../typing";
 import { Criterions } from "../algo/critetions";
 import { ObligationInternal, Obligations } from "../algo/obligations";
 import { ShopList } from "../constData/shopList";
 import { DbProduct } from "../dbSchema";
 import { usersQuery } from "../query";
 
+const selectShopAndCriterion = async (args, context ): Promise<{shop: Shop, obligations: ObligationInternal[], criterions: Criterion[]}> => {
+
+  const shop = ShopList.find(
+    (s) => s.id == (context.user?.shopId ?? args.shopIdOverride)
+  );
+
+  if (!shop) throw new UserInputError(ErrMsg("error.badparams"));
+
+  const obligations: ObligationInternal[] = (
+    args.obligationsOverride ||
+    (await usersQuery<{ id: number }>(
+      "SELECT * FROM obligations WHERE userId = ?",
+      [context.user?.id ?? -1]
+    ))
+  ).map((e) => Obligations.find((i) => i.id === e.id)!);
+
+  const criterions: Criterion[] = (
+    args.criterionsOverride ||
+    (await usersQuery<{ id: number; position: number }>(
+      "SELECT * FROM criterions WHERE userId = ?",
+      [context.user?.id ?? -1]
+    ))
+  ).map((e, _i, arr) => {
+    return {
+      position: e!.position,
+      coeff: arr.length + 1 - e!.position,
+      ...Criterions.find((i) => i.id === e!.id),
+    };
+  });
+  return {shop, obligations, criterions}
+}
 const sqlFieldIsTrue = (field: string) => `${field} IS TRUE`;
 const sqlWhereObligations = (obligations: ObligationInternal[]) => {
   if (obligations.length === 0) return "";
@@ -32,33 +63,7 @@ export const getFinalScore = (criterions:any[], r: any) => {
 export const productResolvers: Resolvers = {
   Query: {
     searchProducts: async (_obj, args, context, _info) => {
-      const shop = ShopList.find(
-        (s) => s.id == (context.user?.shopId ?? args.shopIdOverride)
-      );
-
-      if (!shop) throw new UserInputError(ErrMsg("error.badparams"));
-
-      const obligations = (
-        args.obligationsOverride ||
-        (await usersQuery<{ id: number }>(
-          "SELECT * FROM obligations WHERE userId = ?",
-          [context.user?.id ?? -1]
-        ))
-      ).map((e) => Obligations.find((i) => i.id === e.id)!);
-
-      const criterions: any[] = (
-        args.criterionsOverride ||
-        (await usersQuery<{ id: number; position: number }>(
-          "SELECT * FROM criterions WHERE userId = ?",
-          [context.user?.id ?? -1]
-        ))
-      ).map((e, _i, arr) => {
-        return {
-          position: e!.position,
-          coeff: arr.length + 1 - e!.position,
-          ...Criterions.find((i) => i.id === e!.id),
-        };
-      });
+      const {shop, obligations, criterions} = await selectShopAndCriterion(args, context)
 
       const data = (
         await usersQuery<DbProduct>(
@@ -108,8 +113,54 @@ export const productResolvers: Resolvers = {
     shopList: async (_obj, _args, _context, _info) => {
       return ShopList;
     },
-    promotions: async (_obj, _args, _context, _info) => {
-      return [];
+    promotions: async (_obj, args, context, _info) => {
+      const {shop, obligations, criterions} = await selectShopAndCriterion(args, context)
+
+      const data = (
+        await usersQuery<DbProduct>(
+          `SELECT * FROM products${
+            shop.id
+          } WHERE (promotion NOT NULL) ${sqlWhereObligations(
+            obligations
+          )}`,
+          [`%${args.query}%`, `%${args.query}%`]
+        )
+      )
+        .map((r) => {
+          let finalScore = getFinalScore(criterions, r);
+
+          if (finalScore >= 100)
+            finalScore = 100
+
+          return {
+            ...r,
+            finalScore: isNaN(finalScore) ? null : Math.round(finalScore),
+          };
+        })
+        .map<Product>((r) => ({
+          ...r,
+          id: r.leclercId,
+          allergens: r.allergens?.split("|") ?? [],
+          ingredients: r.ingredients?.split("|") ?? [],
+          nutriments: r.nutriments?.split("|") ?? [],
+          packaging: r.packaging?.split("|") ?? [],
+          scoreEnvironment: r.environmentScore,
+          scoreHealth: r.healthscore,
+          scorePrice: r.priceScore,
+          pricePromotion: r.promotion,
+          scoreProximity: r.proximityScore,
+          photo: r.photo,
+          url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
+            shop!.code
+          }-${shop?.name
+            .toLocaleLowerCase()
+            .replace(/ /g, "-")}/fiche-produits-${r.leclercId}-${r.name.replace(
+            / /g,
+            "-"
+          )}.aspx`,
+        }))
+        .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
+      return args.limit ? data.slice(0, args.limit) : data;
     }
   },
   Mutation: {
