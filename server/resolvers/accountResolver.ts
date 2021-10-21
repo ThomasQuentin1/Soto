@@ -17,6 +17,18 @@ export const acountResolvers: Resolvers = {
     },
   },
   Mutation: {
+    subscribeMail: async (_obj, _args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      await usersQuery("UPDATE users SET mailingList = TRUE WHERE id = ? LIMIT 1", [context.user.id]);
+      return true;
+    },
+    unsubscribeMail: async (_obj, _args, context, _info) => {
+      if (!context.user)
+        throw new AuthenticationError(ErrMsg("error.notloggedin"));
+      await usersQuery("UPDATE users SET mailingList = FALSE WHERE id = ? LIMIT 1", [context.user.id]);
+      return true;
+    },
     login: async (_obj, args, _context, _info) => {
       const loginQuery = await usersQuery<any>(
         "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1",
