@@ -72,7 +72,7 @@ export const productResolvers: Resolvers = {
       )
         .map((r) => {
           let finalScore = getFinalScore(criterions, r);
-          
+
           if (finalScore >= 100)
             finalScore = 100
 
@@ -108,6 +108,9 @@ export const productResolvers: Resolvers = {
     shopList: async (_obj, _args, _context, _info) => {
       return ShopList;
     },
+    promotions: async (_obj, _args, _context, _info) => {
+      return [];
+    }
   },
   Mutation: {
     setShop: async (_obj, args, context, _info) => {
