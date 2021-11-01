@@ -1,6 +1,6 @@
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
-import { Product, Resolvers, Obligation, Shop, Criterion } from "../../typing";
+import { Product, Resolvers, Shop, Criterion } from "../../typing";
 import { Criterions } from "../algo/critetions";
 import { ObligationInternal, Obligations } from "../algo/obligations";
 import { ShopList } from "../constData/shopList";

@@ -30,7 +30,7 @@ const start = async () => {
   const sql = await sqlconnect();
 
   const data = (await sqlquery(sql, "SELECT email FROM users WHERE mailingList IS TRUE")).map(e => e.email);
-  fs.writeFileSync("mailingList.json", data);
+  fs.writeFileSync("mailingList.json", JSON.stringify(data));
 };
 
 start()
