@@ -2,7 +2,7 @@ const darkTheme = {
     body: '#17223b',
     header: '#17223b',
     footer: '#17223b',
-    firstColor: '#17223b',
+    firstColor: '#263859',
     secondary: {
         main: "#ff6768",
         background: "#263859"
@@ -14,7 +14,8 @@ const darkTheme = {
     hover: '#223257',
     gradient: 'linear-gradient(#091236, #1E215D)',
     border : {
-        color: '#263859'
+        // color: '#263859'
+        color: 'transparent'
     },
     divider: "#ff6768",
 }

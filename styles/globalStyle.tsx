@@ -50,10 +50,10 @@ const GlobalStyles = createGlobalStyle`
     flex-direction: column;
   }
 
-  #parent-login-form {
-    background: ${({ theme }) => theme.firstColor};
-    color : ${({ theme }) => theme.text};
-  }
+  // #parent-login-form {
+  //   background: ${({ theme }) => theme.firstColor};
+  //   color : ${({ theme }) => theme.text};
+  // }
 
   .right_panel {
     border-left: 1px solid black;
@@ -68,8 +68,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .header-div {
-    background: ${({ theme }) => theme.header};
-    border-bottom : solid 2px ${({ theme }) => theme.border.color};
+    background: ${({ theme }) => theme.gradient};
+    // border-bottom : solid 2px ${({ theme }) => theme.border.color};
   }
 
   .header-menu-divider {
@@ -84,8 +84,8 @@ const GlobalStyles = createGlobalStyle`
   }
   
   .footer {
-    background: ${({ theme }) => theme.footer};
-    border-top : solid 2px ${({ theme }) => theme.border.color};
+    background: ${({ theme }) => theme.gradient};
+    // border-top : solid 2px ${({ theme }) => theme.border.color};
     margin-top: 50px;
   }
 
@@ -334,6 +334,11 @@ const GlobalStyles = createGlobalStyle`
   .divider {
     margin: 20px;
     background-color: ${({ theme }) => theme.divider};
+  }
+  
+  .indexTitle {
+    border-bottom: 4px solid ${({ theme }) => theme.divider};
+    padding-bottom: 5px;
   }
   
   // Material-UI classes overload

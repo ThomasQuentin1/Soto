@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import '../i18n'
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import {useDarkMode} from "../components/settings/useDarkMode";
-import {Paper, Typography} from "@material-ui/core";
+import {Button, Paper, Typography} from "@material-ui/core";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import { useAccountQuery } from "../typing";
@@ -11,6 +11,7 @@ import { useAccountQuery } from "../typing";
 import Router from "next/router"
 import CellComponent from "../components/profile/CellComponent";
 import { lngFullName } from "../public/values";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const ProfilePage = () => {
     const [t, i18n] = useTranslation();
@@ -46,7 +47,10 @@ const ProfilePage = () => {
                     <DarkModeParent theme={tmpTheme}>
                         <Header  {...{ theme, SetTheme }} />
                         <div className='centered' style={{ overflowY: "auto", height: "80%" }}>
-
+                            <Button color='secondary' onClick={() => Router.push("/shop")} style={{ marginLeft: '10px', width: "fit-content"}}>
+                                <ArrowBackIcon />
+                                <Typography variant='caption'>{t("label.continue_shopping")}</Typography>
+                            </Button>
                             <Paper variant={"outlined"} className='halfWidth centered body profilePaper'
                                    style={{width: "30%"}}>
                                 <div>

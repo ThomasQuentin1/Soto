@@ -86,7 +86,7 @@ const Login = (props: Props) => {
                                 else {
                                     notifySuccess(props.t("notification.label.loggedIn"))
                                     Cookies.set("token", r.data.login, {expires: 7})
-                                    Router.push("/")
+                                    Router.push("/shop")
                                 }
                             });
                         }}

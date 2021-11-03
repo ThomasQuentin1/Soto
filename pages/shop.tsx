@@ -42,18 +42,18 @@ const RemoveFromBasketAndSessionStorage = (product: Product, basket: Product[], 
     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
 };
 
-export const AddToBasketAndSessionStorageFromSearchTMP = (products: Product[], basket: Product[], setBasket: any) => {
-    let newBasket: Product[] = [];
-
-    basket.map((item) => { newBasket.push(item); });
-    products.map((product) => {
-        let tmpProduct = Object.assign({}, product);
-        tmpProduct.itemQuantity = 1
-        newBasket.push(tmpProduct);
-    })
-    setBasket(newBasket);
-    sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
-};
+// export const AddToBasketAndSessionStorageFromSearchTMP = (products: Product[], basket: Product[], setBasket: any) => {
+//     let newBasket: Product[] = [];
+//
+//     basket.map((item) => { newBasket.push(item); });
+//     products.map((product) => {
+//         let tmpProduct = Object.assign({}, product);
+//         tmpProduct.itemQuantity = 1
+//         newBasket.push(tmpProduct);
+//     })
+//     setBasket(newBasket);
+//     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+// };
 
 const AddToBasketAndSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
     let newBasket: Product[] = [];

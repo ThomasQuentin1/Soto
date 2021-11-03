@@ -69,7 +69,7 @@ const ObligationCheckboxList = (data : ObligationCheckboxListProps) => {
                                         })
                                     }}
                                     name={item.label}
-                                    color="primary"
+                                    color="secondary"
                                 />}
                             label={t(item.label)}
                         />)

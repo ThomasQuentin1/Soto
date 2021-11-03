@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
-import {Typography, Grid, Button, ThemeProvider} from '@material-ui/core';
+import {Typography, Grid, Button} from '@material-ui/core';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import {useDarkMode} from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
 import '../i18n'
-import muiLightTheme from "../themes/mui/mainLightTheme";
 import {useTranslation} from "react-i18next";
 import {
     Timeline,
@@ -23,9 +22,7 @@ const Index = () => {
     let lng: string = 'fr';
     if (typeof window !== 'undefined') {
         lng = localStorage.getItem('lng') as string;
-        console.log(lng)
         if (lng == null) {
-            console.log("HI GUYS")
             localStorage.setItem('lng', window.navigator.language.split('-')[0]);
         }
         useEffect(() => {
@@ -80,9 +77,11 @@ const Index = () => {
 
                 <Grid container style={{marginTop: '40px'}} justify={'center'}>
                     {/*   DESCRIPTION   */}
-                    <Grid item xs={2}><Typography style={{borderBottom: '4px solid #3586e2', paddingBottom: '5px'}}
-                                                  align={'center'} paragraph
-                                                  variant={'h4'}>{t('label.project')}</Typography></Grid>
+                    <Grid item xs={2}>
+                        <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
+                            {t('label.project')}
+                        </Typography>
+                    </Grid>
                     <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
                         <Grid item xs={6}>
                             <Typography align={'center'} style={{fontSize: '18px'}}>{t('label.project.l1')}</Typography>
@@ -92,16 +91,13 @@ const Index = () => {
                     </Grid>
                     <Grid container style={{marginTop: '20px', justifyContent: 'center'}}>
                         <Grid item>
-                            <ThemeProvider theme={muiLightTheme}>
-                                <Button color="primary" style={{border: '1px solid'}}
-                                        href={'shop'}>{t('label.startShopping')}</Button>
-                            </ThemeProvider>
+                            <Button color="secondary" style={{border: '1px solid'}}
+                                    href={'shop'}>{t('label.startShopping')}</Button>
                         </Grid>
                     </Grid>
                     {/*   TEAM   */}
                     <Grid item xs={2} style={{marginTop: '40px'}}>
-                        <Typography style={{borderBottom: '4px solid #3586e2', paddingBottom: '5px'}} align={'center'}
-                                    paragraph variant={'h4'}>
+                        <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
                             {t('label.team')}
                         </Typography>
                     </Grid>
@@ -156,8 +152,7 @@ const Index = () => {
                     </Grid>
 
                     <Grid item xs={2} style={{marginTop: '40px'}}>
-                        <Typography style={{borderBottom: '4px solid #3586e2', paddingBottom: '5px'}} align={'center'}
-                                    paragraph variant={'h4'}>
+                        <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
                             {t('label.milestones')}
                         </Typography>
                     </Grid>

@@ -3,9 +3,9 @@ import {List, arrayMove} from 'react-movable';
 import {useTranslation} from "react-i18next";
 import {useSetCriterionsMutation} from "../../typing";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
-// import { Transition } from 'react-transition-group';
 import {Player} from '@lottiefiles/react-lottie-player';
-import {Grid} from "@material-ui/core";
+import {Grid, Switch} from "@material-ui/core";
+import {Reorder} from "@material-ui/icons";
 
 export interface CriteriaData {
     id: number
@@ -77,18 +77,22 @@ const DragList = (props: Props) => {
                                     <div className=" flexWidthFull">
                                         {" " + t(value.name)}
                                     </div>
+                                    <div className="dFlex alignCenter">
+                                        <Switch color="secondary"/>
+                                        <Reorder/>
+                                    </div>
                                 </div>
 
                             </li>
                         }
                     />
                 </Grid>
-                <Grid item xs={1}>
+                <Grid item xs={1} style={{alignSelf: "center"}}>
                     <Player
                         autoplay
                         loop
-                        src="https://assets4.lottiefiles.com/packages/lf20_8nwbsfmv.json"
-                        style={{height: 'auto', width: '100px'}}
+                        src="https://assets6.lottiefiles.com/packages/lf20_mdxatjce.json"
+                        style={{height: '200px', width: 'auto'}}
                     />
                 </Grid>
             </Grid>

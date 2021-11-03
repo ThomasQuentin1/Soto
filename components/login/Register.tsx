@@ -106,7 +106,7 @@ const Register = (props: Props) => {
     const handleFinish = () => {
         if (password !== cPassword)
             return;
-        Router.push("/").then(() => {
+        Router.push("/shop").then(() => {
         })
     }
 

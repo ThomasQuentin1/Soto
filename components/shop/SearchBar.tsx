@@ -7,7 +7,7 @@ import SearchBarItem from "./SeachBarItem";
 import SearchBarLoadingItem from "./SeachBarLoadingItem";
 import {useSearchProductLazyQuery, Product} from "../../typing";
 import {Clear, Search} from "@material-ui/icons";
-import {AddToBasketAndSessionStorageFromSearchTMP} from "../../pages/shop";
+// import {AddToBasketAndSessionStorageFromSearchTMP} from "../../pages/shop";
 
 // this data contains only fields that are requested
 const GetSelectedNbProducts = (data: any, itemsNb: number) => {
@@ -62,11 +62,6 @@ const SearchBar = ({AddToCart, basket, setBasket}: SearchBarProps) => {
     } else if (input === "" && open) {
         // if input is empty don't proprose items
         setOpen(false);
-    }
-    if (!loading && open) {
-        console.log("HI")
-        setOpen(false)
-        AddToBasketAndSessionStorageFromSearchTMP(products, basket, setBasket)
     }
 
     return (

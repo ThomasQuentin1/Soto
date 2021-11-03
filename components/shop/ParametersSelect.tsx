@@ -100,7 +100,10 @@ const ParametersSelect = () => {
 
     if (criteria.length != 0 && obligations.length != 0) {
         return (
-            <div style={{minHeight: "150px"}}>
+            <div
+                // style={{minHeight: "150px"}}
+                 style={element === toPrint.EMPTY ? {height: "auto"} : {minHeight: "250px"}}
+            >
                 <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
                     <Button color='secondary' variant={element === toPrint.CRITERIA ? "outlined" : undefined} onClick={() => {
                         if (element === toPrint.CRITERIA) {
