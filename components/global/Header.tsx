@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
-import { useAccountQuery } from 'typing';
-import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button } from '@material-ui/core';
+import { useAccountQuery, useSubscribeNotificationsMutation } from 'typing';
+import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button, TextField } from '@material-ui/core';
+import { notifyError, notifySuccess } from "public/notifications/notificationsFunctions";
 import Router from "next/router";
 import Cookies from "js-cookie";
 import PdfGenerator from 'components/PdfGenerator';
@@ -22,6 +23,11 @@ const Header = ({ theme, SetTheme }: Props) => {
     const [isBasketListOpen, SetBasketListOpen] = useState<boolean>(false);
     const [profileCardWasOpen, SetProfileCardWasOpen] = useState<boolean>(false);
 
+    const [newsletterCardOpen, SetNewsletterCardOpen] = useState<boolean>(false);
+    const [isSignedInNewsletter, SetIsSignedInNewsletter] = useState<boolean>(false);
+    const [newsletterEmail, setNewsLetterEmail] = useState<string>("");
+    const [subscribeNotification] = useSubscribeNotificationsMutation({ variables: { token: newsletterEmail } });
+
     if (!loading && data === undefined && Router.route != "/" && Router.route != "/login")
         Router.push("/login").then(() => { })
 
@@ -34,6 +40,13 @@ const Header = ({ theme, SetTheme }: Props) => {
             }
         }
     }, 1000);
+
+    useEffect(() => {
+        if (window != null && localStorage.getItem('signedInNewsletter')) {
+            let tmp = localStorage.getItem("signedInNewsletter")
+            SetIsSignedInNewsletter(tmp === "1" ? true : false);
+        }
+    }, []);
 
     const GetBasketPrice = () => {
         let price = 0;
@@ -109,57 +122,87 @@ const Header = ({ theme, SetTheme }: Props) => {
                         })}
                     </Grid>
                 </Card>}
-                {isProfileCardOpen &&
-                    <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px" }}>
-                        {(data && data.account) ?
-                            <Grid container direction="column">
+                {isProfileCardOpen && <>
+                    {newsletterCardOpen === true ?
+                        <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px" }}>
+                            <Typography>Inscription newsletter</Typography>
+                            <TextField value={newsletterEmail} onChange={(e) => {
+                                setNewsLetterEmail(e.target.value);
+                            }} />
+                            <Button onClick={() => {
+                                SetNewsletterCardOpen(!newsletterCardOpen)
+                                setNewsLetterEmail("");
+                            }}>cancel</Button>
+                            <Button onClick={() => {
+                                subscribeNotification().then(res => {
+                                    if (!res) {
+                                        notifyError("Sign in newsletter failed")
+
+                                    } else {
+                                        notifySuccess("Sign in newsletter success")
+                                        SetIsSignedInNewsletter(true);
+                                        localStorage.setItem('signedInNewsletter', '1');
+                                    }
+                                });
+                                SetNewsletterCardOpen(!newsletterCardOpen)
+                                setNewsLetterEmail("");
+                            }}>confirm</Button>
+                        </Card> :
+                        <Card style={{ position: "absolute", right: "20px", top: "75px", width: "300px", padding: "10px 20px" }}>
+                            {(data && data.account) ?
                                 <Grid container direction="column">
-                                    <Typography style={{ marginBottom: "5px" }}>{data.account.email}</Typography>
-                                    <Link href="#" onClick={() => Router.push("/profile").then(() => { })} color="secondary">Paramètres</Link>
+                                    <Grid container direction="column">
+                                        <Typography style={{ marginBottom: "5px" }}>{data.account.email}</Typography>
+                                        <Link href="#" onClick={() => Router.push("/profile").then(() => { })} color="secondary">Paramètres</Link>
+                                    </Grid>
+                                    <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider divider" />
                                 </Grid>
-                                <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider divider" />
-                            </Grid>
-                            : <Grid container direction="column">
-                                <Button onClick={() => Router.push("/login")}>Se connecter</Button>
-                            </Grid>
-                        }
-                        <Grid container direction="column">
-                            {data && data.account &&
-                                <Grid container justify="center">
-                                    <Grid item xs={12}>
-                                        <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
-                                    </Grid>
-                                    <Grid item xs={12} style={{ textAlign: "center" }}>
-                                        <PdfGenerator {...{ basket }} />
-                                    </Grid>
-                                    <Grid item xs={12} style={{ textAlign: "center" }}>
-                                        <Link href="#" onClick={() => Router.push("/lists").then(() => { })} color="secondary">{t("label.saved_list")}</Link>
-                                    </Grid>
+                                : <Grid container direction="column">
+                                    <Button onClick={() => Router.push("/login")}>Se connecter</Button>
                                 </Grid>
                             }
-                            <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
-                        </Grid>
-                        <Grid container justify="center" alignItems="center">
-                            <Grid item xs={8}>
-                                <Typography style={{ fontSize: "1rem" }}>{t("label.changeTheme")}</Typography>
+                            <Grid container direction="column">
+                                {isSignedInNewsletter === false ? <Button onClick={() => SetNewsletterCardOpen(!newsletterCardOpen)}>Inscription à la newsletter</Button> : <Button onClick={() => {
+                                    localStorage.removeItem("signedInNewsletter")
+                                    SetIsSignedInNewsletter(false)
+                                }}>Se désinscrire à la newsletter</Button>}
+
+                                {data && data.account &&
+                                    <Grid container justify="center">
+                                        <Grid item xs={12}>
+                                            <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
+                                        </Grid>
+                                        <Grid item xs={12} style={{ textAlign: "center" }}>
+                                            <PdfGenerator {...{ basket }} />
+                                        </Grid>
+                                        <Grid item xs={12} style={{ textAlign: "center" }}>
+                                            <Link href="#" onClick={() => Router.push("/lists").then(() => { })} color="secondary">{t("label.saved_list")}</Link>
+                                        </Grid>
+                                    </Grid>
+                                }
+                                <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
                             </Grid>
-                            <Grid item xs={4}>
-                                <Switch
-                                    checked={theme === "dark"}
-                                    onChange={SetTheme}
-                                />
+                            <Grid container justify="center" alignItems="center">
+                                <Grid item xs={8}>
+                                    <Typography style={{ fontSize: "1rem" }}>{t("label.changeTheme")}</Typography>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Switch
+                                        checked={theme === "dark"}
+                                        onChange={SetTheme}
+                                    />
+                                </Grid>
+                                {data && data !== undefined &&
+                                    <Grid>
+                                        <Button color="secondary" onClick={() => {
+                                            Cookies.remove("token")
+                                            Router.push("/login").then(() => { })
+                                        }}>
+                                            Déconnexion
+                                        </Button>
+                                    </Grid>}
                             </Grid>
-                            {data && data !== undefined &&
-                                <Grid>
-                                    <Button color="secondary" onClick={() => {
-                                        Cookies.remove("token")
-                                        Router.push("/login").then(() => { })
-                                    }}>
-                                        Déconnexion
-                                    </Button>
-                                </Grid>}
-                        </Grid>
-                    </Card>}
+                        </Card>}</>}
             </div>
         </div >);
 };
