@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -24,6 +23,7 @@ export type Query = {
   __typename?: 'Query';
   account: Account;
   searchProducts: Array<Product>;
+  promotions: Array<Product>;
   shopList: Array<Shop>;
   cart?: Maybe<Cart>;
   oldCarts: Array<Maybe<Cart>>;
@@ -33,6 +33,15 @@ export type Query = {
 
 
 export type QuerySearchProductsArgs = {
+  query: Scalars['String'];
+  obligationsOverride?: Maybe<Array<ObligationInput>>;
+  criterionsOverride?: Maybe<Array<CriterionInput>>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryPromotionsArgs = {
   query: Scalars['String'];
   obligationsOverride?: Maybe<Array<ObligationInput>>;
   criterionsOverride?: Maybe<Array<CriterionInput>>;
@@ -54,6 +63,8 @@ export type Mutation = {
   addToCart: Scalars['Boolean'];
   addMultipleToCart: Scalars['Boolean'];
   removeMultipleToCart: Scalars['Boolean'];
+  subscribeMail: Scalars['Boolean'];
+  unsubscribeMail: Scalars['Boolean'];
   removeFromCart: Scalars['Boolean'];
   confirmCart: Scalars['Boolean'];
   clearCart: Scalars['Boolean'];
@@ -201,6 +212,7 @@ export type Product = {
   name: Scalars['String'];
   brand?: Maybe<Scalars['String']>;
   priceUnit: Scalars['String'];
+  pricePromotion?: Maybe<Scalars['String']>;
   priceMass?: Maybe<Scalars['String']>;
   ingredients?: Maybe<Array<Maybe<Scalars['String']>>>;
   packaging?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -350,6 +362,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
   searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
+  promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, 'query'>>,
   shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
   cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
   oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
@@ -370,6 +383,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
   addMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddMultipleToCartArgs, 'products'>>,
   removeMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveMultipleToCartArgs, 'products'>>,
+  subscribeMail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  unsubscribeMail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
   confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
@@ -435,6 +450,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   priceUnit?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  pricePromotion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   priceMass?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   ingredients?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
   packaging?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,

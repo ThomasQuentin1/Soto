@@ -20,6 +20,7 @@ export interface DbProduct {
   origin?: string;
   labels: string;
   ecoscore: number;
+  promotion: string;
 }
 
 export interface DbUser {
