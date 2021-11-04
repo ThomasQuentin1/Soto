@@ -26,7 +26,7 @@ const DragList = (props: Props) => {
     const [criteriaMutation] = useSetCriterionsMutation({
         variables: {
             criterias: items.map(function (item, index) {
-                return {id: item.id, position: index + 1, activated: item.activated}
+                return {id: item.id, position: index + 1}
             })
         }
     })
