@@ -12,7 +12,7 @@ const lightTheme = {
     },
     thirdColor: "#ffb677",
     text: '#363537',
-    disabled: '#263859',
+    disabled: '#737373',
     toggleBorder: '#FFF',
     hover: '#E6F0F2',
     gradient: 'linear-gradient(#ff9966, #ff5e62)',

@@ -341,6 +341,11 @@ const GlobalStyles = createGlobalStyle`
     padding-bottom: 5px;
   }
   
+  .disableText {
+    color: ${({ theme }) => theme.disabled};
+    text-decoration-line: line-through;
+  }
+  
   // Material-UI classes overload
   
   .MuiStepIcon-active{

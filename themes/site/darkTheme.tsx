@@ -9,7 +9,7 @@ const darkTheme = {
     },
     thirdColor: "#000000",
     text: '#FAFAFA',
-    disabled: '#263859',
+    disabled: '#737373',
     toggleBorder: '#6b778d',
     hover: '#223257',
     gradient: 'linear-gradient(#091236, #1E215D)',

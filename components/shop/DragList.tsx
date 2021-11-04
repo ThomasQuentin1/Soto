@@ -26,7 +26,7 @@ const DragList = (props: Props) => {
     const [criteriaMutation] = useSetCriterionsMutation({
         variables: {
             criterias: items.map(function (item, index) {
-                return {id: item.id, position: index + 1}
+                return {id: item.id, position: index + 1, activated: item.activated}
             })
         }
     })
@@ -74,11 +74,23 @@ const DragList = (props: Props) => {
                                     <div style={{marginRight: "10px"}}>
                                         {index! + 1}.
                                     </div>
-                                    <div className=" flexWidthFull">
+                                    <div className={value.activated ? 'flexWidthFull' : "disableText flexWidthFull"}>
                                         {" " + t(value.name)}
                                     </div>
                                     <div className="dFlex alignCenter">
-                                        <Switch color="secondary"/>
+                                        <Switch checked={value.activated} color="secondary" onClick={() => {
+                                            let listTmp: CriteriaData[] = []
+                                            items.forEach((elem) => {listTmp.push(elem)})
+                                            listTmp[index!].activated = !value.activated
+                                            setItems(listTmp)
+                                            criteriaMutation().then(res => {
+                                                if (!res) {
+                                                    notifyError("Criteria saving failed")
+                                                } else {
+                                                    notifySuccess("New Criterias are now saved")
+                                                }
+                                            })
+                                        }}/>
                                         <Reorder/>
                                     </div>
                                 </div>
@@ -89,8 +101,8 @@ const DragList = (props: Props) => {
                 </Grid>
                 <Grid item xs={1} style={{alignSelf: "center"}}>
                     <Player
-                        autoplay
                         loop
+                        hover
                         src="https://assets6.lottiefiles.com/packages/lf20_mdxatjce.json"
                         style={{height: '200px', width: 'auto'}}
                     />

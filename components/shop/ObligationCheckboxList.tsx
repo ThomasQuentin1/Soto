@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { useTranslation } from "react-i18next"
 import {useSetObligationsMutation} from "../../typing";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
+import {Switch, Typography} from "@material-ui/core";
 
 export interface CheckBoxData {
     id: number
@@ -15,15 +13,6 @@ export interface CheckBoxData {
 interface ObligationCheckboxListProps {
     data: CheckBoxData[];
 }
-
-// const handleChange = (list : CheckBoxData[], setList : React.Dispatch<React.SetStateAction<CheckBoxData[]>>, id : number) => {
-//     let newList : CheckBoxData[] = [];
-//     list.map((item) => newList.push(item));
-//     let index = list.findIndex((item) => item.id == id);
-//     newList[index].checked = !list[index].checked;
-//     setList(newList);
-// };
-
 
 const ObligationCheckboxList = (data : ObligationCheckboxListProps) => {
     const [t] = useTranslation();
@@ -49,34 +38,33 @@ const ObligationCheckboxList = (data : ObligationCheckboxListProps) => {
 
     return (
         <div>
-            <FormGroup>
-                {list.map((item, index) => {
-                    return (
-                        <FormControlLabel
-                            key={index}
-                            control={
-                                <Checkbox
-                                    checked={item.checked}
-                                    onChange={() =>  {
-                                        handleChange(item.id).then(() => {
-                                            obligationsMutation().then(res => {
-                                                if (!res) {
-                                                    notifyError("Obligations saving failed")
-                                                } else {
-                                                    notifySuccess("Obligations is now saved")
-                                                }
-                                            })
-                                        })
-                                    }}
-                                    name={item.label}
-                                    color="secondary"
-                                />}
-                            label={t(item.label)}
-                        />)
-                })}
-            </FormGroup>
-
-        </div>);
+            {list.map((item) => {
+                return (
+                    <div className="dFlex criteria_drag_list_elem" style={{justifyContent: "space-between"}}>
+                        <Typography className={item.checked ? '' : "disableText"}>
+                            {t(item.label)}
+                        </Typography>
+                        <Switch
+                            checked={item.checked}
+                            color="secondary"
+                            onChange={() =>  {
+                                handleChange(item.id).then(() => {
+                                    obligationsMutation().then(res => {
+                                        if (!res) {
+                                            // TODO Traduction
+                                            notifyError("Obligations saving failed")
+                                        } else {
+                                            notifySuccess("Obligations is now saved")
+                                        }
+                                    })
+                                })
+                            }}
+                        />
+                    </div>
+                )}
+            )}
+        </div>
+    );
 };
 
 export default ObligationCheckboxList;
