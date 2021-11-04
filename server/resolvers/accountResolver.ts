@@ -12,6 +12,7 @@ export const acountResolvers: Resolvers = {
         throw new AuthenticationError(ErrMsg("error.notloggedin"));
       return {
         email: context.user.email,
+        mailingList: context.user.mailingList,
         currentShop: ShopList.find((s) => s.id == context.user.shopId),
       };
     },

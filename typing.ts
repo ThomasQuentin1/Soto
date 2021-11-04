@@ -180,6 +180,7 @@ export type ProductListEntry = {
 export type Account = {
   __typename?: 'Account';
   email: Scalars['String'];
+  mailingList: Scalars['Boolean'];
   currentShop?: Maybe<Shop>;
 };
 
@@ -427,6 +428,7 @@ export type ProductListEntryResolvers<ContextType = any, ParentType extends Reso
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  mailingList?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };

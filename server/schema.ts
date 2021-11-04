@@ -83,6 +83,7 @@ const schema = gql`
 
   type Account {
     email: String!
+    mailingList: Boolean!
     currentShop: Shop
   }
 
