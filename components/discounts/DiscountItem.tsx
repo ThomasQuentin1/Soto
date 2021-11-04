@@ -136,7 +136,7 @@ const DiscountItem = ({ product, Add, basket, Remove }: DiscountItemProps) => {
                     }}>
                         <Button color="secondary"
                             onClick={() => Add(product, basket)}
-                            style={{ borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px' }}>+
+                            style={{ borderRadius: '24px', fontSize: '45px', height: '25px', width: '25px' }}>+
                         </Button>
                     </Box>
                     <Typography style={{ marginBottom: '10px', marginLeft: '10px', marginRight: '10px' }} align="left">Score
