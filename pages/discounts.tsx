@@ -15,7 +15,7 @@ const shopDiscouts: Product[][] = [[{ "id": "191", "name": "Pâtes Lasagne", "br
 [{ "id": "51342", "name": "Gros oeufs frais Première Fraîcheur", "brand": "Lustucru,Lustucru sélection,Sélection Lustucru", "priceUnit": "1.78", "priceMass": "0.15 €/P", "ingredients": ["oeufs"], "packaging": ["carton"], "allergens": ["en:eggs"], "nutriments": ["energy-kcal:145", "sugars_100g:0.7", "salt_100g:0.32", "fat_100g:10"], "nutriscore": "a", "scoreHealth": 88, "scoreEnvironment": 72, "finalScore": 93, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://images.openfoodfacts.org/images/products/376/015/011/1342/front_fr.18.400.jpg", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-51342-Gros-oeufs-frais-Première-Fraîcheur.aspx" }, { "id": "25093", "name": "Yaourt fruit jaunes", "brand": "Délisse,Marque Repère", "priceUnit": "1.76", "priceMass": "1.87 €/KG", "ingredients": ["lait-entier", "origine-france-72", "fruits", "morceaux-et-puree", "peche-11", "3-ou-abricot-11", "1-ou-poire-11-ou-ananas-10", "6", "sucre-10", "4", "teneur-moyenne", "lait-ecreme-en-poudre", "origine-france", "amidon-modifie-de-mais", "aromes-naturels", "concentre-de-carotte", "concentre-de-citrouille", "jus-de-carotte-concentre", "jus-de-potiron-concentre", "epaississant", "pectines", "jus-de-citron-concentre", "ferments-lactiques"], "packaging": ["plastique", "Carton", "pots"], "allergens": ["en:milk"], "nutriments": ["sugars_100g:15", "salt_100g:0.1", "fat_100g:2.7"], "nutriscore": "c", "scoreHealth": 61, "scoreEnvironment": 76, "finalScore": 91, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd12-photos.leclercdrive.fr/image.ashx?id=1875667&use=d&cat=p&typeid=i&width=300", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-25093-Yaourt-fruit-jaunes.aspx" }, { "id": "5612", "name": "Cristaline Eau de source", "brand": "Cristaline", "priceUnit": "0.78", "priceMass": "0.11 €/L", "ingredients": ["eau-de-source"], "packaging": ["Bouteille", "plastique", "bouteille-plastique"], "allergens": [""], "nutriments": ["fat_100g:4"], "nutriscore": "a", "scoreHealth": 89, "scoreEnvironment": 50, "finalScore": 84, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://images.openfoodfacts.org/images/products/325/438/000/3756/front_fr.20.400.jpg", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-5612-Cristaline-Eau-de-source.aspx" }, { "id": "19300", "name": "Chips vitelotte", "brand": "Pom'Lisse,Marque Repère", "priceUnit": "1.67", "priceMass": "17.60 €/KG", "ingredients": ["pomme-de-terre-vitelotte", "huile-de-tournesol-36", "sel"], "packaging": ["sachet", "plastique"], "allergens": [""], "nutriments": ["sugars_100g:2", "fiber_100g:4.2", "salt_100g:1.3", "fat_100g:36"], "nutriscore": "c", "scoreHealth": 57, "scoreEnvironment": 57, "finalScore": 34, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd12-photos.leclercdrive.fr/image.ashx?id=752730&use=d&cat=p&typeid=i&width=300", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-19300-Chips-vitelotte.aspx" }]]
 
 
-const RemoveFromSessionStorage = (product: Product, basket: Product[]) => {
+const RemoveFromSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
     let newBasket: Product[] = [];
 
     basket.map((item) => {
@@ -32,9 +32,13 @@ const RemoveFromSessionStorage = (product: Product, basket: Product[]) => {
         }
     });
     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+    setBasket(newBasket);
+
 };
 
-const AddToSessionStorage = (product: Product, basket: Product[]) => {
+const AddToSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
+    console.log(basket);
+    console.log(product);
     let newBasket: Product[] = [];
     let modifiedItsQuantity = false;
 
@@ -55,6 +59,7 @@ const AddToSessionStorage = (product: Product, basket: Product[]) => {
     if (!modifiedItsQuantity)
         newBasket.push(product);
     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
+    setBasket(newBasket);
 };
 
 const DiscountsPage = () => {
@@ -114,7 +119,7 @@ const DiscountsPage = () => {
                 </Grid>
             </Grid>
             {loading === false && data !== undefined ?
-                <DiscountList discountsArray={discountArrayFiltered} Add={AddToSessionStorage} Remove={RemoveFromSessionStorage} /> : <></>
+                <DiscountList discountsArray={discountArrayFiltered} basket={basket} Add={AddToSessionStorage} Remove={RemoveFromSessionStorage} setBasket={setBasket} /> : <></>
             }
             <Footer />
         </DarkModeParent >

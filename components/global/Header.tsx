@@ -165,7 +165,7 @@ const Header = ({ theme, SetTheme }: Props) => {
                                 {isSignedInNewsletter === false ? <Button onClick={() => SetNewsletterCardOpen(!newsletterCardOpen)}>Inscription à la newsletter</Button> : <Button onClick={() => {
                                     localStorage.removeItem("signedInNewsletter")
                                     SetIsSignedInNewsletter(false)
-                                }}>Se désinscrire à la newsletter</Button>}
+                                }}>Se désinscrire de la newsletter</Button>}
 
                                 {data && data.account &&
                                     <Grid container justify="center">

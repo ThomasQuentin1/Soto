@@ -16,10 +16,11 @@ interface DiscountItemProps {
     product: Product;
     Add: any;
     basket: Product[];
+    setBasket: any;
     Remove: any;
 }
 
-const DiscountItem = ({ product, Add, basket, Remove }: DiscountItemProps) => {
+const DiscountItem = ({ product, Add, basket, setBasket, Remove }: DiscountItemProps) => {
 
     let scoreColorAlpha: string = color.red_alpha; // red
     let scoreColor: string = color.red;
@@ -79,7 +80,7 @@ const DiscountItem = ({ product, Add, basket, Remove }: DiscountItemProps) => {
                         alignItems: 'center'
                     }}>
                         <Button color="secondary"
-                            onClick={() => Add(product, basket)}
+                            onClick={() => Add(product, basket, setBasket)}
                             style={{ borderRadius: '24px', fontSize: '23px', height: '25px', width: '25px' }}>+
                         </Button>
                     </Box>
@@ -135,7 +136,7 @@ const DiscountItem = ({ product, Add, basket, Remove }: DiscountItemProps) => {
                         alignItems: 'center'
                     }}>
                         <Button color="secondary"
-                            onClick={() => Add(product, basket)}
+                            onClick={() => Add(product, basket, setBasket)}
                             style={{ borderRadius: '24px', fontSize: '45px', height: '25px', width: '25px' }}>+
                         </Button>
                     </Box>
