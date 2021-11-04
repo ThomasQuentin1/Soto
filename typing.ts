@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -911,6 +910,13 @@ export const AccountDocument = gql`
       id
       server
       code
+      list {
+        name
+        products {
+          id
+          name
+        }
+      }
     }
   }
 }
