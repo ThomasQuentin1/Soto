@@ -64,6 +64,7 @@ interface LeclercArticle {
   ID_PHOTO_EN_LISTE: number;
   ORIGINE: string;
   QTE_DISPONIBLE: string;
+  PV_UNITAIRE_APRES_REDUCTION: string
 }
 
 interface Article {
@@ -86,6 +87,7 @@ interface Article {
   quantity: string;
   keywords: string[];
   origin: string;
+  promotion: string | null
 }
 
 interface LoginRequest {
@@ -253,6 +255,8 @@ const start = async () => {
           serialized.bio = IsBio(serialized);
           serialized.peanutFree = IsPeanutFree(serialized);
 
+          if (serialized.scoreProximity > 100)
+          serialized.scoreProximity = 100
           console.log(
             `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
           );
@@ -351,7 +355,7 @@ const createProduct = async (
   const princeMass = leclerc.PRIX_UNITAIRE;
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
   const ecoScore = product?.ecoscore_data?.score ?? 0;
-
+  const promotion = leclerc.PV_UNITAIRE_APRES_REDUCTION ? leclerc.PV_UNITAIRE_APRES_REDUCTION : null;
   const ret: Article = {
     allergens: allergens_tags,
     brand: brands,
@@ -369,6 +373,7 @@ const createProduct = async (
     labels: product.labels_tags ?? [],
     ecoscore: ecoScore,
     origin: leclerc.ORIGINE ?? product.origins ?? null,
+    promotion: promotion
   };
   return ret;
 };

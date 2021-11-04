@@ -4,7 +4,7 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
-import { Grid } from "@material-ui/core";
+import { Grid, Button, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
@@ -214,6 +214,15 @@ const ShopPage = () => {
                 cartHistory &&
                 <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} />
             }
+            <Grid container justify='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
+                <Grid item style={{ position: 'relative', justifyContent: 'flex-end' }}>
+                    <Button style={{ marginLeft: '20px' }} variant={"outlined"} color='secondary' href='/discounts'>
+                        <Typography
+                            variant='caption'>Discounts
+                        </Typography>
+                    </Button>
+                </Grid>
+            </Grid>
             <Footer />
         </DarkModeParent >
     );

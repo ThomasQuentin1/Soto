@@ -39,6 +39,15 @@ export type QuerySearchProductsArgs = {
     limit?: Maybe<Scalars['Int']>;
 };
 
+
+export type QueryPromotionsArgs = {
+  query: Scalars['String'];
+  obligationsOverride?: Maybe<Array<ObligationInput>>;
+  criterionsOverride?: Maybe<Array<CriterionInput>>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
 export type Mutation = {
     __typename?: 'Mutation';
     login: Scalars['String'];
@@ -894,6 +903,13 @@ export const AccountDocument = gql`
       id
       server
       code
+      list {
+        name
+        products {
+          id
+          name
+        }
+      }
     }
   }
 }

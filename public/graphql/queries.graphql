@@ -9,6 +9,13 @@ query Account {
       id
       server
       code
+      list {
+        name
+        products {
+            id
+            name
+        }
+      }
     }
   }
 }

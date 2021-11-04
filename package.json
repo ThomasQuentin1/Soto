@@ -8,6 +8,7 @@
     "generate": "graphql-codegen --config codegen.yml",
     "test": "cross-env TEST=TRUE jest ",
     "drive-fetch": "ts-node --project tsconfig.server.json scripts/drive-fetch.ts",
+    "mailing-list": "ts-node --project tsconfig.server.json scripts/mailing-list.ts",
     "test-off": "ts-node --project tsconfig.server.json scripts/testOpenFoodFacts.ts",
     "db-setup": "ts-node --project tsconfig.server.json scripts/db-setup.ts",
     "all-notif": "ts-node --project tsconfig.server.json scripts/sendNotificationToAllCustomer.ts",
