@@ -13,7 +13,7 @@ const schema = gql`
       limit: Int
     ): [Product!]!
     promotions(
-      query: String!
+      query: String
       obligationsOverride: [ObligationInput!]
       criterionsOverride: [CriterionInput!]
       shopIdOverride: Int

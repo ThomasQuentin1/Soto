@@ -35,6 +35,7 @@ export const algoQuery = async <T>(query: string, values?: string[]) => {
 
 export const usersQuery = async <T>(query: string, values?: string[]) => {
   return new Promise<T[]>((resolve, reject) => {
+    console.log(query, values);
     usersPool.query({ sql: query, values }, (err: any, results: any) => {
       if (err) reject(err);
       resolve(results);
