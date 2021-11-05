@@ -258,7 +258,7 @@ const start = async () => {
           if (serialized.scoreProximity > 100)
           serialized.scoreProximity = 100
           console.log(
-            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree} promotion: ${serialized.promotion}`
           );
 
           // console.log(
@@ -267,7 +267,7 @@ const start = async () => {
 
           await sqlquery(
             sql,
-            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree, promotion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?)`,
             [
               clear(serialized.name),
               serialized.leclercId,
@@ -291,6 +291,7 @@ const start = async () => {
               serialized.labels,
               serialized.bio,
               serialized.peanutFree,
+              serialized.promotion,
             ]
           );
         }
@@ -356,6 +357,7 @@ const createProduct = async (
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
   const ecoScore = product?.ecoscore_data?.score ?? 0;
   const promotion = leclerc.PV_UNITAIRE_APRES_REDUCTION ? leclerc.PV_UNITAIRE_APRES_REDUCTION : null;
+
   const ret: Article = {
     allergens: allergens_tags,
     brand: brands,

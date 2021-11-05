@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -42,7 +43,7 @@ export type QuerySearchProductsArgs = {
 
 
 export type QueryPromotionsArgs = {
-  query: Scalars['String'];
+  query?: Maybe<Scalars['String']>;
   obligationsOverride?: Maybe<Array<ObligationInput>>;
   criterionsOverride?: Maybe<Array<CriterionInput>>;
   shopIdOverride?: Maybe<Scalars['Int']>;
@@ -179,6 +180,7 @@ export type ProductListEntry = {
 export type Account = {
   __typename?: 'Account';
   email: Scalars['String'];
+  mailingList: Scalars['Boolean'];
   currentShop?: Maybe<Shop>;
 };
 
@@ -362,7 +364,7 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
   searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
-  promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, 'query'>>,
+  promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, never>>,
   shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
   cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
   oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
@@ -426,6 +428,7 @@ export type ProductListEntryResolvers<ContextType = any, ParentType extends Reso
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  mailingList?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
   currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };

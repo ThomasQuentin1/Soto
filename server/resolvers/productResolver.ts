@@ -98,6 +98,7 @@ export const productResolvers: Resolvers = {
           scorePrice: r.priceScore,
           scoreProximity: r.proximityScore,
           photo: r.photo,
+          pricePromotion: r.promotion,
           url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
             shop!.code
           }-${shop?.name
@@ -116,15 +117,24 @@ export const productResolvers: Resolvers = {
     promotions: async (_obj, args, context, _info) => {
       const {shop, obligations, criterions} = await selectShopAndCriterion(args, context)
 
+
       const data = (
-        await usersQuery<DbProduct>(
+        !args?.query?.length ? await usersQuery<DbProduct>(
           `SELECT * FROM products${
             shop.id
-          } WHERE (promotion NOT NULL) ${sqlWhereObligations(
+          } WHERE (promotion IS NOT NULL) ${sqlWhereObligations(
             obligations
           )}`,
-          [`%${args.query}%`, `%${args.query}%`]
-        )
+          []
+        ) :
+          await usersQuery<DbProduct>(
+            `SELECT * FROM products${
+              shop.id
+            } WHERE (promotion IS NOT NULL) AND (name LIKE ? OR keywords LIKE ?) ${sqlWhereObligations(
+              obligations
+            )}`,
+            [`%${args.query}%`, `%${args.query}%`]
+          )
       )
         .map((r) => {
           let finalScore = getFinalScore(criterions, r);
@@ -160,6 +170,7 @@ export const productResolvers: Resolvers = {
           )}.aspx`,
         }))
         .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
+      console.log(data);
       return args.limit ? data.slice(0, args.limit) : data;
     }
   },
