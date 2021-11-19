@@ -225,6 +225,7 @@ export type Product = {
   scorePrice?: Maybe<Scalars['Int']>;
   scoreEnvironment?: Maybe<Scalars['Int']>;
   scoreProximity?: Maybe<Scalars['Int']>;
+  scorePromotion?: Maybe<Scalars['Int']>;
   finalScore?: Maybe<Scalars['Int']>;
   packagingQuantity?: Maybe<Scalars['String']>;
   itemQuantity?: Maybe<Scalars['Int']>;
@@ -464,6 +465,7 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   scorePrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreProximity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scorePromotion?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,

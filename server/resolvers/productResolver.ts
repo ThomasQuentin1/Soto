@@ -86,28 +86,31 @@ export const productResolvers: Resolvers = {
             finalScore: isNaN(finalScore) ? null : Math.round(finalScore),
           };
         })
-        .map<Product>((r) => ({
-          ...r,
-          id: r.leclercId,
-          allergens: r.allergens?.split("|") ?? [],
-          ingredients: r.ingredients?.split("|") ?? [],
-          nutriments: r.nutriments?.split("|") ?? [],
-          packaging: r.packaging?.split("|") ?? [],
-          scoreEnvironment: r.environmentScore,
-          scoreHealth: r.healthscore,
-          scorePrice: r.priceScore,
-          scoreProximity: r.proximityScore,
-          photo: r.photo,
-          pricePromotion: r.promotion,
-          url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
-            shop!.code
-          }-${shop?.name
-            .toLocaleLowerCase()
-            .replace(/ /g, "-")}/fiche-produits-${r.leclercId}-${r.name.replace(
-            / /g,
-            "-"
-          )}.aspx`,
-        }))
+        .map<Product>((r) => {
+          return ({
+            ...r,
+            id: r.leclercId,
+            allergens: r.allergens?.split("|") ?? [],
+            ingredients: r.ingredients?.split("|") ?? [],
+            nutriments: r.nutriments?.split("|") ?? [],
+            packaging: r.packaging?.split("|") ?? [],
+            scoreEnvironment: r.environmentScore,
+            scoreHealth: r.healthscore,
+            scorePrice: r.priceScore,
+            scoreProximity: r.proximityScore,
+            scorePromotion: r.promotionScore,
+            photo: r.photo,
+            pricePromotion: r.promotion,
+            url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
+              shop!.code
+            }-${shop?.name
+              .toLocaleLowerCase()
+              .replace(/ /g, "-")}/fiche-produits-${r.leclercId}-${r.name.replace(
+              / /g,
+              "-"
+            )}.aspx`,
+          })
+        })
         .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
       return args.limit ? data.slice(0, args.limit) : data;
     },
@@ -159,6 +162,7 @@ export const productResolvers: Resolvers = {
           scorePrice: r.priceScore,
           pricePromotion: r.promotion,
           scoreProximity: r.proximityScore,
+          scorePromotion: r.promotionScore,
           photo: r.photo,
           url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
             shop!.code
