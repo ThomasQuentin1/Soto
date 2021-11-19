@@ -54,7 +54,7 @@ export const acountResolvers: Resolvers = {
       }
 
       await usersQuery(
-        "INSERT INTO users (email, password) VALUES (?, ?, ?)",
+        "INSERT INTO users (email, password) VALUES (?, ?)",
         [args.email, args.passwordSHA256]
       );
       const loginQuery = await usersQuery<{ id: string }>(
