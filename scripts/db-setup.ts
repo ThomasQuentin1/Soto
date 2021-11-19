@@ -40,7 +40,7 @@ const start = async () => {
 
   await sqlquery(
     sql,
-    "CREATE TABLE users (id INT AUTO_INCREMENT primary key NOT NULL, token VARCHAR(64), email VARCHAR(255) NOT NULL, password VARCHAR(64) NOT NULL, cartId INT, shopId INT, pushToken VARCHAR(64), mailingList BOOLEAN NOT NULL DEFAULT FALSE);"
+    "CREATE TABLE users (id INT AUTO_INCREMENT primary key NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(64) NOT NULL, cartId INT, shopId INT, pushToken VARCHAR(64), mailingList BOOLEAN NOT NULL DEFAULT FALSE);"
   );
   await sqlquery(
     sql,

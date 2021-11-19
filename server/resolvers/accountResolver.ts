@@ -4,6 +4,7 @@ import { Resolvers } from "../../typing";
 import { ShopList } from "../constData/shopList";
 import { usersQuery } from "../query";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
+import * as jwt from "jsonwebtoken";
 
 export const acountResolvers: Resolvers = {
   Query: {
@@ -37,23 +38,20 @@ export const acountResolvers: Resolvers = {
       );
       if (loginQuery.length != 1)
         throw new AuthenticationError(ErrMsg("error.invalidcredentails"));
-      const newToken = [...Array(64)]
-        .map(() => Math.random().toString(36)[2])
-        .join("");
 
-      await usersQuery("UPDATE users SET token = ? WHERE id = ?", [
-        newToken,
-        loginQuery[0].id,
-      ]);
-      return newToken;
+      const token = jwt.sign({id: loginQuery[0].id}, 's0t0', {expiresIn: "30d"});
+
+      return token;
     },
     register: async (_obj, args, _context, _info) => {
-      const loginQuery = await usersQuery(
-        "SELECT * FROM users WHERE email = ? LIMIT 1",
-        [args.email]
-      );
-      if (loginQuery.length != 0)
-        throw new AuthenticationError(ErrMsg("error.emailalreadyinuse"));
+      {
+        const loginQuery = await usersQuery(
+          "SELECT * FROM users WHERE email = ? LIMIT 1",
+          [args.email]
+        );
+        if (loginQuery.length != 0)
+          throw new AuthenticationError(ErrMsg("error.emailalreadyinuse"));
+      }
 
       const newToken = [...Array(64)]
         .map(() => Math.random().toString(36)[2])
@@ -62,7 +60,12 @@ export const acountResolvers: Resolvers = {
         "INSERT INTO users (email, password, token) VALUES (?, ?, ?)",
         [args.email, args.passwordSHA256, newToken]
       );
-      return newToken;
+      const loginQuery = await usersQuery<{ id: string }>(
+        "SELECT * FROM users WHERE email = ? LIMIT 1",
+        [args.email]
+      );
+      const token = jwt.sign({id: loginQuery[0].id}, 's0t0', {expiresIn: "30d"});
+      return token;
     },
     removeAccount: async (_obj, args, context, _info) => {
       if (!context.user)
