@@ -7,18 +7,26 @@ export default class PromotionScoring extends AScoring {
       return 0;
 
     const reduction = +product.priceUnit - +product.promotion;
-    console.log("Reduction : " + reduction);
     if (!reduction || reduction < 0)
       return 50;
 
-    const reductionRate = (+product.priceUnit / reduction) * 100
-    console.log("Rate : " + reductionRate);
+    const reductionRate = (reduction / +product.priceUnit) * 100
 
-    return 60 + reductionRate;
+    const score = Math.round(60 + reductionRate);
+    return score > 100 ? 100 : score;
   }
 
-  public getDescription(_product: DbProduct): string {
-    return "";
+  public getDescription(product: DbProduct): string {
+    if (!product.promotion)
+      return "";
+
+    const reduction = +product.priceUnit - +product.promotion;
+    if (!reduction || reduction < 0)
+      return "En promo";
+
+    const reductionRate = (reduction / +product.priceUnit) * 100
+
+    return "- " + Math.round(reductionRate) + "%";
   }
   public getRisk(_product: DbProduct): string {
     return "";
