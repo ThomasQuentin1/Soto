@@ -125,6 +125,7 @@ const schema = gql`
     scorePrice: Int
     scoreEnvironment: Int
     scoreProximity: Int
+    scorePromotion: Int
     finalScore: Int
     packagingQuantity: String
     itemQuantity: Int
