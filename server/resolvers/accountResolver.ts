@@ -53,12 +53,9 @@ export const acountResolvers: Resolvers = {
           throw new AuthenticationError(ErrMsg("error.emailalreadyinuse"));
       }
 
-      const newToken = [...Array(64)]
-        .map(() => Math.random().toString(36)[2])
-        .join("");
       await usersQuery(
-        "INSERT INTO users (email, password, token) VALUES (?, ?, ?)",
-        [args.email, args.passwordSHA256, newToken]
+        "INSERT INTO users (email, password) VALUES (?, ?, ?)",
+        [args.email, args.passwordSHA256]
       );
       const loginQuery = await usersQuery<{ id: string }>(
         "SELECT * FROM users WHERE email = ? LIMIT 1",

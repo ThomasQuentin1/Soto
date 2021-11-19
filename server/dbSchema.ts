@@ -25,7 +25,6 @@ export interface DbProduct {
 
 export interface DbUser {
   id: number;
-  token: string;
   email: string;
   password: string;
   cartId: number;
