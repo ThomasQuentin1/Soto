@@ -19,10 +19,6 @@ const QorM = async (
       if (userQ.length == 1) user = userQ[0];
     }
   } catch {}
-  return { user, cookies };
-};
-
-
   
   // @ts-ignore
   const elem: any = resolvers![op]![resolver];
