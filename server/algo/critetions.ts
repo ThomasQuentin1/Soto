@@ -32,4 +32,14 @@ export const Criterions: CriterionInternal[] = [
     fieldDB: "promotionScore",
     name: "criteria.promotion",
   },
+  {
+    id: 6,
+    fieldDB: "lowCaloriesScore",
+    name: "criteria.lowCalories",
+  },
+  {
+    id: 7,
+    fieldDB: "highProteinScore",
+    name: "criteria.highProtein",
+  }
 ];
