@@ -1,5 +1,4 @@
-// @ts-nocheck
-
+//@ts-nocheck
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -226,6 +225,8 @@ export type Product = {
   scoreEnvironment?: Maybe<Scalars['Int']>;
   scoreProximity?: Maybe<Scalars['Int']>;
   scorePromotion?: Maybe<Scalars['Int']>;
+  scoreLowCalories?: Maybe<Scalars['Int']>;
+  scoreHighProtein?: Maybe<Scalars['Int']>;
   finalScore?: Maybe<Scalars['Int']>;
   packagingQuantity?: Maybe<Scalars['String']>;
   itemQuantity?: Maybe<Scalars['Int']>;
@@ -466,6 +467,8 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scoreProximity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   scorePromotion?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreLowCalories?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreHighProtein?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
   packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
   itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,

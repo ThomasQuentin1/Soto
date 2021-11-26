@@ -99,6 +99,10 @@ export const productResolvers: Resolvers = {
             scorePrice: r.priceScore,
             scoreProximity: r.proximityScore,
             scorePromotion: r.promotionScore,
+            //@ts-ignore
+            scoreHighProtein: r.highProteinScore,
+            //@ts-ignore
+            scoreLowCalories: r.lowCaloriesScore,
             photo: r.photo,
             pricePromotion: r.promotion,
             url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
