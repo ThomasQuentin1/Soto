@@ -42,6 +42,11 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[], criterions?: an
       packaging: r.packaging?.split("|") ?? [],
       scoreEnvironment: NanToNullAndRound(r.environmentScore),
       scoreHealth: NanToNullAndRound(r.healthscore),
+      scorePromotion: r.promotionScore,
+      //@ts-ignore
+      scoreHighProtein: r.highProteinScore,
+      //@ts-ignore
+      scoreLowCalories: r.lowCaloriesScore,
       cartId: undefined,
       photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
         r.leclercId
