@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import {ToastContainer} from "react-toastify";
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
-import {NoSsr} from "@material-ui/core";
+import {NoSsr} from "@mui/core";
 
 export const clientLocal = new ApolloClient({
     cache: new InMemoryCache(),

@@ -4,13 +4,14 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
-import { Grid, Button, Typography } from "@material-ui/core";
+import { Grid, Button, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
 import Footer from 'components/global/Footer';
 import { Product, useAddToCartMutation, useOldCartsQuery, Cart } from 'typing';
 import { List } from 'pages/lists';
+// import {Grid} from "@mui/material";
 
 const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, addToCartMutation: any) => { //TODO with new basket system
 
@@ -199,13 +200,10 @@ const ShopPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header  {...{ theme, SetTheme }} />
-            <Grid container justify="center" style={{ marginTop: '10px', maxHeight: "80vh" }}>
+            <Grid container justifyContent="center" style={{ marginTop: '10px', maxHeight: "80vh" }}>
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />
                 </Grid>
-                {/* <Grid item xs={12}>
-                    <PriceBanner basket={basket} />
-    </Grid>*/}
             </Grid>
             <Grid item xs={12} style={{ overflowY: "auto", maxHeight: "60vh" }}>
                 <ShopList AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} RemoveFromCart={RemoveFromBasketAndSessionStorage} />
@@ -214,7 +212,7 @@ const ShopPage = () => {
                 cartHistory &&
                 <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} />
             }
-            <Grid container justify='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
+            <Grid container justifyContent='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
                 <Grid item style={{ position: 'relative', justifyContent: 'flex-end' }}>
                     <Button style={{ marginLeft: '20px' }} variant={"outlined"} color='secondary' href='/discounts'>
                         <Typography

@@ -1,9 +1,9 @@
 import React from "react";
 // import NoSsr from "@material-ui/core/NoSsr";
-import {
-  ThemeProvider as ThemeProviderMui,
-  Theme,
-} from "@material-ui/core/styles";
+// import {
+//   ThemeProvider as ThemeProviderMui,
+//   Theme,
+// } from "@material-ui/core/styles";
 import { ThemeProvider as ThemeProviderMainStyle } from "styled-components";
 import { useDarkMode } from "../settings/useDarkMode";
 import muiDarkTheme from "../../themes/mui/mainDarkTheme";
@@ -11,6 +11,7 @@ import muiLightTheme from "../../themes/mui/mainLightTheme";
 import GlobalStyles from "../../styles/globalStyle";
 import lightTheme from "../../themes/site/lightTheme";
 import darkTheme from "../../themes/site/darkTheme";
+import {Theme, ThemeProvider as ThemeProviderMui} from "@mui/material";
 
 interface DarkModeParentInterface {
   theme?: string;

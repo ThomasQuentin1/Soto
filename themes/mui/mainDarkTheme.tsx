@@ -1,7 +1,9 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+// import { createMuiTheme } from '@material-ui/core/styles';
 // import { red } from '@material-ui/core/colors';
 
-const muiDarkTheme = createMuiTheme({
+import {createTheme} from "@mui/material";
+
+const muiDarkTheme = createTheme({
     shape: {
         borderRadius: 10,
     },
@@ -13,24 +15,30 @@ const muiDarkTheme = createMuiTheme({
         },
 
         secondary: {
-            main: '#ff6768',
+            main: '#ff6768 !important',
             contrastText: '#fff'
         },
     },
-    overrides: {
+    components: {
         MuiCard: {
-            root: {
-                backgroundColor: "#263859",
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#263859",
+                }
             }
         },
         MuiPaper: {
-            root: {
-                backgroundColor: "#263859",
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#263859",
+                }
             }
         },
         MuiDivider: {
-            root: {
-                backgroundColor: "#263859"
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#263859"
+                }
             }
         }
     }
