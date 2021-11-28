@@ -49,7 +49,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[], criterions?: an
       scoreLowCalories: r.lowCaloriesScore,
       cartId: undefined,
       photo: r.photo,
-      pricePromotion: r.pricePromotion,
+      pricePromotion: r.promotion,
       url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
         shop!.code
       }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
