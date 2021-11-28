@@ -12,6 +12,7 @@ export interface DbProduct {
   nutriments: string;
   nutriscore: string;
   healthscore: number;
+  promotionScore: number;
   environmentScore: number;
   priceScore: number;
   proximityScore: number;
@@ -25,7 +26,6 @@ export interface DbProduct {
 
 export interface DbUser {
   id: number;
-  token: string;
   email: string;
   password: string;
   cartId: number;

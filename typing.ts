@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
@@ -42,11 +43,11 @@ export type QuerySearchProductsArgs = {
 
 
 export type QueryPromotionsArgs = {
-    query: Scalars['String'];
-    obligationsOverride?: Maybe<Array<ObligationInput>>;
-    criterionsOverride?: Maybe<Array<CriterionInput>>;
-    shopIdOverride?: Maybe<Scalars['Int']>;
-    limit?: Maybe<Scalars['Int']>;
+  query?: Maybe<Scalars['String']>;
+  obligationsOverride?: Maybe<Array<ObligationInput>>;
+  criterionsOverride?: Maybe<Array<CriterionInput>>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
 };
 
 export type Mutation = {
@@ -177,9 +178,10 @@ export type ProductListEntry = {
 };
 
 export type Account = {
-    __typename?: 'Account';
-    email: Scalars['String'];
-    currentShop?: Maybe<Shop>;
+  __typename?: 'Account';
+  email: Scalars['String'];
+  mailingList: Scalars['Boolean'];
+  currentShop?: Maybe<Shop>;
 };
 
 export type Criterion = {
@@ -207,27 +209,28 @@ export type ObligationInput = {
 };
 
 export type Product = {
-    __typename?: 'Product';
-    id: Scalars['String'];
-    name: Scalars['String'];
-    brand?: Maybe<Scalars['String']>;
-    priceUnit: Scalars['String'];
-    pricePromotion?: Maybe<Scalars['String']>;
-    priceMass?: Maybe<Scalars['String']>;
-    ingredients?: Maybe<Array<Maybe<Scalars['String']>>>;
-    packaging?: Maybe<Array<Maybe<Scalars['String']>>>;
-    allergens?: Maybe<Array<Maybe<Scalars['String']>>>;
-    nutriments?: Maybe<Array<Maybe<Scalars['String']>>>;
-    nutriscore?: Maybe<Scalars['String']>;
-    scoreHealth?: Maybe<Scalars['Int']>;
-    scorePrice?: Maybe<Scalars['Int']>;
-    scoreEnvironment?: Maybe<Scalars['Int']>;
-    scoreProximity?: Maybe<Scalars['Int']>;
-    finalScore?: Maybe<Scalars['Int']>;
-    packagingQuantity?: Maybe<Scalars['String']>;
-    itemQuantity?: Maybe<Scalars['Int']>;
-    photo?: Maybe<Scalars['String']>;
-    url: Scalars['String'];
+  __typename?: 'Product';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  brand?: Maybe<Scalars['String']>;
+  priceUnit: Scalars['String'];
+  pricePromotion?: Maybe<Scalars['String']>;
+  priceMass?: Maybe<Scalars['String']>;
+  ingredients?: Maybe<Array<Maybe<Scalars['String']>>>;
+  packaging?: Maybe<Array<Maybe<Scalars['String']>>>;
+  allergens?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nutriments?: Maybe<Array<Maybe<Scalars['String']>>>;
+  nutriscore?: Maybe<Scalars['String']>;
+  scoreHealth?: Maybe<Scalars['Int']>;
+  scorePrice?: Maybe<Scalars['Int']>;
+  scoreEnvironment?: Maybe<Scalars['Int']>;
+  scoreProximity?: Maybe<Scalars['Int']>;
+  scorePromotion?: Maybe<Scalars['Int']>;
+  finalScore?: Maybe<Scalars['Int']>;
+  packagingQuantity?: Maybe<Scalars['String']>;
+  itemQuantity?: Maybe<Scalars['Int']>;
+  photo?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
 };
 
 export enum CacheControlScope {
@@ -360,14 +363,14 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-    account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
-    searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
-    promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, 'query'>>,
-    shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
-    cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
-    oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
-    criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
-    obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
+  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
+  searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
+  promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, never>>,
+  shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
+  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
+  oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
+  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
+  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
@@ -425,9 +428,10 @@ export type ProductListEntryResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
-    email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  mailingList?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  currentShop?: Resolver<Maybe<ResolversTypes['Shop']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type CriterionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Criterion'] = ResolversParentTypes['Criterion']> = {
@@ -446,27 +450,28 @@ export type ObligationResolvers<ContextType = any, ParentType extends ResolversP
 };
 
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
-    id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-    priceUnit?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    pricePromotion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-    priceMass?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-    ingredients?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
-    packaging?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
-    allergens?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
-    nutriments?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
-    nutriscore?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-    scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    scorePrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    scoreProximity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-    itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-    url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  brand?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  priceUnit?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  pricePromotion?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  priceMass?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  ingredients?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  packaging?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  allergens?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  nutriments?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>,
+  nutriscore?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  scoreHealth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scorePrice?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreEnvironment?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scoreProximity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  scorePromotion?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  finalScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  packagingQuantity?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  itemQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  photo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {

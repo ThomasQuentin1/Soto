@@ -13,7 +13,7 @@ const schema = gql`
       limit: Int
     ): [Product!]!
     promotions(
-      query: String!
+      query: String
       obligationsOverride: [ObligationInput!]
       criterionsOverride: [CriterionInput!]
       shopIdOverride: Int
@@ -83,6 +83,7 @@ const schema = gql`
 
   type Account {
     email: String!
+    mailingList: Boolean!
     currentShop: Shop
   }
 
@@ -124,6 +125,7 @@ const schema = gql`
     scorePrice: Int
     scoreEnvironment: Int
     scoreProximity: Int
+    scorePromotion: Int
     finalScore: Int
     packagingQuantity: String
     itemQuantity: Int

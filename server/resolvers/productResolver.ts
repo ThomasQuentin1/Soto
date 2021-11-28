@@ -86,27 +86,31 @@ export const productResolvers: Resolvers = {
             finalScore: isNaN(finalScore) ? null : Math.round(finalScore),
           };
         })
-        .map<Product>((r) => ({
-          ...r,
-          id: r.leclercId,
-          allergens: r.allergens?.split("|") ?? [],
-          ingredients: r.ingredients?.split("|") ?? [],
-          nutriments: r.nutriments?.split("|") ?? [],
-          packaging: r.packaging?.split("|") ?? [],
-          scoreEnvironment: r.environmentScore,
-          scoreHealth: r.healthscore,
-          scorePrice: r.priceScore,
-          scoreProximity: r.proximityScore,
-          photo: r.photo,
-          url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
-            shop!.code
-          }-${shop?.name
-            .toLocaleLowerCase()
-            .replace(/ /g, "-")}/fiche-produits-${r.leclercId}-${r.name.replace(
-            / /g,
-            "-"
-          )}.aspx`,
-        }))
+        .map<Product>((r) => {
+          return ({
+            ...r,
+            id: r.leclercId,
+            allergens: r.allergens?.split("|") ?? [],
+            ingredients: r.ingredients?.split("|") ?? [],
+            nutriments: r.nutriments?.split("|") ?? [],
+            packaging: r.packaging?.split("|") ?? [],
+            scoreEnvironment: r.environmentScore,
+            scoreHealth: r.healthscore,
+            scorePrice: r.priceScore,
+            scoreProximity: r.proximityScore,
+            scorePromotion: r.promotionScore,
+            photo: r.photo,
+            pricePromotion: r.promotion,
+            url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
+              shop!.code
+            }-${shop?.name
+              .toLocaleLowerCase()
+              .replace(/ /g, "-")}/fiche-produits-${r.leclercId}-${r.name.replace(
+              / /g,
+              "-"
+            )}.aspx`,
+          })
+        })
         .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
       return args.limit ? data.slice(0, args.limit) : data;
     },
@@ -116,15 +120,24 @@ export const productResolvers: Resolvers = {
     promotions: async (_obj, args, context, _info) => {
       const {shop, obligations, criterions} = await selectShopAndCriterion(args, context)
 
+
       const data = (
-        await usersQuery<DbProduct>(
+        !args?.query?.length ? await usersQuery<DbProduct>(
           `SELECT * FROM products${
             shop.id
-          } WHERE (promotion NOT NULL) ${sqlWhereObligations(
+          } WHERE (promotion IS NOT NULL) ${sqlWhereObligations(
             obligations
           )}`,
-          [`%${args.query}%`, `%${args.query}%`]
-        )
+          []
+        ) :
+          await usersQuery<DbProduct>(
+            `SELECT * FROM products${
+              shop.id
+            } WHERE (promotion IS NOT NULL) AND (name LIKE ? OR keywords LIKE ?) ${sqlWhereObligations(
+              obligations
+            )}`,
+            [`%${args.query}%`, `%${args.query}%`]
+          )
       )
         .map((r) => {
           let finalScore = getFinalScore(criterions, r);
@@ -149,6 +162,7 @@ export const productResolvers: Resolvers = {
           scorePrice: r.priceScore,
           pricePromotion: r.promotion,
           scoreProximity: r.proximityScore,
+          scorePromotion: r.promotionScore,
           photo: r.photo,
           url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
             shop!.code
@@ -160,6 +174,7 @@ export const productResolvers: Resolvers = {
           )}.aspx`,
         }))
         .sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0));
+      console.log(data);
       return args.limit ? data.slice(0, args.limit) : data;
     }
   },

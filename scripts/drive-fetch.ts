@@ -14,13 +14,16 @@ import { IsNoGluten } from "../server/algo/scoring/NoGluten";
 import { IsPeanutFree } from "../server/algo/scoring/Peanut";
 import PriceScoring from "../server/algo/scoring/PriceScoring";
 import ProximityScoring from "../server/algo/scoring/ProximityScoring";
+import PromotionScoring from "../server/algo/scoring/PromotionScoring";
 import { IsVegan } from "../server/algo/scoring/Vegan";
 import { getPool } from "../server/query";
 
 const EnvScorer = new EnvScoring();
 const HealthScorer = new HealthScoring();
 const PriceScorer = new PriceScoring();
-const ProximityScorer = new ProximityScoring();
+const ProximityScorer = new ProximityScoring()
+const PromotionScorer = new PromotionScoring();
+
 
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
@@ -249,6 +252,8 @@ const start = async () => {
           serialized.scorePrice = PriceScorer.getScore(serialized).toString();
           serialized.scoreProximity =
             ProximityScorer.getScore(serialized).toString();
+          serialized.scorePromotion =
+            PromotionScorer.getScore(serialized).toString();
 
           serialized.vegan = IsVegan(serialized);
           serialized.noGluten = IsNoGluten(serialized);
@@ -258,7 +263,7 @@ const start = async () => {
           if (serialized.scoreProximity > 100)
           serialized.scoreProximity = 100
           console.log(
-            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree} promotion: ${serialized.promotion} promotionScore: ${serialized.scorePromotion}`
           );
 
           // console.log(
@@ -267,7 +272,7 @@ const start = async () => {
 
           await sqlquery(
             sql,
-            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree, promotion, promotionScore) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               clear(serialized.name),
               serialized.leclercId,
@@ -291,6 +296,8 @@ const start = async () => {
               serialized.labels,
               serialized.bio,
               serialized.peanutFree,
+              serialized.promotion,
+              serialized.scorePromotion
             ]
           );
         }
@@ -356,6 +363,7 @@ const createProduct = async (
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
   const ecoScore = product?.ecoscore_data?.score ?? 0;
   const promotion = leclerc.PV_UNITAIRE_APRES_REDUCTION ? leclerc.PV_UNITAIRE_APRES_REDUCTION : null;
+
   const ret: Article = {
     allergens: allergens_tags,
     brand: brands,
