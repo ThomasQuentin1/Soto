@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import {Cart, Product} from 'typing'
 import {useTranslation} from "react-i18next";
-import {CardMedia} from "@material-ui/core";
-import {FiberManualRecord} from "@material-ui/icons";
+import {CardMedia} from "@mui/material";
+import {FiberManualRecord} from "@mui/icons-material";
 import {selectColor} from "../../styles/globalStyle";
 import {TFunction} from "i18next";
 
@@ -69,7 +69,7 @@ const HistoryItem = (props: HistoryItemProps) => {
                 </Grid>
                 {isDetailsToggled &&
                 <Grid item xs={12}>
-                    <Grid container direction='row' justify='space-evenly' wrap='wrap' style={{paddingTop: '20px'}}
+                    <Grid container direction='row' justifyContent='space-evenly' wrap='wrap' style={{paddingTop: '20px'}}
                           spacing={2}>
                         {props.cart.products.map((item, index) => {
                             return (
@@ -97,7 +97,7 @@ const HistoryItem = (props: HistoryItemProps) => {
                 </Grid>}
                 <Grid item xs={12}>
                     <Grid item xs={12}>
-                        <Grid container justify='space-between'>
+                        <Grid container justifyContent='space-between'>
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
                                 <>

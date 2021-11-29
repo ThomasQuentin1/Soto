@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Typography, Grid, Button} from '@material-ui/core';
+import {Typography, Grid, Button} from '@mui/material';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import {useDarkMode} from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
@@ -12,7 +12,7 @@ import {
     TimelineDot,
     TimelineItem,
     TimelineSeparator
-} from "@material-ui/lab";
+} from "@mui/lab";
 import Footer from "../components/global/Footer";
 
 const Index = () => {
@@ -75,14 +75,14 @@ const Index = () => {
                     </a>
                 </div>
 
-                <Grid container style={{marginTop: '40px'}} justify={'center'}>
+                <Grid container style={{marginTop: '40px'}} justifyContent={'center'}>
                     {/*   DESCRIPTION   */}
                     <Grid item xs={2}>
                         <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
                             {t('label.project')}
                         </Typography>
                     </Grid>
-                    <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
+                    <Grid container justifyContent={'center'} wrap={'wrap'} alignContent={'space-around'}>
                         <Grid item xs={6}>
                             <Typography align={'center'} style={{fontSize: '18px'}}>{t('label.project.l1')}</Typography>
                             <Typography align={'center'} style={{fontSize: '18px'}}>{t('label.project.l2')}</Typography>
@@ -101,7 +101,7 @@ const Index = () => {
                             {t('label.team')}
                         </Typography>
                     </Grid>
-                    <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
+                    <Grid container justifyContent={'center'} wrap={'wrap'} alignContent={'space-around'}>
                         <Grid item xs={4}>
                             <Typography align={'center'} style={{fontSize: '22px'}}>{t('label.team.front')}</Typography>
                             <div style={{display: "flex", justifyContent: "center", marginBottom: "20px"}}>
@@ -156,9 +156,9 @@ const Index = () => {
                             {t('label.milestones')}
                         </Typography>
                     </Grid>
-                    <Grid container justify={'center'} wrap={'wrap'} alignContent={'space-around'}>
+                    <Grid container justifyContent={'center'} wrap={'wrap'} alignContent={'space-around'}>
                         <Grid item xs={6}>
-                            <Timeline align="alternate">
+                            <Timeline position="alternate">
                                 {
                                     milestones.map(elem => {
                                         return (

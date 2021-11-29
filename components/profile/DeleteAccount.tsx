@@ -7,10 +7,10 @@ import {
     DialogContentText,
     DialogTitle,
     TextField
-} from "@material-ui/core";
+} from "@mui/material";
 import Router from "next/router";
 import {gql} from "@apollo/client/core";
-import {makeStyles} from "@material-ui/styles";
+import {makeStyles} from "@mui/styles";
 import {useMutation} from "@apollo/client";
 import {sha256} from "js-sha256";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";

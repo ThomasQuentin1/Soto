@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { List } from "pages/lists";
-import { Button, Typography, Tooltip } from '@material-ui/core';
-import Zoom from '@material-ui/core/Zoom';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Button, Typography, Tooltip } from '@mui/material';
+import Zoom from '@mui/material/Zoom';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Product } from 'typing';
 
 const color = {

@@ -1,7 +1,6 @@
 import Login from './Login'
 import Register from "./Register";
 import React, {useState} from "react";
-// import {NoSsr, Paper} from "@material-ui/core";
 import {NoSsr, Paper} from "@mui/material";
 import {TFunction} from "i18next";
 

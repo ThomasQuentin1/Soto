@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import { Product } from "typing";
 import DiscountItem from './DiscountItem';
 
@@ -15,7 +15,7 @@ const DiscountList = ({ discountsArray, Add, Remove, basket, setBasket }: Discou
 
     console.log(discountsArray);
     return (
-        <Grid justify={"center"} container style={{ alignItems: 'flex-start' }}>
+        <Grid justifyContent={"center"} container style={{ alignItems: 'flex-start' }}>
             {discountsArray && discountsArray.length != 0 && discountsArray.map((item, index) => {
                 return (
                     <DiscountItem product={item} Add={Add} Remove={Remove} basket={basket} setBasket={setBasket} key={index} />

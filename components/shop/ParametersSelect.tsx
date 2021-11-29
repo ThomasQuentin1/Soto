@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import Button from '@material-ui/core/Button';
 import { useTranslation } from "react-i18next"
 import DragList, {CriteriaData} from './DragList';
 import ObligationCheckboxList, { CheckBoxData } from './ObligationCheckboxList';
 import {useCriterionsQuery, useObligationsQuery} from "../../typing";
 import {Transition} from "react-transition-group";
+import {Button} from "@mui/material";
 
 enum toPrint {
     CRITERIA,
@@ -101,11 +101,10 @@ const ParametersSelect = () => {
     if (criteria.length != 0 && obligations.length != 0) {
         return (
             <div
-                // style={{minHeight: "150px"}}
                  style={element === toPrint.EMPTY ? {height: "auto"} : {minHeight: "250px"}}
             >
                 <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                    <Button color='secondary' variant={element === toPrint.CRITERIA ? "outlined" : undefined} onClick={() => {
+                    <Button color='secondary' variant={element === toPrint.CRITERIA ? "outlined" : "text"} onClick={() => {
                         if (element === toPrint.CRITERIA) {
                             setNewElement(toPrint.EMPTY)
                             setTransitioning(true)
@@ -116,7 +115,7 @@ const ParametersSelect = () => {
                     }}>
                         {t('button.criteria.label')}
                     </Button>
-                    <Button color='secondary' variant={element === toPrint.OBLIGATIONS ? "outlined" : undefined} onClick={() => {
+                    <Button color='secondary' variant={element === toPrint.OBLIGATIONS ? "outlined" : "text"} onClick={() => {
                         if (element === toPrint.OBLIGATIONS) {
                             setNewElement(toPrint.EMPTY)
                             setTransitioning(true)

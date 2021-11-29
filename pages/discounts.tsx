@@ -7,7 +7,7 @@ import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
 import { Product, useAccountQuery } from 'typing';
 import DiscountList from "components/discounts/DiscountList";
-import { TextField, Grid, Button, Typography } from "@material-ui/core";
+import { TextField, Grid, Button, Typography } from "@mui/material";
 
 const shopDiscouts: Product[][] = [[{ "id": "191", "name": "Pâtes Lasagne", "brand": "Barilla", "priceUnit": "0.60", "priceMass": "2.84 €/KG", "ingredients": ["semoule-de-ble-dur", "eau", "peut-contenir-des-traces-de-soja-et-d-oeuf"], "packaging": ["empaque de Cartón", "cartone", "Packung(en)", "Karton", "Produkt", "en:card-box"], "allergens": ["en:gluten"], "nutriments": ["energy-kcal:359", "sugars_100g:3.5", "fiber_100g:3", "salt_100g:0.013", "fat_100g:2"], "nutriscore": "a", "scoreHealth": 89, "scoreEnvironment": 79, "finalScore": 81, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://images.openfoodfacts.org/images/products/807/680/952/3738/front_fr.144.400.jpg", "url": "https://fd6-courses.leclercdrive.fr/magasin-086701-e.leclerc-drive-strasbourg-marché-gare/fiche-produits-191-Pâtes-Lasagne.aspx" }, { "id": "60166", "name": "Coquillettes - Pâtes d'Alsace", "brand": "Valfleuri", "priceUnit": "1.69", "priceMass": "2.96 €/KG", "ingredients": ["semoule-de-ble-dur-de-qualite-superieure", "30-d-oeufs-frais-de-poules-elevees-en-plein-air-soit-320-g-par-kilo-de-semoule"], "packaging": ["Sachet plastique"], "allergens": ["en:eggs,en:gluten"], "nutriments": ["energy-kcal:363", "sugars_100g:3", "fiber_100g:3", "salt_100g:0.1", "fat_100g:4.6"], "nutriscore": "a", "scoreHealth": 88, "scoreEnvironment": 65, "finalScore": 80, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd6-photos.leclercdrive.fr/image.ashx?id=1934030&use=d&cat=p&typeid=i&width=300", "url": "https://fd6-courses.leclercdrive.fr/magasin-086701-e.leclerc-drive-strasbourg-marché-gare/fiche-produits-60166-Coquillettes---Pâtes-d'Alsace.aspx" }, { "id": "23025", "name": "Boisson soja du sud ouest nature", "brand": "Céréal Bio,Céréal,Nutrition & Santé", "priceUnit": "0.80", "priceMass": "1.45 €/L", "ingredients": ["boisson-au-soja-sans-ogm-100", "eau", "soja-decortique-8", "2", "ingredients-agricoles-issus-de-l-agriculture-biologique", "100-d-origine-france"], "packaging": ["Brique", "Carton", "Tetra Pak"], "allergens": ["en:soybeans"], "nutriments": ["energy-kcal:41", "sugars_100g:0.7", "salt_100g:0.03", "fat_100g:2.1"], "nutriscore": "a", "scoreHealth": 89, "scoreEnvironment": 91, "finalScore": 97, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd6-photos.leclercdrive.fr/image.ashx?id=1711885&use=d&cat=p&typeid=i&width=300", "url": "https://fd6-courses.leclercdrive.fr/magasin-086701-e.leclerc-drive-strasbourg-marché-gare/fiche-produits-23025-Boisson-soja-du-sud-ouest-nature.aspx" }, { "id": "817", "name": "Yaourt Nature", "brand": "Délisse,Marque Repère,Scamark (Filiale E. Leclerc)", "priceUnit": "0.80", "priceMass": "0.98 €/KG", "ingredients": ["lait-partiellement-ecreme", "lactose-et-proteines-de-lait", "ferments-lactiques"], "packaging": ["Frais", "Pot", "Plastique", "Opercule"], "allergens": ["en:milk"], "nutriments": ["energy-kcal:43", "sugars_100g:4.5", "salt_100g:0.1", "fat_100g:1"], "nutriscore": "a", "scoreHealth": 89, "scoreEnvironment": 72, "finalScore": 93, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd6-photos.leclercdrive.fr/image.ashx?id=1871076&use=d&cat=p&typeid=i&width=300", "url": "https://fd6-courses.leclercdrive.fr/magasin-086701-e.leclerc-drive-strasbourg-marché-gare/fiche-produits-817-Yaourt-Nature.aspx" }, { "id": "822", "name": "Yaourts à la grecque au lait de brebis nature", "brand": "Délisse,Marque Repère", "priceUnit": "0.75", "priceMass": "1.82 €/KG", "ingredients": ["lait-de-brebis", "origine", "france", "creme-de-brebis", "origine", "france", "ferments-lactiques"], "packaging": [""], "allergens": ["en:milk"], "nutriments": ["sugars_100g:2.8", "fiber_100g:0.5", "salt_100g:0.1", "fat_100g:10"], "nutriscore": "c", "scoreHealth": 62, "scoreEnvironment": 79, "finalScore": 92, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd6-photos.leclercdrive.fr/image.ashx?id=1920963&use=d&cat=p&typeid=i&width=300", "url": "https://fd6-courses.leclercdrive.fr/magasin-086701-e.leclerc-drive-strasbourg-marché-gare/fiche-produits-822-Yaourts-à-la-grecque-au-lait-de-brebis-nature.aspx" }],
 [{ "id": "16063", "name": "Lot 2 sauces Pesto Rosso", "brand": "Barilla", "priceUnit": "1.72", "priceMass": "8.25 €/KG", "ingredients": ["pulpe-de-tomates-34", "8", "huile-de-tournesol", "concentre-de-tomate-15", "sirop-de-glucose", "fromage-grana-padano-aop-4", "lysozyme-d-oeuf", "noix-de-cajou", "sel", "basilic-2", "2", "vinaigre-balsamique-aceto-balsamico-di-modena-igp-2", "lactoserum-en-poudre", "fromage-pecorino-romano-aop-1", "sucre", "amidon-de-riz", "ail", "correcteur-d-acidite", "acide-lactique", "arome", "lait", "peut-contenir-des-traces-d-autres-fruits-a-coque"], "packaging": ["carton", "bocal verre", "couvercle métal"], "allergens": ["en:eggs,en:milk,en:nuts"], "nutriments": ["energy-kcal:324", "sugars_100g:7.5", "fiber_100g:2", "salt_100g:3", "fat_100g:28"], "nutriscore": "d", "scoreHealth": 45, "scoreEnvironment": 65, "finalScore": 45, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://images.openfoodfacts.org/images/products/807/680/953/8008/front_fr.20.400.jpg", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-16063-Lot-2-sauces-Pesto-Rosso.aspx" }, { "id": "82689", "name": "Pesto alla genovese bio", "brand": "Barilla", "priceUnit": "1.67", "priceMass": "12.05 €/KG", "ingredients": ["huile-de-tournesol", "basilic-31", "lactoserum-en-poudre", "noix-de-cajou", "sel", "fromage-parmigiano-reggiano-aop", "lait", "sucre", "huile-d-olive-extra-vierge", "aromes-naturels", "correcteur-d-acidite", "acide-lactique", "peut-contenir-des-traces-d-autres-fruits-a-coque", "ingredients-biologiques"], "packaging": ["verre", "métal", "bocal"], "allergens": ["en:milk,en:nuts"], "nutriments": ["energy-kcal:521", "sugars_100g:4.2", "fiber_100g:1", "salt_100g:3.2", "fat_100g:52"], "nutriscore": "e", "scoreHealth": 29, "scoreEnvironment": 66, "finalScore": 41, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd12-photos.leclercdrive.fr/image.ashx?id=1596547&use=d&cat=p&typeid=i&width=300", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-82689-Pesto-alla-genovese-bio.aspx" }, { "id": "177", "name": "Sauce tomate nature x 2", "brand": "Turini,Marque Repère", "priceUnit": "0.79", "priceMass": "1.95 €/KG", "ingredients": ["puree-de-tomates-m-reduite-81", "eau", "amidon-modifie-de-mais", "sucre", "oignons-0", "9", "sel", "huile-de-colza", "epice-et-plantes-aromatiques", "l"], "packaging": ["Conserve", "métal"], "allergens": [""], "nutriments": ["sugars_100g:5.4", "fiber_100g:2", "salt_100g:0.9", "fat_100g:0.7"], "nutriscore": "a", "scoreHealth": 89, "scoreEnvironment": 63, "finalScore": 66, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://fd12-photos.leclercdrive.fr/image.ashx?id=1256755&use=d&cat=p&typeid=i&width=300", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-177-Sauce-tomate-nature-x-2.aspx" }, { "id": "55083", "name": "Panzani - spf - sauce tomates cuisinées", "brand": "Panzani", "priceUnit": "0.79", "priceMass": "2.45 €/KG", "ingredients": ["puree-de-tomates-fraiches-avec-morceaux-et-purees-de-tomates-fraiches", "81", "legumes-frais", "iognons-9", "carottes-3", "5", "huile-de-tournesol", "sucre", "sel", "amidon-transforme-de-mais", "plantes-aromatiques", "aromes", "ail-frais"], "packaging": ["Bocal en verre", " Bocal", " fr:Pot en verre"], "allergens": [""], "nutriments": ["energy-kcal:58", "sugars_100g:5.3", "fiber_100g:1.9", "salt_100g:0.9", "fat_100g:2.6"], "nutriscore": "c", "scoreHealth": 63, "scoreEnvironment": 82, "finalScore": 60, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://images.openfoodfacts.org/images/products/303/835/900/5237/front_fr.66.400.jpg", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-55083-Panzani---spf---sauce-tomates-cuisinées.aspx" }, { "id": "186", "name": "Pâtes Mini Penne Rigate", "brand": "Barilla,Barilla Piccolini", "priceUnit": "0.74", "priceMass": "1.50 €/KG", "ingredients": ["semoule-de-ble-dur", "eau", "peut-contenir-des-traces-de-soja"], "packaging": ["Carton", "Boîte", " produkt"], "allergens": ["en:gluten"], "nutriments": ["energy-kcal:359", "sugars_100g:3.5", "fiber_100g:3", "salt_100g:0.013", "fat_100g:2"], "nutriscore": "a", "scoreHealth": 89, "scoreEnvironment": 72, "finalScore": 68, "packagingQuantity": null, "itemQuantity": 1, "photo": "https://images.openfoodfacts.org/images/products/807/680/952/1581/front_fr.61.400.jpg", "url": "https://fd12-courses.leclercdrive.fr/magasin-056701-e.leclerc-drive-erstein/fiche-produits-186-Pâtes-Mini-Penne-Rigate.aspx" }],
@@ -37,8 +37,6 @@ const RemoveFromSessionStorage = (product: Product, basket: Product[], setBasket
 };
 
 const AddToSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
-    console.log(basket);
-    console.log(product);
     let newBasket: Product[] = [];
     let modifiedItsQuantity = false;
 
@@ -87,12 +85,12 @@ const DiscountsPage = () => {
 
     useEffect(() => {
         if (window != null) {
-            let tmpBasket: Product[] = [];
+            // let tmpBasket: Product[] = [];
 
             if (sessionStorage.getItem('currentCart')) {
                 let jsonString: any = sessionStorage.getItem('currentCart');
                 let currentCart: any = JSON.parse(jsonString);
-                tmpBasket = currentCart;
+                // tmpBasket = currentCart;
                 setBasket(currentCart);
             }
         }
@@ -104,21 +102,21 @@ const DiscountsPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header  {...{ theme, SetTheme }} />
-            <Grid container justify='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
+            <Grid container justifyContent='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
                 <Grid item style={{ position: 'relative', justifyContent: 'flex-end' }}>
                     <Button style={{ marginLeft: '20px' }} variant={"outlined"} color='secondary' href='/shop'>
                         <Typography
-                            variant='caption'>Go back shopping
+                            variant='caption'>{t("label.discount.return")}
                         </Typography>
                     </Button>
                 </Grid>
             </Grid>
-            <Grid container justify={"center"} style={{ marginTop: "40px" }}>
+            <Grid container justifyContent={"center"} style={{ marginTop: "40px" }}>
                 <Grid item xs={4}>
-                    <TextField onChange={(e) => setFilterText(e.target.value)} fullWidth value={filterText} id="standard-basic" label="Search bar" color="secondary" />
+                    <TextField onChange={(e) => setFilterText(e.target.value)} fullWidth value={filterText} id="standard-basic" label={t("label.searchBar")} color="secondary" />
                 </Grid>
             </Grid>
-            {loading === false && data !== undefined ?
+            {!loading && data !== undefined ?
                 <DiscountList discountsArray={discountArrayFiltered} basket={basket} Add={AddToSessionStorage} Remove={RemoveFromSessionStorage} setBasket={setBasket} /> : <></>
             }
             <Footer />

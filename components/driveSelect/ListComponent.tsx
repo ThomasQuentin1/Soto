@@ -1,27 +1,8 @@
-import { Typography, Button, Grid, Box } from '@material-ui/core';
+import { Typography, Button, Grid, Box } from '@mui/material';
 import React, { useState } from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-// import CloseIcon from '@material-ui/icons/Close';
 import { useSetShopMutation } from 'typing';
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import {useTranslation} from "react-i18next";
-
-// const useStyles = makeStyles({
-//     root: {
-//       minWidth: 275,
-//     },
-//     bullet: {
-//       display: 'inline-block',
-//       margin: '0 2px',
-//       transform: 'scale(0.8)',
-//     },
-//     title: {
-//       fontSize: 14,
-//     },
-//     pos: {
-//       marginBottom: 12,
-//     },
-//   });
 
 interface ListComponentProps {
     index: number;
@@ -34,9 +15,6 @@ interface ListComponentProps {
 }
 
 const ListComponent = ({index, name, city, id, isToggled, ChangeMyValueCallback, ResetAllSelected} : ListComponentProps) => {
-    // const classes = useStyles();
-
-    // const [isToggled, setIsToggled] = useState(false);
     const [shopSetted, isShopSetted] = useState(false);
     const [t] = useTranslation();
 

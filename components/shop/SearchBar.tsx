@@ -1,13 +1,12 @@
-import { Button, Divider, Input, InputAdornment, Paper } from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grid from "@material-ui/core/Grid";
+import { Button, Divider, Input, InputAdornment, Paper } from "@mui/material";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grid from "@mui/material/Grid";
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import SearchBarItem from "./SeachBarItem";
 import SearchBarLoadingItem from "./SeachBarLoadingItem";
 import {useSearchProductLazyQuery, Product} from "../../typing";
-import {Clear, Search} from "@material-ui/icons";
-// import {AddToBasketAndSessionStorageFromSearchTMP} from "../../pages/shop";
+import {Clear, Search} from "@mui/icons-material";
 
 // this data contains only fields that are requested
 const GetSelectedNbProducts = (data: any, itemsNb: number) => {

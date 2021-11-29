@@ -4,8 +4,8 @@ import {useTranslation} from "react-i18next";
 import {useSetCriterionsMutation} from "../../typing";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import {Player} from '@lottiefiles/react-lottie-player';
-import {Grid, Switch} from "@material-ui/core";
-import {Reorder} from "@material-ui/icons";
+import {Grid, Switch} from "@mui/material";
+import {Reorder} from "@mui/icons-material";
 
 export interface CriteriaData {
     id: number
@@ -84,10 +84,11 @@ const DragList = (props: Props) => {
                                             listTmp[index!].activated = !value.activated
                                             setItems(listTmp)
                                             criteriaMutation().then(res => {
+                                                // TODO Traduction
                                                 if (!res) {
                                                     notifyError("Criteria saving failed")
                                                 } else {
-                                                    notifySuccess("New Criterias are now saved")
+                                                    notifySuccess("New Criteria are now saved")
                                                 }
                                             })
                                         }}/>

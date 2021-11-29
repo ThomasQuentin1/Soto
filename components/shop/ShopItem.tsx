@@ -1,50 +1,14 @@
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import ShopItemProps from 'interfaces/ShopItem';
-import { Button, Typography, Tooltip } from '@material-ui/core';
-import Zoom from '@material-ui/core/Zoom';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Button, Typography, Tooltip } from '@mui/material';
+import Zoom from '@mui/material/Zoom';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Product } from 'typing';
 import { color } from "../../styles/globalStyle";
-
-// const color = {
-//     dark_red: "#ff0000",
-//     red: "#ff6821",
-//     orange: "#ffb300",
-//     green: "#bbff29",
-//     dark_green: "#00ff00",
-//     dark_red_alpha: "#ff000088",
-//     red_alpha: "#ff682188",
-//     orange_alpha: "#ffb30088",
-//     green_alpha: "#bbff2988",
-//     dark_green_alpha: "#00ff0088",
-// };
-
-// const reduceQuantity = (quantity: number, basket: Product[], setBasket: any, index: number) => {
-//     let newBasket: Product[] = [];
-//     basket.map((item) => newBasket.push(item));
-//     newBasket[index].itemQuantity = quantity - 1;
-//     setBasket(newBasket);
-// }
-
-// const increaseQuantity = (quantity: number, basket: Product[], setBasket: any, index: number) => {
-//     let newBasket: Product[] = [];
-//     basket.map((item) => newBasket.push(item));
-//     newBasket[index].itemQuantity = quantity + 1;
-//     setBasket(newBasket);
-// }
-
-// const removeFromBasket = (basket: Product[], setBasket: any, index: number) => {
-//     let newBasket: Product[] = [];
-//     basket.map((item, indexOldBasket) => {
-//         if (indexOldBasket !== index)
-//             newBasket.push(item)
-//     });
-//     setBasket(newBasket);
-// }
 
 const firstLetterCap = (str: string) => {
     return str.charAt(0).toUpperCase() + str.substr(1, str.length)

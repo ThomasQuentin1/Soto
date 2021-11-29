@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Grid, Stepper, Step, StepLabel, Button } from "@material-ui/core";
+import { Card, Grid, Stepper, Step, StepLabel, Button } from "@mui/material";
 import PaymentInformation from "components/payment/PaymentInformations";
 import SummaryAndValidation from "components/payment/SummaryAndValidation";
 import { Cart } from "typing";
@@ -66,7 +66,7 @@ const PaymentContainer = ({cart, loading} : PaymentContainerProps) => {
                         </Stepper>
                     </Grid>
                     {activeStep === 0 ? <PaymentInformation cart={cart} loading={loading} cardValues={cardValues} setCardValues={setCardValues} expirationDateValues={expirationDateValues} setExpirationDateValues={setExpirationDateValues} cryptogramValues={cryptogramValues} setCryptogramValues={setCryptogramValues} userName={userName} setUserName={setUserName} setNextButtonEnabled={setNextButtonEnabled} zipCodeValues={zipCodeValues} setZipCodeValues={setZipCodeValues} city={city} setCity={setCity} fullAdress={fullAdress} setFullAdress={setFullAdress}/> : <SummaryAndValidation cart={cart} cardValues={cardValues} expirationDateValues={expirationDateValues} cryptogramValues={cryptogramValues} userName={userName} fullAdress={fullAdress} zipCode={zipCodeValues.textmask}/>}
-                    <Grid container justify={"center"} style={{margin: "5px"}} spacing={3}>
+                    <Grid container justifyContent={"center"} style={{margin: "5px"}} spacing={3}>
                         <Grid item>
                             <Button disabled={activeStep === 0} onClick={() => handleBack(setActiveStep)}>
                                 Retour

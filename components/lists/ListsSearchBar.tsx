@@ -1,7 +1,7 @@
 // import { useLazyQuery, gql } from "@apollo/client";
-import {Divider, Input, Paper} from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grid from "@material-ui/core/Grid";
+import {Divider, Input, Paper} from "@mui/material";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grid from "@mui/material/Grid";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ListsSearchBarItem from "./ListsSeachBarItem";
@@ -27,31 +27,6 @@ const handleClickAway = (setOpen: any) => {
   setOpen(false);
 };
 
-// const ObligationsQuery = () => {
-//   const {loading, data, error} = useObligationsQuery();
-//   let array : ObligationInput[] = [];
-//   data.obligations.forEach((elem) => {
-//     const newElem : ObligationInput = {id: elem.id}
-//     array.push(newElem);
-//   });
-//   return array;
-// }
-
-// const CriterionsQuery = () => {
-//   const {loading, data, error} = useCriterionsQuery();
-//   let array : CriterionInput[] = [];
-//   data.criterions.forEach((elem) => {
-//     const newElem : CriterionInput = {id: elem.id, position: elem.position}
-//     array.push(newElem);
-//   });
-//   return array;
-// }
-
-// const AccountQuery = () => {
-//   const {loading, data, error} = useAccountQuery();
-//   return data.currentShop.id;
-// }
-
 interface ListsSearchBarProps {
     AddToCart: any;
     lists: List[];
@@ -70,9 +45,6 @@ const ListsSearchBar = ({AddToCart, lists, setBasket, activeList} : ListsSearchB
     },
   });
  
-  // const dataObligations = ObligationsQuery();
-  // const dataCriterions = CriterionsQuery();
-  // const dataAccount = AccountQuery();
   if (error) {
     console.log(error);
     console.error("There is an error while making the search request");
@@ -121,7 +93,6 @@ const ListsSearchBar = ({AddToCart, lists, setBasket, activeList} : ListsSearchB
             threeFirstProducts.length != 0 &&
             threeFirstProducts.sort((a, b) => b.scoreHealth! - a.scoreHealth!).map((product, index) => {
               return (
-                // <Grid item xs={12} key={index}>
                   <div key={index}>
                   <ListsSearchBarItem
                     key={index}
@@ -136,8 +107,6 @@ const ListsSearchBar = ({AddToCart, lists, setBasket, activeList} : ListsSearchB
                     index < 2 ? <Divider/> : <></>
                   }
                   </div>
-
-                // </Grid>
               );
             })}
         </Paper>

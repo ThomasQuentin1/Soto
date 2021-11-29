@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
 import { useAccountQuery, useSubscribeNotificationsMutation } from 'typing';
-import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button, TextField } from '@material-ui/core';
+import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button, TextField } from '@mui/material';
 import { notifyError, notifySuccess } from "public/notifications/notificationsFunctions";
 import Router from "next/router";
 import Cookies from "js-cookie";
@@ -94,7 +94,7 @@ const Header = ({ theme, SetTheme }: Props) => {
                         }
                         SetBasketListOpen(false)
                     }}>
-                    <Grid alignItems="center" justify="center" className={"profile-icon"} onClick={() => {
+                    <Grid alignItems="center" justifyContent="center" className={"profile-icon"} onClick={() => {
                         SetBasketListOpen(!isBasketListOpen)
                         if (isProfileCardOpen) {
                             SetOpenProfileCard(false);
@@ -162,13 +162,13 @@ const Header = ({ theme, SetTheme }: Props) => {
                                 </Grid>
                             }
                             <Grid container direction="column">
-                                {isSignedInNewsletter === false ? <Button onClick={() => SetNewsletterCardOpen(!newsletterCardOpen)}>Inscription à la newsletter</Button> : <Button onClick={() => {
+                                {!isSignedInNewsletter ? <Button onClick={() => SetNewsletterCardOpen(!newsletterCardOpen)}>Inscription à la newsletter</Button> : <Button onClick={() => {
                                     localStorage.removeItem("signedInNewsletter")
                                     SetIsSignedInNewsletter(false)
                                 }}>Se désinscrire de la newsletter</Button>}
 
                                 {data && data.account &&
-                                    <Grid container justify="center">
+                                    <Grid container justifyContent="center">
                                         <Grid item xs={12}>
                                             <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
                                         </Grid>
@@ -182,7 +182,7 @@ const Header = ({ theme, SetTheme }: Props) => {
                                 }
                                 <Divider style={{ marginTop: "10px", marginBottom: "10px" }} className="header-menu-divider  divider" />
                             </Grid>
-                            <Grid container justify="center" alignItems="center">
+                            <Grid container justifyContent="center" alignItems="center">
                                 <Grid item xs={8}>
                                     <Typography style={{ fontSize: "1rem" }}>{t("label.changeTheme")}</Typography>
                                 </Grid>
@@ -192,7 +192,7 @@ const Header = ({ theme, SetTheme }: Props) => {
                                         onChange={SetTheme}
                                     />
                                 </Grid>
-                                {data && data !== undefined &&
+                                {data &&
                                     <Grid>
                                         <Button color="secondary" onClick={() => {
                                             Cookies.remove("token")

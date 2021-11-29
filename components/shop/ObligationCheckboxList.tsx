@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next"
 import {useSetObligationsMutation} from "../../typing";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
-import {Switch, Typography} from "@material-ui/core";
+import {Switch, Typography} from "@mui/material";
 
 export interface CheckBoxData {
     id: number
@@ -37,7 +37,7 @@ const ObligationCheckboxList = (data : ObligationCheckboxListProps) => {
     }
 
     return (
-        <div>
+        <div style={{margin: "1em 0"}}>
             {list.map((item) => {
                 return (
                     <div className="dFlex criteria_drag_list_elem" style={{justifyContent: "space-between"}}>

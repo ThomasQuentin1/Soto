@@ -1,9 +1,4 @@
 import React from "react";
-// import NoSsr from "@material-ui/core/NoSsr";
-// import {
-//   ThemeProvider as ThemeProviderMui,
-//   Theme,
-// } from "@material-ui/core/styles";
 import { ThemeProvider as ThemeProviderMainStyle } from "styled-components";
 import { useDarkMode } from "../settings/useDarkMode";
 import muiDarkTheme from "../../themes/mui/mainDarkTheme";
@@ -40,14 +35,12 @@ const DarkModeParent = (props: DarkModeParentInterface) => {
   siteThemeMode = realTheme === "light" ? lightTheme : darkTheme;
 
   return (
-    // <NoSsr>
       <ThemeProviderMainStyle theme={siteThemeMode}>
         <GlobalStyles />
         <ThemeProviderMui<Theme> theme={muiThemeMode}>
           {props.children}
         </ThemeProviderMui>
       </ThemeProviderMainStyle>
-    // </NoSsr>
   );
 };
 

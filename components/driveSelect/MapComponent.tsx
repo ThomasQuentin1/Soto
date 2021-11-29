@@ -1,9 +1,10 @@
-import { Typography, Card, CardContent, Button } from '@material-ui/core';
+import { Typography, Card, CardContent, Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close'
+import RoomIcon from '@mui/icons-material/Room'
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import RoomIcon from '@material-ui/icons/Room';
-import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@mui/styles';
 import { useSetShopMutation } from 'typing';
+
 
 const useStyles = makeStyles({
     root: {

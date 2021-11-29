@@ -5,7 +5,7 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import {useTranslation} from "react-i18next";
 import '../i18n'
-import {Button, Typography} from "@material-ui/core";
+import {Button, Typography} from "@mui/material";
 import {notifySuccess} from "../public/notifications/notificationsFunctions";
 
 const LoginPage = () => {

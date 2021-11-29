@@ -1,7 +1,7 @@
 import React from "react";
-import {AccessibilityNew, ArrowForwardIosRounded, Language, ShoppingCart, Storefront} from "@material-ui/icons";
+import {AccessibilityNew, ArrowForwardIosRounded, Language, ShoppingCart, Storefront} from "@mui/icons-material";
 import Router from "next/router";
-import {Typography} from "@material-ui/core";
+import {Typography} from "@mui/material";
 
 
 interface Props {

@@ -2,9 +2,9 @@ import React from 'react'
 import ParametersSelect from "components/shop/ParametersSelect";
 import ListsSearchBar from "components/lists/ListsSearchBar";
 import { List } from "pages/lists";
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 interface ListsSearchWrapperProps {
     AddToCart: any;

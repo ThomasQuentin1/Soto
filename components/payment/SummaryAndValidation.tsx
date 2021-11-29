@@ -1,6 +1,6 @@
 import React from "react";
 import { Cart } from "typing";
-import { GridList, Grid, TextField, GridListTile } from "@material-ui/core";
+import {Grid, ImageList, ImageListItem, TextField} from "@mui/material";
 import SummaryCartItem from "components/payment/SummaryCartItem";
 
 interface SummaryAndValidationProps {
@@ -20,16 +20,16 @@ const SummaryAndValidation = ({cart, cardValues, userName, zipCode, fullAdress} 
     return (
         <Grid container>
             <Grid item xs={6} style={{paddingLeft:"20px"}}>
-                <GridList cols={2} cellHeight={"auto"} style={{height: "300px"}}>
+                <ImageList cols={2} rowHeight={"auto"} sx={{height: "300px"}}>
                     {cart && cart.products.map((item, index) => {
                         return (
-                            <GridListTile cols={1} key={index}>
-                                <SummaryCartItem product={item}></SummaryCartItem>
-                            </GridListTile>
+                            <ImageListItem cols={1} key={index}>
+                                <SummaryCartItem product={item}/>
+                            </ImageListItem>
                         )
                     })}
 
-                </GridList>
+                </ImageList>
             </Grid>
             <Grid item xs={6}>
                 <Grid container spacing={3}>
@@ -38,7 +38,7 @@ const SummaryAndValidation = ({cart, cardValues, userName, zipCode, fullAdress} 
                             color="secondary"
                             size="small"
                             label="Numéro de carte"
-                            defaultValue={cardValues != undefined ? hiddenCardValue : ""}
+                            defaultValue={hiddenCardValue}
                             variant="outlined"
                             InputProps={{
                                 readOnly: true,

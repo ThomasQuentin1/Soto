@@ -6,10 +6,10 @@ import Footer from "../components/global/Footer";
 import { useTranslation } from "react-i18next";
 import '../i18n'
 import { FavoredListObject } from "../components/shop/PriceBanner";
-import { CardMedia, Checkbox, Divider, MenuItem, Paper, Select, Typography } from "@material-ui/core";
+import { CardMedia, Checkbox, Divider, MenuItem, Paper, Select, Typography } from "@mui/material";
 import { notifyError } from "../public/notifications/notificationsFunctions";
-import Grid from "@material-ui/core/Grid";
-import { FiberManualRecord } from "@material-ui/icons";
+import Grid from "@mui/material/Grid";
+import { FiberManualRecord } from "@mui/icons-material";
 import { selectColor } from "../styles/globalStyle";
 
 const CheckListPage = () => {
@@ -88,7 +88,7 @@ const CheckListPage = () => {
                             </div>
                             <Divider className="divider" />
                             <div>
-                                <Grid container direction='row' justify='space-evenly' wrap='wrap' style={{ paddingTop: '20px' }}
+                                <Grid container direction='row' justifyContent='space-evenly' wrap='wrap' style={{ paddingTop: '20px' }}
                                     spacing={2}>
                                     {
                                         favList.length > 0 && favList[listIndex].products.map((elem, index) => {

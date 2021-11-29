@@ -4,7 +4,7 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import ListsSearchWrapper from "../components/lists/ListsSearchWrapper";
 import ListsShopList from "components/lists/ListsShopList";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
 import { Product, useAddToCartMutation, useOldCartsQuery, Cart } from 'typing';
@@ -176,7 +176,7 @@ const ListsPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header {...{ theme, SetTheme }} />
-            <Grid container justify="center" style={{ marginTop: '10px', height: "80%" }}>
+            <Grid container justifyContent="center" style={{ marginTop: '10px', height: "80%" }}>
                 <Grid item xs={4}>
                     <ListsSearchWrapper AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists} CreateList={CreateList} activeList={activeList} />
                 </Grid>

@@ -1,13 +1,13 @@
-import {Button, Divider, Step, StepLabel, Stepper, Typography} from "@mui/material";
 import React, {useState} from "react";
+import {Button, Divider, Step, StepLabel, Stepper, Typography} from "@mui/material";
 import {sha256} from "js-sha256";
 import Step1 from "./stepper/Step1";
 import Step2 from "./stepper/Step2";
+import Step3 from "./stepper/Step3";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
 import {useCriterionsQuery, useRegisterMutation} from "../../typing";
 import Router from "next/router";
-import Step3 from "./stepper/Step3";
 import {TFunction} from "i18next";
 
 interface Props {
@@ -81,9 +81,7 @@ const Register = (props: Props) => {
         if (activeStep === 0) {
             checkRegisterValues().then(r1 => {
                 if (r1) {
-                    console.log(r1)
                     register().then(r => {
-                console.log(r)
                         if (r.errors) {
                             notifyError(props.t(r.errors[0].message))
                         } else {

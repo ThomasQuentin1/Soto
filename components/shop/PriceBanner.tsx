@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
-import { Button, Typography, Container } from '@material-ui/core';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { Button, Typography, Container } from '@mui/material';
 import { useTranslation } from "react-i18next"
 import PriceBannerProps from 'interfaces/PriceBanner';
 import { Product, useConfirmCartMutation, useAddToCartMutation } from 'typing';

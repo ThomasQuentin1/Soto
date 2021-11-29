@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import '../i18n'
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import {useDarkMode} from "../components/settings/useDarkMode";
-import {Button, Paper, Typography} from "@material-ui/core";
+import {Button, Paper, Typography} from "@mui/material";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import { useAccountQuery } from "../typing";
@@ -11,7 +11,7 @@ import { useAccountQuery } from "../typing";
 import Router from "next/router"
 import CellComponent from "../components/profile/CellComponent";
 import { lngFullName } from "../public/values";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ProfilePage = () => {
     const [t, i18n] = useTranslation();

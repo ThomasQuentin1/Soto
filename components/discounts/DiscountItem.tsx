@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import { Button, Typography, Tooltip } from '@material-ui/core';
-import Zoom from '@material-ui/core/Zoom';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import { Box, Grid, Container, Button, Typography, Tooltip } from '@mui/material';
+import Zoom from '@mui/material/Zoom';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Product } from 'typing';
 import { color } from "../../styles/globalStyle";
 
@@ -20,7 +17,7 @@ interface DiscountItemProps {
     Remove: any;
 }
 
-const DiscountItem = ({ product, Add, basket, setBasket, Remove }: DiscountItemProps) => {
+const DiscountItem = ({ product, Add, basket, setBasket }: DiscountItemProps) => {
 
     let scoreColorAlpha: string = color.red_alpha; // red
     let scoreColor: string = color.red;

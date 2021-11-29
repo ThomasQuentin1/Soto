@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { useTranslation } from 'react-i18next';
 import '../i18n'
 import RightPanel from "../components/encapsulationComponents/RightPanel";

@@ -118,6 +118,9 @@ const resources = {
         "label.criteriaAndObligations" : "Criteria and Obligations",
         "description.criteriaAndObligations" : "Change your selection of criteria and obligations",
 
+        "label.discount.return" : "Go back shopping",
+        "label.searchBar" : "Search Bar",
+
         "label.driveSelection" : "Change your drive",
         "description.driveSelection" : "Choose your drive",
 
@@ -280,6 +283,9 @@ const resources = {
         "label.darkTheme" : "Thème sombre",
         "label.changeTheme" : "Choisir son thème",
         "label.themeSelection.helperText" : "Si ce champ est activé, le thème sombre sera appliqué. Sinon ce sera le thème clair",
+
+        "label.discount.return" : "Retour",
+        "label.searchBar" : "Barre de recherche",
 
         "label.criteriaAndObligations" : "Critères et obligations",
         "description.criteriaAndObligations" : "Changer sa sélection de critères et d'obligations",
@@ -485,6 +491,9 @@ const resources = {
       // -------------------- ABOVE IS TESTED -------------------- //
 
       "label.listName" : "AAA",
+
+      "label.discount.return" : "AAA",
+      "label.searchBar" : "AAA",
     }
   }
 };
