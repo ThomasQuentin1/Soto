@@ -43,19 +43,6 @@ const RemoveFromBasketAndSessionStorage = (product: Product, basket: Product[], 
     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
 };
 
-// export const AddToBasketAndSessionStorageFromSearchTMP = (products: Product[], basket: Product[], setBasket: any) => {
-//     let newBasket: Product[] = [];
-//
-//     basket.map((item) => { newBasket.push(item); });
-//     products.map((product) => {
-//         let tmpProduct = Object.assign({}, product);
-//         tmpProduct.itemQuantity = 1
-//         newBasket.push(tmpProduct);
-//     })
-//     setBasket(newBasket);
-//     sessionStorage.setItem('currentCart', JSON.stringify(newBasket));
-// };
-
 const AddToBasketAndSessionStorage = (product: Product, basket: Product[], setBasket: any) => {
     let newBasket: Product[] = [];
     let modifiedItsQuantity = false;
@@ -200,7 +187,7 @@ const ShopPage = () => {
     return (
         <DarkModeParent theme={tmpTheme}>
             <Header  {...{ theme, SetTheme }} />
-            <Grid container justifyContent="center" style={{ marginTop: '10px', maxHeight: "80vh" }}>
+            <Grid container justifyContent="center" style={{ marginTop: '10px' }}>
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />
                 </Grid>

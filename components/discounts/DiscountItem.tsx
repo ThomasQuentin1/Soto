@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, Container, Button, Typography, Tooltip } from '@mui/material';
+import {Box, Grid, Container, Button, Typography, Tooltip, CardMedia} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Product } from 'typing';
@@ -69,6 +69,10 @@ const DiscountItem = ({ product, Add, basket, setBasket }: DiscountItemProps) =>
                         }} />
                     </div>
                     <Container style={{ marginBottom: '5px', marginTop: '10px' }}>{product.name}</Container>
+                    <CardMedia
+                        style={{width: '100%', height: '100%', aspectRatio: "auto 350/350", margin: "10px 0"}}
+                        image={product.photo ?? "error"}>
+                    </CardMedia>
                     <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                     <Box maxWidth="xs" style={{
                         display: 'flex',
@@ -125,6 +129,10 @@ const DiscountItem = ({ product, Add, basket, setBasket }: DiscountItemProps) =>
                         }} />
                     </div>
                     <Container style={{ marginBottom: '5px', marginTop: '10px' }}>{product.name}</Container>
+                    <CardMedia
+                        style={{width: '100%', height: '100%', aspectRatio: "auto 350/350", margin: "10px 0"}}
+                        image={product.photo ?? "error"}>
+                    </CardMedia>
                     <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                     <Box maxWidth="xs" style={{
                         display: 'flex',
