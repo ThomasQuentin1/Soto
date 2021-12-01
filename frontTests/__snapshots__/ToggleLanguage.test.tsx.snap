@@ -3,10 +3,11 @@
 exports[`ToggleLanguague is the components that display the button which change the language 1`] = `
 <div>
   <button
-    className="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSecondary"
+    className="MuiButton-root MuiButton-contained MuiButton-containedSecondary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root css-zcbmsk-MuiButtonBase-root-MuiButton-root"
     disabled={false}
     onBlur={[Function]}
     onClick={[Function]}
+    onContextMenu={[Function]}
     onDragLeave={[Function]}
     onFocus={[Function]}
     onKeyDown={[Function]}
@@ -20,11 +21,7 @@ exports[`ToggleLanguague is the components that display the button which change 
     tabIndex={0}
     type="button"
   >
-    <span
-      className="MuiButton-label"
-    >
-      Changer pour anglais
-    </span>
+    Changer pour anglais
   </button>
 </div>
 `;
