@@ -19,7 +19,7 @@ jobs:
       - name: Install nvm
         uses: dcodeIO/setup-node-nvm@master
         with:
-          node-version: "${{ steps.nvm.outputs.NVMRC }}"
+          node-version: "14.0.0"
 
       - name: Install the dependencies
         run: yarn
