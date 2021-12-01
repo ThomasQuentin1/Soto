@@ -25,11 +25,32 @@ const DragList = (props: Props) => {
 
     const [criteriaMutation] = useSetCriterionsMutation({
         variables: {
-            criterias: items.map(function (item, index) {
+            criterias: items.filter(function (item) {
+                return item.activated
+            }).map(function (item, index) {
                 return {id: item.id, position: index + 1}
             })
         }
     })
+
+    const setItemsPromise = (itemsTmp: CriteriaData[]) => {
+        return new Promise(resolve => {
+            setItems(itemsTmp)
+            resolve()
+        })
+    }
+
+    function callMutation()  {
+        console.log(items)
+        criteriaMutation().then(res => {
+            if (!res) {
+                notifyError("Criteria saving failed")
+            } else {
+                notifySuccess("New Criterias are now saved")
+            }
+        })
+    }
+
     return (
         <>
             <Grid container>
@@ -42,13 +63,7 @@ const DragList = (props: Props) => {
                             items.forEach((elem, index) => {
                                 elem.position = index + 1
                             })
-                            criteriaMutation().then(res => {
-                                if (!res) {
-                                    notifyError("Criteria saving failed")
-                                } else {
-                                    notifySuccess("New Criterias are now saved")
-                                }
-                            })
+                            callMutation()
                         }}
                         renderList={({children, props}) =>
                             <ul
@@ -80,17 +95,12 @@ const DragList = (props: Props) => {
                                     <div className="dFlex alignCenter">
                                         <Switch checked={value.activated} color="secondary" onClick={() => {
                                             let listTmp: CriteriaData[] = []
-                                            items.forEach((elem) => {listTmp.push(elem)})
-                                            listTmp[index!].activated = !value.activated
-                                            setItems(listTmp)
-                                            criteriaMutation().then(res => {
-                                                // TODO Traduction
-                                                if (!res) {
-                                                    notifyError("Criteria saving failed")
-                                                } else {
-                                                    notifySuccess("New Criteria are now saved")
-                                                }
+                                            items.forEach((elem) => {
+                                                listTmp.push(elem)
                                             })
+                                            listTmp[index!].activated = !value.activated
+                                            setItemsPromise(listTmp).then(() => callMutation())
+
                                         }}/>
                                         <Reorder/>
                                     </div>

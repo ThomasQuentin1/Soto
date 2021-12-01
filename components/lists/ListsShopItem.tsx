@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { List } from "pages/lists";
-import { Button, Typography, Tooltip } from '@mui/material';
+import {Button, Typography, Tooltip, CardMedia} from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -79,6 +79,10 @@ const ListsShopItem = ({product, AddToCart, lists, setBasket, RemoveFromCart, ac
                     <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${product.scoreHealth}%`}}/>
                 </div>
                 <Container style={{marginBottom: '5px', marginTop: '10px'}}>{product.name}</Container>
+                <CardMedia
+                    style={{width: '100%', height: '100%', aspectRatio: "auto 350/350", margin: "10px 0"}}
+                    image={product.photo ?? "error"}>
+                </CardMedia>
                 <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
@@ -104,6 +108,10 @@ const ListsShopItem = ({product, AddToCart, lists, setBasket, RemoveFromCart, ac
                     <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${product.scoreHealth}%`}}/>
                 </div>
                 <Container style={{marginBottom: '5px', marginTop: '10px'}}>{product.name}</Container>
+                <CardMedia
+                    style={{width: '100%', height: '100%', aspectRatio: "auto 350/350", margin: "10px 0"}}
+                    image={product.photo ?? "error"}>
+                </CardMedia>
                 <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}

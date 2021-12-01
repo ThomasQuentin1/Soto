@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import Skeleton from '@mui/lab/Skeleton';
+import {Skeleton} from "@mui/material";
 
 const SearchBarLoadingItem = () => {
     return (
