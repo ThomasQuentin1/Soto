@@ -166,6 +166,9 @@ const resources = {
         "label.milestones.step5" : " Presentation of the project to a jury",
         "label.copyEmail" : "Copy this email",
         "notification.copyEmail" : "Email copied",
+        "criteria.lowCalories" : "Low calories",
+        "criteria.highProtein": "High proteins",
+        "obligation.no_lactose": "lactose free"
 
       }
     },
@@ -336,6 +339,9 @@ const resources = {
         "label.milestones.step5" : "Présentation du projet devant un jury",
         "label.copyEmail" : "Copier cet email",
         "notification.copyEmail" : "Email copié",
+        "criteria.lowCalories" : "faible en calorie",
+        "criteria.highProtein": "taux élévé de protéine",
+        "obligation.no_lactose": "sans lactose"
       }
     },
   test: {

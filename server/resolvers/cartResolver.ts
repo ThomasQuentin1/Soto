@@ -17,7 +17,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[], criterions?: an
         `SELECT priceUnit FROM products${rawCart[0].driveId} WHERE leclercId = ? LIMIT 1`,
         [rawCart[0].productId]
       );
-      totalPrice += products[0].priceUnit;
+      totalPrice += +products[0].priceUnit;
     })
   );
 
@@ -32,7 +32,7 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[], criterions?: an
         if (!newestDate || newestDate?.date < d) newestDate = d;
         return newestDate;
       }, null)?.date ?? new Date(),
-    price: totalPrice,
+    price: isNaN(totalPrice) ? 0 : totalPrice,
     products: rawCart.map<Product>((r) => ({
       ...r,
       id: r.leclercId.toString(),
@@ -40,12 +40,16 @@ const createCartFromRawData = async (shop: Shop, rawCart: any[], criterions?: an
       ingredients: r.ingredients?.split("|") ?? [],
       nutriments: r.nutriments?.split("|") ?? [],
       packaging: r.packaging?.split("|") ?? [],
-      scoreEnvironment: r.environmentScore,
-      scoreHealth: r.healthscore,
+      scoreEnvironment: NanToNullAndRound(r.environmentScore),
+      scoreHealth: NanToNullAndRound(r.healthscore),
+      scorePromotion: r.promotionScore,
+      //@ts-ignore
+      scoreHighProtein: r.highProteinScore,
+      //@ts-ignore
+      scoreLowCalories: r.lowCaloriesScore,
       cartId: undefined,
-      photo: `https://${shop!.server}-photos.leclercdrive.fr/image.ashx?id=${
-        r.leclercId
-      }&use=d&cat=p&typeid=i&width=300`,
+      photo: r.photo,
+      pricePromotion: r.promotion,
       url: `https://${shop!.server}-courses.leclercdrive.fr/magasin-${
         shop!.code
       }-${shop?.name.toLocaleLowerCase().replace(/ /g, "-")}/fiche-produits-${
@@ -101,7 +105,6 @@ export const cartResolvers: Resolvers = {
         };
       });
 
-       
 
       const rawCart = await usersQuery<any>(
         `SELECT * FROM carts JOIN products${context.user.shopId} ON carts.productId = products${context.user.shopId}.leclercId WHERE carts.id = ?`,
