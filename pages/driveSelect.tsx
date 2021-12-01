@@ -21,6 +21,7 @@ const DriveSelectPage = () => {
 
     return (
         <div>
+            <title>Sélection de drive</title>
             <DarkModeParent theme={tmpTheme}>
                 <Header {...{ theme, SetTheme }} />
                 <div>

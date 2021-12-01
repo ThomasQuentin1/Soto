@@ -35,6 +35,7 @@ const HistoryPage = () => {
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
+                <title>Historique</title>
                 <Header {...{ theme, SetTheme }} />
                 <Grid container direction='column'>
                     <Grid container direction='column'>

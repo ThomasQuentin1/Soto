@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
-import {Typography, Grid, Button} from '@mui/material';
+import React, { useEffect } from 'react';
+import { Typography, Grid, Button } from '@mui/material';
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
-import {useDarkMode} from "../components/settings/useDarkMode";
+import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from 'components/global/Header';
 import '../i18n'
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import {
     Timeline,
     TimelineConnector,
@@ -61,21 +61,23 @@ const Index = () => {
 
     return (
         <DarkModeParent theme={usedTheme}>
-            <Header  {...{theme, SetTheme}} />
+            <link rel="canonical" href="https://soto.app/" />
+            <title>Soto</title>
+            <Header  {...{ theme, SetTheme }} />
             <div>
-                <div style={{display: "flex", justifyContent: "center", marginTop: "10px"}}>
-                    <a style={{marginRight: "5px"}}
-                       href={"https://apps.apple.com/us/app/discord-talk-chat-hang-out/id985746746"}>
-                        <img alt="discord app" style={{height: "50px"}}
-                             src={"images/common/Download_on_the_App_Store_Badge_FR_RGB_blk_100517.svg"}/>
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
+                    <a style={{ marginRight: "5px" }}
+                        href={"https://apps.apple.com/us/app/discord-talk-chat-hang-out/id985746746"}>
+                        <img alt="discord app" style={{ height: "50px" }}
+                            src={"images/common/Download_on_the_App_Store_Badge_FR_RGB_blk_100517.svg"} />
                     </a>
-                    <a style={{marginLeft: "5px"}} href={"https://play.google.com/store/apps/details?id=com.discord"}>
-                        <img alt="soto google play" style={{height: "50px"}}
-                             src={"images/common/google-play-badge.png"}/>
+                    <a style={{ marginLeft: "5px" }} href={"https://play.google.com/store/apps/details?id=com.discord"}>
+                        <img alt="soto google play" style={{ height: "50px" }}
+                            src={"images/common/google-play-badge.png"} />
                     </a>
                 </div>
 
-                <Grid container style={{marginTop: '40px'}} justifyContent={'center'}>
+                <Grid container style={{ marginTop: '40px' }} justifyContent={'center'}>
                     {/*   DESCRIPTION   */}
                     <Grid item xs={2}>
                         <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
@@ -84,50 +86,50 @@ const Index = () => {
                     </Grid>
                     <Grid container justifyContent={'center'} wrap={'wrap'} alignContent={'space-around'}>
                         <Grid item xs={6}>
-                            <Typography align={'center'} style={{fontSize: '18px'}}>{t('label.project.l1')}</Typography>
-                            <Typography align={'center'} style={{fontSize: '18px'}}>{t('label.project.l2')}</Typography>
-                            <Typography align={'center'} style={{fontSize: '18px'}}>{t('label.project.l3')}</Typography>
+                            <Typography align={'center'} style={{ fontSize: '18px' }}>{t('label.project.l1')}</Typography>
+                            <Typography align={'center'} style={{ fontSize: '18px' }}>{t('label.project.l2')}</Typography>
+                            <Typography align={'center'} style={{ fontSize: '18px' }}>{t('label.project.l3')}</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container style={{marginTop: '20px', justifyContent: 'center'}}>
+                    <Grid container style={{ marginTop: '20px', justifyContent: 'center' }}>
                         <Grid item>
-                            <Button color="secondary" style={{border: '1px solid'}}
-                                    href={'shop'}>{t('label.startShopping')}</Button>
+                            <Button color="secondary" style={{ border: '1px solid' }}
+                                href={'shop'}>{t('label.startShopping')}</Button>
                         </Grid>
                     </Grid>
                     {/*   TEAM   */}
-                    <Grid item xs={2} style={{marginTop: '40px'}}>
+                    <Grid item xs={2} style={{ marginTop: '40px' }}>
                         <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
                             {t('label.team')}
                         </Typography>
                     </Grid>
                     <Grid container justifyContent={'center'} wrap={'wrap'} alignContent={'space-around'}>
                         <Grid item xs={4}>
-                            <Typography align={'center'} style={{fontSize: '22px'}}>{t('label.team.front')}</Typography>
-                            <div style={{display: "flex", justifyContent: "center", marginBottom: "20px"}}>
+                            <Typography align={'center'} style={{ fontSize: '22px' }}>{t('label.team.front')}</Typography>
+                            <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
                                 <div>
-                                    <img alt="soto developpeur" style={{width: "175px", height: "200px", margin: "5px"}}
-                                         src={"images/team/arnaud.jpg"}/>
+                                    <img alt="soto developpeur" style={{ width: "175px", height: "200px", margin: "5px" }}
+                                        src={"images/team/arnaud.jpg"} />
                                     <Typography align={"center"}>Arnaud MOTTE</Typography>
                                 </div>
                                 <div>
-                                    <img alt="soto developpeur" style={{width: "175px", height: "200px", margin: "5px"}}
-                                         src={"images/team/nicolas.jpg"}/>
+                                    <img alt="soto developpeur" style={{ width: "175px", height: "200px", margin: "5px" }}
+                                        src={"images/team/nicolas.jpg"} />
                                     <Typography align={"center"}>Nicolas GOEPP</Typography>
                                 </div>
                             </div>
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography align={'center'} style={{fontSize: '22px'}}>{t('label.team.back')}</Typography>
-                            <div style={{display: "flex", justifyContent: "center", marginBottom: "20px"}}>
+                            <Typography align={'center'} style={{ fontSize: '22px' }}>{t('label.team.back')}</Typography>
+                            <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
                                 <div>
-                                    <img alt="soto developpeur" style={{width: "175px", height: "200px", margin: "5px"}}
-                                         src={"images/team/tom.jpg"}/>
+                                    <img alt="soto developpeur" style={{ width: "175px", height: "200px", margin: "5px" }}
+                                        src={"images/team/tom.jpg"} />
                                     <Typography align={"center"}>Tom FLORENTIN</Typography>
                                 </div>
                                 <div>
-                                    <img alt="soto developpeur" style={{width: "175px", height: "200px", margin: "5px"}}
-                                         src={"images/team/quentin.jpg"}/>
+                                    <img alt="soto developpeur" style={{ width: "175px", height: "200px", margin: "5px" }}
+                                        src={"images/team/quentin.jpg"} />
                                     <Typography align={"center"}>Quentin THOMAS</Typography>
                                 </div>
 
@@ -135,23 +137,23 @@ const Index = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <Typography align={'center'}
-                                        style={{fontSize: '22px'}}>{t('label.team.mobile')}</Typography>
-                            <div style={{display: "flex", justifyContent: "center"}}>
+                                style={{ fontSize: '22px' }}>{t('label.team.mobile')}</Typography>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
                                 <div>
-                                    <img alt="soto developpeur" style={{width: "175px", height: "200px", margin: "5px"}}
-                                         src={"images/team/loup.jpg"}/>
+                                    <img alt="soto developpeur" style={{ width: "175px", height: "200px", margin: "5px" }}
+                                        src={"images/team/loup.jpg"} />
                                     <Typography align={"center"}>Loup MASNERI</Typography>
                                 </div>
                                 <div>
-                                    <img alt="soto developpeur" style={{width: "175px", height: "200px", margin: "5px"}}
-                                         src={"images/team/pq.jpg"}/>
+                                    <img alt="soto developpeur" style={{ width: "175px", height: "200px", margin: "5px" }}
+                                        src={"images/team/pq.jpg"} />
                                     <Typography align={"center"}>Pierre-Quentin LAGANDRÉ</Typography>
                                 </div>
                             </div>
                         </Grid>
                     </Grid>
 
-                    <Grid item xs={2} style={{marginTop: '40px'}}>
+                    <Grid item xs={2} style={{ marginTop: '40px' }}>
                         <Typography className="indexTitle" align={'center'} paragraph variant={'h4'}>
                             {t('label.milestones')}
                         </Typography>
@@ -164,11 +166,11 @@ const Index = () => {
                                         return (
                                             <TimelineItem>
                                                 <TimelineSeparator>
-                                                    <TimelineDot color={elem.past ? "secondary" : "primary"}/>
-                                                    <TimelineConnector/>
+                                                    <TimelineDot color={elem.past ? "secondary" : "primary"} />
+                                                    <TimelineConnector />
                                                 </TimelineSeparator>
                                                 <TimelineContent>
-                                                    <Typography style={{color: "grey"}}>{elem.date}</Typography>
+                                                    <Typography style={{ color: "grey" }}>{elem.date}</Typography>
                                                     <Typography>{t(elem.content)}</Typography>
                                                 </TimelineContent>
                                             </TimelineItem>
@@ -181,7 +183,7 @@ const Index = () => {
                 </Grid>
             </div>
 
-            <Footer/>
+            <Footer />
         </DarkModeParent>);
 }
 

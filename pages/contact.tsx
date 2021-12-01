@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import '../i18n'
-import {Button, Typography} from "@mui/material";
-import {notifySuccess} from "../public/notifications/notificationsFunctions";
+import { Button, Typography } from "@mui/material";
+import { notifySuccess } from "../public/notifications/notificationsFunctions";
 
 const LoginPage = () => {
     const [t, i18n] = useTranslation();
@@ -27,22 +27,24 @@ const LoginPage = () => {
     return (
         <div>
             <DarkModeParent theme={usedTheme}>
-                <Header  {...{theme, SetTheme}} />
-                <div className="flexAlignJustifyCentered" style={{height: "80vh", flexDirection: "column"}}>
-                    <Typography variant={"h6"} style={{borderBottom: "1px solid", marginBottom: "25px"}}>{t("email.label")} :</Typography>
+                <title>Contact</title>
+                <Header  {...{ theme, SetTheme }} />
+                <div className="flexAlignJustifyCentered" style={{ height: "80vh", flexDirection: "column" }}>
+                    <Typography variant={"h6"} style={{ borderBottom: "1px solid", marginBottom: "25px" }}>{t("email.label")} :</Typography>
                     <div className={"dFlex"}>
                         <Typography variant={"body1"}>soto_2022@labeip.epitech.eu</Typography>
-                        <Button color="secondary" style={{marginLeft: "25px"}}
-                                onClick={() => {
-                                    navigator.clipboard.writeText("soto_2022@labeip.epitech.eu").then(() => {
-                                        notifySuccess(t("notification.copyEmail"))
-                                    }
-                                )}}>
+                        <Button color="secondary" style={{ marginLeft: "25px" }}
+                            onClick={() => {
+                                navigator.clipboard.writeText("soto_2022@labeip.epitech.eu").then(() => {
+                                    notifySuccess(t("notification.copyEmail"))
+                                }
+                                )
+                            }}>
                             {t("label.copyEmail")}
                         </Button>
                     </div>
                 </div>
-                <Footer/>
+                <Footer />
             </DarkModeParent>
         </div>
     );

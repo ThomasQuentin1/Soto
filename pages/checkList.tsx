@@ -71,6 +71,7 @@ const CheckListPage = () => {
         return (
             <>
                 <DarkModeParent theme={tmpTheme}>
+                    <title>Liste à cocher</title>
                     <Header {...{ theme, SetTheme }} />
                     <div className="flexJustifiedCenter" style={{ marginTop: "150px" }}>
                         <Paper className="paperStyle " elevation={3}>

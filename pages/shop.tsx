@@ -186,6 +186,7 @@ const ShopPage = () => {
 
     return (
         <DarkModeParent theme={tmpTheme}>
+            <title>Mes courses</title>
             <Header  {...{ theme, SetTheme }} />
             <Grid container justifyContent="center" style={{ marginTop: '10px' }}>
                 <Grid item xs={4}>

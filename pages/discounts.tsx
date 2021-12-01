@@ -111,6 +111,7 @@ const DiscountsPage = () => {
         discountArrayFiltered = correctedPromoData.promotions.filter((item) => item.name.toLowerCase().includes(filterText))
     return (
         <DarkModeParent theme={tmpTheme}>
+            <title>Promotions</title>
             <Header  {...{ theme, SetTheme }} />
             <Grid container justifyContent='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
                 <Grid item style={{ position: 'relative', justifyContent: 'flex-end' }}>

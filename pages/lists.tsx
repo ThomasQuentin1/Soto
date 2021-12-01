@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import '../i18n'
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
-import {useDarkMode} from "../components/settings/useDarkMode";
+import { useDarkMode } from "../components/settings/useDarkMode";
 import ListsSearchWrapper from "../components/lists/ListsSearchWrapper";
 import ListsShopList from "components/lists/ListsShopList";
-import {Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
-import {Product, useAddToCartMutation, useOldCartsQuery, Cart} from 'typing';
+import { Product, useAddToCartMutation, useOldCartsQuery, Cart } from 'typing';
 
 export interface List {
     id: string;
@@ -29,7 +29,7 @@ const RemoveFromBasketAndSessionStorage = (product: Product, lists: List[], setB
     let newLists: List[] = [];
     lists.map((list) => {
         if (list.id === listId) {
-            let newList: List = {id: list.id, name: list.name, products: []};
+            let newList: List = { id: list.id, name: list.name, products: [] };
 
             list.products.map((item) => {
                 if (item.id === product.id) {
@@ -60,7 +60,7 @@ const AddToBasketAndSessionStorage = (product: Product, lists: List[], setBasket
 
     lists.map((list) => {
         if (list.id === listId) {
-            let newList: List = {id: list.id, name: list.name, products: []};
+            let newList: List = { id: list.id, name: list.name, products: [] };
             list.products.map((item) => {
                 if (product.id === item.id) {
                     let tmpItem = Object.assign({}, item);
@@ -99,7 +99,7 @@ const CreateList = (lists: List[], setBasket: any, name: string) => {
     } else {
         id = (parseInt(lists[lists.length - 1].id) + 1).toString();
     }
-    let newList: List = {name: name, id: id, products: []}
+    let newList: List = { name: name, id: id, products: [] }
     newLists.push(newList);
     setBasket(newLists);
     localStorage.setItem('listfav', JSON.stringify(newLists));
@@ -146,7 +146,7 @@ const ListsPage = () => {
     }, []);
 
 
-    const [addToCartMutation, {}] = useAddToCartMutation({
+    const [addToCartMutation, { }] = useAddToCartMutation({
         variables: {
             productId: "1"
         },
@@ -157,7 +157,7 @@ const ListsPage = () => {
         setLoadHistory(false);
     }
 
-    const {data: oldCartsData, loading: oldCartsLoading, error: oldCartsError} = useOldCartsQuery({
+    const { data: oldCartsData, loading: oldCartsLoading, error: oldCartsError } = useOldCartsQuery({
         variables: {},
     });
 
@@ -174,20 +174,21 @@ const ListsPage = () => {
 
     return (
         <DarkModeParent theme={tmpTheme}>
-            <Header {...{theme, SetTheme}} />
-            <Grid container justifyContent="center" style={{marginTop: '10px'}}>
+            <title>Listes favorites</title>
+            <Header {...{ theme, SetTheme }} />
+            <Grid container justifyContent="center" style={{ marginTop: '10px' }}>
                 <Grid item xs={12}>
                     <ListsSearchWrapper AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists}
-                                        CreateList={CreateList} activeList={activeList} setActiveList={setActiveList}
-                                        DeleteList={DeleteList}/>
+                        CreateList={CreateList} activeList={activeList} setActiveList={setActiveList}
+                        DeleteList={DeleteList} />
                 </Grid>
                 <Grid item xs={12}>
                     <ListsShopList AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists}
-                                   RemoveFromCart={RemoveFromBasketAndSessionStorage} activeList={activeList}
-                                   setActiveList={setActiveList}/>
+                        RemoveFromCart={RemoveFromBasketAndSessionStorage} activeList={activeList}
+                        setActiveList={setActiveList} />
                 </Grid>
             </Grid>
-            <Footer/>
+            <Footer />
         </DarkModeParent>
     );
 };
