@@ -113,6 +113,7 @@ const ShopPage = () => {
     const [loadHistory, setLoadHistory] = useState(false);
     const [basket, setBasket] = useState<Product[]>([]);
     const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
+
     if (basket.length != 0 && !isAnyItem) {
         setIsAnyItem(true);
     }

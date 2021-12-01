@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Product, Cart, useAddToCartMutation } from 'typing';
+import { Product, Cart } from 'typing';
 import { months } from "./HistoryItem";
 import { useTranslation } from "react-i18next";
 
@@ -23,27 +23,39 @@ const GetTotalOfProducts = (products: Product[]) => {
     return total;
 }
 
-const AddOldCartToCurrentCart = (oldCart: Cart/*, basket: Product[], setBasket: any*/, addToCartMutation: any) => {
-    oldCart.products.map((item) => {
-        for (let i = 0; i < item.itemQuantity!; i++) {
-            addToCartMutation({ variables: { productId: item.id } });
-        }
-    });
-}
+const AddToBasketAndSessionStorage = (cartToAdd: Cart, setBasket: any) => {
 
-const HistoryShortCutItem = ({ cart }: HistoryShortCutItemProps) => {
+    let jsonString: any = sessionStorage.getItem('currentCart');
+    let cart = JSON.parse(jsonString);
+
+    let newCart: Product[] = [];
+
+    cart.map((itemCurrentCart) => {
+        let didNotFind = true;
+
+        cartToAdd.products.map((itemToAdd) => {
+            if (itemCurrentCart.id === itemToAdd.id) {
+                let newItem = Object.assign({}, itemCurrentCart);
+                newItem.itemQuantity = itemCurrentCart.itemQuantity + itemToAdd.itemQuantity;
+                newCart.push(newItem);
+                didNotFind = false;
+                return;
+            }
+        })
+        if (didNotFind)
+            newCart.push(itemCurrentCart);
+    })
+
+    setBasket(newCart);
+    sessionStorage.setItem('currentCart', JSON.stringify(newCart));
+};
+
+const HistoryShortCutItem = ({ cart, setBasket }: HistoryShortCutItemProps) => {
     const [t] = useTranslation()
     const [isDetailsToggled, setIsDetailsToggled] = useState(false);
     const date = new Date(cart.dateLastEdit);
     const formatedDate = date.getDate() + ' ' + t(months[date.getMonth()]) + " " + date.getFullYear();
     const totalOfProducts = GetTotalOfProducts(cart.products);
-
-    //create mutation with default parameter
-    const [addToCartMutation] = useAddToCartMutation({
-        variables: {
-            productId: '1'
-        },
-    });
 
     if (!cart)
         return <p>Invalid cart</p>;
@@ -53,7 +65,6 @@ const HistoryShortCutItem = ({ cart }: HistoryShortCutItemProps) => {
                 <Grid item xs={12} style={{ marginBottom: '5px' }}>
                     <Typography>{formatedDate}</Typography>
                     <Typography>{t("label.products_number")} {totalOfProducts}</Typography>
-
                 </Grid>
                 {/* When details are displayed */}
                 {isDetailsToggled &&
@@ -71,20 +82,20 @@ const HistoryShortCutItem = ({ cart }: HistoryShortCutItemProps) => {
                         <Grid container justifyContent='space-between'>
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
-                                <>
-                                    {t("label.showMore")}
-                                    <ExpandMoreIcon/>
-                                </>
+                                    <>
+                                        {t("label.showMore")}
+                                        <ExpandMoreIcon />
+                                    </>
                                 }
                                 {isDetailsToggled &&
-                                <>
-                                    {t("label.showLess")}
-                                    <ExpandLessIcon/>
-                                </>
+                                    <>
+                                        {t("label.showLess")}
+                                        <ExpandLessIcon />
+                                    </>
                                 }
                             </Button>
                             <Button color='secondary'
-                                    onClick={() => AddOldCartToCurrentCart(cart, addToCartMutation)}>
+                                onClick={() => AddToBasketAndSessionStorage(cart, setBasket)}>
                                 {t("label.addToCart")}
                             </Button>
                         </Grid>

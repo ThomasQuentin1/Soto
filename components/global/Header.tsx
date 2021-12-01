@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBasket, faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { useTranslation } from 'react-i18next';
-import { useAccountQuery, useSubscribeNotificationsMutation } from 'typing';
+import { useAccountQuery, useSubscribeNotificationsMutation, useConfirmCartMutation, useAddToCartMutation, Product } from 'typing';
 import { Typography, CardMedia, Card, Grid, Link, Divider, Switch, Button, TextField } from '@mui/material';
 import { notifyError, notifySuccess } from "public/notifications/notificationsFunctions";
 import Router from "next/router";
@@ -12,6 +12,16 @@ import PdfGenerator from 'components/PdfGenerator';
 interface Props {
     theme: any;
     SetTheme: any;
+}
+
+const SendAllProductToOnlineCart = (basket: Product[], AddToCartMutation: any) => {
+    basket.map((item) => {
+        if (item.itemQuantity != null || item.itemQuantity != undefined) {
+            for (let i = 0; i < item.itemQuantity; i++) {
+                AddToCartMutation({ variables: { productId: item.id } });
+            }
+        }
+    });
 }
 
 const Header = ({ theme, SetTheme }: Props) => {
@@ -27,6 +37,16 @@ const Header = ({ theme, SetTheme }: Props) => {
     const [isSignedInNewsletter, SetIsSignedInNewsletter] = useState<boolean>(false);
     const [newsletterEmail, setNewsLetterEmail] = useState<string>("");
     const [subscribeNotification] = useSubscribeNotificationsMutation({ variables: { token: newsletterEmail } });
+
+    const [confirmCartMutation] = useConfirmCartMutation({
+        variables: {
+        },
+    });
+    const [addToCartMutation] = useAddToCartMutation({
+        variables: {
+            productId: "1"
+        },
+    });
 
     if (!loading && data === undefined && Router.route != "/" && Router.route != "/login")
         Router.push("/login").then(() => { })
@@ -162,13 +182,26 @@ const Header = ({ theme, SetTheme }: Props) => {
                                 </Grid>
                             }
                             <Grid container direction="column">
-                                {!isSignedInNewsletter ? <Button onClick={() => SetNewsletterCardOpen(!newsletterCardOpen)}>Inscription à la newsletter</Button> : <Button onClick={() => {
+                                {!isSignedInNewsletter ? <Button color="secondary" onClick={() => SetNewsletterCardOpen(!newsletterCardOpen)}>Inscription à la newsletter</Button> : <Button color="secondary" onClick={() => {
                                     localStorage.removeItem("signedInNewsletter")
                                     SetIsSignedInNewsletter(false)
                                 }}>Se désinscrire de la newsletter</Button>}
 
                                 {data && data.account &&
                                     <Grid container justifyContent="center">
+                                        <Grid item style={{ marginBottom: "5px", textAlign: "center" }} xs={12}>
+                                            <Button onClick={() => {
+                                                SendAllProductToOnlineCart(basket, addToCartMutation);
+                                                confirmCartMutation().then((r) => {
+                                                    if (r.errors) {
+                                                        notifyError("Erreur dans le payement du panier")
+                                                    } else {
+                                                        notifySuccess("Panier confirmé avec succès")
+                                                        // Router.push("payment").then(() => {}); DISABLED FOR BETA TESTING
+                                                    }
+                                                })
+                                            }} color="secondary">Confirmer panier</Button>
+                                        </Grid>
                                         <Grid item xs={12}>
                                             <Typography style={{ marginBottom: "5px", textAlign: "center" }}>{data.account.currentShop.name}</Typography>
                                         </Grid>

@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
-import {Grid, TextField, Typography} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Grid, TextField, Typography } from "@mui/material";
 import MaskedInput from 'react-text-mask';
 import FormControl from '@mui/material/FormControl';
-import {Cart} from "typing";
+import { Cart } from "typing";
 
 const handleChange = (event: React.ChangeEvent<HTMLInputElement>, setValues: any, values: any) => {
     setValues({
@@ -20,7 +20,7 @@ interface TextMaskCustomProps {
 }
 
 const ExpirationDateInputCustom = (props: TextMaskCustomProps) => {
-    const {inputRef, ...other} = props;
+    const { inputRef, ...other } = props;
 
     return (
         <MaskedInput
@@ -36,7 +36,7 @@ const ExpirationDateInputCustom = (props: TextMaskCustomProps) => {
 }
 
 const CardNumberInputCustom = (props: TextMaskCustomProps) => {
-    const {inputRef, ...other} = props;
+    const { inputRef, ...other } = props;
 
     return (
         <MaskedInput
@@ -52,7 +52,7 @@ const CardNumberInputCustom = (props: TextMaskCustomProps) => {
 }
 
 const CryptogramInputCustom = (props: TextMaskCustomProps) => {
-    const {inputRef, ...other} = props;
+    const { inputRef, ...other } = props;
 
     return (
         <MaskedInput
@@ -68,7 +68,7 @@ const CryptogramInputCustom = (props: TextMaskCustomProps) => {
 }
 
 const ZipCodeInputCustom = (props: TextMaskCustomProps) => {
-    const {inputRef, ...other} = props;
+    const { inputRef, ...other } = props;
 
     return (
         <MaskedInput
@@ -105,22 +105,22 @@ interface PaymentInformationProps {
 }
 
 const PaymentInformation = ({
-                                cart,
-                                loading,
-                                cardValues,
-                                setCardValues,
-                                expirationDateValues,
-                                setExpirationDateValues,
-                                cryptogramValues,
-                                setCryptogramValues,
-                                userName,
-                                setUserName,
-                                setNextButtonEnabled,
-                                fullAdress,
-                                setFullAdress,
-                                zipCodeValues,
-                                setZipCodeValues
-                            }: PaymentInformationProps) => {
+    cart,
+    loading,
+    cardValues,
+    setCardValues,
+    expirationDateValues,
+    setExpirationDateValues,
+    cryptogramValues,
+    setCryptogramValues,
+    userName,
+    setUserName,
+    setNextButtonEnabled,
+    fullAdress,
+    setFullAdress,
+    zipCodeValues,
+    setZipCodeValues
+}: PaymentInformationProps) => {
     const [cardErrorText, setCardErrorText] = useState(false);
     const [nameHolderErrorText, setNameHolderErrorText] = useState(false);
     const [expirationDateErrorText, setExpirationDateErrorText] = useState(false);
@@ -190,9 +190,9 @@ const PaymentInformation = ({
 
 
     return (
-        <Grid container spacing={2} style={{textAlign: "left", paddingLeft: "35px", marginBottom: "10px"}}>
+        <Grid container spacing={2} style={{ textAlign: "left", paddingLeft: "35px", marginBottom: "10px" }}>
             <Grid item xs={6}>
-                <Typography style={{textDecoration: "underline", marginBottom: "5px"}}>Information de
+                <Typography style={{ textDecoration: "underline", marginBottom: "5px" }}>Information de
                     paiement</Typography>
                 <FormControl>
                     {cardErrorText ?
@@ -254,27 +254,27 @@ const PaymentInformation = ({
             <Grid item xs={6}>
                 <Typography>Prix total du panier : </Typography>
                 {!loading && cart &&
-                <Typography style={{marginLeft: "50px"}}>{cart.price}€</Typography>
+                    <Typography style={{ marginLeft: "50px" }}>{cart.price}€</Typography>
                 }
             </Grid>
             <Grid item xs={6}>
                 {nameHolderErrorText ?
-                    <TextField error required InputLabelProps={{shrink: true}} value={userName}
-                               onBlur={() => {
-                                   if (userName.length !== 0) {
-                                       setNameHolderErrorText(false);
-                                   }
-                                   if (!userName.replace(/\s/g, '').length) {
-                                       setNameHolderTextFieldIsEmpty(true)
-                                   } else {
-                                       setNameHolderTextFieldIsEmpty(false);
-                                   }
-                               }}
-                               onChange={(event: any) => handleChangeText(event, setUserName)}
-                               label="Titulaire de la carte" margin="dense" color="primary" type="text"
-                               helperText="Champ requis"/>
+                    <TextField error required InputLabelProps={{ shrink: true }} value={userName}
+                        onBlur={() => {
+                            if (userName.length !== 0) {
+                                setNameHolderErrorText(false);
+                            }
+                            if (!userName.replace(/\s/g, '').length) {
+                                setNameHolderTextFieldIsEmpty(true)
+                            } else {
+                                setNameHolderTextFieldIsEmpty(false);
+                            }
+                        }}
+                        onChange={(event: any) => handleChangeText(event, setUserName)}
+                        label="Titulaire de la carte" margin="dense" color="primary" type="text"
+                        helperText="Champ requis" />
                     :
-                    <TextField required InputLabelProps={{shrink: true}} value={userName} onBlur={() => {
+                    <TextField required InputLabelProps={{ shrink: true }} value={userName} onBlur={() => {
                         if (userName.length === 0) {
                             setNameHolderErrorText(true);
                         }
@@ -284,8 +284,8 @@ const PaymentInformation = ({
                             setNameHolderTextFieldIsEmpty(false);
                         }
                     }}
-                               onChange={(event: any) => handleChangeText(event, setUserName)}
-                               label="Titulaire de la carte" margin="dense" color="primary" type="text"/>}
+                        onChange={(event: any) => handleChangeText(event, setUserName)}
+                        label="Titulaire de la carte" margin="dense" color="primary" type="text" />}
 
             </Grid>
             <Grid item xs={3}>
@@ -345,7 +345,7 @@ const PaymentInformation = ({
 
                 </FormControl>
             </Grid>
-            <Grid item xs={3} style={{paddingRight: "15px"}}>
+            <Grid item xs={3} style={{ paddingRight: "15px" }}>
                 <FormControl>
                     {cryptogramErrorText ?
                         <TextField
@@ -399,7 +399,7 @@ const PaymentInformation = ({
                 </FormControl>
             </Grid>
             <Grid item xs={12}>
-                <Typography style={{textDecoration: "underline"}}>Adresse de livraison</Typography>
+                <Typography style={{ textDecoration: "underline" }}>Adresse de livraison</Typography>
                 <Grid container>
                     <Grid item xs={6}>
                         <FormControl>
@@ -454,26 +454,26 @@ const PaymentInformation = ({
                     </Grid>
                     <Grid item xs={6}>
                         {fullAdressErrorText ?
-                            <TextField size={"small"} error required InputLabelProps={{shrink: true}} value={fullAdress}
-                                       onBlur={() => {
-                                           console.log(fullAdress)
-                                           if (fullAdress.length !== 0) {
-                                               setFullAdressErrorText(false);
-                                           }
-                                       }}
-                                       onChange={(event: any) => handleChangeText(event, setFullAdress)}
-                                       label="Adresse complète" margin="dense" color="secondary" type="text"
-                                       helperText="Champ requis"/>
+                            <TextField size={"small"} error required InputLabelProps={{ shrink: true }} value={fullAdress}
+                                onBlur={() => {
+                                    console.log(fullAdress)
+                                    if (fullAdress.length !== 0) {
+                                        setFullAdressErrorText(false);
+                                    }
+                                }}
+                                onChange={(event: any) => handleChangeText(event, setFullAdress)}
+                                label="Adresse complète" margin="dense" color="secondary" type="text"
+                                helperText="Champ requis" />
                             :
-                            <TextField required InputLabelProps={{shrink: true}} value={fullAdress} onBlur={() => {
+                            <TextField required InputLabelProps={{ shrink: true }} value={fullAdress} onBlur={() => {
                                 console.log(fullAdress)
                                 if (fullAdress.length === 0) {
                                     setFullAdressErrorText(true);
                                 }
                             }}
-                                       onChange={(event: any) => handleChangeText(event, setFullAdress)}
-                                       label="Adresse complète" margin="dense" color="secondary"
-                                       type="text"/>}
+                                onChange={(event: any) => handleChangeText(event, setFullAdress)}
+                                label="Adresse complète" margin="dense" color="secondary"
+                                type="text" />}
                     </Grid>
                 </Grid>
             </Grid>
