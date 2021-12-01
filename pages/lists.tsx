@@ -93,7 +93,7 @@ const CreateList = (lists: List[], setBasket: any, name: string) => {
         newLists.push(item);
     });
 
-    let id = '0'
+    let id: string
     if (lists.length == 0) {
         id = '1';
     } else {
@@ -184,7 +184,7 @@ const ListsPage = () => {
                 <Grid item xs={12}>
                     <ListsShopList AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists}
                                    RemoveFromCart={RemoveFromBasketAndSessionStorage} activeList={activeList}
-                                   setActiveList={setActiveList} />
+                                   setActiveList={setActiveList}/>
                 </Grid>
             </Grid>
             <Footer/>
