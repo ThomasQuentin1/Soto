@@ -1,181 +1,24 @@
-// @ts-nocheck
-
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
-const defaultOptions = {}
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-    ID: string;
-    String: string;
-    Boolean: boolean;
-    Int: number;
-    Float: number;
-    Date: any;
-    /** The `Upload` scalar type represents a file upload. */
-    Upload: any;
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  Date: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
-
-export type Query = {
-    __typename?: 'Query';
-    account: Account;
-    searchProducts: Array<Product>;
-    promotions: Array<Product>;
-    shopList: Array<Shop>;
-    cart?: Maybe<Cart>;
-    oldCarts: Array<Maybe<Cart>>;
-    criterions: Array<Criterion>;
-    obligations: Array<Obligation>;
-};
-
-
-export type QuerySearchProductsArgs = {
-    query: Scalars['String'];
-    obligationsOverride?: Maybe<Array<ObligationInput>>;
-    criterionsOverride?: Maybe<Array<CriterionInput>>;
-    shopIdOverride?: Maybe<Scalars['Int']>;
-    limit?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryPromotionsArgs = {
-  query?: Maybe<Scalars['String']>;
-  obligationsOverride?: Maybe<Array<ObligationInput>>;
-  criterionsOverride?: Maybe<Array<CriterionInput>>;
-  shopIdOverride?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-export type Mutation = {
-    __typename?: 'Mutation';
-    login: Scalars['String'];
-    register: Scalars['String'];
-    setCriterions: Scalars['Boolean'];
-    setObligations: Scalars['Boolean'];
-    removeAccount: Scalars['Boolean'];
-    subscribeNotifications: Scalars['Boolean'];
-    changePassword: Scalars['Boolean'];
-    changeEmail: Scalars['Boolean'];
-    setShop: Scalars['Boolean'];
-    addToCart: Scalars['Boolean'];
-    addMultipleToCart: Scalars['Boolean'];
-    removeMultipleToCart: Scalars['Boolean'];
-    subscribeMail: Scalars['Boolean'];
-    unsubscribeMail: Scalars['Boolean'];
-    removeFromCart: Scalars['Boolean'];
-    confirmCart: Scalars['Boolean'];
-    clearCart: Scalars['Boolean'];
-};
-
-
-export type MutationLoginArgs = {
-    email: Scalars['String'];
-    passwordSHA256: Scalars['String'];
-};
-
-
-export type MutationRegisterArgs = {
-    email: Scalars['String'];
-    passwordSHA256: Scalars['String'];
-};
-
-
-export type MutationSetCriterionsArgs = {
-    criterions: Array<CriterionInput>;
-};
-
-
-export type MutationSetObligationsArgs = {
-    obligations: Array<ObligationInput>;
-};
-
-
-export type MutationRemoveAccountArgs = {
-    passwordSHA256: Scalars['String'];
-};
-
-
-export type MutationSubscribeNotificationsArgs = {
-    token: Scalars['String'];
-};
-
-
-export type MutationChangePasswordArgs = {
-    newPasswordSHA256: Scalars['String'];
-};
-
-
-export type MutationChangeEmailArgs = {
-    newEmail: Scalars['String'];
-};
-
-
-export type MutationSetShopArgs = {
-    shopId: Scalars['Int'];
-};
-
-
-export type MutationAddToCartArgs = {
-    productId: Scalars['String'];
-};
-
-
-export type MutationAddMultipleToCartArgs = {
-    products: Array<AddToCartInput>;
-};
-
-
-export type MutationRemoveMultipleToCartArgs = {
-    products: Array<AddToCartInput>;
-};
-
-
-export type MutationRemoveFromCartArgs = {
-    productId: Scalars['String'];
-};
-
-export type Cart = {
-    __typename?: 'Cart';
-    products: Array<Product>;
-    dateCreated: Scalars['Date'];
-    dateLastEdit: Scalars['Date'];
-    shop: Shop;
-    price: Scalars['Float'];
-    score?: Maybe<Scalars['Int']>;
-};
-
-export type AddToCartInput = {
-    productId: Scalars['String'];
-    quantity: Scalars['Int'];
-};
-
-export type Shop = {
-    __typename?: 'Shop';
-    name: Scalars['String'];
-    city: Scalars['String'];
-    long: Scalars['Float'];
-    lat: Scalars['Float'];
-    id: Scalars['Int'];
-    server: Scalars['String'];
-    code: Scalars['String'];
-    list?: Maybe<Array<ProductList>>;
-};
-
-export type ProductList = {
-    __typename?: 'ProductList';
-    name: Scalars['String'];
-    products: Array<ProductListEntry>;
-};
-
-export type ProductListEntry = {
-    __typename?: 'ProductListEntry';
-    name: Scalars['String'];
-    id: Scalars['String'];
-};
 
 export type Account = {
   __typename?: 'Account';
@@ -184,28 +27,137 @@ export type Account = {
   currentShop?: Maybe<Shop>;
 };
 
-export type Criterion = {
-    __typename?: 'Criterion';
-    activated: Scalars['Boolean'];
-    position?: Maybe<Scalars['Int']>;
-    id: Scalars['Int'];
-    name: Scalars['String'];
+export type AddToCartInput = {
+  productId: Scalars['String'];
+  quantity: Scalars['Int'];
 };
 
-export type Obligation = {
-    __typename?: 'Obligation';
-    activated: Scalars['Boolean'];
-    id: Scalars['Int'];
-    name: Scalars['String'];
+export enum CacheControlScope {
+  Public = 'PUBLIC',
+  Private = 'PRIVATE'
+}
+
+export type Cart = {
+  __typename?: 'Cart';
+  products: Array<Product>;
+  dateCreated: Scalars['Date'];
+  dateLastEdit: Scalars['Date'];
+  shop: Shop;
+  price: Scalars['Float'];
+  score?: Maybe<Scalars['Int']>;
+};
+
+export type Criterion = {
+  __typename?: 'Criterion';
+  activated: Scalars['Boolean'];
+  position?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type CriterionInput = {
-    id: Scalars['Int'];
-    position: Scalars['Int'];
+  id: Scalars['Int'];
+  position: Scalars['Int'];
+};
+
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  login: Scalars['String'];
+  register: Scalars['String'];
+  setCriterions: Scalars['Boolean'];
+  setObligations: Scalars['Boolean'];
+  removeAccount: Scalars['Boolean'];
+  subscribeNotifications: Scalars['Boolean'];
+  changePassword: Scalars['Boolean'];
+  changeEmail: Scalars['Boolean'];
+  setShop: Scalars['Boolean'];
+  addToCart: Scalars['Boolean'];
+  addMultipleToCart: Scalars['Boolean'];
+  removeMultipleToCart: Scalars['Boolean'];
+  subscribeMail: Scalars['Boolean'];
+  unsubscribeMail: Scalars['Boolean'];
+  removeFromCart: Scalars['Boolean'];
+  confirmCart: Scalars['Boolean'];
+  clearCart: Scalars['Boolean'];
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  passwordSHA256: Scalars['String'];
+};
+
+
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
+  passwordSHA256: Scalars['String'];
+};
+
+
+export type MutationSetCriterionsArgs = {
+  criterions: Array<CriterionInput>;
+};
+
+
+export type MutationSetObligationsArgs = {
+  obligations: Array<ObligationInput>;
+};
+
+
+export type MutationRemoveAccountArgs = {
+  passwordSHA256: Scalars['String'];
+};
+
+
+export type MutationSubscribeNotificationsArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationChangePasswordArgs = {
+  newPasswordSHA256: Scalars['String'];
+};
+
+
+export type MutationChangeEmailArgs = {
+  newEmail: Scalars['String'];
+};
+
+
+export type MutationSetShopArgs = {
+  shopId: Scalars['Int'];
+};
+
+
+export type MutationAddToCartArgs = {
+  productId: Scalars['String'];
+};
+
+
+export type MutationAddMultipleToCartArgs = {
+  products: Array<AddToCartInput>;
+};
+
+
+export type MutationRemoveMultipleToCartArgs = {
+  products: Array<AddToCartInput>;
+};
+
+
+export type MutationRemoveFromCartArgs = {
+  productId: Scalars['String'];
+};
+
+export type Obligation = {
+  __typename?: 'Obligation';
+  activated: Scalars['Boolean'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
 };
 
 export type ObligationInput = {
-    id: Scalars['Int'];
+  id: Scalars['Int'];
 };
 
 export type Product = {
@@ -233,10 +185,59 @@ export type Product = {
   url: Scalars['String'];
 };
 
-export enum CacheControlScope {
-    Public = 'PUBLIC',
-    Private = 'PRIVATE'
-}
+export type ProductList = {
+  __typename?: 'ProductList';
+  name: Scalars['String'];
+  products: Array<ProductListEntry>;
+};
+
+export type ProductListEntry = {
+  __typename?: 'ProductListEntry';
+  name: Scalars['String'];
+  id: Scalars['String'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  account: Account;
+  searchProducts: Array<Product>;
+  promotions: Array<Product>;
+  shopList: Array<Shop>;
+  cart?: Maybe<Cart>;
+  oldCarts: Array<Maybe<Cart>>;
+  criterions: Array<Criterion>;
+  obligations: Array<Obligation>;
+};
+
+
+export type QuerySearchProductsArgs = {
+  query: Scalars['String'];
+  obligationsOverride?: Maybe<Array<ObligationInput>>;
+  criterionsOverride?: Maybe<Array<CriterionInput>>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryPromotionsArgs = {
+  query?: Maybe<Scalars['String']>;
+  obligationsOverride?: Maybe<Array<ObligationInput>>;
+  criterionsOverride?: Maybe<Array<CriterionInput>>;
+  shopIdOverride?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+export type Shop = {
+  __typename?: 'Shop';
+  name: Scalars['String'];
+  city: Scalars['String'];
+  long: Scalars['Float'];
+  lat: Scalars['Float'];
+  id: Scalars['Int'];
+  server: Scalars['String'];
+  code: Scalars['String'];
+  list?: Maybe<Array<ProductList>>;
+};
 
 
 
@@ -245,57 +246,57 @@ export type ResolverTypeWrapper<T> = Promise<T> | T;
 
 
 export type StitchingResolver<TResult, TParent, TContext, TArgs> = {
-    fragment: string;
-    resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
+  fragment: string;
+  resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
 
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
-    | ResolverFn<TResult, TParent, TContext, TArgs>
-    | StitchingResolver<TResult, TParent, TContext, TArgs>;
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | StitchingResolver<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
-    parent: TParent,
-    args: TArgs,
-    context: TContext,
-    info: GraphQLResolveInfo
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
-    parent: TParent,
-    args: TArgs,
-    context: TContext,
-    info: GraphQLResolveInfo
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo
 ) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
-    parent: TParent,
-    args: TArgs,
-    context: TContext,
-    info: GraphQLResolveInfo
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
 export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
-    subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
-    resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
-    subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>;
-    resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
+  subscribe: SubscriptionSubscribeFn<any, TParent, TContext, TArgs>;
+  resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
 export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
-    | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
-    | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
+  | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
+  | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
 export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
-    | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
-    | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+  | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
-    parent: TParent,
-    context: TContext,
-    info: GraphQLResolveInfo
+  parent: TParent,
+  context: TContext,
+  info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
 export type isTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
@@ -303,129 +304,65 @@ export type isTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => b
 export type NextResolverFn<T> = () => Promise<T>;
 
 export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
-    next: NextResolverFn<TResult>,
-    parent: TParent,
-    args: TArgs,
-    context: TContext,
-    info: GraphQLResolveInfo
+  next: NextResolverFn<TResult>,
+  parent: TParent,
+  args: TArgs,
+  context: TContext,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-    Date: ResolverTypeWrapper<Scalars['Date']>,
-    Query: ResolverTypeWrapper<{}>,
-    String: ResolverTypeWrapper<Scalars['String']>,
-    Int: ResolverTypeWrapper<Scalars['Int']>,
-    Mutation: ResolverTypeWrapper<{}>,
-    Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
-    Cart: ResolverTypeWrapper<Cart>,
-    Float: ResolverTypeWrapper<Scalars['Float']>,
-    AddToCartInput: AddToCartInput,
-    Shop: ResolverTypeWrapper<Shop>,
-    ProductList: ResolverTypeWrapper<ProductList>,
-    ProductListEntry: ResolverTypeWrapper<ProductListEntry>,
-    Account: ResolverTypeWrapper<Account>,
-    Criterion: ResolverTypeWrapper<Criterion>,
-    Obligation: ResolverTypeWrapper<Obligation>,
-    CriterionInput: CriterionInput,
-    ObligationInput: ObligationInput,
-    Product: ResolverTypeWrapper<Product>,
-    CacheControlScope: CacheControlScope,
-    Upload: ResolverTypeWrapper<Scalars['Upload']>,
+  Account: ResolverTypeWrapper<Account>,
+  String: ResolverTypeWrapper<Scalars['String']>,
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  AddToCartInput: AddToCartInput,
+  Int: ResolverTypeWrapper<Scalars['Int']>,
+  CacheControlScope: CacheControlScope,
+  Cart: ResolverTypeWrapper<Cart>,
+  Float: ResolverTypeWrapper<Scalars['Float']>,
+  Criterion: ResolverTypeWrapper<Criterion>,
+  CriterionInput: CriterionInput,
+  Date: ResolverTypeWrapper<Scalars['Date']>,
+  Mutation: ResolverTypeWrapper<{}>,
+  Obligation: ResolverTypeWrapper<Obligation>,
+  ObligationInput: ObligationInput,
+  Product: ResolverTypeWrapper<Product>,
+  ProductList: ResolverTypeWrapper<ProductList>,
+  ProductListEntry: ResolverTypeWrapper<ProductListEntry>,
+  Query: ResolverTypeWrapper<{}>,
+  Shop: ResolverTypeWrapper<Shop>,
+  Upload: ResolverTypeWrapper<Scalars['Upload']>,
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-    Date: Scalars['Date'],
-    Query: {},
-    String: Scalars['String'],
-    Int: Scalars['Int'],
-    Mutation: {},
-    Boolean: Scalars['Boolean'],
-    Cart: Cart,
-    Float: Scalars['Float'],
-    AddToCartInput: AddToCartInput,
-    Shop: Shop,
-    ProductList: ProductList,
-    ProductListEntry: ProductListEntry,
-    Account: Account,
-    Criterion: Criterion,
-    Obligation: Obligation,
-    CriterionInput: CriterionInput,
-    ObligationInput: ObligationInput,
-    Product: Product,
-    CacheControlScope: CacheControlScope,
-    Upload: Scalars['Upload'],
+  Account: Account,
+  String: Scalars['String'],
+  Boolean: Scalars['Boolean'],
+  AddToCartInput: AddToCartInput,
+  Int: Scalars['Int'],
+  CacheControlScope: CacheControlScope,
+  Cart: Cart,
+  Float: Scalars['Float'],
+  Criterion: Criterion,
+  CriterionInput: CriterionInput,
+  Date: Scalars['Date'],
+  Mutation: {},
+  Obligation: Obligation,
+  ObligationInput: ObligationInput,
+  Product: Product,
+  ProductList: ProductList,
+  ProductListEntry: ProductListEntry,
+  Query: {},
+  Shop: Shop,
+  Upload: Scalars['Upload'],
 };
 
-export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-    name: 'Date'
-}
+export type CacheControlDirectiveArgs = {   maxAge?: Maybe<Scalars['Int']>;
+  scope?: Maybe<CacheControlScope>; };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
-  searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
-  promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, never>>,
-  shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
-  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
-  oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
-  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
-  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
-};
-
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-    login?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'passwordSHA256'>>,
-    register?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'passwordSHA256'>>,
-    setCriterions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetCriterionsArgs, 'criterions'>>,
-    setObligations?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetObligationsArgs, 'obligations'>>,
-    removeAccount?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveAccountArgs, 'passwordSHA256'>>,
-    subscribeNotifications?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubscribeNotificationsArgs, 'token'>>,
-    changePassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'newPasswordSHA256'>>,
-    changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
-    setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
-    addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
-    addMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddMultipleToCartArgs, 'products'>>,
-    removeMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveMultipleToCartArgs, 'products'>>,
-    subscribeMail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-    unsubscribeMail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-    removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
-    confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-    clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-};
-
-export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
-    products?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>,
-    dateCreated?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
-    dateLastEdit?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
-    shop?: Resolver<ResolversTypes['Shop'], ParentType, ContextType>,
-    price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
-    score?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
-
-export type ShopResolvers<ContextType = any, ParentType extends ResolversParentTypes['Shop'] = ResolversParentTypes['Shop']> = {
-    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    city?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    long?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
-    lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
-    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-    server?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    code?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    list?: Resolver<Maybe<Array<ResolversTypes['ProductList']>>, ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
-
-export type ProductListResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductList'] = ResolversParentTypes['ProductList']> = {
-    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    products?: Resolver<Array<ResolversTypes['ProductListEntry']>, ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
-
-export type ProductListEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductListEntry'] = ResolversParentTypes['ProductListEntry']> = {
-    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
-};
+export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['Account'] = ResolversParentTypes['Account']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
@@ -434,19 +371,53 @@ export type AccountResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
+export type CartResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cart'] = ResolversParentTypes['Cart']> = {
+  products?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType>,
+  dateCreated?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
+  dateLastEdit?: Resolver<ResolversTypes['Date'], ParentType, ContextType>,
+  shop?: Resolver<ResolversTypes['Shop'], ParentType, ContextType>,
+  price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  score?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
 export type CriterionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Criterion'] = ResolversParentTypes['Criterion']> = {
-    activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-    position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
-    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
+  activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  position?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date'
+}
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  login?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'passwordSHA256'>>,
+  register?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'passwordSHA256'>>,
+  setCriterions?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetCriterionsArgs, 'criterions'>>,
+  setObligations?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetObligationsArgs, 'obligations'>>,
+  removeAccount?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveAccountArgs, 'passwordSHA256'>>,
+  subscribeNotifications?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSubscribeNotificationsArgs, 'token'>>,
+  changePassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangePasswordArgs, 'newPasswordSHA256'>>,
+  changeEmail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationChangeEmailArgs, 'newEmail'>>,
+  setShop?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSetShopArgs, 'shopId'>>,
+  addToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddToCartArgs, 'productId'>>,
+  addMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationAddMultipleToCartArgs, 'products'>>,
+  removeMultipleToCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveMultipleToCartArgs, 'products'>>,
+  subscribeMail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  unsubscribeMail?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  removeFromCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRemoveFromCartArgs, 'productId'>>,
+  confirmCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  clearCart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
 };
 
 export type ObligationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Obligation'] = ResolversParentTypes['Obligation']> = {
-    activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
-    id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-    __isTypeOf?: isTypeOfResolverFn<ParentType>,
+  activated?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
@@ -474,23 +445,58 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
+export type ProductListResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductList'] = ResolversParentTypes['ProductList']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  products?: Resolver<Array<ResolversTypes['ProductListEntry']>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type ProductListEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProductListEntry'] = ResolversParentTypes['ProductListEntry']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  account?: Resolver<ResolversTypes['Account'], ParentType, ContextType>,
+  searchProducts?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QuerySearchProductsArgs, 'query'>>,
+  promotions?: Resolver<Array<ResolversTypes['Product']>, ParentType, ContextType, RequireFields<QueryPromotionsArgs, never>>,
+  shopList?: Resolver<Array<ResolversTypes['Shop']>, ParentType, ContextType>,
+  cart?: Resolver<Maybe<ResolversTypes['Cart']>, ParentType, ContextType>,
+  oldCarts?: Resolver<Array<Maybe<ResolversTypes['Cart']>>, ParentType, ContextType>,
+  criterions?: Resolver<Array<ResolversTypes['Criterion']>, ParentType, ContextType>,
+  obligations?: Resolver<Array<ResolversTypes['Obligation']>, ParentType, ContextType>,
+};
+
+export type ShopResolvers<ContextType = any, ParentType extends ResolversParentTypes['Shop'] = ResolversParentTypes['Shop']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  long?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  server?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  list?: Resolver<Maybe<Array<ResolversTypes['ProductList']>>, ParentType, ContextType>,
+  __isTypeOf?: isTypeOfResolverFn<ParentType>,
+};
+
 export interface UploadScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Upload'], any> {
-    name: 'Upload'
+  name: 'Upload'
 }
 
 export type Resolvers<ContextType = any> = {
-    Date?: GraphQLScalarType,
-    Query?: QueryResolvers<ContextType>,
-    Mutation?: MutationResolvers<ContextType>,
-    Cart?: CartResolvers<ContextType>,
-    Shop?: ShopResolvers<ContextType>,
-    ProductList?: ProductListResolvers<ContextType>,
-    ProductListEntry?: ProductListEntryResolvers<ContextType>,
-    Account?: AccountResolvers<ContextType>,
-    Criterion?: CriterionResolvers<ContextType>,
-    Obligation?: ObligationResolvers<ContextType>,
-    Product?: ProductResolvers<ContextType>,
-    Upload?: GraphQLScalarType,
+  Account?: AccountResolvers<ContextType>,
+  Cart?: CartResolvers<ContextType>,
+  Criterion?: CriterionResolvers<ContextType>,
+  Date?: GraphQLScalarType,
+  Mutation?: MutationResolvers<ContextType>,
+  Obligation?: ObligationResolvers<ContextType>,
+  Product?: ProductResolvers<ContextType>,
+  ProductList?: ProductListResolvers<ContextType>,
+  ProductListEntry?: ProductListEntryResolvers<ContextType>,
+  Query?: QueryResolvers<ContextType>,
+  Shop?: ShopResolvers<ContextType>,
+  Upload?: GraphQLScalarType,
 };
 
 
@@ -499,7 +505,16 @@ export type Resolvers<ContextType = any> = {
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
 */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type DirectiveResolvers<ContextType = any> = {
+  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>,
+};
 
+
+/**
+* @deprecated
+* Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
+*/
+export type IDirectiveResolvers<ContextType = any> = DirectiveResolvers<ContextType>;
 
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!) {
@@ -527,9 +542,9 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * });
  */
 export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
@@ -559,9 +574,9 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * });
  */
 export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
@@ -590,9 +605,9 @@ export type ChangeEmailMutationFn = Apollo.MutationFunction<ChangeEmailMutation,
  * });
  */
 export function useChangeEmailMutation(baseOptions?: Apollo.MutationHookOptions<ChangeEmailMutation, ChangeEmailMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangeEmailMutation, ChangeEmailMutationVariables>(ChangeEmailDocument, options);
+      }
 export type ChangeEmailMutationHookResult = ReturnType<typeof useChangeEmailMutation>;
 export type ChangeEmailMutationResult = Apollo.MutationResult<ChangeEmailMutation>;
 export type ChangeEmailMutationOptions = Apollo.BaseMutationOptions<ChangeEmailMutation, ChangeEmailMutationVariables>;
@@ -621,9 +636,9 @@ export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMut
  * });
  */
 export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
+      }
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
@@ -652,9 +667,9 @@ export type SetCriterionsMutationFn = Apollo.MutationFunction<SetCriterionsMutat
  * });
  */
 export function useSetCriterionsMutation(baseOptions?: Apollo.MutationHookOptions<SetCriterionsMutation, SetCriterionsMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<SetCriterionsMutation, SetCriterionsMutationVariables>(SetCriterionsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetCriterionsMutation, SetCriterionsMutationVariables>(SetCriterionsDocument, options);
+      }
 export type SetCriterionsMutationHookResult = ReturnType<typeof useSetCriterionsMutation>;
 export type SetCriterionsMutationResult = Apollo.MutationResult<SetCriterionsMutation>;
 export type SetCriterionsMutationOptions = Apollo.BaseMutationOptions<SetCriterionsMutation, SetCriterionsMutationVariables>;
@@ -683,9 +698,9 @@ export type SetObligationsMutationFn = Apollo.MutationFunction<SetObligationsMut
  * });
  */
 export function useSetObligationsMutation(baseOptions?: Apollo.MutationHookOptions<SetObligationsMutation, SetObligationsMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<SetObligationsMutation, SetObligationsMutationVariables>(SetObligationsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetObligationsMutation, SetObligationsMutationVariables>(SetObligationsDocument, options);
+      }
 export type SetObligationsMutationHookResult = ReturnType<typeof useSetObligationsMutation>;
 export type SetObligationsMutationResult = Apollo.MutationResult<SetObligationsMutation>;
 export type SetObligationsMutationOptions = Apollo.BaseMutationOptions<SetObligationsMutation, SetObligationsMutationVariables>;
@@ -714,9 +729,9 @@ export type RemoveAccountMutationFn = Apollo.MutationFunction<RemoveAccountMutat
  * });
  */
 export function useRemoveAccountMutation(baseOptions?: Apollo.MutationHookOptions<RemoveAccountMutation, RemoveAccountMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<RemoveAccountMutation, RemoveAccountMutationVariables>(RemoveAccountDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveAccountMutation, RemoveAccountMutationVariables>(RemoveAccountDocument, options);
+      }
 export type RemoveAccountMutationHookResult = ReturnType<typeof useRemoveAccountMutation>;
 export type RemoveAccountMutationResult = Apollo.MutationResult<RemoveAccountMutation>;
 export type RemoveAccountMutationOptions = Apollo.BaseMutationOptions<RemoveAccountMutation, RemoveAccountMutationVariables>;
@@ -745,9 +760,9 @@ export type SubscribeNotificationsMutationFn = Apollo.MutationFunction<Subscribe
  * });
  */
 export function useSubscribeNotificationsMutation(baseOptions?: Apollo.MutationHookOptions<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>(SubscribeNotificationsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>(SubscribeNotificationsDocument, options);
+      }
 export type SubscribeNotificationsMutationHookResult = ReturnType<typeof useSubscribeNotificationsMutation>;
 export type SubscribeNotificationsMutationResult = Apollo.MutationResult<SubscribeNotificationsMutation>;
 export type SubscribeNotificationsMutationOptions = Apollo.BaseMutationOptions<SubscribeNotificationsMutation, SubscribeNotificationsMutationVariables>;
@@ -776,9 +791,9 @@ export type SetShopMutationFn = Apollo.MutationFunction<SetShopMutation, SetShop
  * });
  */
 export function useSetShopMutation(baseOptions?: Apollo.MutationHookOptions<SetShopMutation, SetShopMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<SetShopMutation, SetShopMutationVariables>(SetShopDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SetShopMutation, SetShopMutationVariables>(SetShopDocument, options);
+      }
 export type SetShopMutationHookResult = ReturnType<typeof useSetShopMutation>;
 export type SetShopMutationResult = Apollo.MutationResult<SetShopMutation>;
 export type SetShopMutationOptions = Apollo.BaseMutationOptions<SetShopMutation, SetShopMutationVariables>;
@@ -807,9 +822,9 @@ export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, Add
  * });
  */
 export function useAddToCartMutation(baseOptions?: Apollo.MutationHookOptions<AddToCartMutation, AddToCartMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddToCartMutation, AddToCartMutationVariables>(AddToCartDocument, options);
+      }
 export type AddToCartMutationHookResult = ReturnType<typeof useAddToCartMutation>;
 export type AddToCartMutationResult = Apollo.MutationResult<AddToCartMutation>;
 export type AddToCartMutationOptions = Apollo.BaseMutationOptions<AddToCartMutation, AddToCartMutationVariables>;
@@ -838,9 +853,9 @@ export type RemoveFromCartMutationFn = Apollo.MutationFunction<RemoveFromCartMut
  * });
  */
 export function useRemoveFromCartMutation(baseOptions?: Apollo.MutationHookOptions<RemoveFromCartMutation, RemoveFromCartMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<RemoveFromCartMutation, RemoveFromCartMutationVariables>(RemoveFromCartDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveFromCartMutation, RemoveFromCartMutationVariables>(RemoveFromCartDocument, options);
+      }
 export type RemoveFromCartMutationHookResult = ReturnType<typeof useRemoveFromCartMutation>;
 export type RemoveFromCartMutationResult = Apollo.MutationResult<RemoveFromCartMutation>;
 export type RemoveFromCartMutationOptions = Apollo.BaseMutationOptions<RemoveFromCartMutation, RemoveFromCartMutationVariables>;
@@ -868,9 +883,9 @@ export type ClearCartMutationFn = Apollo.MutationFunction<ClearCartMutation, Cle
  * });
  */
 export function useClearCartMutation(baseOptions?: Apollo.MutationHookOptions<ClearCartMutation, ClearCartMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ClearCartMutation, ClearCartMutationVariables>(ClearCartDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ClearCartMutation, ClearCartMutationVariables>(ClearCartDocument, options);
+      }
 export type ClearCartMutationHookResult = ReturnType<typeof useClearCartMutation>;
 export type ClearCartMutationResult = Apollo.MutationResult<ClearCartMutation>;
 export type ClearCartMutationOptions = Apollo.BaseMutationOptions<ClearCartMutation, ClearCartMutationVariables>;
@@ -898,9 +913,9 @@ export type ConfirmCartMutationFn = Apollo.MutationFunction<ConfirmCartMutation,
  * });
  */
 export function useConfirmCartMutation(baseOptions?: Apollo.MutationHookOptions<ConfirmCartMutation, ConfirmCartMutationVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useMutation<ConfirmCartMutation, ConfirmCartMutationVariables>(ConfirmCartDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ConfirmCartMutation, ConfirmCartMutationVariables>(ConfirmCartDocument, options);
+      }
 export type ConfirmCartMutationHookResult = ReturnType<typeof useConfirmCartMutation>;
 export type ConfirmCartMutationResult = Apollo.MutationResult<ConfirmCartMutation>;
 export type ConfirmCartMutationOptions = Apollo.BaseMutationOptions<ConfirmCartMutation, ConfirmCartMutationVariables>;
@@ -944,13 +959,13 @@ export const AccountDocument = gql`
  * });
  */
 export function useAccountQuery(baseOptions?: Apollo.QueryHookOptions<AccountQuery, AccountQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<AccountQuery, AccountQueryVariables>(AccountDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AccountQuery, AccountQueryVariables>(AccountDocument, options);
+      }
 export function useAccountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AccountQuery, AccountQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<AccountQuery, AccountQueryVariables>(AccountDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AccountQuery, AccountQueryVariables>(AccountDocument, options);
+        }
 export type AccountQueryHookResult = ReturnType<typeof useAccountQuery>;
 export type AccountLazyQueryHookResult = ReturnType<typeof useAccountLazyQuery>;
 export type AccountQueryResult = Apollo.QueryResult<AccountQuery, AccountQueryVariables>;
@@ -981,13 +996,13 @@ export const CriterionsDocument = gql`
  * });
  */
 export function useCriterionsQuery(baseOptions?: Apollo.QueryHookOptions<CriterionsQuery, CriterionsQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<CriterionsQuery, CriterionsQueryVariables>(CriterionsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CriterionsQuery, CriterionsQueryVariables>(CriterionsDocument, options);
+      }
 export function useCriterionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CriterionsQuery, CriterionsQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<CriterionsQuery, CriterionsQueryVariables>(CriterionsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CriterionsQuery, CriterionsQueryVariables>(CriterionsDocument, options);
+        }
 export type CriterionsQueryHookResult = ReturnType<typeof useCriterionsQuery>;
 export type CriterionsLazyQueryHookResult = ReturnType<typeof useCriterionsLazyQuery>;
 export type CriterionsQueryResult = Apollo.QueryResult<CriterionsQuery, CriterionsQueryVariables>;
@@ -1017,13 +1032,13 @@ export const ObligationsDocument = gql`
  * });
  */
 export function useObligationsQuery(baseOptions?: Apollo.QueryHookOptions<ObligationsQuery, ObligationsQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<ObligationsQuery, ObligationsQueryVariables>(ObligationsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ObligationsQuery, ObligationsQueryVariables>(ObligationsDocument, options);
+      }
 export function useObligationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ObligationsQuery, ObligationsQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<ObligationsQuery, ObligationsQueryVariables>(ObligationsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ObligationsQuery, ObligationsQueryVariables>(ObligationsDocument, options);
+        }
 export type ObligationsQueryHookResult = ReturnType<typeof useObligationsQuery>;
 export type ObligationsLazyQueryHookResult = ReturnType<typeof useObligationsLazyQuery>;
 export type ObligationsQueryResult = Apollo.QueryResult<ObligationsQuery, ObligationsQueryVariables>;
@@ -1068,16 +1083,68 @@ export const SearchProductDocument = gql`
  * });
  */
 export function useSearchProductQuery(baseOptions: Apollo.QueryHookOptions<SearchProductQuery, SearchProductQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, options);
+      }
 export function useSearchProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SearchProductQuery, SearchProductQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SearchProductQuery, SearchProductQueryVariables>(SearchProductDocument, options);
+        }
 export type SearchProductQueryHookResult = ReturnType<typeof useSearchProductQuery>;
 export type SearchProductLazyQueryHookResult = ReturnType<typeof useSearchProductLazyQuery>;
 export type SearchProductQueryResult = Apollo.QueryResult<SearchProductQuery, SearchProductQueryVariables>;
+export const PromotionsDocument = gql`
+    query promotions($query: String) {
+  promotions(query: $query) {
+    id
+    name
+    brand
+    priceUnit
+    priceMass
+    pricePromotion
+    ingredients
+    packaging
+    allergens
+    nutriments
+    nutriscore
+    scoreHealth
+    scoreEnvironment
+    finalScore
+    packagingQuantity
+    itemQuantity
+    photo
+    url
+  }
+}
+    `;
+
+/**
+ * __usePromotionsQuery__
+ *
+ * To run a query within a React component, call `usePromotionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePromotionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePromotionsQuery({
+ *   variables: {
+ *      query: // value for 'query'
+ *   },
+ * });
+ */
+export function usePromotionsQuery(baseOptions?: Apollo.QueryHookOptions<PromotionsQuery, PromotionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PromotionsQuery, PromotionsQueryVariables>(PromotionsDocument, options);
+      }
+export function usePromotionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PromotionsQuery, PromotionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PromotionsQuery, PromotionsQueryVariables>(PromotionsDocument, options);
+        }
+export type PromotionsQueryHookResult = ReturnType<typeof usePromotionsQuery>;
+export type PromotionsLazyQueryHookResult = ReturnType<typeof usePromotionsLazyQuery>;
+export type PromotionsQueryResult = Apollo.QueryResult<PromotionsQuery, PromotionsQueryVariables>;
 export const ShopListDocument = gql`
     query shopList {
   shopList {
@@ -1106,13 +1173,13 @@ export const ShopListDocument = gql`
  * });
  */
 export function useShopListQuery(baseOptions?: Apollo.QueryHookOptions<ShopListQuery, ShopListQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, options);
+      }
 export function useShopListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ShopListQuery, ShopListQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ShopListQuery, ShopListQueryVariables>(ShopListDocument, options);
+        }
 export type ShopListQueryHookResult = ReturnType<typeof useShopListQuery>;
 export type ShopListLazyQueryHookResult = ReturnType<typeof useShopListLazyQuery>;
 export type ShopListQueryResult = Apollo.QueryResult<ShopListQuery, ShopListQueryVariables>;
@@ -1168,13 +1235,13 @@ export const CartDocument = gql`
  * });
  */
 export function useCartQuery(baseOptions?: Apollo.QueryHookOptions<CartQuery, CartQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, options);
+      }
 export function useCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartQuery, CartQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, options);
+        }
 export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
 export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>;
 export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>;
@@ -1232,13 +1299,13 @@ export const OldCartsDocument = gql`
  * });
  */
 export function useOldCartsQuery(baseOptions?: Apollo.QueryHookOptions<OldCartsQuery, OldCartsQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useQuery<OldCartsQuery, OldCartsQueryVariables>(OldCartsDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OldCartsQuery, OldCartsQueryVariables>(OldCartsDocument, options);
+      }
 export function useOldCartsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OldCartsQuery, OldCartsQueryVariables>) {
-    const options = { ...defaultOptions, ...baseOptions }
-    return Apollo.useLazyQuery<OldCartsQuery, OldCartsQueryVariables>(OldCartsDocument, options);
-}
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OldCartsQuery, OldCartsQueryVariables>(OldCartsDocument, options);
+        }
 export type OldCartsQueryHookResult = ReturnType<typeof useOldCartsQuery>;
 export type OldCartsLazyQueryHookResult = ReturnType<typeof useOldCartsLazyQuery>;
 export type OldCartsQueryResult = Apollo.QueryResult<OldCartsQuery, OldCartsQueryVariables>;

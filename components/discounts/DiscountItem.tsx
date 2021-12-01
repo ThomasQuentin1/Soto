@@ -69,7 +69,7 @@ const DiscountItem = ({ product, Add, basket, setBasket }: DiscountItemProps) =>
                         }} />
                     </div>
                     <Container style={{ marginBottom: '5px', marginTop: '10px' }}>{product.name}</Container>
-                    <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
+                    <Container>{Number(product.pricePromotion).toFixed(2)}€</Container>
                     <Box maxWidth="xs" style={{
                         display: 'flex',
                         flexDirection: 'row',
