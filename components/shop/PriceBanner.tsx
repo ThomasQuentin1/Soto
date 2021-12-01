@@ -26,7 +26,6 @@ const SendAllProductToOnlineCart = (basket: Product[], AddToCartMutation: any) =
             }
         }
     });
-
 }
 
 export interface FavoredListObject {

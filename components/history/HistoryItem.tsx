@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import {Cart, Product} from 'typing'
-import {useTranslation} from "react-i18next";
-import {CardMedia} from "@mui/material";
-import {FiberManualRecord} from "@mui/icons-material";
-import {selectColor} from "../../styles/globalStyle";
-import {TFunction} from "i18next";
+import { Cart, Product } from 'typing'
+import { useTranslation } from "react-i18next";
+import { CardMedia } from "@mui/material";
+import { FiberManualRecord } from "@mui/icons-material";
+import { selectColor } from "../../styles/globalStyle";
+import { TFunction } from "i18next";
 
 export const months = [
     'label.january.short',
@@ -44,6 +44,32 @@ function getHoursAndMinutes(date: Date) {
     return hours + ":" + minutes
 }
 
+const AddToBasketAndSessionStorage = (cartToAdd: Cart) => {
+
+    let jsonString: any = sessionStorage.getItem('currentCart');
+    let cart = JSON.parse(jsonString) ?? [];
+
+    let newCart: Product[] = [];
+
+    cart.map((itemCurrentCart) => {
+        let didNotFind = true;
+
+        cartToAdd.products.map((itemToAdd) => {
+            if (itemCurrentCart.id === itemToAdd.id) {
+                let newItem = Object.assign({}, itemCurrentCart);
+                newItem.itemQuantity = itemCurrentCart.itemQuantity + itemToAdd.itemQuantity;
+                newCart.push(newItem);
+                didNotFind = false;
+                return;
+            }
+        })
+        if (didNotFind)
+            newCart.push(itemCurrentCart);
+    })
+
+    sessionStorage.setItem('currentCart', JSON.stringify(newCart));
+};
+
 const HistoryItem = (props: HistoryItemProps) => {
     const [t] = useTranslation()
     const [isDetailsToggled, setIsDetailsToggled] = useState(false);
@@ -59,8 +85,8 @@ const HistoryItem = (props: HistoryItemProps) => {
         return <p>Invalid cart</p>;
     return (
         <Grid item xs={12} md={9}>
-            <Grid container style={{padding: '10px 20px'}} className="history_item">
-                <Grid item xs={12} style={{marginBottom: '5px'}} className="flexSpaceBetween">
+            <Grid container style={{ padding: '10px 20px' }} className="history_item">
+                <Grid item xs={12} style={{ marginBottom: '5px' }} className="flexSpaceBetween">
                     <Typography variant="h6">{formatedDate} - {props.cart.shop.name}</Typography>
                     <Typography variant="h6">{t("label.history.paid")} {props.cart.price}€</Typography>
                 </Grid>
@@ -68,52 +94,52 @@ const HistoryItem = (props: HistoryItemProps) => {
                     <Typography>{t("label.history.orderedProducts")} {totalOfProducts}</Typography>
                 </Grid>
                 {isDetailsToggled &&
-                <Grid item xs={12}>
-                    <Grid container direction='row' justifyContent='space-evenly' wrap='wrap' style={{paddingTop: '20px'}}
-                          spacing={2}>
-                        {props.cart.products.map((item, index) => {
-                            return (
-                                <Grid item key={index} xs={12} sm={12} md={12} lg={6} xl={4}
-                                      className={"flexSpaceEvenly"}>
-                                    <div style={{width: "25%", height: "100%"}}>
-                                        <CardMedia
-                                            style={{width: '100%', height: '100%'}}
-                                            image={item.photo ?? "error"}>
-                                        </CardMedia>
-                                    </div>
-                                    <div>
-                                        <Typography>{item.name}</Typography>
-                                        <Typography>{t("label.quantity")} {item.itemQuantity}</Typography>
-                                        <Typography>{t("label.price")} {Number(item.priceUnit).toFixed(2)} €</Typography>
-                                        <div className="dFlex">
-                                            <Typography>{t("label.score.final")} {item.scoreHealth}</Typography>
-                                            <FiberManualRecord htmlColor={selectColor(Number(item.scoreHealth), false)}/>
+                    <Grid item xs={12}>
+                        <Grid container direction='row' justifyContent='space-evenly' wrap='wrap' style={{ paddingTop: '20px' }}
+                            spacing={2}>
+                            {props.cart.products.map((item, index) => {
+                                return (
+                                    <Grid item key={index} xs={12} sm={12} md={12} lg={6} xl={4}
+                                        className={"flexSpaceEvenly"}>
+                                        <div style={{ width: "25%", height: "100%" }}>
+                                            <CardMedia
+                                                style={{ width: '100%', height: '100%' }}
+                                                image={item.photo ?? "error"}>
+                                            </CardMedia>
                                         </div>
-                                    </div>
-                                </Grid>
-                            )
-                        })}
-                    </Grid>
-                </Grid>}
+                                        <div>
+                                            <Typography>{item.name}</Typography>
+                                            <Typography>{t("label.quantity")} {item.itemQuantity}</Typography>
+                                            <Typography>{t("label.price")} {Number(item.priceUnit).toFixed(2)} €</Typography>
+                                            <div className="dFlex">
+                                                <Typography>{t("label.score.final")} {item.scoreHealth}</Typography>
+                                                <FiberManualRecord htmlColor={selectColor(Number(item.scoreHealth), false)} />
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                )
+                            })}
+                        </Grid>
+                    </Grid>}
                 <Grid item xs={12}>
                     <Grid item xs={12}>
                         <Grid container justifyContent='space-between'>
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
-                                <>
-                                    {t("label.showMore")}
-                                    <ExpandMoreIcon/>
-                                </>
+                                    <>
+                                        {t("label.showMore")}
+                                        <ExpandMoreIcon />
+                                    </>
                                 }
                                 {isDetailsToggled &&
-                                <>
-                                    {t("label.showLess")}
-                                    <ExpandLessIcon/>
-                                </>
+                                    <>
+                                        {t("label.showLess")}
+                                        <ExpandLessIcon />
+                                    </>
                                 }
                             </Button>
                             <Button color='secondary' onClick={() => {
-                                sessionStorage.setItem('cart', JSON.stringify(props.cart));
+                                AddToBasketAndSessionStorage(props.cart);
                             }} href='/shop'>{t("label.addToCart")}</Button>
                         </Grid>
                     </Grid>
