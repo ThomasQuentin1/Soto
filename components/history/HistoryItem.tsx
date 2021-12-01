@@ -51,20 +51,33 @@ const AddToBasketAndSessionStorage = (cartToAdd: Cart) => {
 
     let newCart: Product[] = [];
 
-    cart.map((itemCurrentCart) => {
+    cartToAdd.products.forEach((itemToAdd) => {
         let didNotFind = true;
 
-        cartToAdd.products.map((itemToAdd) => {
-            if (itemCurrentCart.id === itemToAdd.id) {
-                let newItem = Object.assign({}, itemCurrentCart);
-                newItem.itemQuantity = itemCurrentCart.itemQuantity + itemToAdd.itemQuantity;
-                newCart.push(newItem);
+        cart.forEach((itemInCart) => {
+            if (itemInCart.id === itemToAdd.id) {
                 didNotFind = false;
+                let newItem = Object.assign({}, itemInCart);
+                newItem.itemQuantity = itemInCart.itemQuantity + itemToAdd.itemQuantity;
+                newCart.push(newItem);
+            }
+        })
+
+        if (didNotFind)
+            newCart.push(itemToAdd);
+    })
+
+    cart.forEach((itemOldCart) => {
+        let isFound = false;
+        newCart.forEach((itemNewCart) => {
+            if (itemNewCart.id === itemOldCart.id) {
+                isFound = true;
                 return;
             }
         })
-        if (didNotFind)
-            newCart.push(itemCurrentCart);
+
+        if (isFound === false)
+            newCart.push(itemOldCart);
     })
 
     sessionStorage.setItem('currentCart', JSON.stringify(newCart));
