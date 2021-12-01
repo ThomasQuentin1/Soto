@@ -1,15 +1,15 @@
-import {createStyles, TextField} from "@material-ui/core";
+import {TextField} from "@mui/material";
 import React, {useState} from "react";
-import {makeStyles} from "@material-ui/styles";
 import {TFunction} from "i18next";
+import {createStyles, makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles(createStyles({
         buttonProgress: {
             position: 'absolute'
         },
         textField: {
-            marginTop: "10px",
-            marginBottom: "10px"
+            marginTop: "10px !important",
+            marginBottom: "10px !important"
         }
     }),
 );
@@ -42,6 +42,7 @@ const Step1 = (props: Props) => {
             <TextField
                 color="secondary"
                 required
+                focused
                 className={classes.textField}
                 id="emailRegister"
                 label={props.t("email.label")}
@@ -57,8 +58,8 @@ const Step1 = (props: Props) => {
             <TextField
                 color="secondary"
                 required
+                focused
                 className={classes.textField}
-                id="standard-password-input"
                 type="password"
                 label={props.t("password.label")}
                 value={password}
@@ -72,8 +73,9 @@ const Step1 = (props: Props) => {
             <TextField
                 color="secondary"
                 required
+                focused
+                sx={{borderColor: "red"}}
                 className={classes.textField}
-                id="standard-confirm-password-input"
                 type="password"
                 label={props.t("label.confirmPassword")}
                 value={cPassword}

@@ -7,6 +7,5 @@ query LookForProducts ($name: String!) {
     nutriscore
     scoreHealth
     scoreEnvironment
-    quantity
   }
 }

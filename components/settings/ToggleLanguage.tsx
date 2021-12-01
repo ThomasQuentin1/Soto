@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { i18n } from '../../i18n';
 
 interface ToggleLanguageInterface {

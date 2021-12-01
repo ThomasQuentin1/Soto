@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Product, Cart, useAddToCartMutation } from 'typing';
 import { months } from "./HistoryItem";
 import { useTranslation } from "react-i18next";
@@ -68,7 +68,7 @@ const HistoryShortCutItem = ({ cart }: HistoryShortCutItemProps) => {
                 {/* When details are not displayed */}
                 <Grid item xs={12}>
                     <Grid item xs={12}>
-                        <Grid container justify='space-between'>
+                        <Grid container justifyContent='space-between'>
                             <Button onClick={() => setIsDetailsToggled(!isDetailsToggled)}>
                                 {!isDetailsToggled &&
                                 <>

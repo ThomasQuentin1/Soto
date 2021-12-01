@@ -1,12 +1,12 @@
-import {Button, Divider, Input, InputAdornment, Paper} from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grid from "@material-ui/core/Grid";
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Button, Divider, Input, InputAdornment, Paper } from "@mui/material";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grid from "@mui/material/Grid";
+import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
 import SearchBarItem from "./SeachBarItem";
 import SearchBarLoadingItem from "./SeachBarLoadingItem";
 import {useSearchProductLazyQuery, Product} from "../../typing";
-import {Clear, Search} from "@material-ui/icons";
+import {Clear, Search} from "@mui/icons-material";
 
 // this data contains only fields that are requested
 const GetSelectedNbProducts = (data: any, itemsNb: number) => {
@@ -25,16 +25,16 @@ const GetSelectedNbProducts = (data: any, itemsNb: number) => {
 interface SearchBarProps {
     AddToCart: any;
     basket: Product[];
-    setBasket:any;
+    setBasket: any;
 }
 
-const SearchBar = ({AddToCart, basket, setBasket} : SearchBarProps) => {
-  const [t] = useTranslation();
-  const [input, setInput] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
+const SearchBar = ({AddToCart, basket, setBasket}: SearchBarProps) => {
+    const [t] = useTranslation();
+    const [input, setInput] = useState<string>("");
+    const [open, setOpen] = useState<boolean>(false);
     const [itemsToPrint, setItemsToPrint] = useState(3)
 
-    const [searchProduct, {loading, data, error}] = useSearchProductLazyQuery({
+    const [searchProduct, { loading, data, error }] = useSearchProductLazyQuery({
         variables: {
             query: input
         },
@@ -65,7 +65,7 @@ const SearchBar = ({AddToCart, basket, setBasket} : SearchBarProps) => {
 
     return (
         <ClickAwayListener onClickAway={() => handleClickAway()}>
-            <div style={{position: "relative"}}>
+            <div style={{ position: "relative" }}>
                 <div className="dFlex">
                     <Input
                         onChange={(event: any) => {
@@ -79,54 +79,69 @@ const SearchBar = ({AddToCart, basket, setBasket} : SearchBarProps) => {
                         color="secondary"
                         endAdornment={
                             <InputAdornment position="end">
-                                {input === "" ? <Search/> : <Clear style={{cursor: "pointer"}}/>}
+                                {input === "" ? <Search/> : <Clear style={{cursor: "pointer"}} onClick={() => {
+                                    setInput("")
+                                }}/>}
                             </InputAdornment>
                         }
                     />
                 </div>
                 {loading && input != "" && open && (
-                    <Grid container style={{position: "absolute"}}>
+                    <Grid container style={{ position: "absolute" }}>
                         <Grid item xs={12}>
-                            <SearchBarLoadingItem/>
+                            <SearchBarLoadingItem />
                         </Grid>
                         <Grid item xs={12}>
-                            <SearchBarLoadingItem/>
+                            <SearchBarLoadingItem />
                         </Grid>
                         <Grid item xs={12}>
-                            <SearchBarLoadingItem/>
+                            <SearchBarLoadingItem />
                         </Grid>
                     </Grid>
                 )}
                 {!loading && open &&
-                <Paper elevation={3} variant="outlined" style={{position: "absolute", zIndex: 100, width: "100%"}}>
-                    <div className="flexDirCol">
-                        <div style={{maxHeight: "20vh", overflowY: "auto"}}>
-                            {products.length != 0 && products.sort((a, b) => b.scoreHealth! - a.scoreHealth!).map((product, index) => {
-                                return (
-                                    <div key={index}>
-                                        <SearchBarItem
-                                            key={index}
-                                            product={product}
-                                            setOpen={setOpen}
-                                                                AddToCart={AddToCart}
-                    basket={basket}
-                    setBasket={setBasket}
-                                        />
-                                        {
-                                            index < 2 ? <Divider/> : <></>
-                                        }
-                                    </div>
-                                );
-                            })}
+                <>
+                    {() => {
+                        setOpen(false);
+                        // products.length != 0 && products.sort((a, b) => b.scoreHealth! - a.scoreHealth!).map(
+                        //     (product) => {
+                        //         console.log(product)
+                        //         AddToCart(product, basket, setBasket)
+                        //     }
+                        // )
+                        return (<div></div>)
+                    }
+                    }
+                    <Paper elevation={3} variant="outlined" style={{position: "absolute", zIndex: 100, width: "100%"}}>
+                        <div className="flexDirCol">
+                            <div style={{maxHeight: "20vh", overflowY: "auto"}}>
+                                {products.length != 0 && products.sort((a, b) => b.scoreHealth! - a.scoreHealth!).map((product, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <SearchBarItem
+                                                key={index}
+                                                product={product}
+                                                setOpen={setOpen}
+                                                AddToCart={AddToCart}
+                                                basket={basket}
+                                                setBasket={setBasket}
+                                            />
+                                            {
+                                                index < 2 ? <Divider/> : <></>
+                                            }
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                            <Divider/>
+                            <div className="alignCenter pad5">
+                                <Button color="secondary" onClick={showMoreItems}>
+                                    {t("label.showMore")}
+                                </Button>
+                            </div>
                         </div>
-                        <Divider/>
-                        <div className="alignCenter pad5">
-                            <Button color="secondary" onClick={showMoreItems}>
-                                {t("label.showMore")}
-                            </Button>
-                        </div>
-                    </div>
-                </Paper>
+                    </Paper>
+                </>
                 }
 
             </div>

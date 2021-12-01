@@ -1,15 +1,15 @@
 import React from "react";
 import Header from "../../components/global/Header";
 import DarkModeParent from "../../components/encapsulationComponents/DarkModeParent";
-import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { useRouter } from "next/router";
-import { Divider, Paper, Typography } from "@material-ui/core";
+import { Divider, Paper, Typography } from "@mui/material";
 import { useDarkMode } from "../../components/settings/useDarkMode";
 import { useTranslation } from "react-i18next";
 import '../../i18n'
 import { lngFullName, lngShortLong } from "../../public/values";
 import Footer from "../../components/global/Footer";
-import { CheckCircleSharp } from "@material-ui/icons";
+import { CheckCircleSharp } from "@mui/icons-material";
 
 
 const Language = () => {

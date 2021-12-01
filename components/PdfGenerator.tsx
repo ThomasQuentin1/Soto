@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Product } from "typing";
-import { Button } from "@material-ui/core";
+import React, {useEffect} from "react";
+import {Product} from "typing";
+import {Button} from "@mui/material";
 import PdfPrinter from "pdfmake";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -22,23 +22,30 @@ interface Props {
 }
 
 const GenerateContent = (basket: Product[]) => {
-    let document: any = { content: [], styles: {}, images: { logo: logo } };
-    let list: any = { ul: [] };
+    let document: any = {content: [], styles: {}, images: {logo: logo}};
+    let list: any = {ul: []};
 
     //Header
-    document.content.push({ image: "logo", width: 150, absolutePosition: { x: 100, y: 0 } })
-    document.content.push({ text: "N'achetez que le meilleur", absolutePosition: { x: 250, y: 65 }, style: "headerBaseLine" })
+    document.content.push({image: "logo", width: 150, absolutePosition: {x: 100, y: 0}})
+    document.content.push({
+        text: "N'achetez que le meilleur",
+        absolutePosition: {x: 250, y: 65},
+        style: "headerBaseLine"
+    })
     //End Header
-    document.content.push({ text: "Votre liste de course", style: "title", margin: [0, 120, 0, 20] })
+    document.content.push({text: "Votre liste de course", style: "title", margin: [0, 120, 0, 20]})
     basket.map((element) => {
-        list.ul.push([{ text: element.name, margin: [0, 15, 0, 0] }, { text: element.brand, margin: [0, 5, 0, 0] }, { text: "Quantité : " + element.itemQuantity, margin: [0, 5, 0, 0] }]);
+        list.ul.push([{text: element.name, margin: [0, 15, 0, 0]}, {
+            text: element.brand,
+            margin: [0, 5, 0, 0]
+        }, {text: "Quantité : " + element.itemQuantity, margin: [0, 5, 0, 0]}]);
     })
     document.content.push(list);
     document.styles = stylesArray;
     return document;
 }
 
-const PdfGenerator = ({ basket }: Props) => {
+const PdfGenerator = ({basket}: Props) => {
     pdfMake.vfs = pdfFonts.pdfMake.vfs;
     useEffect(() => {
     }, []);

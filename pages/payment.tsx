@@ -23,6 +23,9 @@ const PaymentPage = () => {
     return (
         <div>
             <DarkModeParent theme={usedTheme}>
+                <title>
+                    Paiement
+                </title>
                 <Header {...{ theme, SetTheme }} />
                 <PaymentContainer cart={cart} loading={false} />
                 <Footer />

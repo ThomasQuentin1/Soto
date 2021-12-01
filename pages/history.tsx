@@ -3,8 +3,8 @@ import DarkModeParent from "components/encapsulationComponents/DarkModeParent";
 import { useDarkMode } from "components/settings/useDarkMode";
 import Header from 'components/global/Header';
 import HistoryList from 'components/history/HistoryList';
-import { Grid, Button, Typography } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Grid, Button, Typography } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useOldCartsQuery } from 'typing';
 import Router from "next/router";
 import 'i18n';
@@ -35,14 +35,9 @@ const HistoryPage = () => {
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
+                <title>Historique</title>
                 <Header {...{ theme, SetTheme }} />
                 <Grid container direction='column'>
-                    <Grid item xs={4}>
-                        <Button color='secondary' onClick={() => Router.back()} style={{ marginLeft: '10px', marginTop: '10px' }}>
-                            <ArrowBackIcon />
-                            <Typography variant='caption'>Retourner faire ses courses</Typography>
-                        </Button>
-                    </Grid>
                     <Grid container direction='column'>
                         <Grid item xs={4}>
                             <Button color='secondary' onClick={() => Router.back()} style={{ marginLeft: '10px', marginTop: '10px' }}>

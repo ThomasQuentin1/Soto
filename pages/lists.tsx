@@ -4,7 +4,7 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import ListsSearchWrapper from "../components/lists/ListsSearchWrapper";
 import ListsShopList from "components/lists/ListsShopList";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import Header from 'components/global/Header';
 import Footer from 'components/global/Footer';
 import { Product, useAddToCartMutation, useOldCartsQuery, Cart } from 'typing';
@@ -93,7 +93,7 @@ const CreateList = (lists: List[], setBasket: any, name: string) => {
         newLists.push(item);
     });
 
-    let id = '0'
+    let id: string
     if (lists.length == 0) {
         id = '1';
     } else {
@@ -138,7 +138,7 @@ const ListsPage = () => {
     let oldCart: undefined | Cart = undefined;
 
     useEffect(() => {
-        if (window != null && window != undefined && localStorage.getItem('listfav')) {
+        if (window != null && localStorage.getItem('listfav')) {
             let jsonString: any = localStorage.getItem('listfav');
             let listsFav: any = JSON.parse(jsonString);
             setLists(listsFav);
@@ -152,14 +152,13 @@ const ListsPage = () => {
         },
     });
 
-    if (loadHistory && oldCart != undefined) {
+    if (loadHistory) {
         AddToBasketFromHistory(oldCart!/*, basket*/, addToCartMutation);
         setLoadHistory(false);
     }
 
     const { data: oldCartsData, loading: oldCartsLoading, error: oldCartsError } = useOldCartsQuery({
-        variables: {
-        },
+        variables: {},
     });
 
 
@@ -175,18 +174,18 @@ const ListsPage = () => {
 
     return (
         <DarkModeParent theme={tmpTheme}>
+            <title>Listes favorites</title>
             <Header {...{ theme, SetTheme }} />
-            <Grid container justify="center" style={{ marginTop: '10px', height: "80%" }}>
-                <Grid item xs={4}>
-                    <ListsSearchWrapper AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists} CreateList={CreateList} activeList={activeList} />
+            <Grid container justifyContent="center" style={{ marginTop: '10px' }}>
+                <Grid item xs={12}>
+                    <ListsSearchWrapper AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists}
+                        CreateList={CreateList} activeList={activeList} setActiveList={setActiveList}
+                        DeleteList={DeleteList} />
                 </Grid>
                 <Grid item xs={12}>
-                    {/* <Button onClick={() => clearCartMutation()} color="secondary">
-                <Typography>Clear cart</Typography>
-              </Button> */}
-                </Grid>
-                <Grid item xs={12}>
-                    <ListsShopList AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists} RemoveFromCart={RemoveFromBasketAndSessionStorage} activeList={activeList} setActiveList={setActiveList} DeleteList={DeleteList} />
+                    <ListsShopList AddToCart={AddToBasketAndSessionStorage} lists={lists} setBasket={setLists}
+                        RemoveFromCart={RemoveFromBasketAndSessionStorage} activeList={activeList}
+                        setActiveList={setActiveList} />
                 </Grid>
             </Grid>
             <Footer />

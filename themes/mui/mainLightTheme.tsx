@@ -1,6 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import {createTheme} from "@mui/material";
 
-const muiLightTheme = createMuiTheme({
+const muiLightTheme = createTheme({
     shape: {
         borderRadius: 10,
     },
@@ -10,21 +10,23 @@ const muiLightTheme = createMuiTheme({
             secondary: '#5f6368',
         },
         primary: {
-            main: '#3586e2',
+            main: '#3586e2 !important',
         },
         secondary: {
-            main: '#3586e2',
+            main: '#ff6768 !important',
             contrastText: '#fff',
         },
         background: {
-            paper: '#edf7fa',
+            paper: '#fff',
         }
 
     },
-    overrides: {
+    components: {
         MuiDivider: {
-            root: {
-                backgroundColor: "#ffffff"
+            styleOverrides: {
+                root: {
+                    backgroundColor: "#ffffff"
+                }
             }
         }
     }

@@ -9,6 +9,13 @@ query Account {
       id
       server
       code
+      list {
+        name
+        products {
+            id
+            name
+        }
+      }
     }
   }
 }
@@ -37,6 +44,29 @@ query searchProduct($query: String!) {
     brand
     priceUnit
     priceMass
+    ingredients
+    packaging
+    allergens
+    nutriments
+    nutriscore
+    scoreHealth
+    scoreEnvironment
+    finalScore
+    packagingQuantity
+    itemQuantity
+    photo
+    url
+  }
+}
+
+query promotions($query: String) {
+  promotions(query: $query) {
+    id
+    name
+    brand
+    priceUnit
+    priceMass
+    pricePromotion
     ingredients
     packaging
     allergens

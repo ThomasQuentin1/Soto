@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Grid from "@material-ui/core/Grid";
+import Grid from "@mui/material/Grid";
 import HistoryShortCutItem from 'components/history/HistoryShortCutItem';
-import { Button, Paper, Typography } from "@material-ui/core";
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import { Button, Paper, Typography } from "@mui/material";
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import LastPageIcon from '@mui/icons-material/LastPage';
 import { Cart, Product } from 'typing';
 import { useTranslation } from "react-i18next";
 
@@ -20,10 +20,10 @@ const HistoryShortCut = ({ cartHistory, basket, setBasket }: HistoryListProps) =
     const [t] = useTranslation();
     return (
         <div>
-            <Grid container justify='flex-end' style={{ position: 'fixed', top: '90px', right: '0px', width: 'auto' }}>
+            <Grid container justifyContent='flex-end' style={{ position: 'fixed', top: '90px', right: '0px', width: 'auto' }}>
                 <Grid item style={{ position: 'relative', justifyContent: 'flex-end' }}>
                     <Grid style={{ marginBottom: "10px" }} className="flexSpaceBetween" container
-                        justify={isToggled ? 'flex-end' : 'flex-start'}>
+                        justifyContent={isToggled ? 'flex-end' : 'flex-start'}>
                         <Button color='secondary' onClick={() => {
                             setIsToggled(!isToggled);
                         }}>{isToggled ? <FirstPageIcon style={{ position: 'absolute', left: "-15px", top: '3px' }} /> :

@@ -1,4 +1,3 @@
-
 import React from "react"
 import ParametersSelect from "../../shop/ParametersSelect";
 import {useSetCriterionsMutation} from "../../../typing";

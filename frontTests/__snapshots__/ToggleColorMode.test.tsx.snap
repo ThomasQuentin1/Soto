@@ -21,12 +21,12 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
     }
   />
   <span
-    className="MuiSwitch-root"
+    className="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
   >
     <span
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-1 MuiSwitch-switchBase MuiSwitch-colorSecondary"
+      className="MuiSwitch-switchBase MuiSwitch-colorPrimary MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
       onBlur={[Function]}
+      onContextMenu={[Function]}
       onDragLeave={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
@@ -39,24 +39,20 @@ exports[`DarkModeParent is a container that apply the theming and style to all c
       onTouchStart={[Function]}
       tabIndex={null}
     >
+      <input
+        aria-label="secondary checkbox"
+        checked={false}
+        className="MuiSwitch-input PrivateSwitchBase-input css-1m9pwf3"
+        name="colorMode"
+        onChange={[Function]}
+        type="checkbox"
+      />
       <span
-        className="MuiIconButton-label"
-      >
-        <input
-          aria-label="secondary checkbox"
-          checked={false}
-          className="PrivateSwitchBase-input-4 MuiSwitch-input"
-          name="colorMode"
-          onChange={[Function]}
-          type="checkbox"
-        />
-        <span
-          className="MuiSwitch-thumb"
-        />
-      </span>
+        className="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+      />
     </span>
     <span
-      className="MuiSwitch-track"
+      className="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
     />
   </span>
   <img
