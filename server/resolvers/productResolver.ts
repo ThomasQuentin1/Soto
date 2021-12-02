@@ -1,3 +1,4 @@
+
 import { AuthenticationError, UserInputError } from "apollo-server-micro";
 import { ErrMsg } from "../../interfaces/TranslationEnum";
 import { Product, Resolvers, Shop, Criterion } from "../../typing";
