@@ -1,10 +1,9 @@
 import LoginController from "../components/login/LoginController";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import DarkModeParent from "../components/encapsulationComponents/DarkModeParent";
-import {useDarkMode} from "../components/settings/useDarkMode";
+import { useDarkMode } from "../components/settings/useDarkMode";
 import Header from "components/global/Header";
-import {useTranslation} from "react-i18next";
-
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
     const [t, i18n] = useTranslation();
@@ -23,9 +22,10 @@ const LoginPage = () => {
     return (
         <div>
             <DarkModeParent theme={tmpTheme}>
+                <title>Connexion</title>
                 <Header {...{ theme, SetTheme }} />
-                <div style={{height: "80%"}}>
-                    <LoginController t={t}/>
+                <div style={{ height: "80%" }}>
+                    <LoginController t={t} />
 
                 </div>
                 {/*<Footer/>*/}

@@ -1,22 +1,25 @@
 const lightTheme = {
-    body: '#edf7fa',
-    header: '#edf7fa',
-    footer: '#edf7fa',
-    firstColor: '#edf7fa',
+    body: '#ffffff',
+    // header: '#edf7fa',
+    // header: 'linear-gradient(#ff9966, #ff5e62)',
+    // footer: '#edf7fa',
+    // firstColor: '#edf7fa',
+    firstColor: '#faeded',
+
     secondary: {
         main: "#fff",
         background: "#dde5ed"
     },
     thirdColor: "#ffb677",
     text: '#363537',
-    disabled: '#263859',
+    disabled: '#737373',
     toggleBorder: '#FFF',
     hover: '#E6F0F2',
-    gradient: 'linear-gradient(#39598A, #79D7ED)',
+    gradient: 'linear-gradient(#ff9966, #ff5e62)',
     border : {
-        color: '#3586e2'
+        color: 'transparent'
     },
-    divider: "#3586e2",
+    divider: "#ff6768",
 }
 
 export default lightTheme;

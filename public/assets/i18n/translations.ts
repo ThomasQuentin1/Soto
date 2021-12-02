@@ -22,8 +22,8 @@ const resources = {
         "password.label" : "Password",
         "newPassword.label" : "New password",
         "confirmNewPassword.label" : "Confirm new password",
-        "button.criteria.label" : "Criteria",
-        "button.obligation.label" : "Obligations",
+        "button.criteria.label" : "Preferences",
+        "button.obligation.label" : "Diet",
         "searchbar.placeholder.label" : "Milk, pastas, fruits, ...",
         "obligation.vegetarian" : "Vegetarian",
         "obligation.vegan" : "Vegan",
@@ -36,6 +36,7 @@ const resources = {
         "criteria.health" : "Health Impact",
         "criteria.environmental_impact" : "Environmental Impact",
         "criteria.price" : "Price",
+        "criteria.promotion": "Discounts",
         "criteria.nutritional_value" : "Nutritional Value",
         "criteria.product_proximity" : "Product Proximity",
         "shop.tooltip.label" : "The colored dot defines whether the product matches your criteria or not",
@@ -117,6 +118,9 @@ const resources = {
         "label.criteriaAndObligations" : "Criteria and Obligations",
         "description.criteriaAndObligations" : "Change your selection of criteria and obligations",
 
+        "label.discount.return" : "Go back shopping",
+        "label.searchBar" : "Search Bar",
+
         "label.driveSelection" : "Change your drive",
         "description.driveSelection" : "Choose your drive",
 
@@ -162,6 +166,9 @@ const resources = {
         "label.milestones.step5" : " Presentation of the project to a jury",
         "label.copyEmail" : "Copy this email",
         "notification.copyEmail" : "Email copied",
+        "criteria.lowCalories" : "Low calories",
+        "criteria.highProtein": "High proteins",
+        "obligation.no_lactose": "lactose free"
 
       }
     },
@@ -188,8 +195,8 @@ const resources = {
         "password.label" : "Mot de passe",
         "newPassword.label" : "Nouveau mot de passe",
         "confirmNewPassword.label" : "Confirmer le nouveau mot de passe",
-        "button.criteria.label" : "Critères",
-        "button.obligation.label" : "Obligations",
+        "button.criteria.label" : "Préférences",
+        "button.obligation.label" : "Régime alimentaire",
         "searchbar.placeholder.label" : "Lait, pâtes, fruits, ...",
         "obligation.vegetarian" : "Végétarien",
         "obligation.vegan" : "Végan",
@@ -202,6 +209,7 @@ const resources = {
         "criteria.health" : "Impact sur la santé",
         "criteria.environmental_impact" : "Impact sur l'environnement",
         "criteria.price" : "Prix",
+        "criteria.promotion": "Promotions",
         "criteria.nutritional_value" : "Valeur nutritionnelle",
         "criteria.product_proximity" : "Proximité du produit",
         "shop.tooltip.label" : "La pastille de couleur définit si le produit correspond bien à vos critères ou non",
@@ -279,6 +287,9 @@ const resources = {
         "label.changeTheme" : "Choisir son thème",
         "label.themeSelection.helperText" : "Si ce champ est activé, le thème sombre sera appliqué. Sinon ce sera le thème clair",
 
+        "label.discount.return" : "Retour",
+        "label.searchBar" : "Barre de recherche",
+
         "label.criteriaAndObligations" : "Critères et obligations",
         "description.criteriaAndObligations" : "Changer sa sélection de critères et d'obligations",
 
@@ -328,6 +339,9 @@ const resources = {
         "label.milestones.step5" : "Présentation du projet devant un jury",
         "label.copyEmail" : "Copier cet email",
         "notification.copyEmail" : "Email copié",
+        "criteria.lowCalories" : "faible en calorie",
+        "criteria.highProtein": "taux élévé de protéine",
+        "obligation.no_lactose": "sans lactose"
       }
     },
   test: {
@@ -483,6 +497,9 @@ const resources = {
       // -------------------- ABOVE IS TESTED -------------------- //
 
       "label.listName" : "AAA",
+
+      "label.discount.return" : "AAA",
+      "label.searchBar" : "AAA",
     }
   }
 };

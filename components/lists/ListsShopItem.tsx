@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { List } from "pages/lists";
-import { Button, Typography, Tooltip } from '@material-ui/core';
-import Zoom from '@material-ui/core/Zoom';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import DeleteIcon from '@material-ui/icons/Delete';
+import {Button, Typography, Tooltip, CardMedia} from '@mui/material';
+import Zoom from '@mui/material/Zoom';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Product } from 'typing';
 
 const color = {
@@ -79,6 +79,10 @@ const ListsShopItem = ({product, AddToCart, lists, setBasket, RemoveFromCart, ac
                     <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${product.scoreHealth}%`}}/>
                 </div>
                 <Container style={{marginBottom: '5px', marginTop: '10px'}}>{product.name}</Container>
+                <CardMedia
+                    style={{width: '100%', height: '100%', aspectRatio: "auto 350/350", margin: "10px 0"}}
+                    image={product.photo ?? "error"}>
+                </CardMedia>
                 <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}
@@ -104,6 +108,10 @@ const ListsShopItem = ({product, AddToCart, lists, setBasket, RemoveFromCart, ac
                     <div style={{height: '20px', borderTopLeftRadius: '10px', borderTopRightRadius: '10px', backgroundColor: scoreColor, width:`${product.scoreHealth}%`}}/>
                 </div>
                 <Container style={{marginBottom: '5px', marginTop: '10px'}}>{product.name}</Container>
+                <CardMedia
+                    style={{width: '100%', height: '100%', aspectRatio: "auto 350/350", margin: "10px 0"}}
+                    image={product.photo ?? "error"}>
+                </CardMedia>
                 <Container>{Number(product.priceUnit).toFixed(2)}€</Container>
                 <Box maxWidth="xs" style={{display: 'flex', flexDirection:'row', justifyContent: 'space-evenly', alignItems:'center'}}>
                     {/** The good buttun is being choosed if function of the quantity of this product */}

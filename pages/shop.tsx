@@ -4,15 +4,14 @@ import DarkModeParent from "../components/encapsulationComponents/DarkModeParent
 import { useDarkMode } from "../components/settings/useDarkMode";
 import SearchWrapper from "components/shop/SearchWrapper";
 import ShopList from "components/shop/ShopList";
-import { Grid, Tooltip, Zoom } from "@material-ui/core";
-import PriceBanner from "components/shop/PriceBanner";
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { Grid, Button, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next"
 import Header from 'components/global/Header';
 import HistoryShortCut from 'components/history/HistoryShortCut';
 import Footer from 'components/global/Footer';
 import { Product, useAddToCartMutation, useOldCartsQuery, Cart } from 'typing';
 import { List } from 'pages/lists';
+// import {Grid} from "@mui/material";
 
 const AddToBasketFromHistory = (oldCart: Cart/*, basket: Product[]*/, addToCartMutation: any) => { //TODO with new basket system
 
@@ -99,6 +98,7 @@ const AddFromFavList = (listToAdd: List, basket: Product[], setBasket: any) => {
 }
 
 const ShopPage = () => {
+    // @ts-ignore
     const [t, i18n] = useTranslation();
     const [theme, SetTheme] = useDarkMode();
     const tmpTheme: string = theme.toString();
@@ -113,6 +113,7 @@ const ShopPage = () => {
     const [loadHistory, setLoadHistory] = useState(false);
     const [basket, setBasket] = useState<Product[]>([]);
     const [isAnyItem, setIsAnyItem] = useState<boolean>(false);
+
     if (basket.length != 0 && !isAnyItem) {
         setIsAnyItem(true);
     }
@@ -136,7 +137,6 @@ const ShopPage = () => {
                 tmpBasket = currentCart;
                 console.log(currentCart);
                 setBasket(currentCart);
-                sessionStorage.removeItem('currentCart');
             }
             if (localStorage.getItem('listfavToAdd')) {
                 let jsonString: any = localStorage.getItem('listfavToAdd');
@@ -187,21 +187,11 @@ const ShopPage = () => {
 
     return (
         <DarkModeParent theme={tmpTheme}>
+            <title>Mes courses</title>
             <Header  {...{ theme, SetTheme }} />
-            <Grid container justify="center" style={{ marginTop: '10px', maxHeight: "80vh" }}>
+            <Grid container justifyContent="center" style={{ marginTop: '10px' }}>
                 <Grid item xs={4}>
                     <SearchWrapper AddToCart={AddToBasketAndSessionStorage} basket={basket} setBasket={setBasket} />
-                </Grid>
-                <Grid item xs={12}>
-                    <PriceBanner basket={basket} />
-                </Grid>
-                <Grid item xs={12}>
-                    <Tooltip TransitionComponent={Zoom} title={t("shop.tooltip.label").toString()}>
-                        <HelpOutlineIcon style={{ color: 'grey', marginLeft: '10px', marginTop: '10px' }} />
-                    </Tooltip>
-                    {/* <Button onClick={() => clearCartMutation()} color="secondary">
-                <Typography>Clear cart</Typography>
-              </Button> */}
                 </Grid>
             </Grid>
             <Grid item xs={12} style={{ overflowY: "auto", maxHeight: "60vh" }}>
@@ -211,6 +201,15 @@ const ShopPage = () => {
                 cartHistory &&
                 <HistoryShortCut cartHistory={cartHistory!} basket={basket} setBasket={setBasket} />
             }
+            <Grid container justifyContent='flex-end' style={{ position: 'fixed', top: '90px', left: '0px', width: 'auto' }}>
+                <Grid item style={{ position: 'relative', justifyContent: 'flex-end' }}>
+                    <Button style={{ marginLeft: '20px' }} variant={"outlined"} color='secondary' href='/discounts'>
+                        <Typography
+                            variant='caption'>Discounts
+                        </Typography>
+                    </Button>
+                </Grid>
+            </Grid>
             <Footer />
         </DarkModeParent >
     );

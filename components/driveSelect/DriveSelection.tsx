@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MapComponent from './MapComponent';
 import ListComponent from './ListComponent';
-import { Grid, Input } from '@material-ui/core';
+import { Grid, Input } from '@mui/material';
 
 interface DriveSelectionProps {
     data: shopList;
@@ -71,7 +71,7 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
     }
 
     return (
-        <Grid container justify={'flex-start'}>
+        <Grid container justifyContent={'flex-start'}>
             {/**Map on the left */}
             <Grid item xs={9} style={{ height: '80vh'}}>
                 <GoogleMapReact
@@ -97,13 +97,13 @@ const DriveSelection = ({data} : DriveSelectionProps) => {
             </Grid>
             {/**List on the right */}
             <Grid item xs={3} style={{paddingLeft:'10px', maxHeight: '90vh', overflow:'auto'}}>
-                <Grid container justify={"center"} style={{paddingBottom:"30px"}}>
+                <Grid container justifyContent={"center"} style={{paddingBottom:"30px"}}>
                     <Input onChange={(event: any) => {
                         setInput(event.target.value)
                     }}
                     color='primary' placeholder={"Search"}/>
                 </Grid>
-                <Grid container justify="flex-start" direction="column" spacing={5}>
+                <Grid container justifyContent="flex-start" direction="column" spacing={5}>
                     {data && filteredShopList.map((shopInfo, index) => {
                         return (
                             <ListComponent

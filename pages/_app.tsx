@@ -1,9 +1,9 @@
 import type { AppProps /*, AppContext */ } from 'next/app'
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
-import {ToastContainer} from "react-toastify";
-import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
-import {NoSsr} from "@material-ui/core";
+import { ToastContainer } from "react-toastify";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { NoSsr } from "@mui/core";
 
 export const clientLocal = new ApolloClient({
     cache: new InMemoryCache(),
@@ -17,7 +17,7 @@ export const clientProd = new ApolloClient({
 })
 
 // @ts-ignore
-function MyApp({ Component, pageProps }: AppProps)  {
+function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <NoSsr>

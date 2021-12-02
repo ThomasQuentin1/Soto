@@ -27,4 +27,19 @@ export const Criterions: CriterionInternal[] = [
     fieldDB: "proximityScore",
     name: "criteria.product_proximity",
   },
+  {
+    id: 5,
+    fieldDB: "promotionScore",
+    name: "criteria.promotion",
+  },
+  {
+    id: 6,
+    fieldDB: "lowCaloriesScore",
+    name: "criteria.lowCalories",
+  },
+  {
+    id: 7,
+    fieldDB: "highProteinScore",
+    name: "criteria.highProtein",
+  }
 ];

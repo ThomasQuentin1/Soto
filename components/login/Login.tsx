@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {Button, CircularProgress, createStyles, Divider, TextField, Typography} from "@material-ui/core";
+import {Button, CircularProgress, createStyles, Divider, TextField, Typography} from "@mui/material";
 import {sha256} from "js-sha256";
-import {makeStyles} from "@material-ui/styles";
+import {makeStyles} from "@mui/styles";
 import 'i18n';
 import Router from "next/router";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
@@ -86,7 +86,7 @@ const Login = (props: Props) => {
                                 else {
                                     notifySuccess(props.t("notification.label.loggedIn"))
                                     Cookies.set("token", r.data.login, {expires: 7})
-                                    Router.push("/")
+                                    Router.push("/shop")
                                 }
                             });
                         }}

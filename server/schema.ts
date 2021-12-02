@@ -12,6 +12,13 @@ const schema = gql`
       shopIdOverride: Int
       limit: Int
     ): [Product!]!
+    promotions(
+      query: String
+      obligationsOverride: [ObligationInput!]
+      criterionsOverride: [CriterionInput!]
+      shopIdOverride: Int
+      limit: Int
+    ) : [Product!]!
     shopList: [Shop!]!
     cart: Cart
     oldCarts: [Cart]!
@@ -32,7 +39,8 @@ const schema = gql`
     addToCart(productId: String!): Boolean!
     addMultipleToCart(products: [AddToCartInput!]!) : Boolean!
     removeMultipleToCart(products: [AddToCartInput!]!) : Boolean!
-
+    subscribeMail: Boolean!
+    unsubscribeMail: Boolean!
     removeFromCart(productId: String!): Boolean!
     confirmCart: Boolean!
     clearCart: Boolean!
@@ -75,6 +83,7 @@ const schema = gql`
 
   type Account {
     email: String!
+    mailingList: Boolean!
     currentShop: Shop
   }
 
@@ -105,6 +114,7 @@ const schema = gql`
     name: String!
     brand: String
     priceUnit: String!
+    pricePromotion: String
     priceMass: String
     ingredients: [String]
     packaging: [String]
@@ -115,6 +125,9 @@ const schema = gql`
     scorePrice: Int
     scoreEnvironment: Int
     scoreProximity: Int
+    scorePromotion: Int
+    scoreLowCalories: Int
+    scoreHighProtein: Int
     finalScore: Int
     packagingQuantity: String
     itemQuantity: Int

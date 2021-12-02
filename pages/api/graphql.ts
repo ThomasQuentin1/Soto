@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { usersQuery } from "../../server/query";
 import resolvers from "../../server/resolvers";
 import typeDefs from "../../server/schema";
+import * as jwt from "jsonwebtoken";
 
 export const context = async ({ req }: { req: MicroRequest }) => {
   const cookies = req?.headers?.cookie
@@ -18,9 +19,10 @@ export const context = async ({ req }: { req: MicroRequest }) => {
 
   let user;
   try {
+    const {id} = jwt.verify(token, 's0t0') as {id: string};
     const userQ = await usersQuery(
-      "SELECT * FROM users WHERE token = ? LIMIT 1",
-      [token]
+      "SELECT * FROM users WHERE id = ? LIMIT 1",
+      [id]
     );
     if (userQ.length == 1) user = userQ[0];
   } catch {}

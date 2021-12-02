@@ -1,22 +1,8 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { Typography, CardMedia } from '@material-ui/core';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import { Typography, CardMedia } from '@mui/material';
 import SearchBarItemProps from 'interfaces/SearchBarItem';
-
-// const getRandomIntInclusive = (min : number, max : number) => {
-//     min = Math.ceil(min);
-//     max = Math.floor(max);
-//     return Math.floor(Math.random() * (max - min +1)) + min;
-// }
-
-// const AddToBasket = (product: Product, basket: Product[], setBasket: any) => {
-
-//     let newBasket: Product[] = [];
-//     basket.map((item) => newBasket.push(item));
-//     newBasket.push(product);
-//     setBasket(newBasket);
-// }
 
 const ListsSearchBarItem = ({product, setOpen, AddToCart, basket, setBasket} : SearchBarItemProps) => {
     let scoreColor : string = "red";

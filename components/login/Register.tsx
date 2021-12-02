@@ -1,13 +1,13 @@
-import {Button, Divider, Step, StepLabel, Stepper, Typography} from "@material-ui/core";
 import React, {useState} from "react";
+import {Button, Divider, Step, StepLabel, Stepper, Typography} from "@mui/material";
 import {sha256} from "js-sha256";
 import Step1 from "./stepper/Step1";
 import Step2 from "./stepper/Step2";
+import Step3 from "./stepper/Step3";
 import {notifyError, notifySuccess} from "../../public/notifications/notificationsFunctions";
 import Cookies from "js-cookie"
 import {useCriterionsQuery, useRegisterMutation} from "../../typing";
 import Router from "next/router";
-import Step3 from "./stepper/Step3";
 import {TFunction} from "i18next";
 
 interface Props {
@@ -79,8 +79,8 @@ const Register = (props: Props) => {
 
     const handleNext = () => {
         if (activeStep === 0) {
-            checkRegisterValues().then(r => {
-                if (r) {
+            checkRegisterValues().then(r1 => {
+                if (r1) {
                     register().then(r => {
                         if (r.errors) {
                             notifyError(props.t(r.errors[0].message))
@@ -106,7 +106,7 @@ const Register = (props: Props) => {
     const handleFinish = () => {
         if (password !== cPassword)
             return;
-        Router.push("/").then(() => {
+        Router.push("/shop").then(() => {
         })
     }
 
@@ -116,7 +116,8 @@ const Register = (props: Props) => {
                 style={{
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    marginBottom: "20px"
                 }}
             >
                 <Typography variant="h6" gutterBottom

@@ -12,8 +12,15 @@ import EnvScoring from "../server/algo/scoring/EnvScoring";
 import HealthScoring from "../server/algo/scoring/HealthScoring";
 import { IsNoGluten } from "../server/algo/scoring/NoGluten";
 import { IsPeanutFree } from "../server/algo/scoring/Peanut";
+import { IsNoLactose } from "../server/algo/scoring/NoLactose";
 import PriceScoring from "../server/algo/scoring/PriceScoring";
 import ProximityScoring from "../server/algo/scoring/ProximityScoring";
+import PromotionScoring from "../server/algo/scoring/PromotionScoring";
+import LowCaloriesScoring from "../server/algo/scoring/LowCaloriesScoring";
+import HighProteinScoring from "../server/algo/scoring/HighProteinScoring";
+
+
+
 import { IsVegan } from "../server/algo/scoring/Vegan";
 import { getPool } from "../server/query";
 
@@ -21,6 +28,11 @@ const EnvScorer = new EnvScoring();
 const HealthScorer = new HealthScoring();
 const PriceScorer = new PriceScoring();
 const ProximityScorer = new ProximityScoring();
+const PromotionScorer = new PromotionScoring();
+const HighProteinScorer = new HighProteinScoring()
+const LowCaloriesScorer = new LowCaloriesScoring()
+
+
 
 const writeFile = (path: string, data: any) =>
   new Promise((resolve, reject) => {
@@ -64,6 +76,7 @@ interface LeclercArticle {
   ID_PHOTO_EN_LISTE: number;
   ORIGINE: string;
   QTE_DISPONIBLE: string;
+  PV_UNITAIRE_APRES_REDUCTION: string
 }
 
 interface Article {
@@ -86,6 +99,7 @@ interface Article {
   quantity: string;
   keywords: string[];
   origin: string;
+  promotion: string | null
 }
 
 interface LoginRequest {
@@ -247,16 +261,23 @@ const start = async () => {
           serialized.scorePrice = PriceScorer.getScore(serialized).toString();
           serialized.scoreProximity =
             ProximityScorer.getScore(serialized).toString();
+          serialized.scorePromotion =
+            PromotionScorer.getScore(serialized).toString();
+            serialized.lowCaloriesScore = LowCaloriesScorer.getScore(serialized).toString();
+            serialized.highProteinScore = HighProteinScorer.getScore(serialized).toString();
+
 
           serialized.vegan = IsVegan(serialized);
           serialized.noGluten = IsNoGluten(serialized);
           serialized.bio = IsBio(serialized);
           serialized.peanutFree = IsPeanutFree(serialized);
+          serialized.noLactose = IsNoLactose(serialized);
+
 
           if (serialized.scoreProximity > 100)
           serialized.scoreProximity = 100
           console.log(
-            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree}`
+            `Shop : ${_i_} Product: ${serialized.name} score_env: ${serialized.scoreEnvironment} score_health: ${serialized.scoreHealth} score_price: ${serialized.scorePrice} score_proximity: ${serialized.scoreProximity} bio: ${serialized.bio}  peanutFree: ${serialized.peanutFree} promotion: ${serialized.promotion} promotionScore: ${serialized.scorePromotion}`
           );
 
           // console.log(
@@ -265,7 +286,7 @@ const start = async () => {
 
           await sqlquery(
             sql,
-            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
+            `INSERT INTO products${_i_} (name, leclercId, photo, brand, priceUnit, priceMass, ingredients, packaging, allergens, nutriments, nutriscore, healthScore, environmentScore, proximityScore, priceScore, quantity, keywords, vegan, noGluten, labels, bio, peanutFree, promotion, promotionScore, noLactose, highProteinScore, lowCaloriesScore) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [
               clear(serialized.name),
               serialized.leclercId,
@@ -289,6 +310,11 @@ const start = async () => {
               serialized.labels,
               serialized.bio,
               serialized.peanutFree,
+              serialized.promotion,
+              serialized.scorePromotion,
+              serialized.noLactose,
+              serialized.highProteinScore,
+              serialized.lowCaloriesScore
             ]
           );
         }
@@ -318,6 +344,8 @@ const fillNutrimentsTab = (nutrimentsTab: string[], product: any) => {
     nutrimentsTab.push(`salt_100g:${product.nutriments.salt_100g}`);
   if (product.nutriments.fat_100g)
     nutrimentsTab.push(`fat_100g:${product.nutriments.fat_100g}`);
+    if (product.nutriments.fat_100g)
+    nutrimentsTab.push(`proteins:${product.nutriments.proteins}`);
 };
 
 const quantityIdentifier = ["g", "ml", "L", "kg", "cl", "m", "pièce"];
@@ -353,6 +381,7 @@ const createProduct = async (
   const princeMass = leclerc.PRIX_UNITAIRE;
   const priceUnit = leclerc.PV_UNITAIRE_TTC;
   const ecoScore = product?.ecoscore_data?.score ?? 0;
+  const promotion = leclerc.PV_UNITAIRE_APRES_REDUCTION ? leclerc.PV_UNITAIRE_APRES_REDUCTION : null;
 
   const ret: Article = {
     allergens: allergens_tags,
@@ -371,6 +400,7 @@ const createProduct = async (
     labels: product.labels_tags ?? [],
     ecoscore: ecoScore,
     origin: leclerc.ORIGINE ?? product.origins ?? null,
+    promotion: promotion
   };
   return ret;
 };

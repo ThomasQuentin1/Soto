@@ -1,5 +1,6 @@
 import { usersQuery } from "../query";
 import resolvers from "../resolvers";
+import * as jwt from "jsonwebtoken"
 
 const QorM = async (
   op: "Query" | "Mutation",
@@ -8,12 +9,17 @@ const QorM = async (
   token?: string
 ) => {
   let user;
-  if (token) {
-    const userQ = await usersQuery("SELECT * FROM users WHERE token = ?", [
-      token,
-    ]);
-    if (userQ.length == 1) user = userQ[0];
-  }
+  try {
+    if (token) {
+      const {id} = jwt.verify(token, 's0t0') as {id: string};
+      const userQ = await usersQuery(
+        "SELECT * FROM users WHERE id = ? LIMIT 1",
+        [id]
+      );
+      if (userQ.length == 1) user = userQ[0];
+    }
+  } catch {}
+  
   // @ts-ignore
   const elem: any = resolvers![op]![resolver];
   if (!elem) throw "bad resolver name, or missmatch on query/mutation";

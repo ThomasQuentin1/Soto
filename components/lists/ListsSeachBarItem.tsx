@@ -1,7 +1,5 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { Typography, CardMedia } from '@material-ui/core';
+import {Typography, CardMedia, Grid, Container} from '@mui/material';
 import { Product } from "typing";
 import { List } from "pages/lists";
 
